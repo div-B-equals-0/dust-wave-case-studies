@@ -1,8 +1,8 @@
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t broken-links:nil c:nil creator:nil
-#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
 #+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
-#+OPTIONS: timestamp:t title:t toc:t todo:t |:t
+#+OPTIONS: timestamp:t title:t toc:nil todo:t |:t
 #+TITLE: Dust wave case studies
 #+AUTHOR: William Henney
 #+EMAIL: will@henney.org
@@ -11,41 +11,60 @@
 #+EXCLUDE_TAGS: noexport
 
 
-* Case studies of interesting objects for inclusion in bow paper II
-** Selection criteria
+Case studies of interesting objects for inclusion in bow paper II
+
+* Selection criteria
 + High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
 + Prefer B stars to O stars, since then it is easy to get dust waves (gas--grain separation)
-** Particular objects
-*** OB bowshocks in Orion Nebula
-**** LP Ori
-+ Info from Gaia
-  + [[file:1528254812272O-result.json]]
-  + Extracted and derived data
-    | Quantity        | Unit       |               Value |
-    |-----------------+------------+---------------------|
-    | source_id       |            | 3017360348171372672 |
-    | ra              | deg        |   83.79099195922022 |
-    | ra_error        | mas        | 0.04624738839693305 |
-    | dec             | deg        |  -5.464774673154743 |
-    | dec_error       | mas        | 0.04518707614040293 |
-    | parallax        | mas        |   2.447378178564449 |
-    | parallax_error  | mas        | 0.06419465488526256 |
-    | pmra            | mas.yr**-1 |  1.4821304012919858 |
-    | pmra_error      | mas.yr**-1 | 0.11623231572816041 |
-    | pmdec           | mas.yr**-1 |  1.6097056019763252 |
-    | pmdec_error     | mas.yr**-1 | 0.09540261483321187 |
-    | phot_g_mean_mag | mag        |            8.325929 |
-    | bp_rp           | mag        |           0.3084631 |
-    | a_g_val         | mag        |              0.4895 |
-    |-----------------+------------+---------------------|
-    | PA of pm        | deg        |        42.6 +/- 2.8 |
-    | Total pm        | mas.yr**-1 |       2.19 +/- 0.11 |
-    | V(tangential)   | km/s       |         4.2 +/- 0.2 |
-    | D               | pc         |      408.6 +/- 10.7 |
-#+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1
-  + [ ] Check that this is the correct star!
-  + So it is moving in roughly the right direction, but very slowly!
-  + So, if it is a bow shock it must be an ambient flow - say 20 km/s
+* Particular objects
+** OB bowshocks in Orion Nebula
+*** LP Ori
+**** Info about star
++ Taken from [[file:~/Work/OrionNI/git-paper/models/individual/orion-stars.org]]
++ LP Ori (B1.5V) is 5 arcmin to the SSW of Trapezium
++ Parenago 1744 (B5V) is 12 arcmin to N of Trapezium
+#+begin_src python
+stars.update(
+    LP = dict(T=23000., g=4.1, L=3.75), 
+    P1774 = dict(T=16000., g=4.1, L=2.7), 
+)
+#+end_src
 
-**** \theta^1 Ori D
-*** Ones in Ochsendorf papers
+**** Info from Gaia
++ [[file:1528254812272O-result.json]]
++ Extracted and derived data
+  | Quantity        | Unit       |               Value |
+  |-----------------+------------+---------------------|
+  | source_id       |            | 3017360348171372672 |
+  | ra              | deg        |   83.79099195922022 |
+  | ra_error        | mas        | 0.04624738839693305 |
+  | dec             | deg        |  -5.464774673154743 |
+  | dec_error       | mas        | 0.04518707614040293 |
+  | parallax        | mas        |   2.447378178564449 |
+  | parallax_error  | mas        | 0.06419465488526256 |
+  | pmra            | mas.yr**-1 |  1.4821304012919858 |
+  | pmra_error      | mas.yr**-1 | 0.11623231572816041 |
+  | pmdec           | mas.yr**-1 |  1.6097056019763252 |
+  | pmdec_error     | mas.yr**-1 | 0.09540261483321187 |
+  | phot_g_mean_mag | mag        |            8.325929 |
+  | bp_rp           | mag        |           0.3084631 |
+  | a_g_val         | mag        |              0.4895 |
+  |-----------------+------------+---------------------|
+  | PA of pm        | deg        |        42.6 +/- 2.8 |
+  | Total pm        | mas.yr**-1 |       2.19 +/- 0.11 |
+  | V(tangential)   | km/s       |         4.2 +/- 0.2 |
+  | D               | pc         |      408.6 +/- 10.7 |
+  #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1
++ [ ] Check that this is the correct star!
++ So it is moving in roughly the right direction, but very slowly!
++ So, if it is a bow shock it must be an ambient flow - say 20 km/s
+**** Info from ACS images
++ Lies just S of the bright bar
++ Size is roughly 3 arcsec, or 0.006 parsec
++ Symmetry axis PA is about +20 deg
++ Dark cloud immediately to E
+  + southern extension of SW cloud
+
+*** \theta^{1} Ori D
++ Size: about 1.5 arcsec"
+** Ones in Ochsendorf papers
