@@ -1,0 +1,9 @@
+* Case studies of interesting objects for inclusion in bow paper II
+** Selection criteria
++ High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
++ Prefer B stars to O stars, since then it is easy to get dust waves (gas--grain separation)
+** Particular objects
+*** OB bowshocks in Orion Nebula
+**** LP Ori
+**** \theta^1 Ori D
+*** Ones in Ochsendorf papers
