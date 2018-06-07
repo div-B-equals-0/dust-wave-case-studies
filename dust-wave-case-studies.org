@@ -54,8 +54,11 @@ stars.update(
   | Total pm        | mas.yr**-1 |       2.19 +/- 0.11 |
   | V(tangential)   | km/s       |         4.2 +/- 0.2 |
   | D               | pc         |      408.6 +/- 10.7 |
-  #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1
+  | RA              | hms        |   5@ 35' 9.8380702" |
+  | Dec             | hms        |  -5@ 27' 53.188823" |
+  #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1::@20$3=hms(@3/15)::@21$3=hms(@5)
 + [ ] Check that this is the correct star!
+  + From RA, Dec looks like it is 360-531 in 
 + So it is moving in roughly the right direction, but very slowly!
 + So, if it is a bow shock it must be an ambient flow - say 20 km/s
 **** Info from ACS images
@@ -68,3 +71,60 @@ stars.update(
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
 ** Ones in Ochsendorf papers
+
+
+* Fitting the arc shapes
+
+** Arc fit for th1D
+#+BEGIN_SRC python :eval no :tangle arc-fits/th1d-circle-fit.py
+  import sys 
+  sys.path.append("/Users/will/Dropbox/circle-fit")
+  import circle_fit
+
+  fits_file = "/Users/will/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits"
+
+  for delta_theta in 65, 70, 75, 80:
+      plotfile = f"th1D-{delta_theta:02d}.pdf"
+      print('#### '*10)
+      print("Creating", plotfile)
+      circle_fit.plot_solution(
+          f"th1d-ori-smith-2005-forma.reg",
+          fits_file,
+          plotfile,
+          delta_theta=delta_theta,
+          vmin=0.0, vmax=0.01,
+      )
+#+END_SRC
+
+#+BEGIN_SRC sh :results verbatim
+cd arc-fits
+python th1d-circle-fit.py
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-65.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-70.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.4078624613676836, Alatude = [ 1.33984663  1.3714574 ])
+CircleFit(Planitude = 1.5558494149676698, Alatude = [ 1.37294133  1.38619122])
+CircleFit(Planitude = 1.5558494149676698, Alatude = [ 1.37294133  1.38619122])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-75.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-80.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+#+end_example

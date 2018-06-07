@@ -1,0 +1,6 @@
+# By default, skip anything that might be big
+*.fits
+*.zip
+*.tar.gz
+*.tgz
+*.fits.gz
