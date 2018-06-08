@@ -128,3 +128,8 @@ CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
 CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
 CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
 #+end_example
+
+Do the bootstrap resampling
+#+BEGIN_SRC sh :eval no
+python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits 75 0.5 bootstrap-th1d-75-05.pdf
+#+END_SRC
