@@ -70,6 +70,32 @@ stars.update(
 
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
+  + => 0.003 pc
++ *Low dust opacity*: from both the Fulgencio paper and from Salgado:2016a, it seems that the FUV opacity in the ionized and neutral gas is lower than in the general ISM
+  + 1.6e-22 cm^2 / H => 74 cm^2/g in PDR
+  + 2e-22 cm^2 / H => 92 cm^2/g in HII region
++ But /careful/, these are absorption cross sections, /and/ they don't take into account scattering - so I think they are underestimates
++ So they say that the grain size is large, which is why there is low opacity per unit mass
+  + Up to 1 micron, supposedly
+  + This also explains the lowish dust temperatures of about 100 K - it would be higher for smaller grains
+  + This is because the reduced grain opacity means that Lyman alpha dominates the heating over most of the nebula
+    + Note that from Smith:2005a, T is > 150 K in th1D arec, and 170 K in LV1 arc
+    + But, again, there might be problems.  They are taking the dust T as being equal to the color T, but it is more complicated than that, with a distribution of dust sizes
+    + Also, they assume gray body with a power law dust opacity, but there is a silicate absorption feature at 11 microns - so not sure how that works
+    + So this is sort of in agreement with the Cloudy models - they show T ~ 300 K for 0.1 micron grains at 0.1 pc around the 40 Msun star
++ For th1D, we have R = 0.003 pc
+  + so this would correspond to about 200 K for the biggest ISM silicate grains, which is indeed higher than is observed
+  + For LV1 we have about 6.5 arcsec, so (0.013 / cos i) pc, say 0.02
+  + This gives T of about 200 for the 0.1 micron grains, which is a little bit higher than the 170 K observed, but not by much
+  + [ ] /need to work out color temperature of Cloudy models/
+  + Robberto:2005a finds that color T calculated around 11 microns is higher than that calculated at longer wavelengths
+    + this is not really surprising
+    + mid-IR Qabs ~ a, so that \kappa ~ a^3, so goes with mass
+    + but T ~ 122 D_{17}^{-1/3} a^{-1/6} with a in micron
+      + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
+      + So this means we will see the small grains at 10 microns and the large grains at 20 microns
+    + This means that 0.02 micron grains will be twice as hot
+
 ** Ones in Ochsendorf papers
 
 
@@ -131,5 +157,6 @@ CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
 
 Do the bootstrap resampling
 #+BEGIN_SRC sh :eval no
+cd arc-fits
 python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits 75 0.5 bootstrap-th1d-75-05.pdf
 #+END_SRC
