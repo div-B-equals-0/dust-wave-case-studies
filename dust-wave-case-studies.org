@@ -58,7 +58,7 @@ stars.update(
   | Dec             | hms        |  -5@ 27' 53.188823" |
   #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1::@20$3=hms(@3/15)::@21$3=hms(@5)
 + [ ] Check that this is the correct star!
-  + From RA, Dec looks like it is 360-531 in 
+  + From RA, Dec looks like it is 360-531 in OW notation
 + So it is moving in roughly the right direction, but very slowly!
 + So, if it is a bow shock it must be an ambient flow - say 20 km/s
 **** Info from ACS images
@@ -67,7 +67,14 @@ stars.update(
 + Symmetry axis PA is about +20 deg
 + Dark cloud immediately to E
   + southern extension of SW cloud
-
+**** Spitzer images of LP Ori
++ There are several things in the [[file:data/LP-Ori-Spitzer/]] folder
+  + But I don't remember what is what
+  + In some of the images, LP Ori is totally saturated
+  + One that shows LP Ori well
+    + [[file:data/LP-Ori-Spitzer/r18172160/ch2/pbcd/SPITZER_I2_18172160_0000_4_E8245118_maic.fits][SPITZER_I2_18172160_0000_4_E8245118_maic.fits]]
+    + But the resolution is much worse than in the optical
+    + Coordinates are about 098-753
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
@@ -79,7 +86,7 @@ stars.update(
   + Up to 1 micron, supposedly
   + This also explains the lowish dust temperatures of about 100 K - it would be higher for smaller grains
   + This is because the reduced grain opacity means that Lyman alpha dominates the heating over most of the nebula
-    + Note that from Smith:2005a, T is > 150 K in th1D arec, and 170 K in LV1 arc
+    + Note that from Smith:2005a, T is > 150 K in th1D arc, and 170 K in LV1 arc
     + But, again, there might be problems.  They are taking the dust T as being equal to the color T, but it is more complicated than that, with a distribution of dust sizes
     + Also, they assume gray body with a power law dust opacity, but there is a silicate absorption feature at 11 microns - so not sure how that works
     + So this is sort of in agreement with the Cloudy models - they show T ~ 300 K for 0.1 micron grains at 0.1 pc around the 40 Msun star
@@ -95,6 +102,14 @@ stars.update(
       + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
       + So this means we will see the small grains at 10 microns and the large grains at 20 microns
     + This means that 0.02 micron grains will be twice as hot
+
+
+
+**** Comments on \theta^{1} D fits
++ The symmetry axis of the circle fits is always about PA175
+  + This is different from the brightness axis, which is more like PA200
++ Also, it looks like we could maybe add some more arc points on the left hand side
+  + This would mean we would get a proper R90 for that side
 
 ** Ones in Ochsendorf papers
 
