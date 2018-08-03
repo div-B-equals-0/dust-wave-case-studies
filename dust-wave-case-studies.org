@@ -57,8 +57,12 @@ stars.update(
   | RA              | hms        |   5@ 35' 9.8380702" |
   | Dec             | hms        |  -5@ 27' 53.188823" |
   #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1::@20$3=hms(@3/15)::@21$3=hms(@5)
-+ [ ] Check that this is the correct star!
-  + From RA, Dec looks like it is 360-531 in OW notation
++ [X] Check that this is the correct star!
+  + 83.79099195922022, -5.464774673154743
+    + 5@ 35' 9.8380702"
+    + -5@ 27' 53.188823"
+    + => 098-753 in OW notation
+    + So this is consistent with the Spitzer position
 + So it is moving in roughly the right direction, but very slowly!
 + So, if it is a bow shock it must be an ambient flow - say 20 km/s
 **** Info from ACS images
@@ -67,6 +71,13 @@ stars.update(
 + Symmetry axis PA is about +20 deg
 + Dark cloud immediately to E
   + southern extension of SW cloud
++ Images to use
+  + I have saved cut-out images in all the Robberto ACS filters
+  + e.g., [[file:data/LP-Ori-HST/lp-ori-f435w.fits]]
+  + A good RGB image is made from
+    + R: f850lp 0..5
+    + G: f555w 0..9
+    + B: f435w 0..9
 **** Spitzer images of LP Ori
 + There are several things in the [[file:data/LP-Ori-Spitzer/]] folder
   + But I don't remember what is what
@@ -75,6 +86,8 @@ stars.update(
     + [[file:data/LP-Ori-Spitzer/r18172160/ch2/pbcd/SPITZER_I2_18172160_0000_4_E8245118_maic.fits][SPITZER_I2_18172160_0000_4_E8245118_maic.fits]]
     + But the resolution is much worse than in the optical
     + Coordinates are about 098-753
+      + 5:35:09.869 -5:27:52.55
+      + 83.791004 -5.4646746
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
@@ -115,6 +128,55 @@ stars.update(
 
 
 * Fitting the arc shapes
+
+** Arc fit for LP Ori
+#+BEGIN_SRC python :eval no :tangle arc-fits/lp-ori-circle-fit.py
+  import sys 
+  sys.path.append("/Users/will/Dropbox/circle-fit")
+  import circle_fit
+
+  fits_file = "../data/LP-Ori-HST/lp-ori-f435w.fits"
+
+  for delta_theta in 110, 130, 150:
+      plotfile = f"lp-ori-{delta_theta:03d}.pdf"
+      print('#### '*10)
+      print("Creating", plotfile)
+      circle_fit.plot_solution(
+          f"lp-ori-acs-forma.reg",
+          fits_file,
+          plotfile,
+          delta_theta=delta_theta,
+          vmin=0.0, vmax=8.0,
+      )
+#+END_SRC
+
+#+BEGIN_SRC sh :results verbatim
+cd arc-fits
+python lp-ori-circle-fit.py
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-110.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.320, Lambda = 1.576, dLambda = -0.282)
+CircleFit(Pi = 1.535, Lambda = 1.415, dLambda = -0.321)
+CircleFit(Pi = 1.480, Lambda = 1.380, dLambda = -0.335)
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-130.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.315, Lambda = 1.546, dLambda = -0.180)
+CircleFit(Pi = 1.386, Lambda = 1.411, dLambda = -0.286)
+CircleFit(Pi = 1.360, Lambda = 1.458, dLambda = -0.242)
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-150.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.245, Lambda = 1.532, dLambda = -0.315)
+CircleFit(Pi = 1.334, Lambda = 1.549, dLambda = -0.160)
+CircleFit(Pi = 1.315, Lambda = 1.546, dLambda = -0.180)
+#+end_example
+
 
 ** Arc fit for th1D
 #+BEGIN_SRC python :eval no :tangle arc-fits/th1d-circle-fit.py
