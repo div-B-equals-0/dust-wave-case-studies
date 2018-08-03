@@ -88,6 +88,9 @@ stars.update(
     + Coordinates are about 098-753
       + 5:35:09.869 -5:27:52.55
       + 83.791004 -5.4646746
+**** Other available data
++ [ ] Unfortunately, the new Bally observations (2016) do not cover LP Ori
+  + The closest fields are the Beehive one (just to the east), and the Trapezium West one (just to the north), but it falls between the cracks
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
@@ -118,16 +121,36 @@ stars.update(
 
 
 
-**** Comments on \theta^{1} D fits
-+ The symmetry axis of the circle fits is always about PA175
-  + This is different from the brightness axis, which is more like PA200
-+ Also, it looks like we could maybe add some more arc points on the left hand side
-  + This would mean we would get a proper R90 for that side
 
 ** Ones in Ochsendorf papers
 
 
 * Fitting the arc shapes
+
+** Comments on \theta^{1} D and LP Ori fits
+
+*** \theta^{1} D fits
++ E.g., [[file:arc-fits/th1D-75.pdf]]
++ The symmetry axis of the circle fits is always about PA175
+  + This is different from the brightness axis, which is more like PA200
++ Also, it looks like we could maybe add some more arc points on the left hand side
+  + This would mean we would get a proper R90 for that side
+
+*** LP Ori fits
++ E.g., [[file:arc-fits/lp-ori-110.pdf]]
++ This is even worse
+  + Symmetry axis of fits is around PA050
+  + But global axis is more like PA010
++ The fundamental problem here is that the star position is too far from the symmetry axis of the bow, and this is what leads to the circle fit algorithm breaking down
+*** TODO It might be better to fit a parabola to all the points
++ 4 parameters
+  + (x, y) of apex
+    + It might work better if this were specified by hand, perhaps guided by the maximum in brightness
+  + position angle of tail
+  + coefficient a in y = a x^2
++ Then can calculate the deviation of the central star from the parabola axis
++ And can do circle fit to the points around the axis, which hopefully will be more consistent than the unconstrained version
+  + We could make a pseudo-center by projecting the star position onto the parabola axis
 
 ** Arc fit for LP Ori
 #+BEGIN_SRC python :eval no :tangle arc-fits/lp-ori-circle-fit.py
