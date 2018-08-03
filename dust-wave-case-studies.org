@@ -91,6 +91,17 @@ stars.update(
 **** Other available data
 + [ ] Unfortunately, the new Bally observations (2016) do not cover LP Ori
   + The closest fields are the Beehive one (just to the east), and the Trapezium West one (just to the north), but it falls between the cracks
++ [X] Might there be newer Robberto images in f775w? Just like for the Western shocks
+  + Yes there are - I am getting them now, together with some other recent observations, all from Robberto program 13826 in 2015-02
+    + ~icol04020~ WFC3/IR F130N
+    + ~icol04030~ WFC3/IR F139M
+    + ~jcol12010~ ACS F775W
+    + ~jcol19010~ ACS F775W
+      + This is the best one
+      + I have aligned with the 2005 images via the stars
+      + There is no significant proper motions in the arc
+      + We would be sensitive to at least 1/2 a pixel in 10 years, which is
+        + 0.05 0.5 410 1.49597870691e13 / 10 3.15576e7 1e5 = 5 km/s
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
