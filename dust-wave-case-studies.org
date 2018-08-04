@@ -96,6 +96,7 @@ stars.update(
     + ~icol04020~ WFC3/IR F130N
     + ~icol04030~ WFC3/IR F139M
     + ~jcol12010~ ACS F775W
+      + This one is not so good
     + ~jcol19010~ ACS F775W
       + This is the best one
       + I have aligned with the 2005 images via the stars
