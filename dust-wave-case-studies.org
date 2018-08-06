@@ -68,6 +68,10 @@ stars.update(
 **** Info from ACS images
 + Lies just S of the bright bar
 + Size is roughly 3 arcsec, or 0.006 parsec
+  + No, that is not accurate
+    + 5.8 arcsec along global symmetry axis
+      + => 0.012 pc
+    + 5.0 arcsec along axis found by circle fit
 + Symmetry axis PA is about +20 deg
 + Dark cloud immediately to E
   + southern extension of SW cloud
@@ -89,7 +93,7 @@ stars.update(
       + 5:35:09.869 -5:27:52.55
       + 83.791004 -5.4646746
 **** Other available data
-+ [ ] Unfortunately, the new Bally observations (2016) do not cover LP Ori
++ [X] Unfortunately, the new Bally observations (2016) do not cover LP Ori
   + The closest fields are the Beehive one (just to the east), and the Trapezium West one (just to the north), but it falls between the cracks
 + [X] Might there be newer Robberto images in f775w? Just like for the Western shocks
   + Yes there are - I am getting them now, together with some other recent observations, all from Robberto program 13826 in 2015-02
@@ -106,6 +110,12 @@ stars.update(
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
++ Stellar data
+  + From \citep{Simon-Diaz:2006b}
+  + M = 18 Msun
+  + L = 2.95e4 Lsun
+  + T_eff = 32,000 K
+  + B0.5V 
 + *Low dust opacity*: from both the Fulgencio paper and from Salgado:2016a, it seems that the FUV opacity in the ionized and neutral gas is lower than in the general ISM
   + 1.6e-22 cm^2 / H => 74 cm^2/g in PDR
   + 2e-22 cm^2 / H => 92 cm^2/g in HII region
@@ -136,6 +146,38 @@ stars.update(
 
 ** Ones in Ochsendorf papers
 
+*** \sigma Ori
++ In IC 434 H II region
++ Ochsendorf:2014b, Ochsendorf:2015a
+*** RCW 120, RCW 92
++ Ochsendorf:2014a
++ See also Mackey:2016a who say that RCW 120 is stellar wind bubble
+
+
+** Carina bow shocks
++ Sexton:2015a, Kiminki:2017a
++ Ambient density about 1000 pcc
++ Velocities 10 to 50 km/s
++ Spectral types B0 to O7, plus some supergiants
+
+* Types of bow
+
+| object | Sp. type | T_eff, K |  L_4 | R_0, pc |
+|--------+----------+----------+------+---------|
+| LP Ori | B1.5V    | 23,000   | 0.56 |    0.01 |
+| \theta^1 D  | B0.5V    | 32,000   | 2.95 |   0.003 |
+|        |          |          |      |         |
+
++ LP Ori
+  - this is very similar to our 10 Msun example star.
+  - the 0.01 pc line is a very interesting one
+    - if the relative velocity is low (< 20 km/s), then we are in the radiation-supported bow wave regime
+    - if it is higher, then it may be a dust wave
++ \theta^1 D
+  - This is part-way between the 10 and 20 Msun models
+  - Low velocities, < 80 km/s or so, imply a radiation bow shock
+    - With very high densities, > 1e5 pcc
+    - Is this possible?
 
 * Fitting the arc shapes
 
