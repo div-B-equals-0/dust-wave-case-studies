@@ -147,8 +147,40 @@ stars.update(
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori
-+ In IC 434 H II region
 + Ochsendorf:2014b, Ochsendorf:2015a
++ Stellar parameters (from them)
+  + binary O9.5V + B0.5V
+  + L4 = 6.02, so like the 20 Msun case
+  + \eta = 0.0697 or 0.0002 - they prefer the second
+    + [ ] They cite Najarro et al 2011 - need to check it out
++ To get a dust wave, we need that \eta is small or V is large
+  + V large is definitely ruled out
+    + Star has V = 15 km/s
+    + Isothermal photoevaporation flow has
+      + M_{1} / M_{0} = sqrt(1 + 2 ln(\rho_{0} / \rho_{1}))
+      + They say \rho_{1} = 10, \rho_{0} = 100 pcc, so M_{1} = 2.37 M_{0}
+      + So with M_{0} = 1 and c_{s} = 11 km/s \Rightarrow V = 26 km/s
+  + So how small does \eta need to be?
+    + v_10 > sqrt(\Xi_{\dag }\eta)
+    + so we need \Xi_{\dag }\eta < 9 where \Xi_{\dag }\approx 3000 for O stars
+    + \eta < 0.003
+  + How big is rip radius in this case
++ In IC 434 H II region
+  + Photoevaporation flow has supposedly fallen from 100 pcc at i-front to 10 pcc
++ Fiducial radius
+  + R_* = 2.21 sqrt(L4/n) / v10
+  + = 0.7 pc
++ Rip point radius
+  + R_\dag = v10 R_* / sqrt(\Xi) = 1.7 / sqrt(\Xi)
+  + So \Xi = 300 required to match observations of 0.1 pc
+  + Unless arc radius is not the rip point
++ Observed arc radii
+  + R = 0.1 pc for inner dust wave (dust T about 70 K)
+  + R = 1 pc for outer dust wave, which may or may not exist (dust T about 20 K)
+
+
+**** Evidence that ODW is in the ionized gas
+
 *** RCW 120, RCW 92
 + Ochsendorf:2014a
 + See also Mackey:2016a who say that RCW 120 is stellar wind bubble
