@@ -4,4 +4,6 @@
 *.tar.gz
 *.tgz
 *.fits.gz
+*.fits.fz
+*.tar
 !data/LP-Ori-HST/lp-ori-f*.fits

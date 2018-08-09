@@ -107,6 +107,8 @@ stars.update(
       + There is no significant proper motions in the arc
       + We would be sensitive to at least 1/2 a pixel in 10 years, which is
         + 0.05 0.5 410 1.49597870691e13 / 10 3.15576e7 1e5 = 5 km/s
++ Save file of all the LP Ori images
+  + [[file:proper-motions/lp-ori-prop-motions-and-rgb.save]]
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
@@ -147,6 +149,9 @@ stars.update(
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori
++ Coordinates:
+  + Equatorial: 05h38m42s -02d36m00s
+  + Galactic: 206.81067369 -17.34616728
 + Ochsendorf:2014b, Ochsendorf:2015a
 + Stellar parameters (from them)
   + binary O9.5V + B0.5V
@@ -164,7 +169,6 @@ stars.update(
     + v_10 > sqrt(\Xi_{\dag }\eta)
     + so we need \Xi_{\dag }\eta < 9 where \Xi_{\dag }\approx 3000 for O stars
     + \eta < 0.003
-  + How big is rip radius in this case
 + In IC 434 H II region
   + Photoevaporation flow has supposedly fallen from 100 pcc at i-front to 10 pcc
 + Fiducial radius
@@ -180,6 +184,157 @@ stars.update(
 
 
 **** Evidence that ODW is in the ionized gas
+
+**** Calculations for the inner dust wave
++ [ ] General structure
+  + Line-of-sight depth of evaporation flow
+    + Width is about 20 arcmin => 2 pc
+    + Radius of H II region is about 40 arcmin => 4 pc
+      + RMS density, assuming S = 7.6e47
+        + 4/3 pi R**3 n**2 alpha = S
+        + n = sqrt( 3 S / 4 pi R**3 alpha) = 20 pcc
+  + Size and thickness of bow
+  + Timescale for photoevaporation flow
+    + Size about 3 pc
+    + Velocity about 20 km/s
+    + => 0.15 Myr, which is less than the stellar age
+    + On the other hand, it is similar to the crossing time of the star if its proper motion is really 15 km/s towards the horsehead
++ [ ] Dust density and temperature
+  + Optical depth map at 70 micron given in Fig 3 of Och15
+    + Morphology similar to the Ha bow
+    + Peak is around 1.8e-5
+    + extended plateau from photoevaporation flow is about 1e-5
++ [ ] H alpha emission
+  + 
+
+
+**** Sigma Ori images
+
+***** Infrared
+
+****** TODO WISE bands 3 and 4
+
+****** TODO Spitzer observations
+
+***** Liverpool telescope
++ These are continuum images and spectra
++ The images seem quite high resolution
+  + But the bigger fields have a strange spiral pattern of instrumental scattered light, which means it is impossible to see the dust wave
+  + The smaller ones are very noisy and don't seem to show anything interesting
+
+***** Bo Reipurth
++ [2018-08-07 Tue] Sent email
+
+***** INT
++ [2018-08-07 Tue] Requested datasets
++ Images seem to be from program of Rafael Barrena
+****** Download instructions
+#+BEGIN_SRC sh
+wget -r -l1 -A "*.fit*" -nH --cut-dirs=4 -e robots=off http://casu.ast.cam.ac.uk/~eglez/casuadc/requests/004733 -P download_dir
+#+END_SRC
+Same for 4734 and 4735
+****** The Ha images
++ There are Ha, r, and i images
+  + All the pointings are very similar
+  + Each has 4 fields as compressed images in fits file
+  + Number 4 is the one that shows the bow shock
++ They do not have useful WCS headers, but I have saved approximate values in [[file:data/Sigma-Ori/ING/4734/align-647195-ext4.wcs]]
+
+#+BEGIN_SRC python :results output verbatim
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU     103   ()      
+:   1  COMPRESSED_IMAGE    1 CompImageHDU     44   (2154, 4200)   int16   
+:   2  COMPRESSED_IMAGE    2 CompImageHDU     44   (2154, 4200)   int16   
+:   3  COMPRESSED_IMAGE    3 CompImageHDU     44   (2154, 4200)   int16   
+:   4  COMPRESSED_IMAGE    4 CompImageHDU     44   (2154, 4200)   int16   
+
+
++ Add WCS info and split out the individual fields
+#+BEGIN_SRC python :results output verbatim
+  from astropy.io import fits
+
+  fn = "data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz"
+  hdulist = fits.open(fn)
+
+  for ext in [1, 2, 3, 4]:
+      hdu = fits.PrimaryHDU(header=hdulist[0].header, data=hdulist[ext].data)
+      hdu.writeto(fn.replace(".fits.fz", f"-{ext}.fits"), overwrite=True)
+
+
+
+#+END_SRC
+
+#+RESULTS:
+
+
+
++ Try and take ratio of Ha to R, which should be more or less proportional to EW
+  + Also need to remove bias, which can get from strips - first and last 50 pixels in X
+  + Exposure times: 300s for Ha, 90s for r and i
+
+
+
+***** David Mittelman
++ [[file:data/Sigma-Ori/orion-complex-orig.jpg]]
++ Creative Commons License - [[http://sites.middlebury.edu/mittelmanastrophotography/acknowledgment-and-use/][usage]]
++ This shows the inner bow the best of all the images I have seen so far
+
+
+
+***** Fabian Neyer
++ [[file:data/Sigma-Ori/neyer-orion_halpha.jpg]]
++ Slightly lower resolution than Mittelman, but also shows the bow
+
+
+***** Rob Pfile
++ [[file:data/Sigma-Ori/rob-pfile-sigma-ori.jpg]]
++ From [[https://www.flickr.com/photos/pfile/12158818865/in/photolist-jwr8f2-kbg96c-iB1hve-ibdHsf-bjQNX8-bSmeMZ-jZGK2t-brqshJ-dTeWDc-CixZxn-gNv4Su-kHf3jX-dQBD4h-dg4qcD-pAX7W3-oPoNWN-cdQCrS-j3dwD9-R9ByrX-8ZsFBu-91MNAz-212XxNU-eg1Gnn-9PV4RW-qjARM7-93Hbvt-dsvkxy-66ETKU-qYYMjE-dNc4Md-9kqcUx-26Sy3qf-29eU2a7-24sKSry-ekAj3M-saaE8m-jfyQL1-4mfZRy-R1XqtS-26mZQk9-j3zNEK-9dtzN4-pDWwpx-dRuoNm-24fCueB-p98nsB-qs6vpQ-91a68x-jfw6Ni-8ZgWz7][Flickr]]
++ This is clearly the highest resolution one, but it is a bit noisier than Mittelman
++ Has 5 nm Ha filter
++ 9 x 1200 s = 10800 s with a 9.2 cm telescope
+  + so with INT (254 cm), this is equivalent to 14 s, whereas some of the observations I have requested are 300 s
+
+***** starshadows.com
++ [[file:data/Sigma-Ori/Horsehead_Mosaic_master.jpg]]
++ [[file:data/Sigma-Ori/Horsehead_Mosaic_Ha_master.jpg]]
++ Both from http://www.starshadows.com/galley/display.cfm?imgID=30
+
+***** WHAM
++ All-sky integrated in velocity
+  + [[file:data/Sigma-Ori/wham-ss-DR1-v161116-170912-int-grid.fits]]
++ Not so useful, since it is at 1 degree resolution!
+***** Virginia Tech Spectral-Line Survey
++ Ha image: [[file:data/Sigma-Ori/Ori08_Ha.fits]]
++ Cont-subtracted Ha image: [[file:data/Sigma-Ori/Ori08_HaCC.fits]]
++ These are at 1.6 arcmin resolution, which is about the same as SHASSA, which Ochsendorf uses, although they have smoothed theirs
++ Requested acknowledgments are [[http://www1.phys.vt.edu/~halpha/ack.html][here]]
+***** Convert images to FITS
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py orion-complex-orig.jpg
+  #+END_SRC
+
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py Horsehead_Mosaic_master.jpg
+  #+END_SRC
+
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py rob-pfile-sigma-ori.jpg
+  #+END_SRC
+
+
+****** TODO Add WCS info
 
 *** RCW 120, RCW 92
 + Ochsendorf:2014a
