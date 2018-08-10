@@ -260,14 +260,19 @@ Same for 4734 and 4735
 
 + Add WCS info and split out the individual fields
 #+BEGIN_SRC python :results output verbatim
+  import glob
   from astropy.io import fits
 
-  fn = "data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz"
-  hdulist = fits.open(fn)
+  BIAS = 2210.5 
+  filenames = glob.glob("data/Sigma-Ori/ING/4734/int20081118_*.fits.fz")
 
-  for ext in [1, 2, 3, 4]:
-      hdu = fits.PrimaryHDU(header=hdulist[0].header, data=hdulist[ext].data)
-      hdu.writeto(fn.replace(".fits.fz", f"-{ext}.fits"), overwrite=True)
+  for fn in filenames:
+      hdulist = fits.open(fn)
+      for ext, hdu in enumerate(hdulist):
+          if 'IMAGE' in hdu.name:
+              ohdu = fits.PrimaryHDU(header=hdulist[0].header,
+                                     data=hdulist[ext].data - BIAS)
+              ohdu.writeto(fn.replace(".fits.fz", f"-{ext}.fits"), overwrite=True)
 
 
 
@@ -280,6 +285,38 @@ Same for 4734 and 4735
 + Try and take ratio of Ha to R, which should be more or less proportional to EW
   + Also need to remove bias, which can get from strips - first and last 50 pixels in X
   + Exposure times: 300s for Ha, 90s for r and i
+
+#+BEGIN_SRC python :results output verbatim
+  from astropy.io import fits
+
+  # [Ha, R] image IDs
+  pairs = [[176, 177],
+           [180, 183],
+           [185, 186],
+           [188, 190],
+           [192, 193],
+           [195, 196],
+           [198, 199],
+           [201, 202],
+           [204, 205],
+           [207, 208],
+           [210, 211],
+  ]
+
+  prefix = "data/Sigma-Ori/ING/4734/int20081118_00647"
+  for id_ha, id_r in pairs:
+      fn_ha = f"{prefix}{id_ha}-4.fits"
+      fn_r = f"{prefix}{id_r}-4.fits"
+      hdu_ha, = fits.open(fn_ha)
+      hdu_r, = fits.open(fn_r)
+      hdu_ha.data /= hdu_r.data
+      hdu_ha.writeto(fn_ha.replace(".fits", "-ratio.fits"))
+    
+
+#+END_SRC
+
+#+RESULTS:
+
 
 
 
