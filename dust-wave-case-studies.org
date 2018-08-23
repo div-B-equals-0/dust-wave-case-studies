@@ -174,6 +174,9 @@ stars.update(
 + Fiducial radius
   + R_* = 2.21 sqrt(L4/n) / v10
   + = 0.7 pc
++ Bow shock radius - if it were a bow shock
+  + R_0 = sqrt(\eta) R_*
+  + => \eta = (0.1 / 0.7)**2 = 0.02 
 + Rip point radius
   + R_\dag = v10 R_* / sqrt(\Xi) = 1.7 / sqrt(\Xi)
   + So \Xi = 300 required to match observations of 0.1 pc
@@ -184,7 +187,7 @@ stars.update(
 
 
 **** Evidence that ODW is in the ionized gas
-
++ Mainly the 
 **** Calculations for the inner dust wave
 + [ ] General structure
   + Line-of-sight depth of evaporation flow
@@ -376,7 +379,8 @@ Same for 4734 and 4735
 *** RCW 120, RCW 92
 + Ochsendorf:2014a
 + See also Mackey:2016a who say that RCW 120 is stellar wind bubble
-
++ These are a bit of a mess - the Ha is not obviously correlated with the 24 micron emission, but I'm not sure that this proves anything
+  + The Ha emission from any bow shock or bow wave is probably weak
 
 ** Carina bow shocks
 + Sexton:2015a, Kiminki:2017a
