@@ -387,6 +387,52 @@ Same for 4734 and 4735
 + Ambient density about 1000 pcc
 + Velocities 10 to 50 km/s
 + Spectral types B0 to O7, plus some supergiants
+*** What is the ionized density in Carina
++ Sexton say 1000 pcc by referencing Brooks:2003a
+  + But as far as I can see, Brooks are only measuring the density in the PDR and molecular clouds
+    + They say that the PDR emission comes from "dust lane adjacent to Tr 14" and that density is 1e4 pcc and with G_0 = 1e4
+    + But then they talk of a molecular cloud that the PDR overlaps with, and has density of 1e3 pcc
++ We can calculate the mean ionized density by assuming a Stromgren sphere
+  + Tr 14 stellar population has S = 1.4e50 s^{-1}
+  + Radius is about 2.6 pc
+    + 4 arcmin at 2 kpc 
+    + n = sqrt(S / (4/3) pi R^3 \alpha_B)
+    + n = sqrt(3 1.4e50 / 4 pi 2.6**3 3.085677582e18**3 2.6e-13)
+    + n = 500 pcc
+    + So the RMS ionized density is pretty high!
++ We can also work out lower limit on wind cavity size, by assuming momentum balance
+  + Mdot = 5.3e-5 and Vw = 3000 km/s
+  + At 2 pc, Pram = Mdot Vw / 4 pi R^2 = 1.2e-9
+  + Whereas gas pressure is 2 n k T = 1.4e-9
++ Amazingly, they are the same, which implies that the H II region should be a  shell, with even higher density
++ But this is not quite right:
+  + that is just a high density PDR that is close to the dominant star, which is an O3I supergiant
+  + the region as a whole is larger
+    + The bows are spread over a region of radius about 1 degree
+    + => 35 pc
+  + We can add together Tr 14, Tr 15, and Tr 16
+    + 
+    + 
+*** Carina kinematics
++ Low mass cluster stars have V = -12 (approx)
+  + Damian:2016a
+  + Range is -10 to -15
++ Gas seems to be expanding shells
+  + Damian:2016a
+  + Red component with V = +10
+  + Blue component with V = -30
++ High mass stars have much higher dispersion
+  + -40 to +20
+  + Hanes:2018a
+  + FWHM is about 40 km/s
+  + Implying RMS sigma of about 17 km/s
+  + If that is the 1D sigma, then the 3D sigma will be 30 km/s
+  + Proper motions of bow shock stars also give about 30 km/s
+    + Kiminki:2017a
+    + But it is not necessarily aligned with bow shock axis
++ Conclusion
+  + Relative velocities of 20 to 40 km/s between star and environment are likely
+  + Roughly equal contributions from star and environment
 
 * Types of bow
 
