@@ -410,26 +410,51 @@ Same for 4734 and 4735
   + the region as a whole is larger
     + The bows are spread over a region of radius about 1 degree
     + => 35 pc
-  + We can add together Tr 14, Tr 15, and Tr 16
-    + 
-    + 
+  + We can add together Tr 14, Tr 15, and Tr 16 and the others
+    + Smith:2006a
+    + Total S = 9.1e50 /s
+    + So with radius of 35 pc, this gives n = 26 pcc
+    + Smith:2007a look at radio emission and find that it requires an effective S = 7e50 /s
+      + Presumably, the rest has been absorbed by dust, or has escaped
+      + This would then give an RMS density of 23 pcc over the 1 degree radius
++ However, there is much local variation
+  + Smith:2004a find peak densities at the i-fronts of evaporation flows as 2000 to 6000 pcc
+    + This is from Carina's defiant finger
+
 *** Carina kinematics
-+ Low mass cluster stars have V = -12 (approx)
++ Low mass cluster stars 
   + Damian:2016a
-  + Range is -10 to -15
-+ Gas seems to be expanding shells
+    + have V = -12 (approx) 
+    + Range is -10 to -15
+  + Damian:2017a
+    + V = -7 (mean) HELIOCENTRIC
+      + It seems that LSR is -8.8 km/s bluer => -16
+      + But then Kiminki:2018a say it is 11.6 km/s difference
+    + sigma = 3.5 km/s
++ Ionized gas seems to be expanding shells
   + Damian:2016a
-  + Red component with V = +10
-  + Blue component with V = -30
+  + Red component with V = +10 HELIOCENTRIC
+  + Blue component with V = -30 HELIOCENTRIC
++ Molecular gas
+  + Rebolledo:2016a
+  + 12CO and 13CO
+  + V(LSR) = -20 is typical
+    + Implies about -10 heliocentric
+  + Width not so clear, since they don't mention the instrumental resolution
+    + FWHM ~ 5 km/s => sigma of 2 km/s
 + High mass stars have much higher dispersion
-  + -40 to +20
   + Hanes:2018a
-  + FWHM is about 40 km/s
-  + Implying RMS sigma of about 17 km/s
-  + If that is the 1D sigma, then the 3D sigma will be 30 km/s
+    + -40 to +20
+    + FWHM is about 40 km/s
+    + Implying RMS sigma of about 17 km/s
+    + If that is the 1D sigma, then the 3D sigma will be 30 km/s
   + Proper motions of bow shock stars also give about 30 km/s
     + Kiminki:2017a
     + But it is not necessarily aligned with bow shock axis
+    + And may be upper limit
+  + Kiminki:2018a
+    + Smaller dispersion: 1D sigma = 9 km/s for their reliable sample
+    + Mean is 0.6 km/s
 + Conclusion
   + Relative velocities of 20 to 40 km/s between star and environment are likely
   + Roughly equal contributions from star and environment
