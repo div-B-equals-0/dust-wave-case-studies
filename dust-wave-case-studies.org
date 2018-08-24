@@ -383,10 +383,51 @@ Same for 4734 and 4735
   + The Ha emission from any bow shock or bow wave is probably weak
 
 ** Carina bow shocks
-+ Sexton:2015a, Kiminki:2017a
++ Smith:2010 Sexton:2015a, Kiminki:2017a
 + Ambient density about 1000 pcc
+  + *But see below*
 + Velocities 10 to 50 km/s
 + Spectral types B0 to O7, plus some supergiants
+
+
+*** Main samples
++ Morphological Bow Shock Candidates
+  + ERO 1-6 detected at 8 micron
+    + ERO 4 best candidate for interaction with photoevaporation flow
+  + ERO 36, 37, 39 detected at 24 micron
++ Color Bow shock Candidates
+  + A few more of them
+
+*** Special cases
++ ERO 18 is a B8 star - so almost no wind
+  + Arc merges into a larger-scale structure
+  + Has a blue [8]-[24] color, suggestive of PAH emission
+    + Although perhaps it is the silicate feature
++ ERO 21 is a B1.5V star
+  + No 24 micron measurement because saturated
+  + Has a red [4.5]-[5.8] color, indicative of PAHs
+    + So maybe not a wind bow shock, but could be radiation bow shock
+  + Radius is 7.6 arcsec = 0.073 pc
+    + If optically thick, we can calculate the pressure in the shell
+    + L / 4 pi c R^2 = 6300 3.82e33 / 4 pi 2.99792458e10 0.073**2 3.085677582e18**2
+    + P = 1.26e-9 cgs
+    + External ram pressure = v^2 \rho = 2e-12 M^2 n
+    + Ambient density is 630 / v10^2  
+  + Modelled as asymmetric bow shock by Ngoumo:2013a
+    + The call it the "Sickle"
+    + Has sub-mm clump just in front of it
+      + Column density of clump is 1.3e22 /cm^2 they say
+      + Size is about 10 arcsec radius = 0.1 pc
+      + so density is about 2e4 pcc
+    + Broad and narrow-band HST images show that the optical emission is all scattered continuum, with no detectable emission lines
+      + small-scale shells closer to the star
+  + Hartigan:2015a also comment on this object (sec 4)
+    + They call it Tr 14 MJ 218
+    + Morphology is unlike any of the bright-rimmed globule arcs that they see
+    + In the Br-gamma minus H_2 difference map it shows up as H_2 bright on the right-hand flank
+      - this is very weird
+      - suggests that we have trapped the ionization front
+
 *** What is the ionized density in Carina
 + Sexton say 1000 pcc by referencing Brooks:2003a
   + But as far as I can see, Brooks are only measuring the density in the PDR and molecular clouds
