@@ -1,0 +1,79 @@
+* Is Carina's Sickle Nebula a bow shock?
+
++ *Will Henney, IRyA*
++ /Stellar Evolution group meeting discussion/
++ [2018-09-18 Tue]
+
+** Motivation
+
++ Bow shocks occur when luminous stars interact with a moving supersonic stream
++ Models predict that for high-density ambient streams, we don't have a normal hydrodynamic wind-supported bow shock, but instead:
+  - Radiation-supported bow wave (optically thin to UV), or
+  - Radiation-supported bow shock (optically thick to UV)
++ /Show figures 1 & 2 from paper/
++ Ambient density > 100 cm^-3 is required
+  + Larger than typical for the ISM
++ We need to look for spatial coincidence of
+  1. OB stars
+  2. Dense-ish gas
++ => Young rich cluster => *Carina?* 
+
+** Quick facts about Carina
+
++ Distance: 2300 pc
++ Size: 2 deg => 80 pc
++ Several high-mass star clusters:
+  + Trumpler 14
+    + Younger (1.5 Myr), more compact (2 pc)
+    + Contains O3 supergiant
+  + Trumpler 16
+    + Older (2-3 Myr), more spread out
+    + Contains \eta Car
+  + Others: Tr15 (old), Bochum 11 (very young), etc
++ /Show Smith:2007b Figure 1/
++ /Show ESO and HST images/
++ Total luminosity
+  + L(IR) \approx 10^7 L_\odot (half of stellar output)
+  + L(H\alpha) \approx 10^5 L_\odot (but 2/3 absorbed by dust)
+  + Q_H \approx 10^51 s^-1
+  + Similar to 30 Dor, or 100x Orion Nebula
+
+** Carina's EROs
+
++ Extended Red Objects
+  + Smith:2010b, Sexton:2015b, Kiminki:2017a
+  + strong in Spitzer IRAC band 4 (8 \mu{}m)
+  + some discovered at 24 \mu{}m
++ Bow shock candidates 
++ We look for those in the densest parts of the nebula
+  + Ionized gas has median density of 200 cm^-3
+  + Lots of local variation: 20 \to 2000 cm^-3
++ Neutral/molecular gas can be denser
+  + 1000 \to 10^4 cm^-3
+
+** Sickle Nebula (ERO 21)
+
++ /Show in ESO NIR image/
++ Hartigan:2015a Fig 10
+  + No bright Br-gamma emission
+    + \therefore Cannot be an illuminated pillar
+  + Does show H_2 2.12 emission on one side
+    + \therefore Must have a PDR (optically thick to FUV)
++ Ngoumou:2013a
+  + UCAC4 catalog gives 95 \pm 52 km/s proper motion
+    + /but note that GAIA gives no PM for this star/
+  + Conclude ambient density of 0.1 \to 20 cm^-3
+  + But this would give a H column of \sim 10^18 cm^-2
+    + \tau(FUV) < 0.005
+    + Would not be bright in mid IR, and would not show H_2 emission
++ Sexton:2015a
+  + Mid IR colors make them doubt that it is a bow shock
+    + [4.5]-[5.8] indicates PAH /show Fig 5/
+    + But that just means it isn't a *normal* bow shock
+
+** Conclusions
+
++ If it is a bow shock it must be slow-moving in a dense neutral environment
+  + V = 3 - 5 km/s
+  + Proper motion must be wrong
++ May be a radiation-supported bow!

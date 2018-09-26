@@ -1,0 +1,8 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+box(10:44:43.860,-59:21:21.83,60",60",0) # text={ERO 5}
+box(10:44:00.904,-59:35:46.04,60",60",0) # text={ERO 2}
+box(10:44:05.107,-59:33:41.47,60",60",0) # text={ERO 21}
+box(10:44:30.184,-59:26:12.72,60",60",0) # text={ERO 23}
+box(10:44:05.786,-59:35:10.75,60",60",0) # text={ERO 22}

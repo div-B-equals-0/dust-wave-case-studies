@@ -1,0 +1,113 @@
+<html><body>
+<p>
+<span class="WYSIWYG_PROTECTED"></span>
+<span class="WYSIWYG_PROTECTED"><br /></span>
+</p>
+<h1 class="TML">  E-087.C-0222A-2011 </h1>
+<p>
+</p>
+<h2 class="TML">  PI: Thomas Preibisch (preibisch&#64;usm.uni-muenchen.de) </h2>
+<p>
+</p>
+<h2 class="TML">  Title: Revealing the cloud cores and the small-scale structure of strongly irradiated clouds in the Carina Nebula  </h2>
+<p>
+<hr class="TMLhr" />
+</p>
+<p>
+<b><span class="WYSIWYG_LINK"><a href="http://www.apex-telescope.org/sciop/projects/e-087.c-0222a-2011.html">Project setup summary</a></span></b>
+</p>
+<p>
+<b><span class="WYSIWYG_LINK"><a href="%ATTACHURL%/087.C-0222.pdf">087.C-0222.pdf</a></span>: Proposal</b>
+</p>
+<p>
+<hr class="TMLhr" />
+</p>
+<p>
+<b>Project type:</b> Bolometer <br />
+<b>Frontend:</b> SABOCA
+</p>
+<p>
+<b>Backend:</b> ABBA 
+</p>
+<p>
+</p>
+<h3 class="TML">  Time allocated: 19.6 hrs (9.3 hrs observed) </h3>
+<p>
+<span class="WYSIWYG_PROTECTED"><br />%GREEN%</span>TST20110305: observe macro updated after consultation with PI (let's hope it works, may need testing...);<span class="WYSIWYG_PROTECTED"><br></span>
+<b>do same size maps on both targets</b> <span class="WYSIWYG_PROTECTED">%ENDCOLOR%</span>
+</p>
+<p>
+<b>Details for SABOCA:</b> <span class="WYSIWYG_PROTECTED"><br></span>
+Our ESO time allocation for both targets is a <br>
+total net integration time of 10.3 hours, and a <br>
+total observing time (with overhead) of 19.6 hours.<br>
+<br>
+First priority:<br>
+For the target Car-Pillar, we want a map covering 4x4 arcmin. <br>
+In order to produce a spatially homogeneous map,<br>
+please run the following and repeat this procedure until the <br>
+allocated time of 7.5 hours (total) is used up:<br>
+<br>
+off = -90 + 45 * arange(5)<br>
+repeat(1)<br>
+for i in range(5):<br>
+ for j in range(5):<br>
+   source 'Car-Pillar'<br>
+   offset(x=off[i], y=off[j], unit='arcsec', system='EQ')<br>
+   spiralras(sign='p')<br>
+   spiralras(sign='n')<br>
+<br>
+<br>
+<br>
+Second priority:<br>
+For the target Tr14, we want a homogeneous map covering 6x6 arcmin.<br>
+Please run the following and repeat this procedure until the<br>
+allocated time of 12.1 hours (total) is used up:<br>
+<br>
+off = -120 + 60 * arange(5)<br>
+repeat(1)<br>
+for i in range(5):<br>
+ for j in range(5):<br>
+   source 'Tr14'<br>
+   offset(x=off[i], y=off[j], unit='arcsec', system='EQ')<br>
+   spirallras()<br>
+ <span class="WYSIWYG_PROTECTED"><br></span>
+<b>Observing mode</b> (SABOCA): Spiral raster mapping <span class="WYSIWYG_PROTECTED"><br></span>
+<b>Source properties</b> (SABOCA): Size: 4'x4' and 6'x6'. Expected Intensity: peaks up to ~20 Jy/bean. <span class="WYSIWYG_PROTECTED"><br></span>
+<b>Goal</b> (SABOCA): rms: ~ 75 mJy/beam 
+</p>
+<p>
+</p>
+<h3 class="TML">  Source list and status: </h3>
+<p>
+Source order is: RA or priority?
+</p>
+<p>
+</p>
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><th style="text-align: center" class="align-center">Source</th><th style="text-align: center" class="align-center">R.A.</th><th style="text-align: center" class="align-center">Decl.</th><th style="text-align: center" class="align-center">Integ.</th><th style="text-align: center" class="align-center">Ipeak</th><th style="text-align: center" class="align-center">rms</th><th style="text-align: center" class="align-center">S/N</th><th>Note</th></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align: center" class="align-center">ON (min)</td><td style="text-align: left" class="align-left">(mJy)</td><td style="text-align: center" class="align-center">(mJy)</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td style="text-align: left" class="align-left">Car-Pillar</td><td style="text-align: left" class="align-left">10:46:05.0</td><td style="text-align: left" class="align-left">-59:47:00.0</td><td style="text-align: center" class="align-center">59</td><td style="text-align: center" class="align-center">---</td><td style="text-align: center" class="align-center">---</td><td style="text-align: center" class="align-center">---</td><td style="text-align: left" class="align-left">First priority,  homogeneous map of 4'x4'</td></tr>
+<tr><td style="text-align: left" class="align-left">Tr14</td><td style="text-align: left" class="align-left">10:43:17.0</td><td style="text-align: left" class="align-left">-59:34:40.0</td><td style="text-align: center" class="align-center">---</td><td style="text-align: center" class="align-center">---</td><td style="text-align: center" class="align-center">---</td><td style="text-align: center" class="align-center">---</td><td>Second priority,  homogeneous map of 4'x4'</td></tr>
+</table>
+<p>
+<hr class="TMLhr" />
+</p>
+<p>
+</p>
+<h3 class="TML">   Summary of observations and links to observing logs </h3>
+<p>
+</p>
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><th>Date</th><th>Time (UTC)</th><th>Time spent [h]</th><th>Scan number</th><th>Objects</th><th>Observer</th><th>Remarks</th></tr>
+<tr><td><span class="WYSIWYG_LINK"><a href="./ObsLogs/APECS-E-087.C-0222A-2011-2011-05-02.html">02 May 2011</a></span></td><td style="text-align: center" class="align-center">03:45-05:25</td><td style="text-align: center" class="align-center">1.7</td><td style="text-align: center" class="align-center">24032-24056</td><td style="text-align: right" class="align-right">Car-Pillar</td><td style="text-align: center" class="align-center">GSI, CAG</td><td style="text-align: left" class="align-left">PWV=0.17mm</td></tr>
+<tr><td><span class="WYSIWYG_LINK"><a href="./ObsLogs/APECS-E-087.C-0222A-2011-2011-06-29.html">29 June 2011</a></span></td><td style="text-align: center" class="align-center">17:04-21:27</td><td style="text-align: center" class="align-center">4.4</td><td style="text-align: center" class="align-center">40569-40637</td><td style="text-align: right" class="align-right">Car-Pillar</td><td style="text-align: right" class="align-right">TST, FMA, MDU, PMO</td><td style="text-align: left" class="align-left">PWV=0.3 - 0.6 mm</td></tr>
+<tr><td><span class="WYSIWYG_LINK"><a href="./ObsLogs/APECS-E-087.C-0222A-2011-2011-06-30.html">30 June 2011</a></span></td><td style="text-align: center" class="align-center">15:26-17:00</td><td style="text-align: center" class="align-center">1.6</td><td style="text-align: center" class="align-center">40804-40828</td><td style="text-align: right" class="align-right">Car-Pillar</td><td style="text-align: center" class="align-center">TST, FMA</td><td style="text-align: left" class="align-left">PWV=0.13 - 0.19 mm</td></tr>
+<tr><td><span class="WYSIWYG_LINK"><a href="./ObsLogs/APECS-E-087.C-0222A-2011-2011-06-30.html">30 June 2011</a></span></td><td style="text-align: center" class="align-center">19:39-21:18</td><td style="text-align: center" class="align-center">1.6</td><td style="text-align: center" class="align-center">40864-40890</td><td style="text-align: right" class="align-right">Tr14</td><td style="text-align: center" class="align-center">MDU, PMO</td><td style="text-align: left" class="align-left">PWV=0.4 - 0.7 mm</td></tr>
+<tr><td colspan="2" style="text-align: left" class="align-left"><b>Total time (h):</b></td><td style="text-align: center" class="align-center"><span class="WYSIWYG_PROTECTED">%CALC{&#34;$SUM(&nbsp;$ABOVE()&nbsp;)&#34;}%</span></td><td colspan="6">&nbsp;</td></tr>
+</table>
+<p>
+<hr />
+ProjE087C0222A
+</body></html>
+

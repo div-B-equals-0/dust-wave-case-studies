@@ -6,4 +6,7 @@
 *.fits.gz
 *.fits.fz
 *.tar
+*.tif
 !data/LP-Ori-HST/lp-ori-f*.fits
+/data/Carina/full_jpg.jpg
+*.crush

@@ -272,6 +272,11 @@ stars.update(
 ****** TODO WISE bands 3 and 4
 
 ****** TODO Spitzer observations
++ These are in [[file:data/Sigma-Ori/Spitzer/]]
+  + Band M1 : MIPS 24 micron
+  + Band I4 : IRAC 8 micron
+  + Band I3 : IRAC 5.8 micron
+
 
 ***** Liverpool telescope
 + These are continuum images and spectra
@@ -502,7 +507,79 @@ Same for 4734 and 4735
       - this is very weird
       - suggests that we have trapped the ionization front
 
-*** What is the ionized density in Carina
+
+**** Carina images
++ ESO
+  + [[file:data/Carina/eso1208dc.tif][Visual]] 
+  + [[file:data/Carina/eso1208dc.tif][NIR]]
++ Spitzer
+  + 3.6 micron as red, combined with NIR and blue
++ Sub-mm
+  + Composite 
+
+
+
+**** Carina data
+
+***** 2MASS Near infrared
+#+BEGIN_SRC python :results output
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Carina/2MASS/2MASXJ10435514-5933326.fits")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Carina/2MASS/2MASXJ10435514-5933326.fits
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU      51   (301, 301, 6)   float32   
+
+***** Apex sub-mm
+#+BEGIN_SRC python :results output
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Carina/Apex/APEXBOL.2011-06-30T20:26:32.000.fits")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Carina/Apex/APEXBOL.2011-06-30T20:26:32.000.fits
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU      39   ()      
+:   1  SCAN-MBFITS    1 BinTableHDU    127   1R x 1C   [17A]   
+:   2  FEBEPAR-MBFITS    1 BinTableHDU    121   1R x 23C   [1J, 1J, 1PJ(39), 1PJ(39), 1PJ(39), 39D, 39D, J, 39A, 39E, 39E, 39E, 39E, 39E, 39E, 39E, 1E, 1E, 39E, 39E, 39E, 1E, 1E]   
+:   3  DATAPAR-MBFITS    1 BinTableHDU     86   16967R x 28C   [D, D, D, J, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D]   
+:   4  ARRAYDATA-MBFITS    1 BinTableHDU     59   16967R x 2C   [D, 39E]   
+:   5  MONITOR-MBFITS    1 BinTableHDU     30   163439R x 4C   [D, 30A, 1PD(28), 1PA(60)]   
+
+
+
+**** More on the Sickle Nebula (ERO 21)
++ Stellar parameters
+  + B1.5V
+  + 2e4 Lsun
++ Coordinates
+  + 
++ Interaction with Tr 14
+  + HD93129Aa (O2 supergiant)
+    + Luminosity 1.5e6 Lsun
+  + Others in center
+    + 3 times O3.5V => another 1.5e6 Lsun
+  + Luminosity ratio
+    + Bolometric is factor of 100
+    + Stellar wind
+      + \eta \approx 1 for supergiant (or at least > 0.1)
+      + \eta < 0.01 for B1.5V star
+      + So wind momentum ratio is 1000 to 1e4
+  + Separation from central stars
+    + About 80 arcsec, so about 0.9 pc
+    + Bow radius is 0.1 times separation
+  + 
+
+
+*** What is the ionized density in Carina?
 + Sexton say 1000 pcc by referencing Brooks:2003a
   + But as far as I can see, Brooks are only measuring the density in the PDR and molecular clouds
     + They say that the PDR emission comes from "dust lane adjacent to Tr 14" and that density is 1e4 pcc and with G_0 = 1e4
@@ -517,6 +594,7 @@ Same for 4734 and 4735
     + So the RMS ionized density is pretty high!
 + We can also work out lower limit on wind cavity size, by assuming momentum balance
   + Mdot = 5.3e-5 and Vw = 3000 km/s
+    + Note that these are from the Smith:2006a stellar parameters, which probably overestimate the wind strength
   + At 2 pc, Pram = Mdot Vw / 4 pi R^2 = 1.2e-9
   + Whereas gas pressure is 2 n k T = 1.4e-9
 + Amazingly, they are the same, which implies that the H II region should be a  shell, with even higher density
@@ -529,12 +607,23 @@ Same for 4734 and 4735
     + Smith:2006a
     + Total S = 9.1e50 /s
     + So with radius of 35 pc, this gives n = 26 pcc
-    + Smith:2007a look at radio emission and find that it requires an effective S = 7e50 /s
+    + Smith:2007b look at radio emission and find that it requires an effective S = 7e50 /s
       + Presumably, the rest has been absorbed by dust, or has escaped
       + This would then give an RMS density of 23 pcc over the 1 degree radius
 + However, there is much local variation
   + Smith:2004a find peak densities at the i-fronts of evaporation flows as 2000 to 6000 pcc
     + This is from Carina's defiant finger
++ Also Oberst:2011a claim that the average density is ≲ 100 pcc
++ Parkes 3.4 cm continuum map shows considerable structure, but dominated by large scale (tens of parsecs)
+  + Car I accounts for only 5% of Tr 14's ionizing radiation (Smith:2007b)
+  + Car II accounts for < 1% of Tr 15's ionizing radiation 
++ Measurements of [S II] ratio from Damiani:2016a
+  + Median density of 100 pcc for approaching shell
+  + Median density of 200 pcc for receding shell
+  + Brightest regions have 2000 pcc, but fraction of nebula > 600 pcc is very small
++ Finally, 
+
+
 
 *** Carina kinematics
 + Low mass cluster stars 
@@ -552,7 +641,7 @@ Same for 4734 and 4735
     + But, there are inter-subcluster differences of 5 to 8 km/s
       + For instance Tr 16 is moving towards Tr 14 at about 10 km/s
 + Ionized gas seems to be expanding shells
-  + Damian:2016a
+  + Damiani:2016a
   + Red component with V = +10 HELIOCENTRIC
   + Blue component with V = -30 HELIOCENTRIC
 + Molecular gas
@@ -579,6 +668,23 @@ Same for 4734 and 4735
   + Relative velocities of 20 to 40 km/s between star and environment are likely
   + Roughly equal contributions from star and environment
 
+
+
+* Density versus velocity in photoevaporation flow
++ Assume isothermal:
+  + 1/2 M^2 + ln n = 1/2 M_0^2 + ln n_0
+  + n / n_0 = exp(-(M^2 - M_0^2)/2)
+
+| M_0 | M |   n/n_0 | P/P_0 |
+|-----+---+---------+-------|
+|   1 | 2 | 0.22313 | 0.558 |
+|   1 | 3 | 0.01832 | 0.092 |
+|   1 | 4 | 0.00055 | 0.005 |
+|   0 | 1 | 0.60653 | 1.213 |
+|   0 | 2 | 0.13534 | 0.677 |
+|   0 | 3 | 0.01111 | 0.111 |
+|   0 | 4 | 0.00034 | 0.006 |
+#+TBLFM: $3=exp(-($2**2 - $1**2)/2) ;f5::$4=$3 (1 + $2**2) / (1 + $1**2);f3
 * Types of bow
 
 | object | Sp. type | T_eff, K |  L_4 | R_0, pc |

@@ -1,0 +1,9 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+box(161.18275,-59.356063,60",60",0) # text={ERO 5}
+box(161.00377,-59.596122,60.000001",60.000001",0) # text={ERO 2}
+box(161.02128,-59.561519,60.000001",60.000001",0) # text={ERO 21}
+box(161.12577,-59.436867,60.000001",60.000001",0) # text={ERO 23}
+box(161.02411,-59.586321,60.000001",60.000001",0) # text={ERO 22}
+ellipse(161.05502,-59.554191,31.915074",34.242976",28.032004)
