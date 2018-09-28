@@ -670,6 +670,123 @@ Same for 4734 and 4735
 
 
 
+
+** Kobulnicky:2018a sample
++ [ ] There seems to be some overlap with the Carina ERO sample - check this out
++ [ ] There is another high-density example
+  + KGK2010-2 in Cygnus OB-2
+  + Spectral type is B1V, although luminosity class is uncertain
+  + Ambient density is calculated as 160 pcc, but that assumes V=30 km/s
+  + R = 0.07 pc, so very similar to Carina ERO 21 
+
+
+*** Densities and column densities
++ Kobulnicky:2018a find the stream density by
+  1. Converting the 70 micron emission to column density, using Draine:2007a
+  2. Using measured chord length to convert this into shell density
+  3. Assume density jump of 4 across the shock to find the pre-shock density
++ Step 3 is the most problematic, since this only applies if the shock is non-radiative
+  + For O9 and above, shock is strongly radiative above n = 1 for V = 30 km/s
+  + So compression should be M^2 = 9, which is twice as high
++ Conclusion: stream densities should be 2 times lower, which implies /two times lower mass loss rates/
+  + But we eliminate dependence on the stream velocity, since shell density is proportional to V^2, exactly the same as external ram pressure
++ We could also do an alternative method based on the column density
+  + This requires knowing the shell thickness ratio, H/R, so we can estimate the limb brightening
+  + Observed column from 70 micron surface brightness is n_1 L, where L is the chord length
+  + Then use n_1 H = 3/4 n_0 R
++ Relating 70 micron emission to column density
+  + Quantity j_\nu gives conversion: S_70 = j_\nu N_H
+  + S_70 = 8e8 Jy/sr for brightest
+  + j_\nu = about 1e-11, depending on radiation field at shell
+  + => N_H = 1e20 H cm^-2
+    + => \tau = 0.13
+  + But this is across the chord length - the thickness will be less by a factor of 5-10, so \tau < 0.026
+  + We can actually work it all out from the real data
+    + Compare \tau and \eta as calculated from Kobulnicky:2018a data
+    + The "radius" R and thickness H is given in the previous paper Kobulnicky:2017a
+      + But note that R is not R0, but more like R90 (although as far as I can see, it is not measured from the star)
+    + They also have a table with the R0 values (Kobulnicky:2017a Table 5) for just the sub-sample of known distance
+      + But there are some inconsistencies:
+        + Source 13 (zeta Oph): 29 (K17) versus 299 (K18) arcsec.  Clearly the second is correct
+        + Source 331: 25 vs 42
+        + Source 381: 71 vs 220
+        + I will take the second one (K18) in all cases
+    + Better idea - work out the optical depth from \tau = 2 L_{IR} / L_{*}
+
+
+|  ID |    L4 |   V3 |    R0 |    S7 | R0_as |  l_as | l/R0 | j_-12 | D_kpc | FIR_-9 |  L*/LIR |
+|-----+-------+------+-------+-------+-------+-------+------+-------+-------+--------+---------|
+|  13 |   8.1 |  1.3 | 0.175 |  12.3 |   299 |   277 | 0.93 |   8.7 |  0.11 |   64.0 | 3339.43 |
+|  67 |   5.1 |  1.3 | 0.080 |  64.0 |   7.5 |    15 | 2.00 |  11.0 |  1.99 |   58.0 |    7.09 |
+| 329 |   7.9 |  2.0 | 0.219 |  15.4 |    10 |    27 | 2.70 |   8.4 |   4.1 |   0.51 |  294.20 |
+| 331 |  12.0 |  2.5 | 0.296 |  12.0 |    42 |    55 | 1.31 |   8.3 |  1.32 |    5.3 |  414.87 |
+| 338 |   7.9 |  1.2 | 0.162 |  79.8 |    23 |    29 | 1.26 |   8.9 |  1.32 |    6.9 |  209.79 |
+| 339 |  32.0 |  2.9 | 0.493 |  29.9 |    70 |    47 | 0.67 |   8.3 |  1.32 |    6.0 |  977.24 |
+| 341 |   5.1 |  1.3 | 0.141 |   5.0 |    20 |    31 | 1.55 |   8.7 |  1.32 |    1.9 |  491.84 |
+| 342 |   1.4 |  0.8 | 0.070 |  57.8 |    10 |    14 | 1.40 |   8.9 |  1.32 |   0.60 |  427.54 |
+| 344 |  87.0 |  3.0 | 1.359 |  58.6 |   193 |   170 | 0.88 |   8.0 |  1.32 |   50.0 |  318.83 |
+| 368 |   4.1 |  1.2 | 0.146 |  24.9 |    14 |    22 | 1.57 |   8.5 |  1.95 |   0.14 | 2458.89 |
+| 369 |   9.7 |  2.5 | 0.759 |   7.9 |    73 |    39 | 0.53 |   7.8 |  1.95 |    1.4 |  581.74 |
+| 380 |   2.6 |  1.2 | 0.021 |  35.7 |    15 |    49 | 3.27 |  30.0 |  0.26 |    3.3 | 3721.05 |
+| 381 |  12.0 |  2.5 | 0.739 |   4.6 |   220 |   200 | 0.91 |   7.9 |  0.63 |    4.4 | 2193.81 |
+| 382 |  12.0 |  1.2 | 0.506 |  11.2 |   101 |    70 | 0.69 |   8.0 |  0.94 |    3.2 | 1354.96 |
+| 406 |   8.2 |  1.3 | 0.201 |  29.1 |    16 |    26 | 1.63 |   8.5 |  2.35 |    1.9 |  249.50 |
+| 407 |  14.0 |  1.3 | 0.098 |  58.2 |   7.8 |    25 | 3.21 |  13.0 |  2.35 |    6.3 |  128.47 |
+| 409 |   7.4 |  1.2 | 0.093 |  20.8 |   7.4 |    17 | 2.30 |  11.0 |  2.35 |   0.76 |  562.90 |
+| 410 |   4.1 |  1.2 | 0.046 |  91.4 |   3.7 |    14 | 3.78 |  15.0 |  2.35 |    1.1 |  215.48 |
+| 411 |   4.1 |  1.2 | 0.052 |  41.5 |   4.2 |    16 | 3.81 |  13.0 |  2.35 |   0.40 |  592.57 |
+| 413 |   5.1 |  1.3 | 0.188 |  15.4 |    15 |    24 | 1.60 |   8.3 |  2.35 |    1.0 |  294.84 |
+|-----+-------+------+-------+-------+-------+-------+------+-------+-------+--------+---------|
+|     | 12.49 | 1.62 |  0.29 | 33.78 | 57.58 | 58.35 | 1.80 | 10.51 |  1.70 |  10.86 |  941.75 |
+|     | 18.70 | 0.67 |  0.33 | 26.12 | 83.72 | 71.69 | 1.04 |  5.02 |  0.91 |  20.27 | 1099.22 |
+#+TBLFM: $8=$-1/$-2;f2::$12=1e4 $2 $Lsun / (4 $pi ($-2 1000 $pc)**2 1e-9 $-1) ; f2::@22$2..@22$12=vmean(@I..@II);f2::@23$2..@23$12=vsdev(@I..@II);f2
+
+
+
++ Flux conversions:
+  + 1 Jy = 1e-23 erg/s/cm^2/Hz
+  + So we can find the total flux in erg/s/cm^2 by summing the
+    spectral fluxes in Jy times bandwidths \Delta\nu in each band
+    |          |  \mu{}m |   \Delta\nu Hz |
+    |----------+-----+---------|
+    | IRAC     |   8 | 1.45e13 |
+    | MIPS     |  24 |  4.6e12 |
+    | MIPS     |  70 |  1.2e12 |
+    | MIPS     | 160 |  5.5e11 |
+    | Herschel |  70 | 6.48e11 |
+    | Herschel | 160 | 3.54e11 |
+  + So, estimate for total flux in units of 1e-10 erg/cm^2/s
+    + 1.45 S_8 + 0.46 S_24 + 0.0648 S_70 + 0.0354 S_160
+  + But that leaves gaps in between the bands, so best to use the difference between bands as the \delta\nu:
+    | \lambda, \mu{}m |  \nu, Hz |      \delta\nu |
+    |-------+--------+---------|
+    |     5 | 6.0e13 |  2.3e13 |
+    |     8 | 3.7e13 |  2.5e13 |
+    |    24 | 1.2e13 |  7.7e12 |
+    |    70 | 4.3e12 |  2.4e12 |
+    |   160 | 1.9e12 |  1.6e12 |
+    |  1000 | 3.0e11 |         |
+    #+TBLFM: $2=$c / $1 $micron ;s2::$3=$-1 - @+1$-1
+  + So this would give a better total flux of
+    + 2.3 S_5 + 2.5 S_8 + 0.77 S_24 + 0.24 S_70 + 0.16 S_160
+  + E.g., source 13 (subbing S_12 for S_8):
+    + (2.3 8 + 2.5 51.32 + 0.77 343 + 0.24 246 + 0.16 62)
+    + (18.4 + 128.3 + 264.11 + 59.04 + 9.92) = 479.77e-10 = 5e-8 as in Table!
+  + And source 67
+    + (2.3 0 + 2.5 0.31 + 0.77 27.66 + 0.24 4.4 + 0.16 5.4)
+    + (0 + 0.775 + 21.2982 + 1.056 + 0.864) = 23.99e-10 = 2.4e-10
+    + This is very different from the 6e-9 in table! That seemed to be based on a very high-T fit, which cannot be right.
+  + So, in both cases, over 90% of total IR flux comes from 8, 24, 60 micron bands
+  + In K17 they give peak S(70) in Jy/arcmin^2, whereas in K18 it is in Jy/sr
+    + Conversion factor is (180 60 / pi)**2 = 1.18e7
+
+*** Compare KE flux with radiation
++ KE passing through = \pi R_{0}^{2} v/2 P_{stream}
++ Radiant energy absorbed = 0.5 L (1 - e^{-\tau})
+** Povich:2008a bows in M17 and RCW 49
++ They had 3 objects in each region
++ Only RCW 49 S1 has measurements in the long wavelength bands
++ It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
 * Density versus velocity in photoevaporation flow
 + Assume isothermal:
   + 1/2 M^2 + ln n = 1/2 M_0^2 + ln n_0

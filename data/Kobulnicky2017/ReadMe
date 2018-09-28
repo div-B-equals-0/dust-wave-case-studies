@@ -1,0 +1,211 @@
+J/AJ/154/201    IR properties of stellar bowshock nebulae    (Kobulnicky+, 2017)
+================================================================================
+Infrared photometric properties of 709 candidate stellar bowshock nebulae.
+    Kobulnicky H.A., Schurhammer D.P., Baldwin D.J., Chick W.T., Dixon D.M.,
+    Lee D., Povich M.S.
+    <Astron. J., 154, 201 (2017)>
+    =2017AJ....154..201K    (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Nebulae ; Morphology ; Stars, OB ; Photometry, infrared ;
+              Spectral types ; Effective temperatures ; Stars, diameters ;
+              Stars, distances ; Galactic plane
+Keywords: catalogs - HII regions - ISM: bubbles - stars: massive - surveys
+
+Abstract:
+    Arcuate infrared nebulae are ubiquitous throughout the Galactic Plane
+    and are candidates for partial shells, bubbles, or bowshocks produced
+    by massive runaway stars. We tabulate infrared photometry for 709 such
+    objects using images from the Spitzer Space Telescope, the Wide-field
+    Infrared Explorer, and the Herschel Space Observatory (HSO). Of the
+    709 objects identified at 24 or 22 {mu}m, 422 are detected at the HSO
+    70 {mu}m bandpass. Of these, only 39 are detected at HSO 160 {mu}m.
+    The 70 {mu}m peak surface brightnesses are 0.5-2.5 Jyr/arcmin^2^. Color
+    temperatures calculated from the 24 to 70 {mu}m ratios range from 80
+    to 400 K. Color temperatures from 70 to 160 {mu}m ratios are
+    systematically lower, 40-200 K. Both of these temperature are, on
+    average, 75% higher than the nominal temperatures derived by assuming
+    that dust is in steady-state radiative equilibrium. This may be
+    evidence of stellar wind bowshocks sweeping up and heating-possibly
+    fragmenting but not destroying-interstellar dust. Infrared luminosity
+    correlates with standoff distance, R_0_, as predicted by published
+    hydrodynamical models. Infrared spectral energy distributions are
+    consistent with interstellar dust exposed to either single radiant
+    energy density, U=10^3^-10^5^ (in more than half of the objects) or a
+    range of radiant energy densities U_min_=25 to U_max_=10^3^-10^5^ times
+    the mean interstellar value for the remainder. Hence, the central OB stars
+    dominate the energetics, making these enticing laboratories for testing
+    dust models in constrained radiation environments. The spectral energy
+    densities are consistent with polycyclic aromatic hydrocarbon
+    fractions q_PAH_~<1% in most objects.
+
+Description:
+    Data sets for aperture photometry of 709 infrared nebulae included the
+    SST 3.6, 4.5, 5.8, and 8.0 {mu}m (i.e., the IRAC I1, I2, I3, I4 bands)
+    mosaics and 24 {mu}m Multiband Imaging Photometer for Spitzer (MIPS;
+    Rieke et al. 2004ApJS..154...25R) produced by the GLIMPSE team covering
+    the GLIMPSE, MIPSGAL, SMOG, and Cyg-X survey regions. The telescope
+    beam size at these bands is 1.66", 1.72", 1.88", 1.98" and 6" FWHM,
+    respectively. For targets in the second and third Galactic quadrants
+    not covered by SST programs, we use the all-sky WISE atlas images at
+    3.4, 4.6, 12, and 22 {mu}m (i.e., W1, W2, W3, and W4 bands), which have
+    beamsizes of 6.1", 6.4", 6.5", and 12.0" FWHM, respectively. The
+    Hi-Gal (Herschel Infrared Galactic Plane Survey; Molinari et al. 2016,
+    J/A+A/591/A149) covered the entire Plane with the PACS instrument at
+    70 and 160 {mu}m, for which the beamsizes are approximately 6" and
+    12", respectively. Additional HSO pointed observations of individual
+    objects outside the Plane (e.g., the prototypical bowshock runaway
+    star {zeta} Oph; Gull & Sofia 1979ApJ...230..782G) were sometimes
+    available. We assembled the level 2.5 or higher data processed and
+    mosaicked (~2x2 degree UNIMAP images) from the Infrared Science
+    Archive (http://irsa.ipac.caltech.edu/frontpage/) for analysis.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table1.dat       132      623   SST and HSO Photometry of Candidate Bowshock
+                                Nebulae
+table2.dat       115       85   WISE and HSO Photometry of Candidate Bowshock
+                                Nebulae
+table5.dat       109       20   Derived Parameters for Stars with Known
+                                Characteristics
+--------------------------------------------------------------------------------
+
+See also:
+ J/A+A/578/A45  : E-BOSS. II. Catalogue second release (Peri+, 2015)
+ J/A+A/591/A149 : Hi-GAL. inner Milky Way: +68>=l>=70 (Molinari+, 2016)
+ J/ApJS/227/18  : Candidate stellar bowshock nebulae from MIR
+                                                             (Kobulnicky+, 2016)
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units        Label   Explanations
+--------------------------------------------------------------------------------
+   1-  3 I3     ---          ID      [1/709] Index number using the numeration
+                                      of Kobulnicky et al. (2016, J/ApJS/227/18)
+                                      (G1)
+   5- 21 A17    ---          Name    Name given in Galactic coordinates
+                                      (GLLL.llll+BB.bbbb)
+  23- 24 I2     h            RAh     Hour of Right Ascension (J2000) (G2)
+  26- 27 I2     min          RAm     Minute of Right Ascension (J2000) (G2)
+  29- 33 F5.2   s            RAs     Second of Right Ascension (J2000) (G2)
+      35 A1     ---          DE-     Sign of the Declination (J2000) (G2)
+  36- 37 I2     deg          DEd     Degree of Declination (J2000) (G2)
+  39- 40 I2     arcmin       DEm     Arcminute of Declination (J2000) (G2)
+  42- 45 F4.1   arcsec       DEs     Arcsecond of Declination (J2000) (G2)
+  47- 49 I3     arcsec       Rad     [0/151] Angular radius of nebula
+  51- 53 I3     arcsec       Height  [1/242] Angular height of nebula
+      55 A1     ---        l_F3.6    [<] Limit flag on F3.6
+  56- 62 F7.3   Jy           F3.6    [0.001/8.707]?=-99.999 Spitzer IRAC flux
+                                      at 3.6 microns
+      64 A1     ---        l_F4.5    [<] Limit flag on F4.5
+  65- 71 F7.3   Jy           F4.5    [0.001/6.467]?=-99.999 Spitzer IRAC flux
+                                      at 4.5 microns
+      73 A1     ---        l_F5.8    [<] Limit flag on F5.8
+  74- 80 F7.3   Jy           F5.8    [0/23.422]?=-99.999 Spitzer IRAC flux
+                                      at 5.8 microns
+      82 A1     ---        l_F8.0    [<] Limit flag on F8.0
+  83- 89 F7.3   Jy           F8.0    [0.001/18.191]?=-99.999 Spitzer IRAC flux
+                                      at 8.0 microns
+  91- 98 F8.3   Jy           F24     [0.021/1211.4]?=-99.999 Spitzer MIPS flux
+                                      at 24 microns
+     100 A1     ---        l_F70     [<] Limit flag on F70
+ 101-107 F7.3   Jy           F70     [0.03/618]?=-99.999 Herschel PACS flux
+                                      at 70 microns
+     109 A1     ---        l_F160    [<] Limit flag on F160
+ 110-116 F7.3   Jy           F160    [0.04/394]?=-99.999 Herschel PACS flux
+                                      at 160 microns
+ 118-124 F7.1   Jy/arcmin2   I70     [0.7/13357]?=-99.9 Peak Herschel PACS
+                                      70 microns surface brightness
+ 126-128 I3     K            T24/70  [61/762]?=-99 Color temperature (1)
+ 130-132 I3     K            T70/160 [32/262]?=-99 Color temperature (G3)
+--------------------------------------------------------------------------------
+Note (1): Derived from the 24 {mu}m SST and 70 {mu}m HSO photometry.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units        Label   Explanations
+--------------------------------------------------------------------------------
+   1-  3 I3     ---          ID      [13/691] Index number using the numeration
+                                      of Kobulnicky et al. (2016, J/ApJS/227/18)
+                                      (G1)
+   5- 21 A17    ---          Name    Name given in Galactic coordinates
+                                      (GLLL.llll+BB.bbbb)
+  23- 24 I2     h            RAh     Hour of Right Ascension (J2000) (G2)
+  26- 27 I2     min          RAm     Minute of Right Ascension (J2000) (G2)
+  29- 33 F5.2   s            RAs     Second of Right Ascension (J2000) (G2)
+      35 A1     ---          DE-     Sign of the Declination (J2000) (G2)
+  36- 37 I2     deg          DEd     Degree of Declination (J2000) (G2)
+  39- 40 I2     arcmin       DEm     Arcminute of Declination (J2000) (G2)
+  42- 45 F4.1   arcsec       DEs     Arcsecond of Declination (J2000) (G2)
+  47- 49 I3     arcsec       Rad     [5/900]?=-99 Angular radius of nebula
+  51- 53 I3     arcsec       Height  [7/600]?=-99 Angular height of nebula
+      55 A1     ---        l_F3.4    [<] Limit flag on F3.4
+  56- 60 F5.3   Jy           F3.4    [0.001/6.25] WISE flux at 3.4 microns
+      62 A1     ---        l_F4.6    [<] Limit flag on F4.6
+  63- 67 F5.3   Jy           F4.6    [0.001/7.995] WISE flux at 4.6 microns
+      69 A1     ---        l_F12     [<] Limit flag on F12
+  70- 75 F6.3   Jy           F12     [0.001/51.32] WISE flux at 12 microns
+  77- 83 F7.3   Jy           F22     [0.01/343.77] WISE flux at 22 microns
+      85 A1     ---        l_F70     [<] Limit flag on F70
+  86- 92 F7.3   Jy           F70     [0.09/482.2]?=-99.999 Herschel PACS flux
+                                      at 70 microns
+      94 A1     ---        l_F160    [<] Limit flag on F160
+  95-101 F7.3   Jy           F160    [0.15/134.8]?=-99.999 Herschel PACS flux
+                                      at 160 microns
+ 103-107 F5.1   Jy/arcmin2   I70     [3.5/52.7]?=-99.9 Peak Herschel PACS
+                                      70 microns surface brightness
+ 109-111 I3     K            T22/70  [81/230]?=-99 Color temperature (1)
+ 113-115 I3     K            T70/160 [39/240]?=-99 Color temperature (G3)
+--------------------------------------------------------------------------------
+Note (1): Derived from the 22 {mu}m WISE and 70 {mu}m HSO photometry.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table5.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units  Label   Explanations
+--------------------------------------------------------------------------------
+   1-  3  I3    ---    ID      [13/413] Index number using the numeration of
+                                Kobulnicky et al. (2016, J/ApJS/227/18)
+   5- 19  A15   ---    Name1   Common name
+  21- 37  A17   ---    Name    Name given in Galactic coordinates
+                                (GLLL.llll+BB.bbbb)
+  39- 49  A11   ---    SpType  MK spectral type
+  51- 55  I5    K      Teff    [17600/41500] Effective temperature
+  57- 60  F4.1  Rsun   R*      [5.4/30] Stellar radius
+  62- 65  F4.2  kpc    Dist    [0.14/2.3] Distance
+  67- 71  F5.1  arcsec Dist1   [3.7/193] Standoff distance of the nebula from
+                                the central star, in arsec
+  73- 76  F4.2  pc     Dist2   [0.02/1.24] Standoff distance of the nebula from
+                                the central star, in pc
+  78- 82  E5.2  ---    U       [320/230000] Radiation density parameter (1)
+  84- 86  I3    K      TSS     [43/128] Steady-state temperature of dust
+  88- 90  I3    K      T22/T70 [70/842] Color temperature derived from
+                                the 24/70 {mu}m ratio
+  92- 94  I3    K      T70/160 [69/240]? Color temperature derived from
+                                the 70/160 {mu}m ratio
+  96-102  E7.3  mW/m2  FIR     [1.4e-10/6.4e-08] Total flux of the nebula
+                                (in erg/s/cm^2^)
+ 104-109  F6.1  ---    L*/LIR  [8.4/5400] Ratio of stellar luminosity to nebular
+                                luminosity
+--------------------------------------------------------------------------------
+Note (1): U is defined in Draine & Li (2007ApJ...657..810D) as the ratio of
+          the radiant energy density (in erg/cm^3^) due to the star to the mean
+          interstellar radiant energy density estimated by Mathis et al.
+          (1983A&A...128..212M) (see Equation 1).
+--------------------------------------------------------------------------------
+
+Global notes:
+Note (G1): Typical photometric uncertainties are 25% at all bands.
+Note (G2): The Right Ascension and Declination of the nominal central star given
+           by Kobulnicky et al. (2016, J/ApJS/227/18).
+Note (G3): Derived from the 70 and 160 {mu}m HSO photometry.
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)            Prepared by [AAS], Tiphaine Pouvreau [CDS]          31-Jul-2018
