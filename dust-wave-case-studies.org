@@ -781,8 +781,28 @@ Same for 4734 and 4735
     + Conversion factor is (180 60 / pi)**2 = 1.18e7
 
 *** Compare KE flux with radiation
-+ KE passing through = \pi R_{0}^{2} v/2 P_{stream}
-+ Radiant energy absorbed = 0.5 L (1 - e^{-\tau})
++ /actually all this is not necessary/
+  + Draine:1981a shows that we need V > 200 km/s before a substantial fraction of the shock energy is radiated by dust
+  + This is because grain cooling of the gas only becomes competitive above 1e6 K
+  + For V = 100 km/s, the fraction is only 1%
+    + This, combined with fact that shock energy is small fraction of absorbed radiative energy, means that collisional heating of the grains should be negligible
+  + Note that the same shock velocities (> 200 km/s) are also those required to produce significant dust sputtering
+    + V < 150 km/s, then grains of 0.01 micron can survive
+    + V < 270 km/s, then grains of 0.1 micron can survive
++ KE flux passing through = P v / 2
+  + P is ram pressure, v is stream velocity
++ Absorbed radiant flux = F (1 - e^{-\tau}) \approx F \tau
+  + F = incident radiation flux
+  + \tau = optical depth of shell
++ Also, we have
+  + wind case (\eta > \tau): P = \eta F / c
+  + radiation case (\eta < \tau): P = F (1 - e^{-\tau}) / c
++ So, we have shock heating / radiation heating:
+  + wind case: 0.5 (\eta/\tau) (v/c)
+  + radiation case: 0.5 (v/c)
++ Note that \tau = 2 x \tau_{\star}
+  + wind case: x = \eta^{1/2}
+  + rad case: x = 2 \tau_{\star} or \approx 1
 ** Povich:2008a bows in M17 and RCW 49
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands
