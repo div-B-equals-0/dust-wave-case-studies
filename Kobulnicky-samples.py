@@ -5,16 +5,6 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.3
 # ---
 
 import numpy as np
@@ -221,12 +211,67 @@ None
 
 # Make a new table that just has the columns that we want.  We take the $R_0$ from K18 Table 1.  The thickness $H$ could be taken from K17: "Height" in Tables 1 and 2. *But* I don't trust those values.  For instance, zeta Oph clearly has $H < 60''$ from its image, but the table gives $404''$, which is ridiculous given that $R_0 = 299''$. In fact, when I use these columns and calculate $H/R$, then I get a range from 0.5 to 3, which does not make any sense.
 
-# It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.
+# It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.  Assume $\kappa = 600$ and $a = 11.4$ km/s
 
+# +
 colnames = tt.colnames[0:5] + ['L4', 'R0']
 ttt = tt[colnames]
 ttt['tau'] = np.round(2*tt['LIR/L* will'], decimals=5)
 ttt['H/R'] =np.round(tt['Height'] / tt['R0_as'], decimals=2)
+
+cs = (11.4*u.km/u.s).cgs
+kappa = 600.0*u.cm**2/u.g
+H_R = 0.25
+
+ttt['P_k_shell'] = np.array(ttt['tau'])*(cs**2 / (const.k_B*kappa * H_R * ttt['R0']*u.parsec)).cgs
+ttt['n_shell'] = np.round(ttt['P_k_shell']/u.Kelvin/(2 * 1.0e4), decimals=1)
+ttt['P_k_rad'] = (1e4*const.L_sun*ttt['L4'] / (4*np.pi * (ttt['R0']*u.pc)**2 * const.c * const.k_B)).cgs
+ttt['eta_obs'] = np.round(ttt['P_k_shell'].data/ttt['P_k_rad'].data, decimals=5)
 ttt
+# -
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = ttt['tau'], ttt['eta_obs']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']),
+#               c=np.log10(tt['Teff']), 
+               cmap='magma', 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(
+    r'$\log_{10}\ \left[L_* / L_\odot \right]$'
+#    r'$\log_{10}\ \left[T_\mathrm{eff} \right]$'
+)
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 2e-4, 5e-1
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.fill_between([fmin, fmax], [20*fmin, 20*fmax], [2*fmin, 2*fmax], color='k', alpha=0.05)
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'UV optical depth of shell: $\tau$',
+    ylabel=r'Shell momentum efficiency: $\eta_\mathrm{obs}$',
+)
+ax.set_aspect('equal')
+None
+
+
+
+
+
+kappa * H_R * ttt['R0']*u.parsec.to(u.cm)
+
+np.array(ttt['tau'])*(cs**2 / (const.k_B*kappa * H_R * ttt['R0']*u.parsec)).cgs
+
+(const.k_B*u.K/u.cm**3).cgs
+
+np.array(ttt['tau'])/(ttt['R0']*u.pc).cgs
+
+(1e4*const.L_sun*ttt['L4'] / (4*np.pi * (ttt['R0']*u.pc)**2 * const.c * const.k_B)).cgs
+
+ttt['P_k_shell'].data/ttt['P_k_rad'].data
 
 
