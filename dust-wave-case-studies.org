@@ -838,6 +838,32 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
 + Note that \tau = 2 x \tau_{\star}
   + wind case: x = \eta^{1/2}
   + rad case: x = 2 \tau_{\star} or \approx 1
+
+
+*** TODO Compare Ly\alpha heating with stellar heating
++ K18 calculate G = F/F(Habing), which they call U
+  + although actually /these are not the same/
+    + First, they are working in terms of energy density not flux
+    + Second, they are basing things on Mezger:1982a and Mathis:1983a who specify the entire SED of the IS radiation field.  This is what is used in Draine:2007a
+    + Problem is that this Mathis field includes multiple cool stellar components that emit at longer wavelengths.  
+    + I integrate the radiation field of Mezger:1982a Table C1
+      + Take FUV range from 912 to 2000 Angstrom
+        + \Delta\lambda = 0.11 \mu{}m
+      + The average field there is about 15 in the table units
+      + Units are 4 \pi J_\lambda / 1e-3 erg/cm^2/s/\mu{}m
+      + So I get 4 \pi J_FUV = 15 0.11 0.001 = 1.6e-3 => *exactly the Habing value*
+    + But the optical peak around 0.55 micron has 16.4, so adds another roughly
+      + 16.4 0.55 0.001 = 9e-3 in same units
+      + Optical emission is 6 times higher than FUV emission
++ Habing FUV version
+  + F(Habing) = 1.6e-3 erg/s/cm^2
+  + They find G values from 300 to 3e4
+  + Using F = L / 4 \pi R^2, we get G = 200 L_{4} R_{pc}^{-2}
+  + [ ] Need to compare this with their U to see how they are normalizing 
+
+
+
+
 ** Povich:2008a bows in M17 and RCW 49
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands

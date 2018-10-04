@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext_format_version: '1.2'
@@ -214,7 +215,7 @@ None
 # It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.  Assume $\kappa = 600$ and $a = 11.4$ km/s
 
 # +
-colnames = tt.colnames[0:5] + ['L4', 'R0']
+colnames = tt.colnames[0:5] + ['L4', 'R0', 'D_kpc']
 ttt = tt[colnames]
 ttt['tau'] = np.round(2*tt['LIR/L* will'], decimals=5)
 ttt['H/R'] =np.round(tt['Height'] / tt['R0_as'], decimals=2)
@@ -258,9 +259,70 @@ ax.set(
 ax.set_aspect('equal')
 None
 
+# Now, before proceeding to the mass loss rates, let's do a factor plot of some selected parameters:
 
+from scipy import stats
 
+# +
+df = ttt.to_pandas()
+df.set_index(keys='ID', inplace=True)
+columns = ['Teff', 'L4', 'R0', 'tau', 'n_shell', 'eta_obs']
+pretty = [
+    r'$\log_{10}\ T_\mathrm{eff} / \mathrm{K}$', 
+    r'$\log_{10}\ L_* / 10^4 L_\odot$', 
+    r'$\log_{10}\ R_0 / \mathrm{pc}$', 
+    r'$\log_{10}\ \tau$', 
+    r'$\log_{10}\ n_\mathrm{shell} / \mathrm{cm^{-3}}$', 
+    r'$\log_{10}\ \eta_\mathrm{obs}$',     
+]
+minmax = [ 
+    [4.1, 4.7], # Teff
+    [-0.3, 2.3], # L4
+    [-2.1, 0.4], # R0
+    [-3.8, -1.2], # tau
+    [-0.3, 3.1], # n_shell
+    [-3.5, -0.4], # eta_obs
+]
+df = df.assign(**{col: np.log10(df[col]) for col in columns})
+df = df.assign(close=pd.Categorical((df['D_kpc'] < 1.5).astype('S5')))
 
+def corrfunc(x, y, **kws):
+    r, _ = stats.pearsonr(x, y)
+    ax = plt.gca()
+    if abs(r) > 0.3:
+        ax.annotate("$r = {:.2f}$".format(r),
+                    xy=(.1, .9), xycoords=ax.transAxes, fontsize='small')
+    
+with sns.plotting_context('talk', font_scale=0.9):
+    g = sns.pairplot(df, vars=columns, 
+                     diag_kind='hist', 
+#             diag_kind='kde',
+#             hue='close', 
+                     kind='reg',
+                     plot_kws=dict(scatter_kws=dict(edgecolor='w')),
+                     diag_kws=dict(bins=5),
+                    )
+    g.map_offdiag(corrfunc)
+    for j, [[v1, v2], label] in enumerate(zip(minmax, pretty)):
+        g.axes[j, j].set(xlim=[v1, v2], ylim=[v1, v2])
+        g.axes[-1, j].set(xlabel=label)
+        g.axes[j, 0].set(ylabel=label)
+    plt.gcf().savefig('K18-pairplot.pdf')
+    
+#df
+# -
+
+# Some observations about these correlations:
+#
+# 1. The basic parameters are $T_\mathrm{eff}$, $L_*$, $R_0$, and $\tau$.  In principle, observational errors in these should all be independent, so any correlations between them are real. 
+# 2. **Possible exception:** $\tau$ is found from $L_\mathrm{IR}/L_*$, so errors in $L_*$ would give negative $\tau$–$L_*$ correlation, but they seem to be uncorrelated so we are probably OK.  
+# 3. If $L_*$ were determined from photometry, then any distance errors would give a spurious $R_0 \propto L_*^{1/2}$ correlation.  **So it is a good job that it is found from spectral classification instead**.  Also, the distances should be reliable.
+# 4. What we actually see is a linear $R_0 \propto L_*$ correlation.  This is the most significant correlation of all ($r = 0.79$), implying that >60% of the variation in $R_0$ is driven by the stellar luminosity, leaving only 40% left for the environment (and other stellar properties). 
+# 5. We also have a moderate correlation between $L_*$ and $T_\mathrm{eff}$, which is clearly because half the stars are MS, with a tight correlation, and the other half are evolved
+#     
+#
+
+df.describe()
 
 kappa * H_R * ttt['R0']*u.parsec.to(u.cm)
 
