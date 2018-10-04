@@ -127,7 +127,7 @@ tab05_01_02
 
 t = tab05_01_02
 t.remove_row(2)
-t['FIR_will'] = 1e-10*(2.55*np.abs(t['F8 or 12']) + 0.77*t['F24 or 22'] + 0.24*t['F70'])
+t['FIR_will'] = 1e-10*(2.4*np.abs(t['F8 or 12']) + 1.6*t['F24 or 22'] + 0.51*t['F70'])
 t['ID', 'FIR', 'FIR_will']
 
 import matplotlib.pyplot as plt
@@ -136,11 +136,11 @@ import seaborn as sns
 sns.set_context("poster")
 
 fig, ax = plt.subplots(figsize=(10, 8))
-c = ax.scatter(t['FIR'], 2*t['FIR_will'], 
+c = ax.scatter(t['FIR'], t['FIR_will'], 
                c=t['Dist'], cmap='magma_r', 
                edgecolors='k', alpha=1.0)
 fig.colorbar(c, ax=ax).set_label('Distance, kpc')
-for id_, x, y in zip(t['ID'], t['FIR'], 2*t['FIR_will']):
+for id_, x, y in zip(t['ID'], t['FIR'], t['FIR_will']):
     ax.annotate(
         str(id_), (x, y), fontsize='xx-small',
         xytext=(4,4), textcoords='offset points',
@@ -151,20 +151,82 @@ ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
     xlabel=r'Kobulnicky: $F_\mathrm{IR}$',
-    ylabel=r'Will: $2 \times F_\mathrm{IR}$',
+    ylabel=r'Will: $F_\mathrm{IR}$',
 )
 ax.set_aspect('equal')
 None
 
 # So everything looks OK, except:
 #
-# 1. I had to multiply my fluxes by 2
-# 2. Source 67 is over 10 times too bright in the Kobulnicky table
+# * Source 67 is over 10 times too bright in the Kobulnicky table
+#
+# So, I will use my fluxes instead.  
 
 # Now add in the table that I transcribed from the 2018 paper:
 
 tab18 = Table.read('kob18.fits')
 
-join(t, tab18, keys='ID')
+tt = join(t, tab18, keys='ID')
+tt['LIR_will'] = tt['FIR_will']*(u.erg/u.cm**2/u.s)*4*np.pi*(tt['Dist']*1e3*u.parsec).to(u.cm)**2 / const.L_sun.to(u.erg/u.s)
+tt['LIR/L* will'] = tt['LIR_will']/(1e4*tt['L4'])
+tt
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = 2.0/tt['L*/LIR_1'], 2*tt['LIR/L* will']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']), cmap='viridis_r', 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 2e-4, 5e-1
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'Kobulnicky+ (2017): $\tau = 2 L_\mathrm{IR}/L_*$',
+    ylabel=r'This paper: $\tau = 2 L_\mathrm{IR}/L_*$',
+)
+ax.set_aspect('equal')
+None
+
+# In this graph we compare the original luminosity ratio taken directly from the Kobulnicky (2017) table (x axis) with the ratio calculated using my new total IR fluxes, combined with the new luminosities in the Kobulnicky (2018) table (y axis).   Most of the points show reasonable agreement between the two methods, with a few exceptions:
+#
+# * 67: this had the $F_\text{IR}$ overestimated in K17.  Using a more reasonable value gives a lower $\tau$
+# * 341: The spectral class has changed from B2 (K17) to O9 (K18), increasing the assumed $L_*$, which lowers $\tau$
+# * 411: The luminosity class has changed from Ib (K17) to V (K18), so $L_*$ has been greatly reduced, which increases the estimated $\tau$
+#
+# And there doesn't seem to be any significant correlation with stellar luminosity.
+
+# Next job is to estimate the shell pressure from the $\tau$:
+#
+# 1. Assume UV dust opacity per gas mass gives column density: $\Sigma = \tau/\kappa$.
+# 2. Using measured thickness, find $\rho = \Sigma / H$
+# 3. Assume sound speed, so $P_\mathrm{shell} = \rho a^2$
+#
+# Putting it all together gives $P_\mathrm{shell} = \tau a^2 / \kappa H$.
+
+# Then we can compare that with the radiation pressure at the shell:
+# $$
+# P_\mathrm{rad} = \frac{L_*}{4\pi R^2 c}
+# $$
+# and define an observational momentum trapping efficiency: $\eta_\mathrm{obs} = P_\mathrm{shell} / P_\mathrm{rad}$, so that:
+# $$
+# \eta_\mathrm{obs} = \frac{\tau a^2}{\kappa H} \frac{4\pi R^2 c}{L_*}
+# $$
+# If we expand out the $\tau$, we se that $\eta_\mathrm{obs} \propto L_*^{-2}$, which is quite a steep sensitivity (especially since $L_*$ may be just a guess). 
+
+# Make a new table that just has the columns that we want.  We take the $R_0$ from K18 Table 1.  The thickness $H$ could be taken from K17: "Height" in Tables 1 and 2. *But* I don't trust those values.  For instance, zeta Oph clearly has $H < 60''$ from its image, but the table gives $404''$, which is ridiculous given that $R_0 = 299''$. In fact, when I use these columns and calculate $H/R$, then I get a range from 0.5 to 3, which does not make any sense.
+
+# It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.
+
+colnames = tt.colnames[0:5] + ['L4', 'R0']
+ttt = tt[colnames]
+ttt['tau'] = np.round(2*tt['LIR/L* will'], decimals=5)
+ttt['H/R'] =np.round(tt['Height'] / tt['R0_as'], decimals=2)
+ttt
 
 
