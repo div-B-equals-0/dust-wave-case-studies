@@ -1,0 +1,46 @@
+1. File information
+-------------------
+
+<directories>
+   dark/         : contains neighbor dark frames for MIR-S and -L
+   stacked_IM/   : contains calibrated and stacked images
+
+<files>
+   ircpipeline.log  : process logs
+   README           : this file
+
+
+2. Observation summary
+----------------------
+
+   Target ID               : 6170001             
+   Sub ID                  : 001                 
+   Pointing ID             : 3170001             
+   Object Name             : eta_Carinae              
+   Proposal ID             : ETASP               
+   PI Name                 : Matsuo Hiroshi      
+   Observation Category    : OT-ISAS             
+   Target Position (R.A.)  : 161.265   [degree]
+   Target Position (Dec.)  : -59.685   [degree]
+   Observation AOT         : IRC05               
+   AOT Parameter           : b;N                 
+   IRC Mode                : PARALLEL            
+   Observation Start       : 2007-01-12T19:29:41 
+   Observation End         : 2007-01-12T19:59:41 
+
+   Please refer to the IRC Data Users Manual for deltails of
+   the summary information.
+
+
+3. Process summary
+------------------
+
+   MIR-S Ghost Warning         : Yes
+   MIR-S memory effect Warning : No
+   MIR-L memory effect Warning : No
+
+   Stacked Images Summary
+      Filt, Nall, Ncom, Shiftty, WCSROOT, WCSERR, WCSNS, RAcenter, DEcenter
+      L15     30    30  LusingS  AOCS        NaN      0  161.6279  -60.3279
+      N3       5     5  COADD    2MASS    0.5343     29  160.9989  -60.1285
+      S7      30    30  COADD    AOCS        NaN      0  161.0068  -60.1379

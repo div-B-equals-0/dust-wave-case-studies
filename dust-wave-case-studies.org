@@ -556,6 +556,15 @@ Same for 4734 and 4735
 
 
 
+
+***** Spitzer IRAC
+We have up to 8 micron
+
+***** Herschel
++ We have the SPIRE image at 250, 350, 500 micron
++ But we mainly want the 70 micron image, which must be PACS
+
+
 **** More on the Sickle Nebula (ERO 21)
 + Stellar parameters
   + B1.5V
@@ -680,6 +689,82 @@ Same for 4734 and 4735
   + R = 0.07 pc, so very similar to Carina ERO 21 
 
 
+*** Which of the Carina EROs are in the K18 sample?
+|     |           |        | Sexton15     | F(8) S15 | F(24) S15 | R0 S15 |
+|-----+-----------+--------+--------------+----------+-----------+--------|
+| 406 | HD 92607  | ERO 36 | O8.5V + O9 V |      388 |      3152 |   15.7 |
+| 407 | HD 93249  | ERO 5  | O9 III       |     20.8 |      32.3 |    6.0 |
+| 409 | HD 93027  | ERO 1  | O9.5 V       |     12.3 |      61.1 |    8.6 |
+| 410 | HD 305536 | ERO 3  | O9.5 V       |     75.1 |       348 |    3.0 |
+| 411 | HD 305599 | ERO 6  | B0 Ib        |     53.0 |       205 |    3.4 |
+| 413 | HD 93683  | ERO 37 | O9 V         |      163 |      1705 |   17.1 |
+|-----+-----------+--------+--------------+----------+-----------+--------|
+|     |           | ERO 21 |              |      422 |           |    7.6 |
+
+
+*** Cross checking the fluxes of the EROs
++ The fluxes given in Sexton:2015a paper are much larger than in Kobulnicky:2017a
++ I want to find out which is right, using the IRAC4 8 micron image
+  + Units are MJy/sr = 2.35043863818e-5 Jy/arcsec^2
+  + IRAC pixels are 0.6 arcsec => 8.46e-6 Jy/pixel
+  + MIPS pixels are 2.45 arcsec
++ Worked example: ERO 21 IRAC4
+  + 10h 44m 05.00s -59d 33m 40.0s Equ J2000
+  + Peak intensity: 1800
+  + BG intensity: 250
+  + Pixel Widths: 11 x 25
+  + Total flux: 8.46e-6 11 25 (1800 - 250) = 3.61 Jy
++ Measure some more
+  | Source | Band       |    \mu{}m | Peak | BG           | Size        | Flux               |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 5  | IRAC 4     | 7.872 |  170 | 65 +/- 5     | 7*21*0.6**2 | 0.1306 +/- 0.0062  |
+  |        | IRAC 3     | 5.731 |   30 | 17 +/- 4     | 7*21*0.6**2 | 0.0162 +/- 0.0050  |
+  |        | IRAC 2     | 4.493 |    7 | 5 +/- 1.5    | 7*21*0.6**2 | 0.0025 +/- 0.0019  |
+  |        | MIPS 1     | 23.68 | 1145 | 400 +/- 100  | 5*24        | 2.1013 +/- 0.2820  |
+  |        | IRAC 4     | 7.872 |  147 | 65 +/- 5     | 5*24        | 0.2313 +/- 0.0141  |
+  |        | IRAC 3     | 5.731 |   27 | 17 +/- 4     | 5*24        | 0.0282 +/- 0.0113  |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 21 | IRAC 4     | 7.872 | 1950 | 250 +/- 50   | 11*25       | 10.9881 +/- 0.3232 |
+  |        | IRAC 3     | 5.731 |  720 | 55 +/- 5     | 11*25       | 4.2983 +/- 0.0323  |
+  |        | IRAC 2     | 4.493 |   83 | 10 +/- 6     | 11*25       | 0.4718 +/- 0.0388  |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 36 | MIPS 1     | 23.68 |  427 | 120 +/- 20   | 12*40       | 3.4635 +/- 0.2256  |
+  |        | IRAC 4     | 7.872 |   47 | 40 +/- 4     | 12*40       | 0.0790 +/- 0.0564  |
+  |        | WISE 3     |    12 | 1830 | 1100 +/- 100 | 20*40       | 13.7263 +/- 1.8803 |
+  |        | WISE 4     |    22 |  430 | 280 +/- 30   | 20*40       | 2.8205 +/- 0.5641  |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 37 | PACS B     |    70 |      |              |             |                    |
+  |        | WISE 4     |    22 |      |              |             |                    |
+  |        | Akari L15  |    15 |      |              |             |                    |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 29 | PACS B     |    70 |      |              |             |                    |
+  |        |            |       |      |              |             |                    |
+  |--------+------------+-------+------+--------------+-------------+--------------------|
+  | ERO 16 | Akari L24  |       |      |              |             |                    |
+  |        | Akari L18W |       |      |              |             |                    |
+  |        | Akari L15  |       |      |              |             |                    |
+  #+TBLFM: $7=2.3504e-5 ($4 - $5) $6 ; f4
+  + Note that the second lot of IRAC fluxes are smoothed to the MIPS resolution and using a slightly bigger aperture
+  + 
++ ERO 29 strangeness
+  + Listed as very small in Sexton:2015a
++ What about WISE?
+  + Pixel size 1.375 arcsec
+  + ~BUNIT~ says that intensity is in ~DN~, which isn't helpful
+  + We could calibrate IRAC 4 against MIPS 1 with ERO 36
++ We also have Akari - but very low resolution
+  + Only useful for ERO 29
+  + FIR Bands:
+    + N60 :: 65 micron
+    + Wide S :: 90 micron
+    + Wide L :: 140 micron
+    + N160 :: 160 micron
+  + MIR bands
+    + 15, 18, 24 micron
++ Possible new bow shock
+  + WERO 40
+  + 10:47:11.68 -60:20:48.73
+  + 
 *** Densities and column densities
 + Kobulnicky:2018a find the stream density by
   1. Converting the 70 micron emission to column density, using Draine:2007a
@@ -855,12 +940,23 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
     + But the optical peak around 0.55 micron has 16.4, so adds another roughly
       + 16.4 0.55 0.001 = 9e-3 in same units
       + Optical emission is 6 times higher than FUV emission
+    + Plus, they have another peak in the FIR
+    + The total flux is 2.17e-2 erg/cm^2/s from Mathis:1983a
+      + This means that the FUV flux is 0.074 times the total
 + Habing FUV version
   + F(Habing) = 1.6e-3 erg/s/cm^2
   + They find G values from 300 to 3e4
   + Using F = L / 4 \pi R^2, we get G = 200 L_{4} R_{pc}^{-2}
   + [ ] Need to compare this with their U to see how they are normalizing 
 
+
+**** What Kobulnicky are doing with their model fitting
++ They claim to be calculating U from their stellar parameters:
+  + U = \sigma T^{4} (R_{*}^{2} / R_{0}^{2}) / U_{0}
+  + where U_{0} = 2.17e-2 erg/cm^2/s
++ And they should have L = 4 \pi \sigma T^{4} R_{*}^{2}
+  + U = L / 4 \pi R_{*}^{2} U_{0}
+  + U = 14.7 L_{4} R_{pc}^{-2}
 
 
 

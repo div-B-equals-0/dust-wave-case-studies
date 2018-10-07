@@ -1,0 +1,52 @@
+1. File information
+-------------------
+
+<directories>
+   dark/         : contains neighbor dark frames for MIR-S and -L
+   stacked_IM/   : contains calibrated and stacked images
+
+<files>
+   ircpipeline.log  : process logs
+   README           : this file
+
+<history>
+   14-Apr-2015   : WCSROOT was updated.
+
+
+2. Observation summary
+----------------------
+
+   Target ID               : 1600091             
+   Sub ID                  : 001                 
+   Pointing ID             : 1600091             
+   Object Name             : vdBH-RN43                
+   Proposal ID             : AFSAS               
+   PI Name                 : Ueno Munetaka       
+   Observation Category    : MP                  
+   Target Position (R.A.)  : 161.475   [degree]
+   Target Position (Dec.)  : -59.949   [degree]
+   Observation AOT         : IRC02               
+   AOT Parameter           : a;N                 
+   IRC Mode                : MAIN                
+   Observation Start       : 2007-01-12T04:35:57 
+   Observation End         : 2007-01-12T05:05:57 
+
+   Please refer to the IRC Data Users Manual for deltails of
+   the summary information.
+
+
+3. Process summary
+------------------
+
+   MIR-S Ghost Warning         : Yes
+   MIR-S memory effect Warning : No
+   MIR-L memory effect Warning : No
+
+   Stacked Images Summary
+      Filt, Nall, Ncom, Shiftty, WCSROOT, WCSERR, WCSNS, RAcenter, DEcenter
+      L15      9     9  LusingS  WISE     1.3059      8  162.0687  -60.1268
+      L24     12    12  LusingS  AOCS        NaN      0  162.0707  -60.1279
+      N3       3     3  COADD    2MASS    0.3560     56  161.4349  -59.9313
+      N4       4     4  COADD    2MASS    0.3602     37  161.4373  -59.9315
+      S11     12    12  COADD    AOCS        NaN      0  161.4479  -59.9427
+      S7       9     9  COADD    WISE     0.5990     11  161.4519  -59.9446

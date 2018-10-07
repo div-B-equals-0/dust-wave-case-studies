@@ -14,6 +14,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 # %matplotlib inline
 import seaborn as sns
+sns.set_color_codes()
 
 # ### Read in bow shock data from Kobulnicky:2017a
 
@@ -41,6 +42,9 @@ for band in 'F3.6', 'F4.5', 'F5.8', 'F8.0', 'F70', 'F160':
 tab01
 
 tab02 = Table.read("data/Kobulnicky2017/J_AJ_154_201_table2.dat.fits")
+
+m = (tab02['RAh'] == 10)# & (tab01['RAm'] == 5)
+tab02[m]
 
 tab02.remove_columns(
    [
@@ -215,7 +219,7 @@ None
 # It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.  Assume $\kappa = 600$ and $a = 11.4$ km/s
 
 # +
-colnames = tt.colnames[0:5] + ['L4', 'R0', 'D_kpc']
+colnames = tt.colnames[0:5] + ['L4', 'LIR_will', 'R0', 'D_kpc', 'U']
 ttt = tt[colnames]
 ttt['tau'] = np.round(2*tt['LIR/L* will'], decimals=5)
 ttt['H/R'] =np.round(tt['Height'] / tt['R0_as'], decimals=2)
@@ -266,41 +270,58 @@ from scipy import stats
 # +
 df = ttt.to_pandas()
 df.set_index(keys='ID', inplace=True)
-columns = ['Teff', 'L4', 'R0', 'tau', 'n_shell', 'eta_obs']
+columns = ['D_kpc', 'Teff', 'R0', 'L4', 'LIR_will', 'tau', 'n_shell', 'eta_obs']
 pretty = [
+    r'$\log_{10}\ D / \mathrm{kpc}$', 
     r'$\log_{10}\ T_\mathrm{eff} / \mathrm{K}$', 
-    r'$\log_{10}\ L_* / 10^4 L_\odot$', 
     r'$\log_{10}\ R_0 / \mathrm{pc}$', 
+    r'$\log_{10}\ L_* / L_\odot$', 
+    r'$\log_{10}\ L_\mathrm{IR} / L_\odot$', 
+#    r'$\log_{10}\ F_\mathrm{IR} / \mathrm{erg\ s^{-1}\ cm^{-2}}$', 
     r'$\log_{10}\ \tau$', 
     r'$\log_{10}\ n_\mathrm{shell} / \mathrm{cm^{-3}}$', 
     r'$\log_{10}\ \eta_\mathrm{obs}$',     
 ]
 minmax = [ 
+    [-1.3, 0.7], # D
     [4.1, 4.7], # Teff
-    [-0.3, 2.3], # L4
     [-2.1, 0.4], # R0
+    [3.7, 6.3], # was L4 (but now just L/Lsun)
+    [0.3, 3.6], # LIR
+#    [-10.3, -6.7], # FIR
     [-3.8, -1.2], # tau
-    [-0.3, 3.1], # n_shell
+    [-0.5, 3.1], # n_shell
     [-3.5, -0.4], # eta_obs
 ]
 df = df.assign(**{col: np.log10(df[col]) for col in columns})
-df = df.assign(close=pd.Categorical((df['D_kpc'] < 1.5).astype('S5')))
+df = df.assign(
+    L4=4.0 + df.L4,
+    close=pd.Categorical((df['D_kpc'] < 1.5).astype('S5')),
+)
 
 def corrfunc(x, y, **kws):
-    r, _ = stats.pearsonr(x, y)
+    slope, intercept, rvalue, pvalue, stderr = stats.linregress(x, y)
+#    r, p = stats.pearsonr(x, y)
     ax = plt.gca()
-    if abs(r) > 0.3:
-        ax.annotate("$r = {:.2f}$".format(r),
-                    xy=(.1, .9), xycoords=ax.transAxes, fontsize='small')
+    if pvalue < 0.05:
+        fontcolor = 'k' if pvalue < 0.003 else 'k'
+        fontalpha = 1.0 if pvalue < 0.003 else 0.5
+        ax.annotate(f"$r = {rvalue:.2f}$",
+                    xy=(.05, .9), xycoords=ax.transAxes, 
+                    fontsize='small', color=fontcolor, alpha=fontalpha)
+        ax.annotate(rf"$m = {slope:.2f} \pm {stderr:.2f}$",
+                    xy=(.95, .05), ha='right', xycoords=ax.transAxes, 
+                    fontsize='small', color=fontcolor, alpha=fontalpha)
+
     
-with sns.plotting_context('talk', font_scale=0.9):
+with sns.plotting_context('talk', font_scale=1.0):
     g = sns.pairplot(df, vars=columns, 
                      diag_kind='hist', 
 #             diag_kind='kde',
 #             hue='close', 
                      kind='reg',
                      plot_kws=dict(scatter_kws=dict(edgecolor='w')),
-                     diag_kws=dict(bins=5),
+                     diag_kws=dict(bins=6),
                     )
     g.map_offdiag(corrfunc)
     for j, [[v1, v2], label] in enumerate(zip(minmax, pretty)):
@@ -314,26 +335,71 @@ with sns.plotting_context('talk', font_scale=0.9):
 
 # Some observations about these correlations:
 #
-# 1. The basic parameters are $T_\mathrm{eff}$, $L_*$, $R_0$, and $\tau$.  In principle, observational errors in these should all be independent, so any correlations between them are real. 
-# 2. **Possible exception:** $\tau$ is found from $L_\mathrm{IR}/L_*$, so errors in $L_*$ would give negative $\tau$–$L_*$ correlation, but they seem to be uncorrelated so we are probably OK.  
+# 1. The basic observational parameters are $D$, $T_\mathrm{eff}$, $R_0$, $L_*$, $L_\mathrm{IR}$.  In principle, observational errors in these should all be independent, so any correlations between them are real. 
+#     1. The first three are the best determined, and there are no significant corrlations between them.
+#     2. The luminosities might potentially suffer from Malmquist bias, but there is no evidence for this in the case of $L_*$ since low luminosities are seen at the largest distance.  In the case of $L_\mathrm{IR}$, there is a slight increasing trend with distance, which might indicate bias, but it is only marginally significant.
+#     3. $R_0$ could also be Malmquist biased due to angular resolution, but there is no trend in $R_0$–$D$, so it seems not.  This is probably because the smallest bows in this subsample have angular sizes $> 4''$ and are still just resolved at Carina at 8 micron (Spitzer has $2''$ resolution at 8 micron).
+#
+# 2. $\tau$ is found from $L_\mathrm{IR}/L_*$, meaning that errors in $L_*$ would give negative $\tau$–$L_*$ correlation, but they seem to be uncorrelated so we are probably OK.  
+#
 # 3. If $L_*$ were determined from photometry, then any distance errors would give a spurious $R_0 \propto L_*^{1/2}$ correlation.  **So it is a good job that it is found from spectral classification instead**.  Also, the distances should be reliable.
+#
 # 4. What we actually see is a linear $R_0 \propto L_*$ correlation.  This is the most significant correlation of all ($r = 0.79$), implying that >60% of the variation in $R_0$ is driven by the stellar luminosity, leaving only 40% left for the environment (and other stellar properties). 
+#
 # 5. We also have a moderate correlation between $L_*$ and $T_\mathrm{eff}$, which is clearly because half the stars are MS, with a tight correlation, and the other half are evolved
-#     
+#
+# 6. Other strong correlations:
+#     1. $L_\mathrm{IR}$–$L_*$: approximately linear, explaining 45% in variance of $L_\mathrm{IR}$.  This means that there is no trend in $\tau$ with $L_*$
+#     2. $\tau$–$L_\mathrm{IR}$ is very well correlated with $m \approx -1$.  **However**, this is exactly what you would get if the dispersion about the linear $L_\mathrm{IR}$–$L_*$ trend were entirely due to measurement errors in $L_\mathrm{IR}$.  Hopefully, that is not the case, but it needs checking.  The std dev of log $\tau$ is about 0.5 dex (the same is true of nearly all the parameters, except for $T_\mathrm{eff}$).
 #
 
 df.describe()
 
-kappa * H_R * ttt['R0']*u.parsec.to(u.cm)
+# As an aside, we will compare my $G$ with their $U$
 
-np.array(ttt['tau'])*(cs**2 / (const.k_B*kappa * H_R * ttt['R0']*u.parsec)).cgs
+ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
+ddf = ttt['ID', 'U', 'G'].to_pandas()
+fig, ax = plt.subplots(figsize=(10, 10))
+vmin, vmax = 150, 4e5
+ax.scatter(x='U', y='G', data=ddf)
+ax.plot([vmin, vmax], [vmin, vmax])
+for id_, x, y in zip(ttt['ID'], ttt['U'], ttt['G']):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(4,4), textcoords='offset points',
+               )
+ax.set(xscale='log', yscale='log', 
+       xlim=[vmin, vmax], ylim=[vmin, vmax],
+       xlabel='U 2017', ylabel='U 2018',
+      )
+ax.set_aspect('equal')
 
-(const.k_B*u.K/u.cm**3).cgs
+ddf['log U/U'] = np.log10(ddf.U/ddf.G)
+ddf.describe()
 
-np.array(ttt['tau'])/(ttt['R0']*u.pc).cgs
+# So this seems to be a discrepancy between their U column and their new luminosities. So maybe I shouldn't worry about it.
 
-(1e4*const.L_sun*ttt['L4'] / (4*np.pi * (ttt['R0']*u.pc)**2 * const.c * const.k_B)).cgs
+from astropy.table import QTable
+ltab = QTable(tt['ID', 'Teff', 'R*', 'L4'], masked=False)
+ltab['L2017'] = (4*np.pi*ltab['R*']**2 * const.sigma_sb*ltab['Teff']**4).to(u.Lsun)
+ltab['L4'] = ltab['L4']*1e4*u.Lsun
+ltab
 
-ttt['P_k_shell'].data/ttt['P_k_rad'].data
+fig, ax = plt.subplots(figsize=(10, 10))
+vmin, vmax = 3e3, 2e6
+ax.scatter(ltab['L2017'], ltab['L4'])
+for id_, x, y in zip(ltab['ID'], ltab['L2017'].data, ltab['L4'].data):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(4,4), textcoords='offset points',
+               )
+ax.plot([vmin, vmax], [vmin, vmax])
+ax.set(xscale='log', yscale='log', 
+       xlim=[vmin, vmax], ylim=[vmin, vmax],
+       xlabel='L2017', ylabel='L2018',
+      )
+ax.set_aspect('equal')
+
+# Not the same!  But 
 
 
