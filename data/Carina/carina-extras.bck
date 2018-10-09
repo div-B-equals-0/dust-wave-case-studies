@@ -111,9 +111,9 @@ Frame1 clip zscale contrast 0.25
 Frame1 clip zscale sample 600
 Frame1 clip zscale line 120
 Frame1 pan preserve 0
-Frame1 pan to physical  -2086.6775 5013.36 
+Frame1 pan to physical  -2110.6628 4790.343 
 Frame1 3d view point 0 0 0 0 0
-Frame1 zoom to  0.51119678 0.51119678 
+Frame1 zoom to  0.42599742 0.42599742 
 Frame1 rotate to 0
 Frame1 orient none
 Frame1 wcs align 1
@@ -170,9 +170,9 @@ Frame2 clip zscale contrast 0.25
 Frame2 clip zscale sample 600
 Frame2 clip zscale line 120
 Frame2 pan preserve 0
-Frame2 pan to physical  -509.09396 1229.2646 
+Frame2 pan to physical  -514.98278 1174.6493 
 Frame2 3d view point 0 0 0 0 0
-Frame2 zoom to  2.0873465 2.0873465 
+Frame2 zoom to  1.7394558 1.7394558 
 Frame2 rotate to 0
 Frame2 orient none
 Frame2 wcs align 1
@@ -228,9 +228,9 @@ Frame3 clip zscale contrast 0.25
 Frame3 clip zscale sample 600
 Frame3 clip zscale line 120
 Frame3 pan preserve 0
-Frame3 pan to physical  2647.1233 2164.2315 
+Frame3 pan to physical  2635.5662 2067.048 
 Frame3 3d view point 0 0 0 0 0
-Frame3 zoom to  1.1714692 1.1714692 
+Frame3 zoom to  0.97622455 0.97622455 
 Frame3 rotate to 0
 Frame3 orient none
 Frame3 wcs align 1
@@ -286,9 +286,9 @@ Frame4 clip zscale contrast 0.25
 Frame4 clip zscale sample 600
 Frame4 clip zscale line 120
 Frame4 pan preserve 0
-Frame4 pan to physical  2647.1233 2164.2315 
+Frame4 pan to physical  2635.5662 2067.048 
 Frame4 3d view point 0 0 0 0 0
-Frame4 zoom to  1.1714692 1.1714692 
+Frame4 zoom to  0.97622455 0.97622455 
 Frame4 rotate to 0
 Frame4 orient none
 Frame4 wcs align 1
@@ -344,9 +344,9 @@ Frame5 clip zscale contrast 0.25
 Frame5 clip zscale sample 600
 Frame5 clip zscale line 120
 Frame5 pan preserve 0
-Frame5 pan to physical  2647.1233 2164.2315 
+Frame5 pan to physical  2635.5662 2067.048 
 Frame5 3d view point 0 0 0 0 0
-Frame5 zoom to  1.1714692 1.1714692 
+Frame5 zoom to  0.97622455 0.97622455 
 Frame5 rotate to 0
 Frame5 orient none
 Frame5 wcs align 1
@@ -402,9 +402,9 @@ Frame6 clip zscale contrast 0.25
 Frame6 clip zscale sample 600
 Frame6 clip zscale line 120
 Frame6 pan preserve 0
-Frame6 pan to physical  -2086.6775 5013.36 
+Frame6 pan to physical  -2110.6628 4790.343 
 Frame6 3d view point 0 0 0 0 0
-Frame6 zoom to  0.51119678 0.51119678 
+Frame6 zoom to  0.42599742 0.42599742 
 Frame6 rotate to 0
 Frame6 orient none
 Frame6 wcs align 1
@@ -460,9 +460,9 @@ Frame7 clip zscale contrast 0.25
 Frame7 clip zscale sample 600
 Frame7 clip zscale line 120
 Frame7 pan preserve 0
-Frame7 pan to physical  -2086.6775 5013.36 
+Frame7 pan to physical  -2110.6628 4790.343 
 Frame7 3d view point 0 0 0 0 0
-Frame7 zoom to  0.51119678 0.51119678 
+Frame7 zoom to  0.42599742 0.42599742 
 Frame7 rotate to 0
 Frame7 orient none
 Frame7 wcs align 1
@@ -578,9 +578,9 @@ Frame8 clip zscale sample 600
 Frame8 clip zscale line 120
 Frame8 rgb channel red
 Frame8 pan preserve 0
-Frame8 pan to physical  -2086.6775 5013.36 
+Frame8 pan to physical  -2110.6628 4790.343 
 Frame8 3d view point 0 0 0 0 0
-Frame8 zoom to  0.51119678 0.51119678 
+Frame8 zoom to  0.42599742 0.42599742 
 Frame8 rotate to 0
 Frame8 orient none
 Frame8 wcs align 1
@@ -714,9 +714,9 @@ Frame9 clip zscale sample 600
 Frame9 clip zscale line 120
 Frame9 rgb channel green
 Frame9 pan preserve 0
-Frame9 pan to physical  2647.1233 2164.2315 
+Frame9 pan to physical  2635.5662 2067.048 
 Frame9 3d view point 0 0 0 0 0
-Frame9 zoom to  2.0873465 2.0873465 
+Frame9 zoom to  1.7394558 1.7394558 
 Frame9 rotate to 0
 Frame9 orient none
 Frame9 wcs align 1
@@ -784,8 +784,8 @@ Frame10 rgb channel green
 Frame10 cube axes 123
 Frame10 rgb channel blue
 Frame10 cube axes 123
-Frame10 rgb channel red
-Frame10 rgb channel red
+Frame10 rgb channel green
+Frame10 rgb channel green
 Frame10 rgb view 1 1 1
 Frame10 rgb system wcs
 Frame10 3d view 0 0
@@ -815,12 +815,12 @@ Frame10 bin filter {""}
 Frame10 bin buffer size 1024
 Frame10 bin about  0 0 
 Frame10 bin function sum
-Frame10 rgb channel red
+Frame10 rgb channel green
 Frame10 rgb channel red
 Frame10 colorscale log
 Frame10 colorscale log 100
 Frame10 datasec 1
-Frame10 clip user  0.1 10 
+Frame10 clip user  0.01 10 
 Frame10 clip mode user
 Frame10 clip scope global
 Frame10 clip minmax mode scan
@@ -849,11 +849,11 @@ Frame10 clip minmax mode scan
 Frame10 clip zscale contrast 0.25
 Frame10 clip zscale sample 600
 Frame10 clip zscale line 120
-Frame10 rgb channel red
+Frame10 rgb channel green
 Frame10 pan preserve 0
-Frame10 pan to physical  681.90614 2011.2315 
+Frame10 pan to physical  677.27612 1969.4326 
 Frame10 3d view point 0 0 0 0 0
-Frame10 zoom to  2.7263283 2.7263283 
+Frame10 zoom to  2.2719408 2.2719408 
 Frame10 rotate to 0
 Frame10 orient none
 Frame10 wcs align 1
@@ -863,11 +863,11 @@ Frame10 rgb channel green
 Frame10 block to  1 1 
 Frame10 rgb channel blue
 Frame10 block to  1 1 
-Frame10 rgb channel red
+Frame10 rgb channel green
 Frame10 rgb channel red
 Frame10 rgb channel green
 Frame10 rgb channel blue
-Frame10 rgb channel red
+Frame10 rgb channel green
 Frame10 marker load ds9 {"./carina-extras.bck.dir/Frame10/ds9.reg"}
 Frame10 marker centroid radius 10
 Frame10 marker centroid iteration 30
@@ -878,11 +878,11 @@ Frame10 mask transparency 0
 Frame10 rgb channel red
 Frame10 rgb channel green
 Frame10 rgb channel blue
-Frame10 rgb channel red
+Frame10 rgb channel green
 Frame10 rgb channel red
 Frame10 rgb channel green
 Frame10 rgb channel blue
-Frame10 rgb channel red
+Frame10 rgb channel green
 CreateNameNumberFrame Frame11 base
 global loadParam
 array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Spitzer-MIPS/0001_161.02083000_-59.56111000_30002561.30002561-27972.MIPS.1.median_mosaic.fits file,mode {} load,type mmapincr file,type fits]
@@ -928,9 +928,9 @@ Frame11 clip zscale contrast 0.25
 Frame11 clip zscale sample 600
 Frame11 clip zscale line 120
 Frame11 pan preserve 0
-Frame11 pan to physical  319.90604 984.2646 
+Frame11 pan to physical  314.01722 929.64931 
 Frame11 3d view point 0 0 0 0 0
-Frame11 zoom to  2.0873465 2.0873465 
+Frame11 zoom to  1.7394558 1.7394558 
 Frame11 rotate to 0
 Frame11 orient none
 Frame11 wcs align 1
@@ -943,7 +943,7 @@ Frame11 mask mark 1
 Frame11 mask transparency 0
 CreateNameNumberFrame Frame12 base
 global loadParam
-array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Akari/MIR/AKARI_IRC_6171001_001_201503/stacked_IM/6171001_001_L24_long.fits file,mode {} load,type mmapincr file,type fits]
+array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Akari/MIR/AKARI_IRC_1650296_001_201503/stacked_IM/1650296_001_L15_long.fits file,mode {} load,type mmapincr file,type fits]
 if [BackupFindFile loadParam] {
   ProcessLoad
 }
@@ -986,9 +986,9 @@ Frame12 clip zscale contrast 0.25
 Frame12 clip zscale sample 600
 Frame12 clip zscale line 120
 Frame12 pan preserve 0
-Frame12 pan to physical  178.02375 99.373909 
+Frame12 pan to physical  -1963.0135 -901.45308 
 Frame12 3d view point 0 0 0 0 0
-Frame12 zoom to  1.0155574 1.0155574 
+Frame12 zoom to  0.84728209 0.84812573 
 Frame12 rotate to 0
 Frame12 orient none
 Frame12 wcs align 1
@@ -1037,8 +1037,8 @@ Frame13 rgb channel green
 Frame13 cube axes 123
 Frame13 rgb channel blue
 Frame13 cube axes 123
-Frame13 rgb channel blue
-Frame13 rgb channel blue
+Frame13 rgb channel green
+Frame13 rgb channel green
 Frame13 rgb view 1 1 1
 Frame13 rgb system wcs
 Frame13 3d view 0 0
@@ -1068,7 +1068,7 @@ Frame13 bin filter {""}
 Frame13 bin buffer size 1024
 Frame13 bin about  0 0 
 Frame13 bin function sum
-Frame13 rgb channel blue
+Frame13 rgb channel green
 Frame13 rgb channel red
 Frame13 colorscale linear
 Frame13 colorscale log 100
@@ -1102,11 +1102,11 @@ Frame13 clip minmax mode scan
 Frame13 clip zscale contrast 0.25
 Frame13 clip zscale sample 600
 Frame13 clip zscale line 120
-Frame13 rgb channel blue
+Frame13 rgb channel green
 Frame13 pan preserve 0
-Frame13 pan to physical  203.75165 132.2771 
+Frame13 pan to physical  161.07944 93.5521 
 Frame13 3d view point 0 0 0 0 0
-Frame13 zoom to  1.0155573 1.0155573 
+Frame13 zoom to  0.84629795 0.84629795 
 Frame13 rotate to 0
 Frame13 orient none
 Frame13 wcs align 1
@@ -1116,11 +1116,11 @@ Frame13 rgb channel green
 Frame13 block to  1 1 
 Frame13 rgb channel blue
 Frame13 block to  1 1 
-Frame13 rgb channel blue
+Frame13 rgb channel green
 Frame13 rgb channel red
 Frame13 rgb channel green
 Frame13 rgb channel blue
-Frame13 rgb channel blue
+Frame13 rgb channel green
 Frame13 marker load ds9 {"./carina-extras.bck.dir/Frame13/ds9.reg"}
 Frame13 marker centroid radius 10
 Frame13 marker centroid iteration 30
@@ -1133,11 +1133,11 @@ Frame13 mask transparency 0
 Frame13 rgb channel red
 Frame13 rgb channel green
 Frame13 rgb channel blue
-Frame13 rgb channel blue
+Frame13 rgb channel green
 Frame13 rgb channel red
 Frame13 rgb channel green
 Frame13 rgb channel blue
-Frame13 rgb channel blue
+Frame13 rgb channel green
 CreateNameNumberFrame Frame14 rgb
 Frame14 rgb channel red
 global loadParam
@@ -1243,9 +1243,9 @@ Frame14 clip zscale sample 600
 Frame14 clip zscale line 120
 Frame14 rgb channel blue
 Frame14 pan preserve 0
-Frame14 pan to physical  178.18739 104.32373 
+Frame14 pan to physical  135.51341 70.305979 
 Frame14 3d view point 0 0 0 0 0
-Frame14 zoom to  1.0155574 1.0155574 
+Frame14 zoom to  0.84629807 0.84629807 
 Frame14 rotate to 0
 Frame14 orient none
 Frame14 wcs align 1
@@ -1276,10 +1276,184 @@ Frame14 rgb channel red
 Frame14 rgb channel green
 Frame14 rgb channel blue
 Frame14 rgb channel blue
+CreateNameNumberFrame Frame15 base
+global loadParam
+array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Akari/MIR/AKARI_IRC_6170001_001_201503/stacked_IM/6170001_001_L15_long.fits file,mode {} load,type mmapincr file,type fits]
+if [BackupFindFile loadParam] {
+  ProcessLoad
+}
+Frame15 magnifier graphics 1
+Frame15 magnifier cursor 1
+Frame15 magnifier zoom 4
+Frame15 magnifier color #ff8000
+Frame15 colorbar tag "{}"
+colorbar tag "{}"
+set sav [colorbar get colorbar]
+colorbar colorbar 1 0.5 1 0
+Frame15 colormap [colorbar get colormap]
+colorbar colorbar $sav
+Frame15 bg color #808080
+Frame15 nan color #804020
+Frame15 cube axes 123
+Frame15 rgb channel red
+Frame15 rgb view 1 1 1
+Frame15 rgb system image
+Frame15 3d view 0 0
+Frame15 3d scale 1
+Frame15 3d method mip
+Frame15 3d highlite 1
+Frame15 3d border 1
+Frame15 3d background none
+Frame15 bin factor to  1 1 
+Frame15 bin depth 1
+Frame15 bin filter {""}
+Frame15 bin buffer size 1024
+Frame15 bin about  0 0 
+Frame15 bin function sum
+Frame15 colorscale linear
+Frame15 colorscale log 100
+Frame15 datasec 1
+Frame15 clip user  -1088.195 1361.3623 
+Frame15 clip mode user
+Frame15 clip scope global
+Frame15 clip minmax mode scan
+Frame15 clip zscale contrast 0.25
+Frame15 clip zscale sample 600
+Frame15 clip zscale line 120
+Frame15 pan preserve 0
+Frame15 pan to physical  -1587.5148 -749.8697 
+Frame15 3d view point 0 0 0 0 0
+Frame15 zoom to  0.84629786 0.84629786 
+Frame15 rotate to 0
+Frame15 orient none
+Frame15 wcs align 1
+Frame15 block to  1 1 
+Frame15 marker centroid radius 10
+Frame15 marker centroid iteration 30
+Frame15 wcs wcs fk5 sexagesimal
+Frame15 mask color red
+Frame15 mask mark 1
+Frame15 mask transparency 0
+CreateNameNumberFrame Frame16 base
+global loadParam
+array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Akari/MIR/AKARI_IRC_6170005_001_201503/stacked_IM/6170005_001_L15_long.fits file,mode {} load,type mmapincr file,type fits]
+if [BackupFindFile loadParam] {
+  ProcessLoad
+}
+Frame16 magnifier graphics 1
+Frame16 magnifier cursor 1
+Frame16 magnifier zoom 4
+Frame16 magnifier color #ff8000
+Frame16 colorbar tag "{}"
+colorbar tag "{}"
+set sav [colorbar get colorbar]
+colorbar colorbar 1 0.5 1 0
+Frame16 colormap [colorbar get colormap]
+colorbar colorbar $sav
+Frame16 bg color #808080
+Frame16 nan color #804020
+Frame16 cube axes 123
+Frame16 rgb channel red
+Frame16 rgb view 1 1 1
+Frame16 rgb system image
+Frame16 3d view 0 0
+Frame16 3d scale 1
+Frame16 3d method mip
+Frame16 3d highlite 1
+Frame16 3d border 1
+Frame16 3d background none
+Frame16 bin factor to  1 1 
+Frame16 bin depth 1
+Frame16 bin filter {""}
+Frame16 bin buffer size 1024
+Frame16 bin about  0 0 
+Frame16 bin function sum
+Frame16 colorscale linear
+Frame16 colorscale log 100
+Frame16 datasec 1
+Frame16 clip user  -1304.7352 2538.0241 
+Frame16 clip mode user
+Frame16 clip scope global
+Frame16 clip minmax mode scan
+Frame16 clip zscale contrast 0.25
+Frame16 clip zscale sample 600
+Frame16 clip zscale line 120
+Frame16 pan preserve 0
+Frame16 pan to physical  -1632.1029 -750.41916 
+Frame16 3d view point 0 0 0 0 0
+Frame16 zoom to  0.84629808 0.84629808 
+Frame16 rotate to 0
+Frame16 orient none
+Frame16 wcs align 1
+Frame16 block to  1 1 
+Frame16 marker centroid radius 10
+Frame16 marker centroid iteration 30
+Frame16 wcs wcs fk5 sexagesimal
+Frame16 mask color red
+Frame16 mask mark 1
+Frame16 mask transparency 0
+CreateNameNumberFrame Frame17 base
+global loadParam
+array set loadParam [list load,layer {} file,name /Users/will/Dropbox/dust-wave-case-studies/data/Carina/Akari/MIR/AKARI_IRC_6170006_001_201503/stacked_IM/6170006_001_L15_long.fits file,mode {} load,type mmapincr file,type fits]
+if [BackupFindFile loadParam] {
+  ProcessLoad
+}
+Frame17 magnifier graphics 1
+Frame17 magnifier cursor 1
+Frame17 magnifier zoom 4
+Frame17 magnifier color #ff8000
+Frame17 colorbar tag "{}"
+colorbar tag "{}"
+set sav [colorbar get colorbar]
+colorbar colorbar 1 0.5 1 0
+Frame17 colormap [colorbar get colormap]
+colorbar colorbar $sav
+Frame17 bg color #808080
+Frame17 nan color #804020
+Frame17 cube axes 123
+Frame17 rgb channel red
+Frame17 rgb view 1 1 1
+Frame17 rgb system image
+Frame17 3d view 0 0
+Frame17 3d scale 1
+Frame17 3d method mip
+Frame17 3d highlite 1
+Frame17 3d border 1
+Frame17 3d background none
+Frame17 bin factor to  1 1 
+Frame17 bin depth 1
+Frame17 bin filter {""}
+Frame17 bin buffer size 1024
+Frame17 bin about  0 0 
+Frame17 bin function sum
+Frame17 colorscale linear
+Frame17 colorscale log 100
+Frame17 datasec 1
+Frame17 clip user  -740.46775 3105.058 
+Frame17 clip mode user
+Frame17 clip scope global
+Frame17 clip minmax mode scan
+Frame17 clip zscale contrast 0.25
+Frame17 clip zscale sample 600
+Frame17 clip zscale line 120
+Frame17 pan preserve 0
+Frame17 pan to physical  -1608.8316 -794.01657 
+Frame17 3d view point 0 0 0 0 0
+Frame17 zoom to  0.84629781 0.84629781 
+Frame17 rotate to 0
+Frame17 orient none
+Frame17 wcs align 1
+Frame17 block to  1 1 
+Frame17 marker centroid radius 10
+Frame17 marker centroid iteration 30
+Frame17 wcs wcs fk5 sexagesimal
+Frame17 mask color red
+Frame17 mask mark 1
+Frame17 mask transparency 0
 global pds9
 array set pds9 { nan,msg #332244 dialog native text,font courier samp 1 font,msg Helvetica iraf 1 threads 12 font,weight normal automarker 1 bg,msg Black language locale text,font,weight normal dialog,all 0 nan #804020 font,slant roman confirm 1 backup 0 language,dir {} font helvetica language,name {} bg #808080 xpa 1 theme native text,font,msg Courier tcl 0 dialog,center 0 font,size 13 text,font,slant roman text,font,size 11 }
 global current
-array set current { colorbar colorbarrgb orient none zoom { 1.0155573 1.0155573 } mode region ext {} display single cursor {} align 1 rotate 0 rgb blue frame Frame13 }
+array set current { colorbar colorbarrgb orient none zoom { 0.84629795 0.84629795 } mode region ext {} display single cursor {} align 1 rotate 0 rgb green frame Frame13 }
 global pcurrent
 array set pcurrent { orient none zoom { 1 1 } mode none display single align 0 rotate 0 }
 global view
@@ -1333,7 +1507,7 @@ array set ppanzoom { wheel,factor 1.2 preserve 0 wheel 1 mode click }
 global crop
 array set crop { skyformat sexagesimal rcoord wcs dformat degrees system wcs lock none dcoord wcs sky fk5 }
 global scale
-array set scale { lock 0 type linear scope global log 100 min -489.06231 bins 512 xaxis full mode user datasec 1 max 2468.7365164879047 yaxis log lock,limits 0 }
+array set scale { lock 0 type linear scope global log 100 min -740.4677490193353 bins 512 xaxis full mode user datasec 1 max 3105.058 yaxis log lock,limits 0 }
 global pscale
 array set pscale { datasec 1 mode minmax scope global log 1000 type linear }
 global minmax
@@ -1371,7 +1545,7 @@ array set mask { transparency 0 mark 1 color red }
 global pmask
 array set pmask { transparency 0 color red mark 1 }
 global contour
-array set contour { numlevel 5 scale linear init,scale 0 method block view 0 copy {} dash 0 width 1 color,msg Green smooth 4 log 100 init,limits 0 min -450 mode user init,mode 0 max 2264.4505 color green }
+array set contour { numlevel 5 scale linear init,scale 0 method block view 0 copy {} dash 0 width 1 color,msg Green smooth 4 log 100 init,limits 0 min -347.62911 mode user init,mode 0 max 2533.3504 color green }
 global pcontour
 array set pcontour { numlevel 5 dash 0 width 1 method block color,msg Green smooth 4 color green view 0 }
 global grid
@@ -1415,4 +1589,4 @@ array set pap { legend,position right axis,x,flip 0 show 1 quadratic 0 textlabSl
 global panalysis
 array set panalysis { user2 {} autoload 1 user3 {} log 0 user4 {} user {} }
 global active
-array set active { Frame14 1 Frame5 1 Frame6 1 Frame7 1 Frame8 1 Frame9 1 Frame1 1 Frame10 1 Frame2 1 Frame11 1 Frame3 1 Frame12 1 Frame13 1 Frame4 1 }
+array set active { Frame14 1 Frame5 1 Frame15 1 Frame6 1 Frame16 1 Frame7 1 Frame17 1 Frame8 1 Frame9 1 Frame1 1 Frame10 1 Frame2 1 Frame11 1 Frame3 1 Frame12 1 Frame13 1 Frame4 1 }

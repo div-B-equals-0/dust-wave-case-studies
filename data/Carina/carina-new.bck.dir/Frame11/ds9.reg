@@ -1,0 +1,8 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+# projection(159.95034,-59.789431,160.15052,-59.814936,3.7722447")
+# projection(160.02589,-59.865229,160.07959,-59.759481,9.4102635")
+# ruler(160.05049,-59.804912,160.05948,-59.805816) ruler=fk5 arcsec color=yellow
+# ruler(160.06182,-59.809252,160.06774,-59.799124) ruler=fk5 arcsec color=yellow
+# ruler(160.05642,-59.800029,160.06181,-59.80039) ruler=fk5 arcsec color=yellow

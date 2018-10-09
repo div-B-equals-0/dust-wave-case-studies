@@ -1,0 +1,13 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+box(161.18275,-59.356064,60",60",0) # text={ERO 5}
+box(161.00377,-59.596122,60",60",0) # text={ERO 2}
+box(161.02128,-59.561519,60",60",0) # text={ERO 21}
+box(161.12577,-59.436867,60",60",0) # text={ERO 23}
+box(161.02411,-59.586319,60",60",0) # text={ERO 22}
+box(161.54802,-58.653169,300",300",0) # text={ERO 29}
+box(161.91205,-60.617903,120",120",0) # text={ERO 37}
+box(160.05159,-59.802869,120",120",0) # text={ERO 36}
+box(160.80075,-59.015056,60",60",0) # text={ERO 16}
+# ruler(160.80415,-59.015463,160.8008,-59.016702) ruler=fk5 arcsec

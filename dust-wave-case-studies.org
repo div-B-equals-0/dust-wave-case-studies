@@ -16,6 +16,62 @@ Case studies of interesting objects for inclusion in bow paper II
 * Selection criteria
 + High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
 + Prefer B stars to O stars, since then it is easy to get dust waves (gas--grain separation)
+
+
+* Open questions
+** Determining shell pressure from MIR observations
+*** 70 micron peak brightness method
++ Kobulnicky 2018 do this using the Peak 70 micron emission from Herschel
+  + Values are 4.6 \to 90 in units of 10^7 Jy/sr (median about 20)
+    + So, 200 MJy/sr or \nu I_\nu = 0.008 erg/s/cm^2/sr
+  + Observationally, this is problematic since 70 micron 
++ ERO 21 has 4.5 Jy/pix = 18700 MJy/sr
+  + 20 times higher than highest (900) in K18 sample
+  + Background is 1.5 Jy/pix = 6230 MJy/sr
+    + Confirmed with Akari 65 micron, although the source itself has disappeared (maybe point sources have been removed).  Also, Akari is roughly 25% brighter across the board
++ ERO 5 has 0.025 Jy/pix = 100 MJy/sr but with large errors because of bright BG
+  + This is the same as source 407 in K18, which gives 582 MJy/sr as peak brightness, which would be 0.14 Jy/pixel
+  + Background is 0.45 Jy/pixel, so they are saying there is an excess of 30% of BG
+  + Re-looking at the cuts, I think 0.14 is just about allowable if we assume that the BG falls off at the position of the bow, but that is extreme special pleading
++ ERO 36 or K18 406
+  + The 70 micron emission can be measured more reliably in this object, since it has a better contrast with the continuum
+    + 0.32 peak - 0.24 +/- 0.01 bg = 0.08 Jy/pix = 330 MJy/sr
+    + K18 have 291 MJy/sr, so we actually agree!
+    + BG is about 1000 MJy/sr at both 70 and 160 micron
+    + So that is 57 times lower than for ERO 21
+    + 
+* MIR spectra of H II regions
++ Lots of times when people talk about H II region, what they really mean is PDRs and PAHs
++ But there are some real spectra of real ionized gas
++ They show *no* PAH emission, but strong VSG continuum
++ Also occasionally Silicate emission at 10 and 20 micron
++ And occasionally an emission band at 23 micron, possibly from FeO (see Koike:2017a)
++ Examples
+  + NGC 3603 Lebouteiller:2007a
+    + VSG emission is measured from continuum at 14 micron
+    + Anticorrelates with PAH emission
+    + VSG/PAH is high within 4 pc of star cluster
+    + Intensity correlates with intensity of [S IV] line
+    + PAH/VSG falls with [S IV]/[Ne II], which they call "hardness", but is really a proxy for ionization parameter
+    + MIR diagnostic diagram
+      + 6.2 micron PAH/6 micron continuum on x axis
+      + 13.8/6 continuum ratio on y axis
+      + Ionized region has y constant at about 40
+      + Values of x range from about 0.3 to 1.0 (and then higher, as you go into the PDR)
+
+* Conversions
++ Many maps use MJy/sr as brightness unit
+  + Kobulnicky:2018a uses 10^7 Jy/sr
++ Salgado plots surface brightness SEDs as \nu I_\nu in erg/s/cm^2/sr
+  + 1 Jy = 1e-23 erg/s/cm^2/Hz
+  + \nu = c / \lambda = 2.99792458e14  / \lambda(micron)
+  + So, 1 MJy/sr means that \nu I_\nu = (0.003 / \lambda_\mu) erg/s/cm^2/sr
++ Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec
+  + 1 Jy/pixel = 4155 MJy/sr
+  + 1 Jy/pixel @ 70 micron = 0.178 erg/s/cm^2/sr
++ Flux in Jy
+  + In each square arc second: 1 MJy/sr means 2.35e-5 Jy
+  + In each square arc minute: 1 MJy/sr means 0.0846 Jy
 * Particular objects
 ** OB bowshocks in Orion Nebula
 *** LP Ori
@@ -715,45 +771,69 @@ We have up to 8 micron
   + Pixel Widths: 11 x 25
   + Total flux: 8.46e-6 11 25 (1800 - 250) = 3.61 Jy
 + Measure some more
-  | Source | Band       |    \mu{}m | Peak | BG           | Size        | Flux               |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 5  | IRAC 4     | 7.872 |  170 | 65 +/- 5     | 7*21*0.6**2 | 0.1306 +/- 0.0062  |
-  |        | IRAC 3     | 5.731 |   30 | 17 +/- 4     | 7*21*0.6**2 | 0.0162 +/- 0.0050  |
-  |        | IRAC 2     | 4.493 |    7 | 5 +/- 1.5    | 7*21*0.6**2 | 0.0025 +/- 0.0019  |
-  |        | MIPS 1     | 23.68 | 1145 | 400 +/- 100  | 5*24        | 2.1013 +/- 0.2820  |
-  |        | IRAC 4     | 7.872 |  147 | 65 +/- 5     | 5*24        | 0.2313 +/- 0.0141  |
-  |        | IRAC 3     | 5.731 |   27 | 17 +/- 4     | 5*24        | 0.0282 +/- 0.0113  |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 21 | IRAC 4     | 7.872 | 1950 | 250 +/- 50   | 11*25       | 10.9881 +/- 0.3232 |
-  |        | IRAC 3     | 5.731 |  720 | 55 +/- 5     | 11*25       | 4.2983 +/- 0.0323  |
-  |        | IRAC 2     | 4.493 |   83 | 10 +/- 6     | 11*25       | 0.4718 +/- 0.0388  |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 36 | MIPS 1     | 23.68 |  427 | 120 +/- 20   | 12*40       | 3.4635 +/- 0.2256  |
-  |        | IRAC 4     | 7.872 |   47 | 40 +/- 4     | 12*40       | 0.0790 +/- 0.0564  |
-  |        | WISE 3     |    12 | 1830 | 1100 +/- 100 | 20*40       | 13.7263 +/- 1.8803 |
-  |        | WISE 4     |    22 |  430 | 280 +/- 30   | 20*40       | 2.8205 +/- 0.5641  |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 37 | PACS B     |    70 |      |              |             |                    |
-  |        | WISE 4     |    22 |      |              |             |                    |
-  |        | Akari L15  |    15 |      |              |             |                    |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 29 | PACS B     |    70 |      |              |             |                    |
-  |        |            |       |      |              |             |                    |
-  |--------+------------+-------+------+--------------+-------------+--------------------|
-  | ERO 16 | Akari L24  |       |      |              |             |                    |
-  |        | Akari L18W |       |      |              |             |                    |
-  |        | Akari L15  |       |      |              |             |                    |
-  #+TBLFM: $7=2.3504e-5 ($4 - $5) $6 ; f4
+  | Source | Band       |    \mu{}m |  Peak | BG             |    Bunit | Size  | Sunit | Flux                 | BG in MJy/sr    |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 2     | 4.493 |     7 | 5 +/- 1.5      |  2.35e-5 | 7*21  |   0.6 | 0.0025 +/- 0.0019    | 5. +/- 2.       |
+  |        | IRAC 3     | 5.731 |    30 | 17 +/- 4       |  2.35e-5 | 7*21  |   0.6 | 0.0162 +/- 0.0050    | 17. +/- 4.      |
+  |        | IRAC 3     | 5.731 |    27 | 17 +/- 4       |  2.35e-5 | 5*24  |     1 | 0.0282 +/- 0.0113    | 17. +/- 4.      |
+  | ERO 5  | IRAC 4     | 7.872 |   170 | 65 +/- 5       |  2.35e-5 | 7*21  |   0.6 | 0.1306 +/- 0.0062    | 65. +/- 5.      |
+  |        | IRAC 4     | 7.872 |   147 | 65 +/- 5       |  2.35e-5 | 5*24  |     1 | 0.2312 +/- 0.0141    | 65. +/- 5.      |
+  |        | WISE 3     |    12 |  5600 | 2200 +/- 200   |  2.35e-5 | 5*24  |     1 | 9.5880 +/- 0.5640    | 2200. +/- 200.  |
+  |        | WISE 4     |    22 |  1100 | 600  +/- 100   |  2.35e-5 | 5*24  |     1 | 1.4100 +/- 0.2820    | 600. +/- 100.   |
+  |        | MIPS 1     | 23.68 |  1145 | 400 +/- 100    |  2.35e-5 | 5*24  |     1 | 2.1009 +/- 0.2820    | 400. +/- 100.   |
+  |        | PACS 70    |    70 | 0.475 | 0.45 +/- 0.02  | 1/3.2**2 | 5*24  |     1 | 0.2930 +/- 0.2344    | 1870. +/- 83.   |
+  |        | PACS 150   |   150 |  0.42 | 0.42 +/- 0.02  | 1/3.2**2 | 5*24  |     1 | 0.0000 +/- 0.2344    | 1745. +/- 83.   |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 2     | 4.493 |    83 | 10 +/- 6       |  2.35e-5 | 11*25 |   0.6 | 0.1698 +/- 0.0140    | 10. +/- 6.      |
+  |        | IRAC 3     | 5.731 |   720 | 55 +/- 5       |  2.35e-5 | 11*25 |   0.6 | 1.5471 +/- 0.0116    | 55. +/- 5.      |
+  | ERO 21 | IRAC 4     | 7.872 |  1950 | 250 +/- 50     |  2.35e-5 | 11*25 |   0.6 | 3.9551 +/- 0.1163    | 250. +/- 50.    |
+  |        | PACS 70    |    70 |   6.0 | 1.5 +/- 0.5    | 1/3.2**2 | 5*6   |   3.2 | 135.0000 +/- 15.0000 | 6233. +/- 2078. |
+  |        | PACS 160   |   160 |   2.5 | 1.0 +/- 0.2    | 1/3.2**2 | 5*6   |   3.2 | 45.0000 +/- 6.0000   | 4156. +/- 831.  |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 4     | 7.872 |    47 | 40 +/- 4       |  2.35e-5 | 12*40 |     1 | 0.0790 +/- 0.0451    | 40. +/- 4.      |
+  |        | WISE 3     |    12 |  1830 | 1100 +/- 100   |  2.35e-5 | 20*40 |     1 | 13.7240 +/- 1.8800   | 1100. +/- 100.  |
+  |        | WISE 4     |    22 |   430 | 280 +/- 30     |  2.35e-5 | 20*40 |     1 | 2.8200 +/- 0.5640    | 280. +/- 30.    |
+  | ERO 36 | MIPS 1     | 23.68 |   427 | 120 +/- 20     |  2.35e-5 | 12*40 |     1 | 3.4630 +/- 0.2256    | 120. +/- 20.    |
+  |        | PACS 70    |    70 |  0.32 | 0.24 +/- 0.01  | 1/3.2**2 | 20*40 |     1 | 6.2500 +/- 0.7813    | 997. +/- 42.    |
+  |        | PACS 160   |   160 | 0.265 | 0.23  +/- 0.01 | 1/3.2**2 | 20*40 |     1 | 2.7344 +/- 0.7813    | 956. +/- 42.    |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 37 | PACS B     |    70 |       |                |          |       |       | 0                    | 0e0             |
+  |        | WISE 4     |    22 |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L15  |    15 |       |                |          |       |       | 0                    | 0e0             |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 29 | PACS B     |    70 |       |                |          |       |       | 0                    | 0e0             |
+  |        |            |       |       |                |          |       |       | 0                    | 0e0             |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 16 | Akari L24  |       |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L18W |       |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L15  |       |       |                |          |       |       | 0                    | 0e0             |
+  #+TBLFM: $9=$6 ($4 - $5) $7 $8**2 ; f4::$10=$5 $6 / 2.35e-5 ; f0
+  + ~Bunit~ is brightness unit Jy/arcsec^2
+    + 2.3504e-5 for MJy/sr
+  + ~Punit~ is size unit in arcsec
   + Note that the second lot of IRAC fluxes are smoothed to the MIPS resolution and using a slightly bigger aperture
-  + 
+  + Herschel PACS images are in Jy/pixel
+    + Pixel is 3.2 arcsec
 + ERO 29 strangeness
-  + Listed as very small in Sexton:2015a
+  + Listed as very small in Sexton:2015a: size 16.6, offset 5.2 arcsec
+  + But is actually large: offset 100 arcsec!
++ ERO 16 show up clearly in Akari
+  + It is seen in all 3 MIR bands, but strongest in L24
+  + I measure R0 = 20 arcsec, R90 = 45 arcsec
+  + Sexton:2015a had it being circular and 7.4 arcsec
+  + There are several observations of similar field, for instance
+    + file:data/Carina/Akari/MIR/AKARI_IRC_6171001_001_201503/
+    + file:data/Carina/Akari/MIR/AKARI_IRC_6171002_001_201503/
+    + Data are in the ~stacked_IM~ directory
+    + Note that I had to correct the WCS to align the 3 bands with each other and with the catalog position of ERO 16
+      + Need to apply files such as [[file:data/Carina/Akari/MIR/AKARI_IRC_6171002_001_201503/6171002_001_L15_long.wcs][6171002_001_L15_long.wcs]]
 + What about WISE?
   + Pixel size 1.375 arcsec
   + ~BUNIT~ says that intensity is in ~DN~, which isn't helpful
   + We could calibrate IRAC 4 against MIPS 1 with ERO 36
 + We also have Akari - but very low resolution
-  + Only useful for ERO 29
+  + FIR is only useful for ERO 29, but MIR is much better (although spotty coverage)
+    + See ERO 16 discussion above
   + FIR Bands:
     + N60 :: 65 micron
     + Wide S :: 90 micron
@@ -764,7 +844,11 @@ We have up to 8 micron
 + Possible new bow shock
   + WERO 40
   + 10:47:11.68 -60:20:48.73
-  + 
+  + Detected in Akari, but there is only L15 observations of the field
+    + Example: [[file:data/Carina/Akari/MIR/AKARI_IRC_6170001_001_201503/stacked_IM/6170001_001_L15_long.fits]]
+    + Also 6170005, and 6170006
++ ERO 37 also show up in Akari L15
+  + 1650296_001
 *** Densities and column densities
 + Kobulnicky:2018a find the stream density by
   1. Converting the 70 micron emission to column density, using Draine:2007a
