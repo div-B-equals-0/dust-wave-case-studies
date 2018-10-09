@@ -29,7 +29,25 @@ Case studies of interesting objects for inclusion in bow paper II
   + 20 times higher than highest (900) in K18 sample
   + Background is 1.5 Jy/pix = 6230 MJy/sr
     + Confirmed with Akari 65 micron, although the source itself has disappeared (maybe point sources have been removed).  Also, Akari is roughly 25% brighter across the board
-+ ERO 5 has 0.025 Jy/pix = 100 MJy/sr but with large errors because of bright BG
+  + If we calculate U = 15 L4 / R_pc^2 with L4 = 0.63 and R_pc = 0.09, then U = 1160
+  + This gives 70 micron emissivity of j_\nu = 2.5e-12 (Jy/sr) (cm^2/H) from K18 Fig 2
+    + [ ] *NOTE* we need to recalculate j_\nu from the Cloudy models - I suspect that they should be higher for illuminating SEDs that are dominated by the UV.  The K18 graph uses Draine:2007a, which assumes an ISM SED
+  + So dividing peak brightness by emissivity, we get a H column of 18700 1e6 / 2.5e-12 = 7.48e21 H/cm^2
+  + Using m = 1.3 mp gives line of sight surface density: \sigma = 0.01626 g/cm^2
+  + Assuming a limb-brightening boost factor of 5 and \kappa = 600 cm^2/g gives a perpendicular UV optical depth \tau = 1.95
+  + /On the cusp between bow wave and radiation-supported bow shock/
+  + We can also get the density:
+    + Path length is about 6 Herschel pixels = 19.2 arcsec = 0.21 pc = 6.48e17 cm
+      + With limb-brightening of 5, this gives shell thickness h = 0.042 pc = 1.30e17 cm
+    + So mean density is n = 7.48e21 / 6.48e17 = 1.15e4 pcc
+    + Could this be fully ionized?  Perpendicular emission measure is 1.3e17 1.15e4**2  = 1.71396e25 cm^-5
+    + => required ionizing flux is 2.6e-13 1.71396e25 = 4.46e12 phot/cm^2/s
+    + Given S49 = 0.00013, available ionizing flux is 1.34e9 phot/cm^2/s, so it must be mainly neutral
+      + Assuming that bulk of column is at 1000 K, then the ionized density would be 20 times less => 575 pcc
+      + Then, thickness of ionized layer would be 1.34e9 / 575**2 2.6e-13 = 1.56e16 cm = 0.005 pc
+      + This is 0.12 times the total thickness, so ionized gas is only 0.006 times the total column
+      + That would explain why we see no H alpha emission
++ Ero 5 has 0.025 Jy/pix = 100 MJy/sr but with large errors because of bright BG
   + This is the same as source 407 in K18, which gives 582 MJy/sr as peak brightness, which would be 0.14 Jy/pixel
   + Background is 0.45 Jy/pixel, so they are saying there is an excess of 30% of BG
   + Re-looking at the cuts, I think 0.14 is just about allowable if we assume that the BG falls off at the position of the bow, but that is extreme special pleading
@@ -56,9 +74,29 @@ Case studies of interesting objects for inclusion in bow paper II
     + MIR diagnostic diagram
       + 6.2 micron PAH/6 micron continuum on x axis
       + 13.8/6 continuum ratio on y axis
-      + Ionized region has y constant at about 40
+      + Ionized region has y constant at about 40, finally decreasing to about 10 in the PDR
       + Values of x range from about 0.3 to 1.0 (and then higher, as you go into the PDR)
+    + Cluster properties
+      + D = 7 kpc, A_V = 4.5 (mainly foreground)
+      + S = 1e51 /s in Ly-c
+      + Lbol = 1e7 Lsun
+    + Correlation with radiation field
+      + U = 15 L4 / R^2 = 1.5e4 / R^2 with R in pc
+      + Stellar wind cavity out to 1 pc with very little emission
+      + Silicate emission for 1 to 2 pc => U > 4000
+      + [S IV]/[Ne II] is supposedly "hardness", but I suspect will be more like ionization parameter.  For constant density, this will be a tracer of U.  But we will call it H
+        + Reading Madden:2006a is more enlightening about this.  They are comparing regions between galaxies of different metallicities, so for them [Ne III]/[Ne II] really is diagnostic of the hardness of the radiation field.  But that won't necessarily be the case within a single cluster
+        + Ratio is H = 1 at about 4 pc, so we would predict H = (R/4)^-2, which works well
+          + H(R = 2) = 4 (observed 4)
+          + H(R = 8) = 0.25 (observed 0.3)
+        + So the prediction is H = U/1000 for this density
 
+* How to normalize the radiation field
++ This is related to [[id:33290714-FA0D-44D4-9541-2D54DD74E4D2][Compare Ly\alpha heating with stellar heating]] below
++ Relano:2016a is an interesting case study
+  + They compare the Mathis:1983a ISRF with that produced by a 4Myr massive cluster
+  + Unsurprisingly, the cluster SED is all UV, whereas the ISRF is only about 5% UV
+  + They find that, using the cluster SED, they need to use a 60 times lower total flux in order to fit the same dust emission
 * Conversions
 + Many maps use MJy/sr as brightness unit
   + Kobulnicky:2018a uses 10^7 Jy/sr
@@ -1010,6 +1048,9 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
 
 
 *** TODO Compare Ly\alpha heating with stellar heating
+:PROPERTIES:
+:ID:       33290714-FA0D-44D4-9541-2D54DD74E4D2
+:END:
 + K18 calculate G = F/F(Habing), which they call U
   + although actually /these are not the same/
     + First, they are working in terms of energy density not flux
