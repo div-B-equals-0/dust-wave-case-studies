@@ -57,7 +57,90 @@ Case studies of interesting objects for inclusion in bow paper II
     + K18 have 291 MJy/sr, so we actually agree!
     + BG is about 1000 MJy/sr at both 70 and 160 micron
     + So that is 57 times lower than for ERO 21
-    + 
+    +
+** SEDs from some objects
+Carina ERO 21 (Sickle)
+|       |  70/\lambda | F_\nu                  | SED             |
+|-------+-------+----------------------+-----------------|
+| 4.493 | 15.58 | 0.1698 +/- 0.0140    | 0.02 +/- 2.7e-3 |
+| 5.731 | 12.21 | 1.5471 +/- 0.0116    | 0.14 +/- 0.02   |
+| 7.872 |  8.89 | 3.9551 +/- 0.1163    | 0.26 +/- 0.03   |
+|    70 |     1 | 135.0000 +/- 15.0000 | 1.00 +/- 0.16   |
+|   160 |  0.44 | 45.0000 +/- 6.0000   | 0.15 +/- 0.03   |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 36
+|       | 70/\lambda | F_\nu               | SED                     |
+|-------+------+-------------------+-------------------------|
+| 7.872 | 8.89 | 0.0790 +/- 0.0451 | 0.11 +/- 0.07           |
+|    22 | 3.18 | 2.8200 +/- 0.5640 | 1.43 +/- 0.34           |
+| 23.68 | 2.96 | 3.4630 +/- 0.2256 | 1.64 +/- 0.23           |
+|    70 |    1 | 6.2500 +/- 0.7813 | 1.00 +/- 0.18           |
+|   160 | 0.44 | 2.7344 +/- 0.7813 | 0.19 +/- 0.06           |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 36 BG
+|       | 70/\lambda | S_\nu          | SED           |
+|-------+------+--------------+---------------|
+| 7.872 | 8.89 | 40. +/- 4.   | 0.36 +/- 0.04 |
+|    22 | 3.18 | 280. +/- 30. | 0.89 +/- 0.10 |
+| 23.68 | 2.96 | 120. +/- 20. | 0.36 +/- 0.06 |
+|    70 |    1 | 997. +/- 42. | 1.00 +/- 0.06 |
+|   160 | 0.44 | 956. +/- 42. | 0.42 +/- 0.03 |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 5
+|       |  70/\lambda | S_\nu               | SED            |
+|-------+-------+-------------------+----------------|
+| 4.493 | 15.58 | 0.0025 +/- 0.0019 | 0.13 +/- 0.10  |
+| 5.731 | 12.21 | 0.0162 +/- 0.0050 | 0.68 +/- 0.21  |
+| 7.872 |  8.89 | 0.1306 +/- 0.0062 | 3.96 +/- 0.19  |
+|    22 |  3.18 | 1.4100 +/- 0.2820 | 15.30 +/- 3.06 |
+| 23.68 |  2.96 | 2.1009 +/- 0.2820 | 21.22 +/- 2.85 |
+|    70 |     1 | 0.2930 +/- 0.2344 | 1.00 +/- 0.80  |
+|   160 |  0.44 | 0.0000 +/- 0.2344 | 0.00 +/- 0.35  |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @7$2 0.293;f2
+
+Carina ERO 5 BG
+|       |  70/\lambda | S_\nu           | SED           |
+|-------+-------+---------------+---------------|
+| 4.493 | 15.58 | 5. +/- 2.     | 0.04 +/- 0.02 |
+| 5.731 | 12.21 | 17. +/- 4.    | 0.11 +/- 0.03 |
+| 7.872 |  8.89 | 65. +/- 5.    | 0.31 +/- 0.03 |
+|    22 |  3.18 | 600. +/- 100. | 1.02 +/- 0.18 |
+| 23.68 |  2.96 | 400. +/- 100. | 0.63 +/- 0.16 |
+|    70 |     1 | 1870. +/- 83. | 1.00 +/- 0.06 |
+|   160 |  0.44 | 1745. +/- 83. | 0.41 +/- 0.03 |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @7$2 @7$3;f2
+
+Ratios from Draine:2007a
+| Ratio     | P7.9            | P24            | R71         |
+|-----------+-----------------+----------------+-------------|
+| ERO 21    | 0.226 +/- 0.006 |                | 1.4 +/- 0.2 |
+| ERO 36    | 0.066 +/- 0.038 | 6.7 +/- 1.3    | 5.3 +/- 1.7 |
+| ERO 36 BG | 0.254 +/- 0.029 | 0.25 +/- 0.04  | 2.4 +/- 0.2 |
+| ERO 5     | 3.960 +/- 1.399 | 21.22 +/- 7.96 | > 3         |
+| ERO 5 BG  | 0.220 +/- 0.022 | 0.45 +/- 0.11  | 2.4 +/- 0.2 |
+#+TBLFM: @2$2=0.26/(1 + 0.15 +/- 0.03);f3::@2$4=1.64 +/- 0.23 / (1 + 0.19 +/- 0.06 );f1::@3$2=0.0790 +/- 0.0451 / (1 + 0.19 +/- 0.06) ;f3::@3$3=1 / 0.15 +/- 0.03 ;f1::@3$4=1/0.19 +/- 0.06;f1::@4$2=0.36 +/- 0.04 / (1 + 0.42 +/- 0.03);f3::@4$3=0.36 +/- 0.06 / (1 + 0.42 +/- 0.03);f2::@4$4=1/0.42 +/- 0.03;f1::@5$2=3.96 +/- 0.19 / (1 + 0.00 +/- 0.35);f3::@5$3=21.22 +/- 2.85 / (1 + 0.00 +/- 0.35);f2::@6$2=0.31 +/- 0.03 / (1 + 0.41 +/- 0.03);f3::@6$3=0.63 +/- 0.16 / (1 + 0.41 +/- 0.03);f2::@6$4=1/0.41 +/- 0.03;f1
+
++ Figure 
+So, objects like 
+* Orion ISO spectra
++ [[file:data/Orion-spectra/ISO/][file:data/Orion-spectra/ISO/]]
++ Region file [[file:data/LP-Ori-Spitzer/orion-iso-sws-apertures.reg]]
++ Ds9 backup that shows them on IRAC/MIPS image
+  + [[file:data/LP-Ori-Spitzer/orion-spitzer-2018-10-11.bck]]
++ Stepped across the bright bar
++ Two are in the ionized gas
+  + D8 :: in the highly ionized part
+  + Brga :: at the peak of Br gamma 
+* Strange Orion bow shock in mid-infrared
++ At first I thought it was LL Ori, but it isn't
+  + Turns out there is nothing at position of LL Ori
++ Coordinates of star 5:35:15.524 -5:25:14.15
++ We can see the bow shock clearly in Spitzer images
+  + Highest contrast in IRAC 3 5.731 micron
+  + Might be jet instead of bow, or indeed anything
 * MIR spectra of H II regions
 + Lots of times when people talk about H II region, what they really mean is PDRs and PAHs
 + But there are some real spectra of real ionized gas
@@ -298,7 +381,9 @@ stars.update(
       + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
       + So this means we will see the small grains at 10 microns and the large grains at 20 microns
     + This means that 0.02 micron grains will be twice as hot
-
+**** Mid-IR photometry for \theta^1 D
++ Robberto:2005a have 10 micron and 20 micron
++ Units are Jy/pixel
 
 
 
@@ -1083,6 +1168,16 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
   + So, in both cases, over 90% of total IR flux comes from 8, 24, 70 micron bands
   + In K17 they give peak S(70) in Jy/arcmin^2, whereas in K18 it is in Jy/sr
     + Conversion factor is (180 60 / pi)**2 = 1.18e7
+  + SEDs: Draine:2007a uses ratios based on \nu F_\nu, so factors that multiply F_\nu for each band are (normalized to 70 micron)
+    |     \lambda | \langle\nu F_\nu\rangle/F_\nu |
+    |-------+-------------|
+    | 4.493 |       15.58 |
+    | 5.731 |       12.21 |
+    | 7.872 |        8.89 |
+    |    24 |        2.92 |
+    |    70 |           1 |
+    |   160 |        0.44 |
+    #+TBLFM: $2=70/$1;f2
 
 *** Compare KE flux with radiation
 + /actually all this is not necessary/
