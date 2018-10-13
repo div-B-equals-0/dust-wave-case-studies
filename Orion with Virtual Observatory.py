@@ -22,7 +22,7 @@
 
 # Set up the imports.
 
-# +
+# + {"tags": ["boilerplate"], "slideshow": {"slide_type": "skip"}}
 import matplotlib
 import matplotlib.pyplot as plt
 # %matplotlib inline  
@@ -42,6 +42,19 @@ from astropy.io import fits
 import warnings
 warnings.filterwarnings("ignore")
 # -
+
+# Faster way of downloading files (hopefully)
+
+from urllib.request import urlretrieve
+
+# This seems to be a simpler approach than using `requests`, where we would have to mess about with chunking and the like.  See [SO answer](https://stackoverflow.com/a/44378512/353062)
+#
+# Example usage:
+# ``` python
+# url = 'http://mirror.pnl.gov/releases/16.04.2/ubuntu-16.04.2-desktop-amd64.iso'
+# dst = 'ubuntu-16.04.2-desktop-amd64.iso'
+# urlretrieve(url, dst)
+# ```
 
 # ### Getting images from SkyView
 #
@@ -156,12 +169,73 @@ for rowf, band in [0, 'w1'], [2, 'w2'], [4, 'w3'], [6, 'w4']:
         f.write(r.content)
     fits.open(fitsfile).info()
 
-requests.request?
+# Possibly, there is new bow shock over in the east. At `5:36:38.099 -5:28:36.42`
+
+# #### And thirdly, try Herschel SPIRE
+#
+# This is the longer wavelength instrument.  I think that the Herschel PACS data, which includes 70 $\mu$m has to come from IRSA, not from SkyView. 
+
+row = cat_table[cat_table['short_name'] == 'HERSCHEL-SPIRE'.encode()]
+description = row[0]['res_description'].decode('utf-8')
+url = row[0]['access_url'].decode()
+description = html.unescape(html.unescape(html.unescape(description)))
+text = f'<div style="background-color:#cde;color:#733;padding:20px;">{description}</div>'
+display(HTML(text))
+
+# That was short and sweet!
+
+pos = '83.791114,-5.4649843'
+pixel_size = 2.0/3600 # 2 arcsec
+size = 1.0
+N = int(size/pixel_size)
+params = {'POS': pos, 'SIZE': f'{size}', "NAXIS": f"{N},{N}"}
+r = requests.get(url, params=params)
+spire_table=Table.read(io.BytesIO(r.content))
+spire_table
+
+# *Nothing!* Oh well.
+
+row = cat_table[cat_table['short_name'] == 'HAlpha'.encode()]
+description = row[0]['res_description'].decode('utf-8')
+url = row[0]['access_url'].decode()
+description = html.unescape(html.unescape(html.unescape(description)))
+text = f'<div style="background-color:#cde;color:#733;padding:20px;">{description}</div>'
+display(HTML(text))
+
+pos = '83.791114,-5.4649843'
+pixel_size = 180.0/3600 # low res to start with
+size = 10.0 # but big field
+N = int(size/pixel_size)
+params = {'POS': pos, 'SIZE': f'{size}', "NAXIS": f"{N},{N}"}
+r = requests.get(url, params=params)
+ha_table=Table.read(io.BytesIO(r.content))
+ha_table
+
+urlretrieve(ha_table['URL'][1].decode("utf-8"), jpgfile)
+display(Image(jpgfile))
+
+# So that worked, but it is very low resolution.  It shows the sigma orionis region better than M42.
+
+
 
 # ### Getting images from IRSA
 #
-# Try this, if the above doesn't work.
+# This is necessary for the Spitzer and Herschel PACS data
 
 
+
+# ### Looking for my B star in catalogs
+
+# +
+scs_base_url = 'https://irsa.ipac.caltech.edu/SCS?'
+
+scs_params = {'table': 'fp_psc', 'RA': 83.881677, 'DEC': -5.0040292, 'SR':30.0/3600.0}
+
+r = requests.get(scs_base_url, params=scs_params)
+
+table=Table.read(io.BytesIO(r.content))
+
+table.show_in_notebook()
+# -
 
 

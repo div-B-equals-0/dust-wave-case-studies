@@ -134,13 +134,42 @@ So, objects like
 + Two are in the ionized gas
   + D8 :: in the highly ionized part
   + Brga :: at the peak of Br gamma 
-* Strange Orion bow shock in mid-infrared
+* New "discoveries" in Orion
+** B star bow shock over to E of M42
++ Shows up in the WISE maps
++ Coordinates
+  + 84.158869 -5.4750212
+  + 5:36:38.129 -5:28:36.13
++ This has names
+  + Brun 1018
+  + Parenago 2425
++ Spectral type: B6V
++ Candidate driving source of CO shell 12 from Feddersen:2018a
+  + Strangely, LP Ori is candidate for driving shell 11, which I don't beleive
+** Near infrared bow shock in North portion of Orion integral-shaped filament
++ This is between M42 and Sharpless 279, just 13 arcmin S of the latter
++ Seen in WSA YJHK images
+  + http://wsa.roe.ac.uk
++ Coordinates:
+  + 5:35:31.589 -5:00:13.43
+  + 83.881677 -5.0040292
++ Certainly a bow shock, and seems to be centered on a star
+  + But this may be a coincidence - possibly it is an HH object that just happens to be passing by
+  + There is a reflection nebula to the S
+  + [X] Need to check adjacent fields to the E, to see if there is any sign of a train of knots or a possible source
+    + Turns out to be a well-studied region: Davis:2009a
+    + Our object is crossed by SMZ2 outflow, but may not be related
+  + [ ] Also need to check if they might be optical artefacts
+** [#C] Strange feature near Orion Bar in mid-infrared
 + At first I thought it was LL Ori, but it isn't
   + Turns out there is nothing at position of LL Ori
 + Coordinates of star 5:35:15.524 -5:25:14.15
 + We can see the bow shock clearly in Spitzer images
   + Highest contrast in IRAC 3 5.731 micron
   + Might be jet instead of bow, or indeed anything
++ Actually, there is another bow nearby, and maybe a 3rd one further N in the same field
++ There are also some clear jets, which do look different
++ Need to check out MIR bands
 * MIR spectra of H II regions
 + Lots of times when people talk about H II region, what they really mean is PDRs and PAHs
 + But there are some real spectra of real ionized gas
