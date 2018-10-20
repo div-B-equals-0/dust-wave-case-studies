@@ -367,7 +367,7 @@ df.describe()
 
 # As an aside, we will compare my $G$ with their $U$
 
-ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
+    ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
 ddf = ttt['ID', 'U', 'G'].to_pandas()
 fig, ax = plt.subplots(figsize=(10, 10))
 vmin, vmax = 150, 4e5

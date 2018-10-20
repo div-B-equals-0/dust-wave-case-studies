@@ -1,0 +1,9 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+# projection(914.99384,873.51756,892.64929,932.93369,8.1130958)
+ellipse(666.06393,1212.1915,91.829822,31.086107,1.3290878e-05) # text={Dark bay}
+ellipse(845.44423,1010.0981,257.88914,15.984729,325.00001) # text={Ha Bar}
+ellipse(832.07316,1154.0705,14.716319,11.44796,1.3290878e-05) # text={Orion S}
+# projection(719.08215,1153.4776,666.48631,1085.1606,9.6333858)
+# projection(761.72618,1139.684,657.937,1003.7272,39.92)

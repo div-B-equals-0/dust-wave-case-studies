@@ -1,0 +1,14 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(1920.3361,4013.2624,8.3331667) # color=yellow text={ISO SWS H2S1}
+circle(1972.3538,4080.1023,8.3331733) # color=yellow text={ISO SWS D8}
+circle(1893.2205,3979.7205,8.3331733) # color=yellow text={ISO SWS D2}
+circle(1945.2422,4046.7441,8.3331733) # color=yellow text={ISO SWS Brga}
+circle(1932.819,4029.9432,8.3331733) # color=yellow text={ISO SWS D5}
+circle(2032.6228,4278.7703,8.3331733) # color=white text={ISO SWS PK2}
+circle(2085.6077,4332.4123,8.3331733) # color=white text={ISO SWS PK1}
+circle(2070.9132,4293.9514,8.3331733) # color=white text={ISO SWS IRC2}
+# projection(2041.7141,3993.5429,2079.3298,4044.6618,12.435254)
+# projection(2274.8446,4020.3555,2299.1502,4020.3556,3.4722222)
+# projection(2204.4173,3711.7108,2167.1731,3810.7383,13.521556)

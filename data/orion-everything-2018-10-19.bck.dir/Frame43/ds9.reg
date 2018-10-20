@@ -1,0 +1,8 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+box(1962.4297,1227.4857,137.83239,65.518371,0)
+# projection(1880.9875,1182.3279,1793.3266,1068.469,16.055322)
+# projection(1952.06,1159.3381,1779.0771,932.74813,66.532003)
+# ruler(2159.1477,749.59756,2201.6761,750.18781) ruler=wcs; pixels
+# ruler(1932.1741,1459.0671,2099.0212,1455.2602) ruler=wcs; pixels

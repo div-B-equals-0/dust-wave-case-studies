@@ -70,13 +70,13 @@ Carina ERO 21 (Sickle)
 #+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
 
 Carina ERO 36
-|       | 70/\lambda | F_\nu               | SED                     |
-|-------+------+-------------------+-------------------------|
-| 7.872 | 8.89 | 0.0790 +/- 0.0451 | 0.11 +/- 0.07           |
-|    22 | 3.18 | 2.8200 +/- 0.5640 | 1.43 +/- 0.34           |
-| 23.68 | 2.96 | 3.4630 +/- 0.2256 | 1.64 +/- 0.23           |
-|    70 |    1 | 6.2500 +/- 0.7813 | 1.00 +/- 0.18           |
-|   160 | 0.44 | 2.7344 +/- 0.7813 | 0.19 +/- 0.06           |
+|       | 70/\lambda | F_\nu               | SED           |
+|-------+------+-------------------+---------------|
+| 7.872 | 8.89 | 0.0790 +/- 0.0451 | 0.11 +/- 0.07 |
+|    22 | 3.18 | 2.8200 +/- 0.5640 | 1.43 +/- 0.34 |
+| 23.68 | 2.96 | 3.4630 +/- 0.2256 | 1.64 +/- 0.23 |
+|    70 |    1 | 6.2500 +/- 0.7813 | 1.00 +/- 0.18 |
+|   160 | 0.44 | 2.7344 +/- 0.7813 | 0.19 +/- 0.06 |
 #+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
 
 Carina ERO 36 BG
@@ -219,6 +219,7 @@ So, objects like
 + Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec
   + 1 Jy/pixel = 4155 MJy/sr
   + 1 Jy/pixel @ 70 micron = 0.178 erg/s/cm^2/sr
+  + *No, this is only at 160* At 70 microns, they are 1.6 arcsec pixels, so multiply by 4
 + Flux in Jy
   + In each square arc second: 1 MJy/sr means 2.35e-5 Jy
   + In each square arc minute: 1 MJy/sr means 0.0846 Jy
@@ -413,9 +414,248 @@ stars.update(
 **** Mid-IR photometry for \theta^1 D
 + Robberto:2005a have 10 micron and 20 micron
 + Units are Jy/pixel
++ We actually have loads of data for this object
+  + Hayward:1994a - 11.7 micron (228 Jy !)
+  + Hayward:1994b - 12 wavelengths between 7.5 and 24.5 micron!
+  + Spitzer IRAC - 3.6, 4.5, 5.8, 8.0
+  + SOFIA Shuping:2012a - 7.7, 19.7, 37.1
+    + Have to guess from the figure
+  + Smith:2005a - 11.7
+  + Robberto:2005a - 11, 20
+  + NIR - just upper limits at 2 micron
+    + [[file:data/Orion-VLT/ONTT.1998-12-02T05_36_01.365.fits][ONTT.1998-12-02T05_36_01.365.fits]]
+    + /Users/will/Dropbox/Presentations/HoustonTalk2011/nicmosorioncluster.jpg
+    + /Users/will/Dropbox/SinfoniProplyd/Schneider-NICMOS
+  + FIR
+    + [X] Herschel - got 70 and 160, but only upper limits for flux
+    + 
+
+***** SED for th1D
+
+****** Hayward:1994b
+|   wav | peak mJy/arcsec^2 | BG             | GJy/sr        | BG GJy/sr     |
+|-------+-------------------+----------------+---------------+---------------|
+|  7.58 |               300 | 30 +/- 100     | 11. +/- 4.    | 1. +/- 4.     |
+|  8.21 |               528 | 60 +/- 100     | 20. +/- 4.    | 3. +/- 4.     |
+|  9.48 |              1990 | 250 +/- 100    | 74. +/- 4.    | 11. +/- 4.    |
+| 10.48 |              2630 | 320 +/- 150    | 98. +/- 6.    | 14. +/- 6.    |
+| 11.40 |              2325 | 300 +/- 100    | 86. +/- 4.    | 13. +/- 4.    |
+| 12.43 |              2050 | 360 +/- 150    | 72. +/- 6.    | 15. +/- 6.    |
+|-------+-------------------+----------------+---------------+---------------|
+| 15.69 |              8000 | 1000 +/- 3000  | 298. +/- 128. | 43. +/- 128.  |
+| 17.37 |              9000 | 1500 +/- 500   | 319. +/- 21.  | 64. +/- 21.   |
+| 19.62 |             12750 | 2500 +/- 1000  | 436. +/- 43.  | 106. +/- 43.  |
+| 21.42 |             13000 | 4000 +/- 1000  | 383. +/- 43.  | 170. +/- 43.  |
+| 22.82 |             14500 | 5000 +/- 5000  | 404. +/- 213. | 213. +/- 213. |
+| 24.30 |             20900 | 5000 +/- 10000 | 676. +/- 425. | 213. +/- 425. |
+#+TBLFM: $4=1e-3 42.54 ($2 - $3);f0::$5 = 1e-3 42.54 $3;f0
+
++ 1 mJy/arcsec^2 = 42.54 MJy/sr = 0.04254 GJy/sr
++ 1 MJy/sr = 0.0235 mJy/arcsec^2
++ 1 arcsec^2 = 2.35043863818e-11 sr = 0.0235 nsr or nano-steradian
++ The 24.30 map is very noisy and the highest contour is possibly spurious - I am going to take the second contour, so 1.414 times less than 29500
 
 
 
+****** Hale SpectroCam - Hayward:1994b
++ Only filter is 11.7 micron for Ney-Allen
+  + They have 8.8 too, but only for the inner part around th1C
++ Flux is 228 Jy, extracted in an aperture of diameter 12 arcsec
+
+****** IRAC
++ At the short wavelengths, the dominant background is the PSF of the star
++ I use the Smith:2005a image to define the position to take the maximum
++ Then reflect the far-side half of the PSF to give estimate of what should be subtracted
++ For 5.8, the PSF and the nebular backgrounds are roughly equal contributions
++ For 8.0, fluctuations in the nebula dominate uncertainty in the BG
+
+
+| Wav |  peak | BG            | GJy/sr        | True BG |
+|-----+-------+---------------+---------------+---------|
+| 3.6 |  2450 | 1000 +/- 200  | 1.45 +/- 0.2  |         |
+| 4.5 |  3760 | 1360 +/- 200  | 2.4 +/- 0.2   |         |
+| 5.8 |  7826 | 3400 +/- 600  | 4.426 +/- 0.6 |         |
+| 8.0 | 22600 | 6000 +/- 2000 | 16.6 +/- 2    |         |
+#+TBLFM: $4=($2 - $3)/1000
+Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
+
+****** Sofia - Shuping:2012a
++ For this I have converted scanned figures to FITS
++ Measurements are in Jy/pix
+  + pixel is 0.768 arcsec
+  + So 1 Jy/pixel = 1.695 Jy/arcsec^2 = 1.695 42.54 GJy/sr = 72.1 GJy/sr
+
+|  Wav | peak | BG            | GJy/sr         | BG GJy/sr      |
+|------+------+---------------+----------------+----------------|
+|  7.7 | 0.19 | 0.09 +/- 0.04 | 7.2 +/- 2.9    | 6.5 +/- 2.9    |
+| 19.7 |  5.5 | 1.25 +/- 0.75 | 306.4 +/- 54.1 | 90.1 +/- 54.1  |
+| 37.1 |  6.0 | 3.7 +/- 0.3   | 165.8 +/- 21.6 | 266.8 +/- 21.6 |
+#+TBLFM: $4=72.1 ($2 - $3);f1::$5=72.1 $3;f1
+
+
+****** UKIRT MAX - Robberto:2005a
++ Using the profiles from Fig 14 of Robberto:2005a, and comparing with "counts" in the FITS file ~10_wjh_hdr.fits~
+  + 100 is 0.11 Jy/pix
+  + 300 is 0.34 Jy/pix
+  + Implying my units are mJy/pixel - hurray!
++ Pixel size is 0.26 arcsec
+  + 1 Jy/pixel is 14.79 Jy/arcsec^2 = 14.79 42.54 GJy/sr = 629.2 GJy/sr
+  + 1 mJy/pixel is 0.6292 GJy/sr
++ 20 micron is more problematic
+  + BN/KL has peak of around 9 in my fits file ~20_hdr.fits~ and 11702 in ~10_wjh_hdr.fits~
+    + From Robberto:2005a Fig 8 that should be 200 Jy/arcsec^2 at 20 micron and the same at 10 micron
+    + So it would make sense if the 20 map were in Jy/pix
+  + IRC4 has peak of 6 at 20 micron and 400 at 10 micron
+    + So that should be 0.4 14.79 = 5.9 Jy/arcsec^2 at 10 micron
+      + Given as 4.76 in Table 4 - close enough!
+    + And should be 6 14.79 = 88.74 at 20 micron
+      + Given as 101 in Table 4 - again close enough
+  + So we just multiply all ~20_hdr.fits~ by 1000 to get them in mJy/pix
++ Filter widths
+  : For an A0 V star, the N-band filter has an effective wavelength \lambda_{10} =  10.1 \mu{}m and \Delta\lambda = 3.13 \mu{}m, whereas the Q-band filter has \lambda_{20} = 19.7 \mu{}m and \Delta\lambda = 2.44 \mu{}m.
+|  Wav | peak, mJy/pix | BG         | GJy/sr         | BG GJy/sr      |
+|------+---------------+------------+----------------+----------------|
+| 10.1 |           300 | 110 +/- 30 | 131.5 +/- 20.8 | 76.1 +/- 20.8  |
+| 19.7 |           610 | 370 +/- 40 | 166.1 +/- 27.7 | 256.0 +/- 27.7 |
+#+TBLFM: $4=0.692 ($2 - $3);f1::$5=0.692 $3;f1
+
+
+****** Gemini T-ReCS - Smith:2005a 
++ Pixel is 0.089 arcsec supposedly, but fits header says 0.044499996
++ Assume Jy/pix
+  + 1 Jy/pix = 504.99 Jy/arcsec = 504.99 42.54 GJy/sr = 21482 GJy/sr
++ And this is consistent with their Fig 6
+  + I find peak at th1D of 0.004 Jy/pix = 2.02 Jy/arcsec^2
+  + They have 2 Jy/arcsec^2 in Smith:2005a, so that agrees
+|  Wav | peak, Jy/pix | BG               | GJy/sr         | BG GJy/sr     |
+|------+--------------+------------------+----------------+---------------|
+| 11.7 |       0.0085 | 0.001 +/- 0.0005 | 161.1 +/- 10.7 | 21.5 +/- 10.7 |
+#+TBLFM: $4=5370.7 4 ($2 - $3);f1::$5=5370.7 4 $3;f1
++ This is probably an overestimate compared with the others because the resolution is much higher, so the peak surface brightness is higher
++ We will also do the flux in a proper aperture
+  + Use an Epandas ellipse and take front two sectors
+    + Total flux: 87.49 + 72.08 = 160 +/- 18 Jy 
+    + Area: 40000 pixels or 79.35 arcsec^2
+    + Average surface brightness: 2.0 +/- 0.23 Jy/arcsec^2 = 85.1 +/- 9.8 GJy/sr, which is half of the peak value
+  + Use sector 4 as BG:
+    + Total flux: 14.33 Jy
+    + Area: 1848 pixels or 16.135 arcsec^2
+    + Surface brightness: 0.888 +/- 0.235 Jy/arcsec^2 = 37.78 +/- 10.00 GJy/sr
+      + That is a bit higher than we were using, which we measured in front
+    + Taking a box instead I get 0.41 +/- 0.12 Jy/arcsec^2 for BG = 17.4 +/- 5.1 GJy/sr
+      + Let's go with that
+  + So then BG-subtracted flux is
+    + (160 +/- 18) - 79.35 (0.41 +/- 0.12) = 127 +/- 20
+****** Herschel
++ Amazingly, it is detected at 70 micron
++ Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec (160) or 1.6 arcsec (70 micron)
+  + 1 Jy/pixel = 16.62 GJy/sr @ 70 micron
+  + 1 Jy/pixel = 4155 MJy/sr = 4.155 GJy/sr @ 150 micron
+  + 1 Jy/pixel @ 70 micron = 0.178 erg/s/cm^2/sr
+| Wav | pix |  peak | BG           | GJy/sr       | BG GJy/sr     |
+|-----+-----+-------+--------------+--------------+---------------|
+|  70 | 1.6 | 12.45 | 11.8 +/- 0.1 | 10.8 +/- 1.7 | 196.1 +/- 1.7 |
+| 160 | 3.2 |  12.5 | 12.5 +/- 1.0 | 0.0 +/- 4.2  | 51.9 +/- 4.2  |
+#+TBLFM: $5= 1e-9 (206265/$2)**2  ($3 - $4);f1::$6=1e-9 (206265/$2)**2 $4;f1
+****** Converting to F_\nu, \nu F_\nu, and luminosity
++ Radius of peak is about 3 arcsec, so that would give an area of
+  + 28.3 arcsec^2
+  + 0.665 nsr (nano-steradians)
+  + Convenient, since multiply by GJy/sr to get Jy
++ Using that would mean T-RecS gives 104.65 Jy
+  + Compare with 228 Jy from Hale at same wavelength 
++ To get the SED, we have to multiply by \nu
+  + \nu = c / \lambda = 2.9979e14 / \lambda(micron)
+  + 1 Jy = 1e-23 erg/cm^2/s/Hz
+  + So SED in erg/cm^2/s is 2.9979e-9 times F_\nu(Jy) / \lambda(micron)
++ To get luminosity, multiply by 4\pi D^2
+  + For Orion: 2.011e43 to give erg/s
+  + Or 5.2652e9 to give L_\odot
+****** Full table of brightness peaks
+
+#+name: ney-allen-sed
+| Instrument      |  Wave | dWave |     S | E(S) |
+|-----------------+-------+-------+-------+------|
+| Spitzer IRAC    |   3.6 |   0.8 |  1.45 |  0.2 |
+| Spitzer IRAC    |   4.5 |   1.0 |   2.4 |  0.2 |
+| Spitzer IRAC    |   5.8 |   1.6 | 4.426 |  0.6 |
+| WIRO Short      |  7.58 |   0.8 |   11. |   4. |
+| SOFIA FORCAST   |   7.7 |  0.47 |   7.2 |  2.9 |
+| Spitzer IRAC    |   8.0 |   2.9 |  16.6 |    2 |
+| WIRO Short      |  8.21 |  1.54 |   20. |   4. |
+| WIRO Short      |  9.48 |  1.66 |   74. |   4. |
+| UKIRT MAX       |  10.1 |  3.13 | 131.5 | 20.8 |
+| WIRO Short      | 10.48 |  1.42 |   98. |   6. |
+| WIRO Short      | 11.40 |  1.41 |   86. |   4. |
+| Hale SpectroCam |  11.7 |   1.0 |       |      |
+| Gemini T-RecS   |  11.7 |  1.11 | 161.1 | 10.7 |
+| WIRO Short      | 12.43 |  1.34 |   72. |   6. |
+| WIRO Long       | 15.69 |  2.22 |  298. | 128. |
+| WIRO Long       | 17.37 |  2.94 |  319. |  21. |
+| WIRO Long       | 19.62 |  2.88 |  436. |  43. |
+| UKIRT MAX       |  19.7 |  2.44 | 166.1 | 27.7 |
+| SOFIA FORCAST   |  19.7 |   5.5 | 306.4 | 54.1 |
+| WIRO Long       | 21.42 |  2.76 |  383. |  43. |
+| WIRO Long       | 22.82 |  3.06 |  404. | 213. |
+| WIRO Long       | 24.30 |  2.52 |  676. | 425. |
+| SOFIA FORCAST   |  37.1 |   3.3 | 165.8 | 21.6 |
+| Herschel PACS   |    70 |    25 |  10.8 |  1.7 |
+| Herschel PACS   |   160 |    80 |   0.1 |  4.2 |
+
++ 
+
+#+header: :var intab=ney-allen-sed :colnames no
+#+BEGIN_SRC python :return figfile :results file 
+  import numpy as np
+  from astropy.table import Table
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+
+  figfile = 'ney-allen-sed.pdf'
+
+  styles = [
+      ['WIRO Short', dict()],
+      ['WIRO Long', dict()],
+      ['UKIRT MAX', dict(marker='.', ls=':')],
+      ['Gemini T-RecS', dict(marker='o', ls='none')],
+      ['Spitzer IRAC', dict(ls=':')],
+      ['Herschel PACS', dict(ls=':')],
+      ['SOFIA FORCAST', dict(ls=':')],
+  ]
+
+  data = Table(rows=intab[1:], names=intab[0])
+
+  data['sed'] = 0.665 * 2.9979e-9 * 5.265e9 *data['S'] / data['Wave']
+  data['E(sed)'] = data['E(S)']*data['sed']/data['S']
+  data['dWave'] = data['dWave']/2
+
+  sns.set_color_codes()
+  fig, ax = plt.subplots()
+  for label, style in styles:
+      thisdata = data[data['Instrument'] == label]
+      ax.errorbar('Wave', 'sed', xerr='dWave', yerr='E(sed)',
+                  data=thisdata, label=label, **style)
+
+  ax.legend(loc='lower center', title='Instrument')
+  ax.set(
+      xscale='log', yscale='log',
+      ylim=[0.1, 400],
+      xlabel=r'Wavelength: $\lambda$, $\mu$m',
+      ylabel=r'SED: $\nu L_\nu$, $L_{\odot}$',
+  )
+
+  fig.savefig(figfile)
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:ney-allen-sed.pdf]]
+
+
+
+****** Possible line contamination 
++ Br\alpha at 4.5 \mu 
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori

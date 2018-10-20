@@ -1,1 +1,1446 @@
-dust-wave-case-studies.org
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:t title:t toc:nil todo:t |:t
+#+TITLE: Dust wave case studies
+#+AUTHOR: William Henney
+#+EMAIL: will@henney.org
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+
+
+Case studies of interesting objects for inclusion in bow paper II
+
+* Selection criteria
++ High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
++ Prefer B stars to O stars, since then it is easy to get dust waves (gas--grain separation)
+
+
+* Open questions
+** Determining shell pressure from MIR observations
+*** 70 micron peak brightness method
++ Kobulnicky 2018 do this using the Peak 70 micron emission from Herschel
+  + Values are 4.6 \to 90 in units of 10^7 Jy/sr (median about 20)
+    + So, 200 MJy/sr or \nu I_\nu = 0.008 erg/s/cm^2/sr
+  + Observationally, this is problematic since 70 micron 
++ ERO 21 has 4.5 Jy/pix = 18700 MJy/sr
+  + 20 times higher than highest (900) in K18 sample
+  + Background is 1.5 Jy/pix = 6230 MJy/sr
+    + Confirmed with Akari 65 micron, although the source itself has disappeared (maybe point sources have been removed).  Also, Akari is roughly 25% brighter across the board
+  + If we calculate U = 15 L4 / R_pc^2 with L4 = 0.63 and R_pc = 0.09, then U = 1160
+  + This gives 70 micron emissivity of j_\nu = 2.5e-12 (Jy/sr) (cm^2/H) from K18 Fig 2
+    + [ ] *NOTE* we need to recalculate j_\nu from the Cloudy models - I suspect that they should be higher for illuminating SEDs that are dominated by the UV.  The K18 graph uses Draine:2007a, which assumes an ISM SED
+  + So dividing peak brightness by emissivity, we get a H column of 18700 1e6 / 2.5e-12 = 7.48e21 H/cm^2
+  + Using m = 1.3 mp gives line of sight surface density: \sigma = 0.01626 g/cm^2
+  + Assuming a limb-brightening boost factor of 5 and \kappa = 600 cm^2/g gives a perpendicular UV optical depth \tau = 1.95
+  + /On the cusp between bow wave and radiation-supported bow shock/
+  + We can also get the density:
+    + Path length is about 6 Herschel pixels = 19.2 arcsec = 0.21 pc = 6.48e17 cm
+      + With limb-brightening of 5, this gives shell thickness h = 0.042 pc = 1.30e17 cm
+    + So mean density is n = 7.48e21 / 6.48e17 = 1.15e4 pcc
+    + Could this be fully ionized?  Perpendicular emission measure is 1.3e17 1.15e4**2  = 1.71396e25 cm^-5
+    + => required ionizing flux is 2.6e-13 1.71396e25 = 4.46e12 phot/cm^2/s
+    + Given S49 = 0.00013, available ionizing flux is 1.34e9 phot/cm^2/s, so it must be mainly neutral
+      + Assuming that bulk of column is at 1000 K, then the ionized density would be 20 times less => 575 pcc
+      + Then, thickness of ionized layer would be 1.34e9 / 575**2 2.6e-13 = 1.56e16 cm = 0.005 pc
+      + This is 0.12 times the total thickness, so ionized gas is only 0.006 times the total column
+      + That would explain why we see no H alpha emission
++ Ero 5 has 0.025 Jy/pix = 100 MJy/sr but with large errors because of bright BG
+  + This is the same as source 407 in K18, which gives 582 MJy/sr as peak brightness, which would be 0.14 Jy/pixel
+  + Background is 0.45 Jy/pixel, so they are saying there is an excess of 30% of BG
+  + Re-looking at the cuts, I think 0.14 is just about allowable if we assume that the BG falls off at the position of the bow, but that is extreme special pleading
++ ERO 36 or K18 406
+  + The 70 micron emission can be measured more reliably in this object, since it has a better contrast with the continuum
+    + 0.32 peak - 0.24 +/- 0.01 bg = 0.08 Jy/pix = 330 MJy/sr
+    + K18 have 291 MJy/sr, so we actually agree!
+    + BG is about 1000 MJy/sr at both 70 and 160 micron
+    + So that is 57 times lower than for ERO 21
+    +
+** SEDs from some objects
+Carina ERO 21 (Sickle)
+|       |  70/\lambda | F_\nu                  | SED             |
+|-------+-------+----------------------+-----------------|
+| 4.493 | 15.58 | 0.1698 +/- 0.0140    | 0.02 +/- 2.7e-3 |
+| 5.731 | 12.21 | 1.5471 +/- 0.0116    | 0.14 +/- 0.02   |
+| 7.872 |  8.89 | 3.9551 +/- 0.1163    | 0.26 +/- 0.03   |
+|    70 |     1 | 135.0000 +/- 15.0000 | 1.00 +/- 0.16   |
+|   160 |  0.44 | 45.0000 +/- 6.0000   | 0.15 +/- 0.03   |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 36
+|       | 70/\lambda | F_\nu               | SED                     |
+|-------+------+-------------------+-------------------------|
+| 7.872 | 8.89 | 0.0790 +/- 0.0451 | 0.11 +/- 0.07           |
+|    22 | 3.18 | 2.8200 +/- 0.5640 | 1.43 +/- 0.34           |
+| 23.68 | 2.96 | 3.4630 +/- 0.2256 | 1.64 +/- 0.23           |
+|    70 |    1 | 6.2500 +/- 0.7813 | 1.00 +/- 0.18           |
+|   160 | 0.44 | 2.7344 +/- 0.7813 | 0.19 +/- 0.06           |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 36 BG
+|       | 70/\lambda | S_\nu          | SED           |
+|-------+------+--------------+---------------|
+| 7.872 | 8.89 | 40. +/- 4.   | 0.36 +/- 0.04 |
+|    22 | 3.18 | 280. +/- 30. | 0.89 +/- 0.10 |
+| 23.68 | 2.96 | 120. +/- 20. | 0.36 +/- 0.06 |
+|    70 |    1 | 997. +/- 42. | 1.00 +/- 0.06 |
+|   160 | 0.44 | 956. +/- 42. | 0.42 +/- 0.03 |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @5$2 @5$3;f2
+
+Carina ERO 5
+|       |  70/\lambda | S_\nu               | SED            |
+|-------+-------+-------------------+----------------|
+| 4.493 | 15.58 | 0.0025 +/- 0.0019 | 0.13 +/- 0.10  |
+| 5.731 | 12.21 | 0.0162 +/- 0.0050 | 0.68 +/- 0.21  |
+| 7.872 |  8.89 | 0.1306 +/- 0.0062 | 3.96 +/- 0.19  |
+|    22 |  3.18 | 1.4100 +/- 0.2820 | 15.30 +/- 3.06 |
+| 23.68 |  2.96 | 2.1009 +/- 0.2820 | 21.22 +/- 2.85 |
+|    70 |     1 | 0.2930 +/- 0.2344 | 1.00 +/- 0.80  |
+|   160 |  0.44 | 0.0000 +/- 0.2344 | 0.00 +/- 0.35  |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @7$2 0.293;f2
+
+Carina ERO 5 BG
+|       |  70/\lambda | S_\nu           | SED           |
+|-------+-------+---------------+---------------|
+| 4.493 | 15.58 | 5. +/- 2.     | 0.04 +/- 0.02 |
+| 5.731 | 12.21 | 17. +/- 4.    | 0.11 +/- 0.03 |
+| 7.872 |  8.89 | 65. +/- 5.    | 0.31 +/- 0.03 |
+|    22 |  3.18 | 600. +/- 100. | 1.02 +/- 0.18 |
+| 23.68 |  2.96 | 400. +/- 100. | 0.63 +/- 0.16 |
+|    70 |     1 | 1870. +/- 83. | 1.00 +/- 0.06 |
+|   160 |  0.44 | 1745. +/- 83. | 0.41 +/- 0.03 |
+#+TBLFM: $2=70/$1;f2::$4=$2 $3 / @7$2 @7$3;f2
+
+Ratios from Draine:2007a
+| Ratio     | P7.9            | P24            | R71         |
+|-----------+-----------------+----------------+-------------|
+| ERO 21    | 0.226 +/- 0.006 |                | 1.4 +/- 0.2 |
+| ERO 36    | 0.066 +/- 0.038 | 6.7 +/- 1.3    | 5.3 +/- 1.7 |
+| ERO 36 BG | 0.254 +/- 0.029 | 0.25 +/- 0.04  | 2.4 +/- 0.2 |
+| ERO 5     | 3.960 +/- 1.399 | 21.22 +/- 7.96 | > 3         |
+| ERO 5 BG  | 0.220 +/- 0.022 | 0.45 +/- 0.11  | 2.4 +/- 0.2 |
+#+TBLFM: @2$2=0.26/(1 + 0.15 +/- 0.03);f3::@2$4=1.64 +/- 0.23 / (1 + 0.19 +/- 0.06 );f1::@3$2=0.0790 +/- 0.0451 / (1 + 0.19 +/- 0.06) ;f3::@3$3=1 / 0.15 +/- 0.03 ;f1::@3$4=1/0.19 +/- 0.06;f1::@4$2=0.36 +/- 0.04 / (1 + 0.42 +/- 0.03);f3::@4$3=0.36 +/- 0.06 / (1 + 0.42 +/- 0.03);f2::@4$4=1/0.42 +/- 0.03;f1::@5$2=3.96 +/- 0.19 / (1 + 0.00 +/- 0.35);f3::@5$3=21.22 +/- 2.85 / (1 + 0.00 +/- 0.35);f2::@6$2=0.31 +/- 0.03 / (1 + 0.41 +/- 0.03);f3::@6$3=0.63 +/- 0.16 / (1 + 0.41 +/- 0.03);f2::@6$4=1/0.41 +/- 0.03;f1
+
++ Figure 
+So, objects like 
+* Orion ISO spectra
++ [[file:data/Orion-spectra/ISO/][file:data/Orion-spectra/ISO/]]
++ Region file [[file:data/LP-Ori-Spitzer/orion-iso-sws-apertures.reg]]
++ Ds9 backup that shows them on IRAC/MIPS image
+  + [[file:data/LP-Ori-Spitzer/orion-spitzer-2018-10-11.bck]]
++ Stepped across the bright bar
++ Two are in the ionized gas
+  + D8 :: in the highly ionized part
+  + Brga :: at the peak of Br gamma 
+* New "discoveries" in Orion
+** B star bow shock over to E of M42
++ Shows up in the WISE maps
++ Coordinates
+  + 84.158869 -5.4750212
+  + 5:36:38.129 -5:28:36.13
++ This has names
+  + Brun 1018
+  + Parenago 2425
++ Spectral type: B6V
++ Candidate driving source of CO shell 12 from Feddersen:2018a
+  + Strangely, LP Ori is candidate for driving shell 11, which I don't beleive
+** Near infrared bow shock in North portion of Orion integral-shaped filament
++ This is between M42 and Sharpless 279, just 13 arcmin S of the latter
++ Seen in WSA YJHK images
+  + http://wsa.roe.ac.uk
++ Coordinates:
+  + 5:35:31.589 -5:00:13.43
+  + 83.881677 -5.0040292
++ Certainly a bow shock, and seems to be centered on a star
+  + But this may be a coincidence - possibly it is an HH object that just happens to be passing by
+  + There is a reflection nebula to the S
+  + [X] Need to check adjacent fields to the E, to see if there is any sign of a train of knots or a possible source
+    + Turns out to be a well-studied region: Davis:2009a
+    + Our object is crossed by SMZ2 outflow, but may not be related
+  + [ ] Also need to check if they might be optical artefacts
+** [#C] Strange feature near Orion Bar in mid-infrared
++ At first I thought it was LL Ori, but it isn't
+  + Turns out there is nothing at position of LL Ori
++ Coordinates of star 5:35:15.524 -5:25:14.15
++ We can see the bow shock clearly in Spitzer images
+  + Highest contrast in IRAC 3 5.731 micron
+  + Might be jet instead of bow, or indeed anything
++ Actually, there is another bow nearby, and maybe a 3rd one further N in the same field
++ There are also some clear jets, which do look different
++ Need to check out MIR bands
+* MIR spectra of H II regions
++ Lots of times when people talk about H II region, what they really mean is PDRs and PAHs
++ But there are some real spectra of real ionized gas
++ They show *no* PAH emission, but strong VSG continuum
++ Also occasionally Silicate emission at 10 and 20 micron
++ And occasionally an emission band at 23 micron, possibly from FeO (see Koike:2017a)
++ Examples
+  + NGC 3603 Lebouteiller:2007a
+    + VSG emission is measured from continuum at 14 micron
+    + Anticorrelates with PAH emission
+    + VSG/PAH is high within 4 pc of star cluster
+    + Intensity correlates with intensity of [S IV] line
+    + PAH/VSG falls with [S IV]/[Ne II], which they call "hardness", but is really a proxy for ionization parameter
+    + MIR diagnostic diagram
+      + 6.2 micron PAH/6 micron continuum on x axis
+      + 13.8/6 continuum ratio on y axis
+      + Ionized region has y constant at about 40, finally decreasing to about 10 in the PDR
+      + Values of x range from about 0.3 to 1.0 (and then higher, as you go into the PDR)
+    + Cluster properties
+      + D = 7 kpc, A_V = 4.5 (mainly foreground)
+      + S = 1e51 /s in Ly-c
+      + Lbol = 1e7 Lsun
+    + Correlation with radiation field
+      + U = 15 L4 / R^2 = 1.5e4 / R^2 with R in pc
+      + Stellar wind cavity out to 1 pc with very little emission
+      + Silicate emission for 1 to 2 pc => U > 4000
+      + [S IV]/[Ne II] is supposedly "hardness", but I suspect will be more like ionization parameter.  For constant density, this will be a tracer of U.  But we will call it H
+        + Reading Madden:2006a is more enlightening about this.  They are comparing regions between galaxies of different metallicities, so for them [Ne III]/[Ne II] really is diagnostic of the hardness of the radiation field.  But that won't necessarily be the case within a single cluster
+        + Ratio is H = 1 at about 4 pc, so we would predict H = (R/4)^-2, which works well
+          + H(R = 2) = 4 (observed 4)
+          + H(R = 8) = 0.25 (observed 0.3)
+        + So the prediction is H = U/1000 for this density
+
+* How to normalize the radiation field
++ This is related to [[id:33290714-FA0D-44D4-9541-2D54DD74E4D2][Compare Ly\alpha heating with stellar heating]] below
++ Relano:2016a is an interesting case study
+  + They compare the Mathis:1983a ISRF with that produced by a 4Myr massive cluster
+  + Unsurprisingly, the cluster SED is all UV, whereas the ISRF is only about 5% UV
+  + They find that, using the cluster SED, they need to use a 60 times lower total flux in order to fit the same dust emission
+* Conversions
++ Many maps use MJy/sr as brightness unit
+  + Kobulnicky:2018a uses 10^7 Jy/sr
++ Salgado plots surface brightness SEDs as \nu I_\nu in erg/s/cm^2/sr
+  + 1 Jy = 1e-23 erg/s/cm^2/Hz
+  + \nu = c / \lambda = 2.99792458e14  / \lambda(micron)
+  + So, 1 MJy/sr means that \nu I_\nu = (0.003 / \lambda_\mu) erg/s/cm^2/sr
++ Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec
+  + 1 Jy/pixel = 4155 MJy/sr
+  + 1 Jy/pixel @ 70 micron = 0.178 erg/s/cm^2/sr
++ Flux in Jy
+  + In each square arc second: 1 MJy/sr means 2.35e-5 Jy
+  + In each square arc minute: 1 MJy/sr means 0.0846 Jy
+* Wind radiative momentum efficiency for a broader class of objects
++ We can calculate \eta a lot more broadly than just for OB star winds
+  + \eta = 0.495 Mdot(-7) V3 / L4
++ Wolf-Rayet stars
+  + Can have \eta > 1, so radiation support is never important (unless \tau is high enough to trap the re-emitted IR radiation too)
++ Strong-wind T Tauri stars
+  + Take L = 10 Lsun, Mdot = 1e-8, and V = 200 km/s
+  + Gives \eta = 10, implying a non-radiative wind
++ Proplyds:
+  + L = 0.1 Lsun, Mdot = 1e-8, V = 30
+  + Gives \eta = 150
++ The outer \eta
+  + If \eta_out < \tau, then the bow can be /radiatively confined/
+  + If interacting with another stellar wind, then this is just the \eta of the other star
+    + For instance, the inner proplyds in Orion that interact with \theta1 C wind
+      + Mdot(-7) V3 = 4.2 \pm 1.5 ; L = 2.5e5 Lsun
+      + \eta = 0.495 4.2 / 25 = 0.08 
+    + The optical depth of the shell in this case is from the inner wind
+      + \tau = \kappa \sigma
+      + where \sigma = (3 Mdot / 16 \pi R0 Vw)
+      + or for proplyd: \sigma = (3 m n0 r0^2 / 4 Ms R0)
+        + where r0, n0 are radius and density at i-front
+        + Ms \approx 3 is Mach number at shock
+        + m is mean mass per nucleon
+      + Using R0 = 1e16 R16, n0 = 1e6 n6, r0 = 1e15 r15, \kappa = 600
+        + \tau = 0.033 n6 r15^2 / R16
+          |   proplyd |   n6 |  r15 |  R16 |      \tau |
+          |-----------+------+------+------+--------|
+          |   158-233 | 2.33 | 0.63 | 1.12 | 0.0272 |
+          |   161-324 | 4.13 | 0.35 |  0.6 | 0.0278 |
+          |   163-317 | 3.13 |  0.5 | 1.44 | 0.0179 |
+          |   163-323 |   10 | 0.22 | 0.25 | 0.0639 |
+          |   166-316 | 4.13 | 0.25 |  0.4 | 0.0213 |
+          |   167-317 | 2.60 | 0.79 | 1.12 | 0.0478 |
+          | 168-326SE | 2.33 | 0.63 | 0.66 | 0.0462 |
+          |   168-328 | 4.00 | 0.28 | 0.46 | 0.0225 |
+          |   177-431 | 0.41 | 2.04 | 2.58 | 0.0218 |
+          |   180-331 | 0.48 | 1.22 | 0.97 | 0.0243 |
+          #+TBLFM: $5=0.033 $2 $3**2 / $4;f4
+        + So this is about 0.05 for the strongest case (167-317), which is smaller than \eta, meaning that radiative confinement does not dominate, but might be important
+          + /however/, there is evidence that the 11 micron dust opacity 
+* Particular objects
+** Galactic center bow shocks
++ Zajacek:2016a model these as winds with Mdot = 1e-8 and V = 200 km/s
+  + They are supposedly T Tauri stars, which seems weird
+  + Object is DSO/G2
++ All is within 0.05 pc (1e4 AU) of SMBH (M = 4e6 Msun)
+  + 0.05 pc at 8 kpc is 1.3 arcsec
+  + Schwarzscild radius: G M / c^2 = 2e-7 pc
++ The ambient medium is the BHs corona, which is captured from stellar winds and is in virial equilibrium
+  + 
++ Sanchez-Bermudez:2014a have them being O stars or WR stars
+  + Are these the same objects?
+  + IRS1W, IRS5, IRS10W, and IRS21
+*** Galactic center "proplyds"
++ Yusef-Zadeh:2015a detect these in radio
+  + They look more like bow shocks than proplyds, although there is also some resemblance to the further out Helix knots
+** TODO UCHII regions from Mac-Low:1991a
++ These have
+  + R = 0.001 to 0.005 pc
+  + n = 1e5 to 1e6
+  + v \approx 5 km/s
+  + Hard to reconcile all these with the claimed O4 to O6 spectral types, but \tau \gg 1 whatever
+** OB bowshocks in Orion Nebula
+*** LP Ori
+**** Info about star
++ Taken from [[file:~/Work/OrionNI/git-paper/models/individual/orion-stars.org]]
++ LP Ori (B1.5V) is 5 arcmin to the SSW of Trapezium
++ Parenago 1744 (B5V) is 12 arcmin to N of Trapezium
+#+begin_src python
+stars.update(
+    LP = dict(T=23000., g=4.1, L=3.75), 
+    P1774 = dict(T=16000., g=4.1, L=2.7), 
+)
+#+end_src
+
+**** Info from Gaia
++ [[file:1528254812272O-result.json]]
++ Extracted and derived data
+  | Quantity        | Unit       |               Value |
+  |-----------------+------------+---------------------|
+  | source_id       |            | 3017360348171372672 |
+  | ra              | deg        |   83.79099195922022 |
+  | ra_error        | mas        | 0.04624738839693305 |
+  | dec             | deg        |  -5.464774673154743 |
+  | dec_error       | mas        | 0.04518707614040293 |
+  | parallax        | mas        |   2.447378178564449 |
+  | parallax_error  | mas        | 0.06419465488526256 |
+  | pmra            | mas.yr**-1 |  1.4821304012919858 |
+  | pmra_error      | mas.yr**-1 | 0.11623231572816041 |
+  | pmdec           | mas.yr**-1 |  1.6097056019763252 |
+  | pmdec_error     | mas.yr**-1 | 0.09540261483321187 |
+  | phot_g_mean_mag | mag        |            8.325929 |
+  | bp_rp           | mag        |           0.3084631 |
+  | a_g_val         | mag        |              0.4895 |
+  |-----------------+------------+---------------------|
+  | PA of pm        | deg        |        42.6 +/- 2.8 |
+  | Total pm        | mas.yr**-1 |       2.19 +/- 0.11 |
+  | V(tangential)   | km/s       |         4.2 +/- 0.2 |
+  | D               | pc         |      408.6 +/- 10.7 |
+  | RA              | hms        |   5@ 35' 9.8380702" |
+  | Dec             | hms        |  -5@ 27' 53.188823" |
+  #+TBLFM: @16$3=arctan(@9 +/- @10 / @11 +/- @12);f1::@17$3=sqrt((@9 +/- @10)**2 + (@11 +/- @12)**2);f2::@18$3=4.74 @-1 / (@7 +/- @8) ; f1::@19$3=1000/(@7 +/- @8) ; f1::@20$3=hms(@3/15)::@21$3=hms(@5)
++ [X] Check that this is the correct star!
+  + 83.79099195922022, -5.464774673154743
+    + 5@ 35' 9.8380702"
+    + -5@ 27' 53.188823"
+    + => 098-753 in OW notation
+    + So this is consistent with the Spitzer position
++ So it is moving in roughly the right direction, but very slowly!
++ So, if it is a bow shock it must be an ambient flow - say 20 km/s
+**** Info from ACS images
++ Lies just S of the bright bar
++ Size is roughly 3 arcsec, or 0.006 parsec
+  + No, that is not accurate
+    + 5.8 arcsec along global symmetry axis
+      + => 0.012 pc
+    + 5.0 arcsec along axis found by circle fit
++ Symmetry axis PA is about +20 deg
++ Dark cloud immediately to E
+  + southern extension of SW cloud
++ Images to use
+  + I have saved cut-out images in all the Robberto ACS filters
+  + e.g., [[file:data/LP-Ori-HST/lp-ori-f435w.fits]]
+  + A good RGB image is made from
+    + R: f850lp 0..5
+    + G: f555w 0..9
+    + B: f435w 0..9
+**** Spitzer images of LP Ori
++ There are several things in the [[file:data/LP-Ori-Spitzer/]] folder
+  + But I don't remember what is what
+  + In some of the images, LP Ori is totally saturated
+  + One that shows LP Ori well
+    + [[file:data/LP-Ori-Spitzer/r18172160/ch2/pbcd/SPITZER_I2_18172160_0000_4_E8245118_maic.fits][SPITZER_I2_18172160_0000_4_E8245118_maic.fits]]
+    + But the resolution is much worse than in the optical
+    + Coordinates are about 098-753
+      + 5:35:09.869 -5:27:52.55
+      + 83.791004 -5.4646746
+**** Other available data
++ [X] Unfortunately, the new Bally observations (2016) do not cover LP Ori
+  + The closest fields are the Beehive one (just to the east), and the Trapezium West one (just to the north), but it falls between the cracks
++ [X] Might there be newer Robberto images in f775w? Just like for the Western shocks
+  + Yes there are - I am getting them now, together with some other recent observations, all from Robberto program 13826 in 2015-02
+    + ~icol04020~ WFC3/IR F130N
+    + ~icol04030~ WFC3/IR F139M
+    + ~jcol12010~ ACS F775W
+      + This one is not so good
+    + ~jcol19010~ ACS F775W
+      + This is the best one
+      + I have aligned with the 2005 images via the stars
+      + There is no significant proper motions in the arc
+      + We would be sensitive to at least 1/2 a pixel in 10 years, which is
+        + 0.05 0.5 410 1.49597870691e13 / 10 3.15576e7 1e5 = 5 km/s
++ Save file of all the LP Ori images
+  + [[file:proper-motions/lp-ori-prop-motions-and-rgb.save]]
+*** \theta^{1} Ori D
++ Size: about 1.5 arcsec"
+  + => 0.003 pc
++ Stellar data
+  + From \citep{Simon-Diaz:2006b}
+  + M = 18 Msun
+  + L = 2.95e4 Lsun
+  + T_eff = 32,000 K
+  + B0.5V 
++ *Low dust opacity*: from both the Fulgencio paper and from Salgado:2016a, it seems that the FUV opacity in the ionized and neutral gas is lower than in the general ISM
+  + 1.6e-22 cm^2 / H => 74 cm^2/g in PDR
+  + 2e-22 cm^2 / H => 92 cm^2/g in HII region
++ But /careful/, these are absorption cross sections, /and/ they don't take into account scattering - so I think they are underestimates
++ So they say that the grain size is large, which is why there is low opacity per unit mass
+  + Up to 1 micron, supposedly
+  + This also explains the lowish dust temperatures of about 100 K - it would be higher for smaller grains
+  + This is because the reduced grain opacity means that Lyman alpha dominates the heating over most of the nebula
+    + Note that from Smith:2005a, T is > 150 K in th1D arc, and 170 K in LV1 arc
+    + But, again, there might be problems.  They are taking the dust T as being equal to the color T, but it is more complicated than that, with a distribution of dust sizes
+    + Also, they assume gray body with a power law dust opacity, but there is a silicate absorption feature at 11 microns - so not sure how that works
+    + So this is sort of in agreement with the Cloudy models - they show T ~ 300 K for 0.1 micron grains at 0.1 pc around the 40 Msun star
++ For th1D, we have R = 0.003 pc
+  + so this would correspond to about 200 K for the biggest ISM silicate grains, which is indeed higher than is observed
+  + For LV1 we have about 6.5 arcsec, so (0.013 / cos i) pc, say 0.02
+  + This gives T of about 200 for the 0.1 micron grains, which is a little bit higher than the 170 K observed, but not by much
+  + [ ] /need to work out color temperature of Cloudy models/
+  + Robberto:2005a finds that color T calculated around 11 microns is higher than that calculated at longer wavelengths
+    + this is not really surprising
+    + mid-IR Qabs ~ a, so that \kappa ~ a^3, so goes with mass
+    + but T ~ 122 D_{17}^{-1/3} a^{-1/6} with a in micron
+      + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
+      + So this means we will see the small grains at 10 microns and the large grains at 20 microns
+    + This means that 0.02 micron grains will be twice as hot
+**** Mid-IR photometry for \theta^1 D
++ Robberto:2005a have 10 micron and 20 micron
++ Units are Jy/pixel
+
+
+
+** Ones in Ochsendorf papers
+
+*** \sigma Ori
++ Coordinates:
+  + Equatorial: 05h38m42s -02d36m00s
+  + Galactic: 206.81067369 -17.34616728
++ Ochsendorf:2014b, Ochsendorf:2015a
++ Stellar parameters (from them)
+  + binary O9.5V + B0.5V
+  + L4 = 6.02, so like the 20 Msun case
+  + \eta = 0.0697 or 0.0002 - they prefer the second
+    + [ ] They cite Najarro et al 2011 - need to check it out
++ To get a dust wave, we need that \eta is small or V is large
+  + V large is definitely ruled out
+    + Star has V = 15 km/s
+    + Isothermal photoevaporation flow has
+      + M_{1} / M_{0} = sqrt(1 + 2 ln(\rho_{0} / \rho_{1}))
+      + They say \rho_{1} = 10, \rho_{0} = 100 pcc, so M_{1} = 2.37 M_{0}
+      + So with M_{0} = 1 and c_{s} = 11 km/s \Rightarrow V = 26 km/s
+  + So how small does \eta need to be?
+    + v_10 > sqrt(\Xi_{\dag }\eta)
+    + so we need \Xi_{\dag }\eta < 9 where \Xi_{\dag }\approx 3000 for O stars
+    + \eta < 0.003
++ In IC 434 H II region
+  + Photoevaporation flow has supposedly fallen from 100 pcc at i-front to 10 pcc
++ Fiducial radius
+  + R_* = 2.21 sqrt(L4/n) / v10
+  + = 0.7 pc
++ Bow shock radius - if it were a bow shock
+  + R_0 = sqrt(\eta) R_*
+  + => \eta = (0.1 / 0.7)**2 = 0.02 
++ Rip point radius
+  + R_\dag = v10 R_* / sqrt(\Xi) = 1.7 / sqrt(\Xi)
+  + So \Xi = 300 required to match observations of 0.1 pc
+  + Unless arc radius is not the rip point
++ Observed arc radii
+  + R = 0.1 pc for inner dust wave (dust T about 70 K)
+  + R = 1 pc for outer dust wave, which may or may not exist (dust T about 20 K)
+
+
+
+**** \sigma Ori as a weak-wind star
++ Najarro et al 2011
+  + 
+***** Email to Najarro et el and Simón-Díaz
++ Sent [2018-08-30 Thu 12:15]
++ F. Najarro
+  + Torrejón, Spain
+  + najarro@cab.inta-csic.es
++ M. M. Hanson
+  + Cincinnati
+  + hansonmm@ucmail.uc.edu
++ J. Puls
+  + University of Munich
+  + uh101aw@usm.uni-muenchen.de
++ EXTRA S. Simón-Díaz
+  + IAC
+  + ssimon@iac.es
+
+#+BEGIN_EXAMPLE
+  Dear authors
+
+  I am writing with a query about the wind parameters of the star sigma
+  Ori, on which you have published papers in the last few years (Najarro
+  et al. 2011A&A...535A..32N; Simón-Díaz et al. 2011ApJ...742...55S,
+  2015ApJ...799..169S).
+
+  In the Najarro 2011 paper, an extremely low wind mass-loss rate of
+  2e-10 Msun/yr is derived, mainly on the basis of Brackett alpha and
+  other H lines.  However, as far as I can see, the analysis assumed a
+  single star, whereas Simón-Díaz 2011,2015 establish that it is a
+  triple system, consisting of 3 OB stars: sigma Ori Aa, Ab, and B, with
+  masses in the range 10 to 20 Msun (see also Schaefer et al
+  2016AJ....152..213S).
+
+  So, my question is: how reliable is the mass-loss determination in the
+  light of the triple nature of the system?  Is it possible that the
+  Brackett alpha emission from Aa is actually stronger than it seems,
+  but is masked by underlying absorption from the cooler photospheres of
+  Ab and B?
+
+  The reason for my interest is that I am currently working on
+  theoretical models of infrared bow shocks, and sigma Ori is an
+  interesting case where it has been proposed that it is radiation
+  acting on dust, instead of the stellar wind, that forms the bow shapes
+  (see Ochsendorf et al 2014, 2015).  The argument hinges on whether the
+  wind is really quite so extremely weak as was derived in Najarro 2011.
+
+  I would be very grateful for any comments you may have.
+
+  Best wishes
+
+  Will Henney
+#+END_EXAMPLE
+**** Evidence that ODW is in the ionized gas
++ Mainly the 
+**** Calculations for the inner dust wave
++ [ ] General structure
+  + Line-of-sight depth of evaporation flow
+    + Width is about 20 arcmin => 2 pc
+    + Radius of H II region is about 40 arcmin => 4 pc
+      + RMS density, assuming S = 7.6e47
+        + 4/3 pi R**3 n**2 alpha = S
+        + n = sqrt( 3 S / 4 pi R**3 alpha) = 20 pcc
+  + Size and thickness of bow
+  + Timescale for photoevaporation flow
+    + Size about 3 pc
+    + Velocity about 20 km/s
+    + => 0.15 Myr, which is less than the stellar age
+    + On the other hand, it is similar to the crossing time of the star if its proper motion is really 15 km/s towards the horsehead
++ [ ] Dust density and temperature
+  + Optical depth map at 70 micron given in Fig 3 of Och15
+    + Morphology similar to the Ha bow
+    + Peak is around 1.8e-5
+    + extended plateau from photoevaporation flow is about 1e-5
++ [ ] H alpha emission
+  + 
+
+
+**** Sigma Ori images
+
+***** Infrared
+
+****** TODO WISE bands 3 and 4
+
+****** TODO Spitzer observations
++ These are in [[file:data/Sigma-Ori/Spitzer/]]
+  + Band M1 : MIPS 24 micron
+  + Band I4 : IRAC 8 micron
+  + Band I3 : IRAC 5.8 micron
+
+
+***** Liverpool telescope
++ These are continuum images and spectra
++ The images seem quite high resolution
+  + But the bigger fields have a strange spiral pattern of instrumental scattered light, which means it is impossible to see the dust wave
+  + The smaller ones are very noisy and don't seem to show anything interesting
+
+***** Bo Reipurth
++ [2018-08-07 Tue] Sent email
+
+***** INT
++ [2018-08-07 Tue] Requested datasets
++ Images seem to be from program of Rafael Barrena
+****** Download instructions
+#+BEGIN_SRC sh
+wget -r -l1 -A "*.fit*" -nH --cut-dirs=4 -e robots=off http://casu.ast.cam.ac.uk/~eglez/casuadc/requests/004733 -P download_dir
+#+END_SRC
+Same for 4734 and 4735
+****** The Ha images
++ There are Ha, r, and i images
+  + All the pointings are very similar
+  + Each has 4 fields as compressed images in fits file
+  + Number 4 is the one that shows the bow shock
++ They do not have useful WCS headers, but I have saved approximate values in [[file:data/Sigma-Ori/ING/4734/align-647195-ext4.wcs]]
+
+#+BEGIN_SRC python :results output verbatim
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Sigma-Ori/ING/4734/int20081118_00647195.fits.fz
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU     103   ()      
+:   1  COMPRESSED_IMAGE    1 CompImageHDU     44   (2154, 4200)   int16   
+:   2  COMPRESSED_IMAGE    2 CompImageHDU     44   (2154, 4200)   int16   
+:   3  COMPRESSED_IMAGE    3 CompImageHDU     44   (2154, 4200)   int16   
+:   4  COMPRESSED_IMAGE    4 CompImageHDU     44   (2154, 4200)   int16   
+
+
++ Add WCS info and split out the individual fields
+#+BEGIN_SRC python :results output verbatim
+  import glob
+  from astropy.io import fits
+
+  BIAS = 2210.5 
+  filenames = glob.glob("data/Sigma-Ori/ING/4734/int20081118_*.fits.fz")
+
+  for fn in filenames:
+      hdulist = fits.open(fn)
+      for ext, hdu in enumerate(hdulist):
+          if 'IMAGE' in hdu.name:
+              ohdu = fits.PrimaryHDU(header=hdulist[0].header,
+                                     data=hdulist[ext].data - BIAS)
+              ohdu.writeto(fn.replace(".fits.fz", f"-{ext}.fits"), overwrite=True)
+
+
+
+#+END_SRC
+
+#+RESULTS:
+
+
+
++ Try and take ratio of Ha to R, which should be more or less proportional to EW
+  + Also need to remove bias, which can get from strips - first and last 50 pixels in X
+  + Exposure times: 300s for Ha, 90s for r and i
+
+#+BEGIN_SRC python :results output verbatim
+  from astropy.io import fits
+
+  # [Ha, R] image IDs
+  pairs = [[176, 177],
+           [180, 183],
+           [185, 186],
+           [188, 190],
+           [192, 193],
+           [195, 196],
+           [198, 199],
+           [201, 202],
+           [204, 205],
+           [207, 208],
+           [210, 211],
+  ]
+
+  prefix = "data/Sigma-Ori/ING/4734/int20081118_00647"
+  for id_ha, id_r in pairs:
+      fn_ha = f"{prefix}{id_ha}-4.fits"
+      fn_r = f"{prefix}{id_r}-4.fits"
+      hdu_ha, = fits.open(fn_ha)
+      hdu_r, = fits.open(fn_r)
+      hdu_ha.data /= hdu_r.data
+      hdu_ha.writeto(fn_ha.replace(".fits", "-ratio.fits"))
+    
+
+#+END_SRC
+
+#+RESULTS:
+
+
+
+
+***** David Mittelman
++ [[file:data/Sigma-Ori/orion-complex-orig.jpg]]
++ Creative Commons License - [[http://sites.middlebury.edu/mittelmanastrophotography/acknowledgment-and-use/][usage]]
++ This shows the inner bow the best of all the images I have seen so far
+
+
+
+***** Fabian Neyer
++ [[file:data/Sigma-Ori/neyer-orion_halpha.jpg]]
++ Slightly lower resolution than Mittelman, but also shows the bow
+
+
+***** Rob Pfile
++ [[file:data/Sigma-Ori/rob-pfile-sigma-ori.jpg]]
++ From [[https://www.flickr.com/photos/pfile/12158818865/in/photolist-jwr8f2-kbg96c-iB1hve-ibdHsf-bjQNX8-bSmeMZ-jZGK2t-brqshJ-dTeWDc-CixZxn-gNv4Su-kHf3jX-dQBD4h-dg4qcD-pAX7W3-oPoNWN-cdQCrS-j3dwD9-R9ByrX-8ZsFBu-91MNAz-212XxNU-eg1Gnn-9PV4RW-qjARM7-93Hbvt-dsvkxy-66ETKU-qYYMjE-dNc4Md-9kqcUx-26Sy3qf-29eU2a7-24sKSry-ekAj3M-saaE8m-jfyQL1-4mfZRy-R1XqtS-26mZQk9-j3zNEK-9dtzN4-pDWwpx-dRuoNm-24fCueB-p98nsB-qs6vpQ-91a68x-jfw6Ni-8ZgWz7][Flickr]]
++ This is clearly the highest resolution one, but it is a bit noisier than Mittelman
++ Has 5 nm Ha filter
++ 9 x 1200 s = 10800 s with a 9.2 cm telescope
+  + so with INT (254 cm), this is equivalent to 14 s, whereas some of the observations I have requested are 300 s
+
+***** starshadows.com
++ [[file:data/Sigma-Ori/Horsehead_Mosaic_master.jpg]]
++ [[file:data/Sigma-Ori/Horsehead_Mosaic_Ha_master.jpg]]
++ Both from http://www.starshadows.com/galley/display.cfm?imgID=30
+
+***** WHAM
++ All-sky integrated in velocity
+  + [[file:data/Sigma-Ori/wham-ss-DR1-v161116-170912-int-grid.fits]]
++ Not so useful, since it is at 1 degree resolution!
+***** Virginia Tech Spectral-Line Survey
++ Ha image: [[file:data/Sigma-Ori/Ori08_Ha.fits]]
++ Cont-subtracted Ha image: [[file:data/Sigma-Ori/Ori08_HaCC.fits]]
++ These are at 1.6 arcmin resolution, which is about the same as SHASSA, which Ochsendorf uses, although they have smoothed theirs
++ Requested acknowledgments are [[http://www1.phys.vt.edu/~halpha/ack.html][here]]
+***** Convert images to FITS
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py orion-complex-orig.jpg
+  #+END_SRC
+
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py Horsehead_Mosaic_master.jpg
+  #+END_SRC
+
+  #+BEGIN_SRC sh :results silent
+  cd data/Sigma-Ori
+  python ~/Work/Image2FITS/image2fits.py rob-pfile-sigma-ori.jpg
+  #+END_SRC
+
+
+****** TODO Add WCS info
+
+*** RCW 120, RCW 92
++ Ochsendorf:2014a
++ See also Mackey:2016a who say that RCW 120 is stellar wind bubble
++ These are a bit of a mess - the Ha is not obviously correlated with the 24 micron emission, but I'm not sure that this proves anything
+  + The Ha emission from any bow shock or bow wave is probably weak
+
+** Carina bow shocks
++ Smith:2010 Sexton:2015a, Kiminki:2017a
++ Ambient density about 1000 pcc
+  + *But see below*
++ Velocities 10 to 50 km/s
++ Spectral types B0 to O7, plus some supergiants
+
+
+*** Distance to Carina
++ I had been assuming 2 kpc
++ But Kuhn:2018a give 2600 +/- 300 pc
+  + How would this be affected by the Stassun systematic offset?
+  + 0.38 +/- 0.04 mas => 2.63 +/- 0.27 kpc
+  + Stassun offset is -0.082 +/- 0.033 mas
+  + This gives 2.16 +/- 0.24
++ Should actually use distance to \eta Car
+  + 2.35 +/- 0.05 kpc
+    + Implies parallax of 0.43 +/- 0.01 mas
+    + Consistent with GAIA DR2 if offset -0.05 +/- 0.04
+  + Smith:2006b
+  + This should also apply to TR16 at least, and probably all of Carina
+
+*** Main samples
++ Morphological Bow Shock Candidates
+  + ERO 1-6 detected at 8 micron
+    + ERO 4 best candidate for interaction with photoevaporation flow
+  + ERO 36, 37, 39 detected at 24 micron
++ Color Bow shock Candidates
+  + A few more of them
+
+*** Special cases
++ ERO 18 is a B8 star - so almost no wind
+  + Arc merges into a larger-scale structure
+  + Has a blue [8]-[24] color, suggestive of PAH emission
+    + Although perhaps it is the silicate feature
++ ERO 21 is a B1.5V star
+  + No 24 micron measurement because saturated
+  + Has a red [4.5]-[5.8] color, indicative of PAHs
+    + So maybe not a wind bow shock, but could be radiation bow shock
+  + Radius is 7.6 arcsec = 0.087 pc
+    + If optically thick, we can calculate the pressure in the shell
+    + L / 4 pi c R^2 = 6300 3.82e33 / 4 pi 2.99792458e10 0.073**2 3.085677582e18**2
+    + P = 1.26e-9 cgs
+    + External ram pressure = v^2 \rho = 2e-12 M^2 n
+    + Ambient density is 630 / v10^2
+      + I have calculated a better version of this including all regimes
+    + Does the internal star dominate the ionization?
+      + Flux from B1V star at 0.087 pc distance
+        + S = 10^46 
+      + Distance from luminous stars in Tr 14 is about 80 arcsec
+        + 0.9 pc, so 10 times further 
+  + Modelled as asymmetric bow shock by Ngoumo:2013a
+    + The call it the "Sickle"
+    + Has sub-mm clump just in front of it
+      + Central column density of clump is 1.3e22 /cm^2 they say
+      + Size is about 10 arcsec radius = 0.11 pc
+      + So central density is about 2e4 pcc
+    + Broad and narrow-band HST images show that the optical emission is all scattered continuum, with no detectable emission lines
+      + small-scale shells closer to the star
+  + Hartigan:2015a also comment on this object (sec 4)
+    + They call it Tr 14 MJ 218
+    + Morphology is unlike any of the bright-rimmed globule arcs that they see
+    + In the Br-gamma minus H_2 difference map it shows up as H_2 bright on the right-hand flank
+      - this is very weird
+      - suggests that we have trapped the ionization front
+
+
+**** Carina images
++ ESO
+  + [[file:data/Carina/eso1208dc.tif][Visual]] 
+  + [[file:data/Carina/eso1208dc.tif][NIR]]
++ Spitzer
+  + 3.6 micron as red, combined with NIR and blue
++ Sub-mm
+  + Composite 
+
+
+
+**** Carina data
+
+***** 2MASS Near infrared
+#+BEGIN_SRC python :results output
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Carina/2MASS/2MASXJ10435514-5933326.fits")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Carina/2MASS/2MASXJ10435514-5933326.fits
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU      51   (301, 301, 6)   float32   
+
+***** Apex sub-mm
+#+BEGIN_SRC python :results output
+  from astropy.io import fits
+
+  hdulist = fits.open("data/Carina/Apex/APEXBOL.2011-06-30T20:26:32.000.fits")
+
+  hdulist.info()
+#+END_SRC
+
+#+RESULTS:
+: Filename: data/Carina/Apex/APEXBOL.2011-06-30T20:26:32.000.fits
+: No.    Name      Ver    Type      Cards   Dimensions   Format
+:   0  PRIMARY       1 PrimaryHDU      39   ()      
+:   1  SCAN-MBFITS    1 BinTableHDU    127   1R x 1C   [17A]   
+:   2  FEBEPAR-MBFITS    1 BinTableHDU    121   1R x 23C   [1J, 1J, 1PJ(39), 1PJ(39), 1PJ(39), 39D, 39D, J, 39A, 39E, 39E, 39E, 39E, 39E, 39E, 39E, 1E, 1E, 39E, 39E, 39E, 1E, 1E]   
+:   3  DATAPAR-MBFITS    1 BinTableHDU     86   16967R x 28C   [D, D, D, J, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D]   
+:   4  ARRAYDATA-MBFITS    1 BinTableHDU     59   16967R x 2C   [D, 39E]   
+:   5  MONITOR-MBFITS    1 BinTableHDU     30   163439R x 4C   [D, 30A, 1PD(28), 1PA(60)]   
+
+
+
+
+***** Spitzer IRAC
+We have up to 8 micron
+
+***** Herschel
++ We have the SPIRE image at 250, 350, 500 micron
++ But we mainly want the 70 micron image, which must be PACS
+
+
+**** More on the Sickle Nebula (ERO 21)
++ Stellar parameters
+  + B1.5V
+  + 2e4 Lsun
++ Coordinates
+  + 
++ Interaction with Tr 14
+  + HD93129Aa (O2 supergiant)
+    + Luminosity 1.5e6 Lsun
+  + Others in center
+    + 3 times O3.5V => another 1.5e6 Lsun
+  + Luminosity ratio
+    + Bolometric is factor of 100
+    + Stellar wind
+      + \eta \approx 1 for supergiant (or at least > 0.1)
+      + \eta < 0.01 for B1.5V star
+      + So wind momentum ratio is 1000 to 1e4
+  + Separation from central stars
+    + About 80 arcsec, so about 0.9 pc
+    + Bow radius is 0.1 times separation
+  + 
+
+
+*** What is the ionized density in Carina?
++ Sexton say 1000 pcc by referencing Brooks:2003a
+  + But as far as I can see, Brooks are only measuring the density in the PDR and molecular clouds
+    + They say that the PDR emission comes from "dust lane adjacent to Tr 14" and that density is 1e4 pcc and with G_0 = 1e4
+    + But then they talk of a molecular cloud that the PDR overlaps with, and has density of 1e3 pcc
++ We can calculate the mean ionized density by assuming a Stromgren sphere
+  + Tr 14 stellar population has S = 1.4e50 s^{-1}
+  + Radius is about 2.6 pc
+    + 4 arcmin at 2 kpc 
+    + n = sqrt(S / (4/3) pi R^3 \alpha_B)
+    + n = sqrt(3 1.4e50 / 4 pi 2.6**3 3.085677582e18**3 2.6e-13)
+    + n = 500 pcc
+    + So the RMS ionized density is pretty high!
++ We can also work out lower limit on wind cavity size, by assuming momentum balance
+  + Mdot = 5.3e-5 and Vw = 3000 km/s
+    + Note that these are from the Smith:2006a stellar parameters, which probably overestimate the wind strength
+  + At 2 pc, Pram = Mdot Vw / 4 pi R^2 = 1.2e-9
+  + Whereas gas pressure is 2 n k T = 1.4e-9
++ Amazingly, they are the same, which implies that the H II region should be a  shell, with even higher density
++ But this is not quite right:
+  + that is just a high density PDR that is close to the dominant star, which is an O3I supergiant
+  + the region as a whole is larger
+    + The bows are spread over a region of radius about 1 degree
+    + => 35 pc
+  + We can add together Tr 14, Tr 15, and Tr 16 and the others
+    + Smith:2006a
+    + Total S = 9.1e50 /s
+    + So with radius of 35 pc, this gives n = 26 pcc
+    + Smith:2007b look at radio emission and find that it requires an effective S = 7e50 /s
+      + Presumably, the rest has been absorbed by dust, or has escaped
+      + This would then give an RMS density of 23 pcc over the 1 degree radius
++ However, there is much local variation
+  + Smith:2004a find peak densities at the i-fronts of evaporation flows as 2000 to 6000 pcc
+    + This is from Carina's defiant finger
++ Also Oberst:2011a claim that the average density is ≲ 100 pcc
++ Parkes 3.4 cm continuum map shows considerable structure, but dominated by large scale (tens of parsecs)
+  + Car I accounts for only 5% of Tr 14's ionizing radiation (Smith:2007b)
+  + Car II accounts for < 1% of Tr 15's ionizing radiation 
++ Measurements of [S II] ratio from Damiani:2016a
+  + Median density of 100 pcc for approaching shell
+  + Median density of 200 pcc for receding shell
+  + Brightest regions have 2000 pcc, but fraction of nebula > 600 pcc is very small
++ Finally, 
+
+
+
+*** Carina kinematics
++ Low mass cluster stars 
+  + Damian:2016a
+    + have V = -12 (approx) 
+    + Range is -10 to -15
+  + Damian:2017a
+    + V = -7 (mean) HELIOCENTRIC
+      + It seems that LSR is -8.8 km/s bluer => -16
+      + But then Kiminki:2018a say it is 11.6 km/s difference
+    + sigma = 3.5 km/s
+  + Kuhn:2018a
+    + Use proper motions from Gaia
+    + 1D velocity dispersion is 2.5 to 3 km/s for each cluster: Tr 14, 15, 16
+    + But, there are inter-subcluster differences of 5 to 8 km/s
+      + For instance Tr 16 is moving towards Tr 14 at about 10 km/s
++ Ionized gas seems to be expanding shells
+  + Damiani:2016a
+  + Red component with V = +10 HELIOCENTRIC
+  + Blue component with V = -30 HELIOCENTRIC
++ Molecular gas
+  + Rebolledo:2016a
+  + 12CO and 13CO
+  + V(LSR) = -20 is typical
+    + Implies about -10 heliocentric
+  + Width not so clear, since they don't mention the instrumental resolution
+    + FWHM ~ 5 km/s => sigma of 2 km/s
++ High mass stars have much higher dispersion
+  + Hanes:2018a
+    + -40 to +20
+    + FWHM is about 40 km/s
+    + Implying RMS sigma of about 17 km/s
+    + If that is the 1D sigma, then the 3D sigma will be 30 km/s
+  + Proper motions of bow shock stars also give about 30 km/s
+    + Kiminki:2017a
+    + But it is not necessarily aligned with bow shock axis
+    + And may be upper limit
+  + Kiminki:2018a
+    + Smaller dispersion: 1D sigma = 9 km/s for their reliable sample
+    + Mean is 0.6 km/s
++ Conclusion
+  + Relative velocities of 20 to 40 km/s between star and environment are likely
+  + Roughly equal contributions from star and environment
+
+
+
+
+** Kobulnicky:2018a sample
++ [ ] There seems to be some overlap with the Carina ERO sample - check this out
++ [ ] There is another high-density example
+  + KGK2010-2 in Cygnus OB-2
+  + Spectral type is B1V, although luminosity class is uncertain
+  + Ambient density is calculated as 160 pcc, but that assumes V=30 km/s
+  + R = 0.07 pc, so very similar to Carina ERO 21 
+
+
+*** Which of the Carina EROs are in the K18 sample?
+|     |           |        | Sexton15     | F(8) S15 | F(24) S15 | R0 S15 |
+|-----+-----------+--------+--------------+----------+-----------+--------|
+| 406 | HD 92607  | ERO 36 | O8.5V + O9 V |      388 |      3152 |   15.7 |
+| 407 | HD 93249  | ERO 5  | O9 III       |     20.8 |      32.3 |    6.0 |
+| 409 | HD 93027  | ERO 1  | O9.5 V       |     12.3 |      61.1 |    8.6 |
+| 410 | HD 305536 | ERO 3  | O9.5 V       |     75.1 |       348 |    3.0 |
+| 411 | HD 305599 | ERO 6  | B0 Ib        |     53.0 |       205 |    3.4 |
+| 413 | HD 93683  | ERO 37 | O9 V         |      163 |      1705 |   17.1 |
+|-----+-----------+--------+--------------+----------+-----------+--------|
+|     |           | ERO 21 |              |      422 |           |    7.6 |
+
+
+*** Cross checking the fluxes of the EROs
++ The fluxes given in Sexton:2015a paper are much larger than in Kobulnicky:2017a
++ I want to find out which is right, using the IRAC4 8 micron image
+  + Units are MJy/sr = 2.35043863818e-5 Jy/arcsec^2
+  + IRAC pixels are 0.6 arcsec => 8.46e-6 Jy/pixel
+  + MIPS pixels are 2.45 arcsec
++ Worked example: ERO 21 IRAC4
+  + 10h 44m 05.00s -59d 33m 40.0s Equ J2000
+  + Peak intensity: 1800
+  + BG intensity: 250
+  + Pixel Widths: 11 x 25
+  + Total flux: 8.46e-6 11 25 (1800 - 250) = 3.61 Jy
++ Measure some more
+  | Source | Band       |    \mu{}m |  Peak | BG             |    Bunit | Size  | Sunit | Flux                 | BG in MJy/sr    |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 2     | 4.493 |     7 | 5 +/- 1.5      |  2.35e-5 | 7*21  |   0.6 | 0.0025 +/- 0.0019    | 5. +/- 2.       |
+  |        | IRAC 3     | 5.731 |    30 | 17 +/- 4       |  2.35e-5 | 7*21  |   0.6 | 0.0162 +/- 0.0050    | 17. +/- 4.      |
+  |        | IRAC 3     | 5.731 |    27 | 17 +/- 4       |  2.35e-5 | 5*24  |     1 | 0.0282 +/- 0.0113    | 17. +/- 4.      |
+  | ERO 5  | IRAC 4     | 7.872 |   170 | 65 +/- 5       |  2.35e-5 | 7*21  |   0.6 | 0.1306 +/- 0.0062    | 65. +/- 5.      |
+  |        | IRAC 4     | 7.872 |   147 | 65 +/- 5       |  2.35e-5 | 5*24  |     1 | 0.2312 +/- 0.0141    | 65. +/- 5.      |
+  |        | WISE 3     |    12 |  5600 | 2200 +/- 200   |  2.35e-5 | 5*24  |     1 | 9.5880 +/- 0.5640    | 2200. +/- 200.  |
+  |        | WISE 4     |    22 |  1100 | 600  +/- 100   |  2.35e-5 | 5*24  |     1 | 1.4100 +/- 0.2820    | 600. +/- 100.   |
+  |        | MIPS 1     | 23.68 |  1145 | 400 +/- 100    |  2.35e-5 | 5*24  |     1 | 2.1009 +/- 0.2820    | 400. +/- 100.   |
+  |        | PACS 70    |    70 | 0.475 | 0.45 +/- 0.02  | 1/3.2**2 | 5*24  |     1 | 0.2930 +/- 0.2344    | 1870. +/- 83.   |
+  |        | PACS 150   |   150 |  0.42 | 0.42 +/- 0.02  | 1/3.2**2 | 5*24  |     1 | 0.0000 +/- 0.2344    | 1745. +/- 83.   |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 2     | 4.493 |    83 | 10 +/- 6       |  2.35e-5 | 11*25 |   0.6 | 0.1698 +/- 0.0140    | 10. +/- 6.      |
+  |        | IRAC 3     | 5.731 |   720 | 55 +/- 5       |  2.35e-5 | 11*25 |   0.6 | 1.5471 +/- 0.0116    | 55. +/- 5.      |
+  | ERO 21 | IRAC 4     | 7.872 |  1950 | 250 +/- 50     |  2.35e-5 | 11*25 |   0.6 | 3.9551 +/- 0.1163    | 250. +/- 50.    |
+  |        | PACS 70    |    70 |   6.0 | 1.5 +/- 0.5    | 1/3.2**2 | 5*6   |   3.2 | 135.0000 +/- 15.0000 | 6233. +/- 2078. |
+  |        | PACS 160   |   160 |   2.5 | 1.0 +/- 0.2    | 1/3.2**2 | 5*6   |   3.2 | 45.0000 +/- 6.0000   | 4156. +/- 831.  |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  |        | IRAC 4     | 7.872 |    47 | 40 +/- 4       |  2.35e-5 | 12*40 |     1 | 0.0790 +/- 0.0451    | 40. +/- 4.      |
+  |        | WISE 3     |    12 |  1830 | 1100 +/- 100   |  2.35e-5 | 20*40 |     1 | 13.7240 +/- 1.8800   | 1100. +/- 100.  |
+  |        | WISE 4     |    22 |   430 | 280 +/- 30     |  2.35e-5 | 20*40 |     1 | 2.8200 +/- 0.5640    | 280. +/- 30.    |
+  | ERO 36 | MIPS 1     | 23.68 |   427 | 120 +/- 20     |  2.35e-5 | 12*40 |     1 | 3.4630 +/- 0.2256    | 120. +/- 20.    |
+  |        | PACS 70    |    70 |  0.32 | 0.24 +/- 0.01  | 1/3.2**2 | 20*40 |     1 | 6.2500 +/- 0.7813    | 997. +/- 42.    |
+  |        | PACS 160   |   160 | 0.265 | 0.23  +/- 0.01 | 1/3.2**2 | 20*40 |     1 | 2.7344 +/- 0.7813    | 956. +/- 42.    |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 37 | PACS B     |    70 |       |                |          |       |       | 0                    | 0e0             |
+  |        | WISE 4     |    22 |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L15  |    15 |       |                |          |       |       | 0                    | 0e0             |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 29 | PACS B     |    70 |       |                |          |       |       | 0                    | 0e0             |
+  |        |            |       |       |                |          |       |       | 0                    | 0e0             |
+  |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
+  | ERO 16 | Akari L24  |       |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L18W |       |       |                |          |       |       | 0                    | 0e0             |
+  |        | Akari L15  |       |       |                |          |       |       | 0                    | 0e0             |
+  #+TBLFM: $9=$6 ($4 - $5) $7 $8**2 ; f4::$10=$5 $6 / 2.35e-5 ; f0
+  + ~Bunit~ is brightness unit Jy/arcsec^2
+    + 2.3504e-5 for MJy/sr
+  + ~Punit~ is size unit in arcsec
+  + Note that the second lot of IRAC fluxes are smoothed to the MIPS resolution and using a slightly bigger aperture
+  + Herschel PACS images are in Jy/pixel
+    + Pixel is 3.2 arcsec
++ ERO 29 strangeness
+  + Listed as very small in Sexton:2015a: size 16.6, offset 5.2 arcsec
+  + But is actually large: offset 100 arcsec!
++ ERO 16 show up clearly in Akari
+  + It is seen in all 3 MIR bands, but strongest in L24
+  + I measure R0 = 20 arcsec, R90 = 45 arcsec
+  + Sexton:2015a had it being circular and 7.4 arcsec
+  + There are several observations of similar field, for instance
+    + file:data/Carina/Akari/MIR/AKARI_IRC_6171001_001_201503/
+    + file:data/Carina/Akari/MIR/AKARI_IRC_6171002_001_201503/
+    + Data are in the ~stacked_IM~ directory
+    + Note that I had to correct the WCS to align the 3 bands with each other and with the catalog position of ERO 16
+      + Need to apply files such as [[file:data/Carina/Akari/MIR/AKARI_IRC_6171002_001_201503/6171002_001_L15_long.wcs][6171002_001_L15_long.wcs]]
++ What about WISE?
+  + Pixel size 1.375 arcsec
+  + ~BUNIT~ says that intensity is in ~DN~, which isn't helpful
+  + We could calibrate IRAC 4 against MIPS 1 with ERO 36
++ We also have Akari - but very low resolution
+  + FIR is only useful for ERO 29, but MIR is much better (although spotty coverage)
+    + See ERO 16 discussion above
+  + FIR Bands:
+    + N60 :: 65 micron
+    + Wide S :: 90 micron
+    + Wide L :: 140 micron
+    + N160 :: 160 micron
+  + MIR bands
+    + 15, 18, 24 micron
++ Possible new bow shock
+  + WERO 40
+  + 10:47:11.68 -60:20:48.73
+  + Detected in Akari, but there is only L15 observations of the field
+    + Example: [[file:data/Carina/Akari/MIR/AKARI_IRC_6170001_001_201503/stacked_IM/6170001_001_L15_long.fits]]
+    + Also 6170005, and 6170006
++ ERO 37 also show up in Akari L15
+  + 1650296_001
+*** Densities and column densities
++ Kobulnicky:2018a find the stream density by
+  1. Converting the 70 micron emission to column density, using Draine:2007a
+  2. Using measured chord length to convert this into shell density
+  3. Assume density jump of 4 across the shock to find the pre-shock density
++ Step 3 is the most problematic, since this only applies if the shock is non-radiative
+  + For O9 and above, shock is strongly radiative above n = 1 for V = 30 km/s
+  + So compression should be M^2 = 9, which is twice as high
++ Conclusion: stream densities should be 2 times lower, which implies /two times lower mass loss rates/
+  + But we eliminate dependence on the stream velocity, since shell density is proportional to V^2, exactly the same as external ram pressure
++ We could also do an alternative method based on the column density
+  + This requires knowing the shell thickness ratio, H/R, so we can estimate the limb brightening
+  + Observed column from 70 micron surface brightness is n_1 L, where L is the chord length
+  + Then use n_1 H = 3/4 n_0 R
++ Relating 70 micron emission to column density
+  + Quantity j_\nu gives conversion: S_70 = j_\nu N_H
+  + S_70 = 8e8 Jy/sr for brightest
+  + j_\nu = about 1e-11, depending on radiation field at shell
+  + => N_H = 1e20 H cm^-2
+    + => \tau = 0.13
+  + But this is across the chord length - the thickness will be less by a factor of 5-10, so \tau < 0.026
+  + We can actually work it all out from the real data
+    + Compare \tau and \eta as calculated from Kobulnicky:2018a data
+    + The "radius" R and thickness H is given in the previous paper Kobulnicky:2017a
+      + But note that R is not R0, but more like R90 (although as far as I can see, it is not measured from the star)
+    + They also have a table with the R0 values (Kobulnicky:2017a Table 5) for just the sub-sample of known distance
+      + But there are some inconsistencies:
+        + Source 13 (zeta Oph): 29 (K17) versus 299 (K18) arcsec.  Clearly the second is correct
+        + Source 331: 25 vs 42
+        + Source 381: 71 vs 220
+        + I will take the second one (K18) in all cases
+    + Better idea - work out the optical depth from \tau = 2 L_{IR} / L_{*}
+
+#+name: kob18
+|  ID |    L4 |   V3 |    R0 |    S7 | R0_as |  l_as | l/R0 | j_-12 | D_kpc | FIR_-9 |  L*/LIR |
+|-----+-------+------+-------+-------+-------+-------+------+-------+-------+--------+---------|
+|  13 |   8.1 |  1.3 | 0.175 |  12.3 |   299 |   277 | 0.93 |   8.7 |  0.11 |   64.0 | 3339.43 |
+|  67 |   5.1 |  1.3 | 0.080 |  64.0 |   7.5 |    15 | 2.00 |  11.0 |  1.99 |   58.0 |    7.09 |
+| 329 |   7.9 |  2.0 | 0.219 |  15.4 |    10 |    27 | 2.70 |   8.4 |   4.1 |   0.51 |  294.20 |
+| 331 |  12.0 |  2.5 | 0.296 |  12.0 |    42 |    55 | 1.31 |   8.3 |  1.32 |    5.3 |  414.87 |
+| 338 |   7.9 |  1.2 | 0.162 |  79.8 |    23 |    29 | 1.26 |   8.9 |  1.32 |    6.9 |  209.79 |
+| 339 |  32.0 |  2.9 | 0.493 |  29.9 |    70 |    47 | 0.67 |   8.3 |  1.32 |    6.0 |  977.24 |
+| 341 |   5.1 |  1.3 | 0.141 |   5.0 |    20 |    31 | 1.55 |   8.7 |  1.32 |    1.9 |  491.84 |
+| 342 |   1.4 |  0.8 | 0.070 |  57.8 |    10 |    14 | 1.40 |   8.9 |  1.32 |   0.60 |  427.54 |
+| 344 |  87.0 |  3.0 | 1.359 |  58.6 |   193 |   170 | 0.88 |   8.0 |  1.32 |   50.0 |  318.83 |
+| 368 |   4.1 |  1.2 | 0.146 |  24.9 |    14 |    22 | 1.57 |   8.5 |  1.95 |   0.14 | 2458.89 |
+| 369 |   9.7 |  2.5 | 0.759 |   7.9 |    73 |    39 | 0.53 |   7.8 |  1.95 |    1.4 |  581.74 |
+| 380 |   2.6 |  1.2 | 0.021 |  35.7 |    15 |    49 | 3.27 |  30.0 |  0.26 |    3.3 | 3721.05 |
+| 381 |  12.0 |  2.5 | 0.739 |   4.6 |   220 |   200 | 0.91 |   7.9 |  0.63 |    4.4 | 2193.81 |
+| 382 |  12.0 |  1.2 | 0.506 |  11.2 |   101 |    70 | 0.69 |   8.0 |  0.94 |    3.2 | 1354.96 |
+| 406 |   8.2 |  1.3 | 0.201 |  29.1 |    16 |    26 | 1.63 |   8.5 |  2.35 |    1.9 |  249.50 |
+| 407 |  14.0 |  1.3 | 0.098 |  58.2 |   7.8 |    25 | 3.21 |  13.0 |  2.35 |    6.3 |  128.47 |
+| 409 |   7.4 |  1.2 | 0.093 |  20.8 |   7.4 |    17 | 2.30 |  11.0 |  2.35 |   0.76 |  562.90 |
+| 410 |   4.1 |  1.2 | 0.046 |  91.4 |   3.7 |    14 | 3.78 |  15.0 |  2.35 |    1.1 |  215.48 |
+| 411 |   4.1 |  1.2 | 0.052 |  41.5 |   4.2 |    16 | 3.81 |  13.0 |  2.35 |   0.40 |  592.57 |
+| 413 |   5.1 |  1.3 | 0.188 |  15.4 |    15 |    24 | 1.60 |   8.3 |  2.35 |    1.0 |  294.84 |
+|-----+-------+------+-------+-------+-------+-------+------+-------+-------+--------+---------|
+|     | 12.49 | 1.62 |  0.29 | 33.78 | 57.58 | 58.35 | 1.80 | 10.51 |  1.70 |  10.86 |  941.75 |
+|     | 18.70 | 0.67 |  0.33 | 26.12 | 83.72 | 71.69 | 1.04 |  5.02 |  0.91 |  20.27 | 1099.22 |
+#+TBLFM: $8=$-1/$-2;f2::$12=1e4 $2 $Lsun / (4 $pi ($-2 1000 $pc)**2 1e-9 $-1) ; f2::@22$2..@22$12=vmean(@I..@II);f2::@23$2..@23$12=vsdev(@I..@II);f2
+
+#+BEGIN_SRC python :var TAB=kob18 :colnames no :return tab
+  from astropy.table import Table
+  tab = Table(rows=TAB[1:-2], names=TAB[0])
+  tab.write('kob18.fits')
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
+--- ---- --- ----- ---- ----- ---- ---- ----- ----- ------ -------
+ 13  8.1 1.3 0.175 12.3 299.0  277 0.93   8.7  0.11   64.0 3339.43
+ 67  5.1 1.3  0.08 64.0   7.5   15  2.0  11.0  1.99   58.0    7.09
+329  7.9 2.0 0.219 15.4  10.0   27  2.7   8.4   4.1   0.51   294.2
+331 12.0 2.5 0.296 12.0  42.0   55 1.31   8.3  1.32    5.3  414.87
+338  7.9 1.2 0.162 79.8  23.0   29 1.26   8.9  1.32    6.9  209.79
+339 32.0 2.9 0.493 29.9  70.0   47 0.67   8.3  1.32    6.0  977.24
+341  5.1 1.3 0.141  5.0  20.0   31 1.55   8.7  1.32    1.9  491.84
+342  1.4 0.8  0.07 57.8  10.0   14  1.4   8.9  1.32    0.6  427.54
+344 87.0 3.0 1.359 58.6 193.0  170 0.88   8.0  1.32   50.0  318.83
+368  4.1 1.2 0.146 24.9  14.0   22 1.57   8.5  1.95   0.14 2458.89
+369  9.7 2.5 0.759  7.9  73.0   39 0.53   7.8  1.95    1.4  581.74
+380  2.6 1.2 0.021 35.7  15.0   49 3.27  30.0  0.26    3.3 3721.05
+381 12.0 2.5 0.739  4.6 220.0  200 0.91   7.9  0.63    4.4 2193.81
+382 12.0 1.2 0.506 11.2 101.0   70 0.69   8.0  0.94    3.2 1354.96
+406  8.2 1.3 0.201 29.1  16.0   26 1.63   8.5  2.35    1.9   249.5
+407 14.0 1.3 0.098 58.2   7.8   25 3.21  13.0  2.35    6.3  128.47
+409  7.4 1.2 0.093 20.8   7.4   17  2.3  11.0  2.35   0.76   562.9
+410  4.1 1.2 0.046 91.4   3.7   14 3.78  15.0  2.35    1.1  215.48
+411  4.1 1.2 0.052 41.5   4.2   16 3.81  13.0  2.35    0.4  592.57
+413  5.1 1.3 0.188 15.4  15.0   24  1.6   8.3  2.35    1.0  294.84
+#+end_example
+
+
++ Flux conversions:
+  + 1 Jy = 1e-23 erg/s/cm^2/Hz
+  + So we can find the total flux in erg/s/cm^2 by summing the
+    spectral fluxes in Jy times bandwidths \Delta\nu in each band
+    |          |  \mu{}m |   \Delta\nu Hz |
+    |----------+-----+---------|
+    | IRAC     |   8 | 1.45e13 |
+    | MIPS     |  24 |  4.6e12 |
+    | MIPS     |  70 |  1.2e12 |
+    | MIPS     | 160 |  5.5e11 |
+    | Herschel |  70 | 6.48e11 |
+    | Herschel | 160 | 3.54e11 |
+  + So, estimate for total flux in units of 1e-10 erg/cm^2/s
+    + 1.45 S_8 + 0.46 S_24 + 0.0648 S_70 + 0.0354 S_160
+  + But that leaves gaps in between the bands, so best to use the difference between bands as the \delta\nu:
+    | \lambda, \mu{}m |  \nu, Hz |     \delta\nu | \langle \delta\nu \rangle |
+    |-------+--------+--------+--------|
+    |     5 | 6.0e13 | 2.3e13 | #ERROR |
+    |     8 | 3.7e13 | 2.5e13 | 2.4e13 |
+    |    24 | 1.2e13 | 7.7e12 | 1.6e13 |
+    |    70 | 4.3e12 | 2.4e12 | 5.1e12 |
+    |   160 | 1.9e12 | 1.6e12 |   2e12 |
+    |  1000 | 3.0e11 |        |        |
+    #+TBLFM: $2=$c / $1 $micron ;s2::$3=$-1 - @+1$-1::$4=(@-1$3 + $3)/2;s2
+  + The third column is the forward difference, while fourth column is the centered difference, which should be better
+  + So this would give a better total flux of
+    + 2.4 S_8 + 1.6 S_24 + 0.51 S_70
+    + Note that we are only using 3 bands
+    + /Old version/:
+      + 2.3 S_5 + 2.5 S_8 + 0.77 S_24 + 0.24 S_70 + 0.16 S_160
+  + E.g., source 13 (subbing S_12 for S_8):
+    + (2.3 8 + 2.5 51.32 + 0.77 343 + 0.24 246 + 0.16 62)
+    + (18.4 + 128.3 + 264.11 + 59.04 + 9.92) = 479.77e-10 = 5e-8 as in Table!
+  + And source 67
+    + (2.3 0 + 2.5 0.31 + 0.77 27.66 + 0.24 4.4 + 0.16 5.4)
+    + (0 + 0.775 + 21.2982 + 1.056 + 0.864) = 23.99e-10 = 2.4e-9
+    + This is less than 5% of the 6e-8 in table! That seemed to be based on a very high-T fit, which cannot be right.
+  + So, in both cases, over 90% of total IR flux comes from 8, 24, 70 micron bands
+  + In K17 they give peak S(70) in Jy/arcmin^2, whereas in K18 it is in Jy/sr
+    + Conversion factor is (180 60 / pi)**2 = 1.18e7
+  + SEDs: Draine:2007a uses ratios based on \nu F_\nu, so factors that multiply F_\nu for each band are (normalized to 70 micron)
+    |     \lambda | \langle\nu F_\nu\rangle/F_\nu |
+    |-------+-------------|
+    | 4.493 |       15.58 |
+    | 5.731 |       12.21 |
+    | 7.872 |        8.89 |
+    |    24 |        2.92 |
+    |    70 |           1 |
+    |   160 |        0.44 |
+    #+TBLFM: $2=70/$1;f2
+
+*** Compare KE flux with radiation
++ /actually all this is not necessary/
+  + Draine:1981a shows that we need V > 200 km/s before a substantial fraction of the shock energy is radiated by dust
+  + This is because grain cooling of the gas only becomes competitive above 1e6 K
+  + For V = 100 km/s, the fraction is only 1%
+    + This, combined with fact that shock energy is small fraction of absorbed radiative energy, means that collisional heating of the grains should be negligible
+  + Note that the same shock velocities (> 200 km/s) are also those required to produce significant dust sputtering
+    + V < 150 km/s, then grains of 0.01 micron can survive
+    + V < 270 km/s, then grains of 0.1 micron can survive
++ KE flux passing through = P v / 2
+  + P is ram pressure, v is stream velocity
++ Absorbed radiant flux = F (1 - e^{-\tau}) \approx F \tau
+  + F = incident radiation flux
+  + \tau = optical depth of shell
++ Also, we have
+  + wind case (\eta > \tau): P = \eta F / c
+  + radiation case (\eta < \tau): P = F (1 - e^{-\tau}) / c
++ So, we have shock heating / radiation heating:
+  + wind case: 0.5 (\eta/\tau) (v/c)
+  + radiation case: 0.5 (v/c)
++ Note that \tau = 2 x \tau_{\star}
+  + wind case: x = \eta^{1/2}
+  + rad case: x = 2 \tau_{\star} or \approx 1
+
+
+*** TODO Compare Ly\alpha heating with stellar heating
+:PROPERTIES:
+:ID:       33290714-FA0D-44D4-9541-2D54DD74E4D2
+:END:
++ K18 calculate G = F/F(Habing), which they call U
+  + although actually /these are not the same/
+    + First, they are working in terms of energy density not flux
+    + Second, they are basing things on Mezger:1982a and Mathis:1983a who specify the entire SED of the IS radiation field.  This is what is used in Draine:2007a
+    + Problem is that this Mathis field includes multiple cool stellar components that emit at longer wavelengths.  
+    + I integrate the radiation field of Mezger:1982a Table C1
+      + Take FUV range from 912 to 2000 Angstrom
+        + \Delta\lambda = 0.11 \mu{}m
+      + The average field there is about 15 in the table units
+      + Units are 4 \pi J_\lambda / 1e-3 erg/cm^2/s/\mu{}m
+      + So I get 4 \pi J_FUV = 15 0.11 0.001 = 1.6e-3 => *exactly the Habing value*
+    + But the optical peak around 0.55 micron has 16.4, so adds another roughly
+      + 16.4 0.55 0.001 = 9e-3 in same units
+      + Optical emission is 6 times higher than FUV emission
+    + Plus, they have another peak in the FIR
+    + The total flux is 2.17e-2 erg/cm^2/s from Mathis:1983a
+      + This means that the FUV flux is 0.074 times the total
++ Habing FUV version
+  + F(Habing) = 1.6e-3 erg/s/cm^2
+  + They find G values from 300 to 3e4
+  + Using F = L / 4 \pi R^2, we get G = 200 L_{4} R_{pc}^{-2}
+  + [ ] Need to compare this with their U to see how they are normalizing 
+
+
+**** What Kobulnicky are doing with their model fitting
++ They claim to be calculating U from their stellar parameters:
+  + U = \sigma T^{4} (R_{*}^{2} / R_{0}^{2}) / U_{0}
+  + where U_{0} = 2.17e-2 erg/cm^2/s
++ And they should have L = 4 \pi \sigma T^{4} R_{*}^{2}
+  + U = L / 4 \pi R_{*}^{2} U_{0}
+  + U = 14.7 L_{4} R_{pc}^{-2}
+
+
+
+** Povich:2008a bows in M17 and RCW 49
++ They had 3 objects in each region
++ Only RCW 49 S1 has measurements in the long wavelength bands
++ It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+* Density versus velocity in photoevaporation flow
++ Assume isothermal:
+  + 1/2 M^2 + ln n = 1/2 M_0^2 + ln n_0
+  + n / n_0 = exp(-(M^2 - M_0^2)/2)
+
+| M_0 | M |   n/n_0 | P/P_0 |
+|-----+---+---------+-------|
+|   1 | 2 | 0.22313 | 0.558 |
+|   1 | 3 | 0.01832 | 0.092 |
+|   1 | 4 | 0.00055 | 0.005 |
+|   0 | 1 | 0.60653 | 1.213 |
+|   0 | 2 | 0.13534 | 0.677 |
+|   0 | 3 | 0.01111 | 0.111 |
+|   0 | 4 | 0.00034 | 0.006 |
+#+TBLFM: $3=exp(-($2**2 - $1**2)/2) ;f5::$4=$3 (1 + $2**2) / (1 + $1**2);f3
+* Types of bow
+
+| object | Sp. type | T_eff, K |  L_4 | R_0, pc |
+|--------+----------+----------+------+---------|
+| LP Ori | B1.5V    | 23,000   | 0.56 |    0.01 |
+| \theta^1 D  | B0.5V    | 32,000   | 2.95 |   0.003 |
+|        |          |          |      |         |
+
++ LP Ori
+  - this is very similar to our 10 Msun example star.
+  - the 0.01 pc line is a very interesting one
+    - if the relative velocity is low (< 20 km/s), then we are in the radiation-supported bow wave regime
+    - if it is higher, then it may be a dust wave
++ \theta^1 D
+  - This is part-way between the 10 and 20 Msun models
+  - Low velocities, < 80 km/s or so, imply a radiation bow shock
+    - With very high densities, > 1e5 pcc
+    - Is this possible?
+
+* Fitting the arc shapes
+
+** Comments on \theta^{1} D and LP Ori fits
+
+*** \theta^{1} D fits
++ E.g., [[file:arc-fits/th1D-75.pdf]]
++ The symmetry axis of the circle fits is always about PA175
+  + This is different from the brightness axis, which is more like PA200
++ Also, it looks like we could maybe add some more arc points on the left hand side
+  + This would mean we would get a proper R90 for that side
+
+*** LP Ori fits
++ E.g., [[file:arc-fits/lp-ori-110.pdf]]
++ This is even worse
+  + Symmetry axis of fits is around PA050
+  + But global axis is more like PA010
++ The fundamental problem here is that the star position is too far from the symmetry axis of the bow, and this is what leads to the circle fit algorithm breaking down
+*** TODO It might be better to fit a parabola to all the points
++ 4 parameters
+  + (x, y) of apex
+    + It might work better if this were specified by hand, perhaps guided by the maximum in brightness
+  + position angle of tail
+  + coefficient a in y = a x^2
++ Then can calculate the deviation of the central star from the parabola axis
++ And can do circle fit to the points around the axis, which hopefully will be more consistent than the unconstrained version
+  + We could make a pseudo-center by projecting the star position onto the parabola axis
+
+** Arc fit for LP Ori
+#+BEGIN_SRC python :eval no :tangle arc-fits/lp-ori-circle-fit.py
+  import sys 
+  sys.path.append("/Users/will/Dropbox/circle-fit")
+  import circle_fit
+
+  fits_file = "../data/LP-Ori-HST/lp-ori-f435w.fits"
+
+  for delta_theta in 110, 130, 150:
+      plotfile = f"lp-ori-{delta_theta:03d}.pdf"
+      print('#### '*10)
+      print("Creating", plotfile)
+      circle_fit.plot_solution(
+          f"lp-ori-acs-forma.reg",
+          fits_file,
+          plotfile,
+          delta_theta=delta_theta,
+          vmin=0.0, vmax=8.0,
+      )
+#+END_SRC
+
+#+BEGIN_SRC sh :results verbatim
+cd arc-fits
+python lp-ori-circle-fit.py
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-110.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.320, Lambda = 1.576, dLambda = -0.282)
+CircleFit(Pi = 1.535, Lambda = 1.415, dLambda = -0.321)
+CircleFit(Pi = 1.480, Lambda = 1.380, dLambda = -0.335)
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-130.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.315, Lambda = 1.546, dLambda = -0.180)
+CircleFit(Pi = 1.386, Lambda = 1.411, dLambda = -0.286)
+CircleFit(Pi = 1.360, Lambda = 1.458, dLambda = -0.242)
+#### #### #### #### #### #### #### #### #### #### 
+Creating lp-ori-150.pdf
+CircleFit(Pi = 1.595, Lambda = 1.369, dLambda = 0.109)
+CircleFit(Pi = 1.245, Lambda = 1.532, dLambda = -0.315)
+CircleFit(Pi = 1.334, Lambda = 1.549, dLambda = -0.160)
+CircleFit(Pi = 1.315, Lambda = 1.546, dLambda = -0.180)
+#+end_example
+
+
+** Arc fit for th1D
+#+BEGIN_SRC python :eval no :tangle arc-fits/th1d-circle-fit.py
+  import sys 
+  sys.path.append("/Users/will/Dropbox/circle-fit")
+  import circle_fit
+
+  fits_file = "/Users/will/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits"
+
+  for delta_theta in 65, 70, 75, 80:
+      plotfile = f"th1D-{delta_theta:02d}.pdf"
+      print('#### '*10)
+      print("Creating", plotfile)
+      circle_fit.plot_solution(
+          f"th1d-ori-smith-2005-forma.reg",
+          fits_file,
+          plotfile,
+          delta_theta=delta_theta,
+          vmin=0.0, vmax=0.01,
+      )
+#+END_SRC
+
+#+BEGIN_SRC sh :results verbatim
+cd arc-fits
+python th1d-circle-fit.py
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-65.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+CircleFit(Planitude = 1.4369575034558033, Alatude = [ 1.34236887  1.37510133])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-70.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.4078624613676836, Alatude = [ 1.33984663  1.3714574 ])
+CircleFit(Planitude = 1.5558494149676698, Alatude = [ 1.37294133  1.38619122])
+CircleFit(Planitude = 1.5558494149676698, Alatude = [ 1.37294133  1.38619122])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-75.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+#### #### #### #### #### #### #### #### #### #### 
+Creating th1D-80.pdf
+CircleFit(Planitude = 1.863668610945027, Alatude = [ 1.5174858   1.47936061])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+CircleFit(Planitude = 1.5029029947873929, Alatude = [ 1.37811972  1.38004071])
+#+end_example
+
+Do the bootstrap resampling
+#+BEGIN_SRC sh :eval no
+cd arc-fits
+python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits 75 0.5 bootstrap-th1d-75-05.pdf
+#+END_SRC

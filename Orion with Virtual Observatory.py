@@ -222,6 +222,61 @@ display(Image(jpgfile))
 #
 # This is necessary for the Spitzer and Herschel PACS data
 
+# First, find all the catalogs.  ALthough this is not so useful, since I want images not catalogs.
+
+# +
+#Start with a Base URL.
+tap_base_url = 'https://irsa.ipac.caltech.edu/TAP/sync?'
+
+#Attach search parameters to this.
+tap_params = {
+    "request": "doQuery",
+    "lang": "ADQL",
+    "QUERY":"SELECT * FROM TAP_SCHEMA.tables"
+    }
+
+#Send the request.
+r = requests.post(tap_base_url, data = tap_params)
+
+#Put the results in an astropy table.
+table=Table.read(io.BytesIO(r.content))
+
+#Show the table.
+table.show_in_notebook()
+# -
+
+# Now, try images.  But how to get a list of possible image types?  List is here: https://irsa.ipac.caltech.edu/ibe/sia.html
+
+# +
+#IRSA Simple Image Access Base URL
+sia_base_url = 'https://irsa.ipac.caltech.edu/SIA?'
+#Parameters of our search
+sia_params = {
+    "COLLECTION":"wise_allwise",
+#    "POS":"circle -164.7 -5.8 0.1",
+#    "BAND":"3e-6 4e-6",
+#    "COLLECTION":"spitzer_sha",
+    'POS': f'circle {pos[0]} {pos[1]} 0.5', 
+    }
+
+#Send the Request
+r = requests.post(sia_base_url, data = sia_params)
+
+#Put the results in an astropy table.
+table=Table.read(io.BytesIO(r.content))
+
+#Show the table.
+table.show_in_notebook()
+# -
+
+pos
+
+
+
+
+
+
+
 
 
 # ### Looking for my B star in catalogs
