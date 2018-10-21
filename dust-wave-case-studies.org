@@ -145,7 +145,7 @@ So, objects like
   + Parenago 2425
 + Spectral type: B6V
 + Candidate driving source of CO shell 12 from Feddersen:2018a
-  + Strangely, LP Ori is candidate for driving shell 11, which I don't beleive
+  + Strangely, LP Ori is candidate for driving shell 11, which I don't believe
 ** Near infrared bow shock in North portion of Orion integral-shaped filament
 + This is between M42 and Sharpless 279, just 13 arcmin S of the latter
 + Seen in WSA YJHK images
@@ -202,6 +202,36 @@ So, objects like
           + H(R = 2) = 4 (observed 4)
           + H(R = 8) = 0.25 (observed 0.3)
         + So the prediction is H = U/1000 for this density
+  + [ ] Other regions
++ Dopita:2008a on compact H II regions that are ionization bounded (plus PDRs out to column of 1e22 H/cm^2)
+  + This has SEDs for different pressures and masses of star
+    + M = 20 to 100 Msun
+    + P/k = 1e6 to 1e9 at the i-front, corresponding to densities of 100 to 1e5 pcc
+      + In Orion we have
+        + P/k = 2e8 in Orion S region (0.02 pc)
+        + P/k = 2e7 in Bar (0.2 pc)
+        + down to P/k = 1e6 in EON (2 pc)
+        + In theory it should be Q/4 pi R^2 = \alpha n^2 H
+          + So that n \propto R^{-1} H^{-1/2}
+          + Which would be R^{-3/2} if H \propto R
+          + That fits the Bar-EON ratio OK, whereas R^-1 fits better the OrionS- Bar ratio
+
+    + They find that the IR SEDs have luminosities of roughly the stellar luminosity in all cases, unsurprisingly
+    + Low P/k have intense PAH band emission and continuum peaks at 60 micron
+    + High P/k means that PAH goes away and dust continuum peaks at 20 microns, and we see the Silicate emission peaks
++ [ ] Zhu:2008a have kinematics of lots of compact H II regions in [Ne II] lines
+  + Many sources have bow-shaped morphologies
+  + They consider different models for the kinematics
+    + A: Expanding shell
+    + B: Expanding sphere
+    + C: Bow shock
+    + D: Parabolic shell with pressure-driven flow along the shell
+    + E: Filled blister flow
+  + /Comments/
+    1. They do not fairly represent the blister flow.  They have it being very convex, which is not at all like Henney:2005a models.  Still, the predictions of flow perpendicular to bow should be easy to rule out
+    2. They find most sources to be of type D, but there is really no difference between a slow-moving bow shock and their model D
+       + I suppose it is different in the sense that the ionized velocity reached in the wings is not due to the relative velocity of the confining stream
+  + We should look at some of these sources and see if they have IR SEDs available
 
 * How to normalize the radiation field
 + This is related to [[id:33290714-FA0D-44D4-9541-2D54DD74E4D2][Compare Ly\alpha heating with stellar heating]] below
@@ -454,7 +484,23 @@ stars.update(
 + 1 MJy/sr = 0.0235 mJy/arcsec^2
 + 1 arcsec^2 = 2.35043863818e-11 sr = 0.0235 nsr or nano-steradian
 + The 24.30 map is very noisy and the highest contour is possibly spurious - I am going to take the second contour, so 1.414 times less than 29500
-
++ In Fig 4 Hayward:1994b has I_\lambda in units of
+  + erg /cm^2 /s /micron /arcsec^2
+  + In CGS I_\nu = I_\lambda d\lambda/d\nu
+  + d\lambda/d\nu = c / \nu^2 = \lambda^2 / c
+  + I_\nu (erg /cm^2 /s /Hz /arcsec^2) = 3.336e-19n (\lambda_\mu)^2 I_\lambda (erg /cm^2 /s /cm /arcsec^2) = 3.336e-15 (\lambda_\mu)^2 I_\lambda (erg /cm^2 /s /micron /arcsec^2)
+  + I_\nu (Jy/arcsec^2) = 3.336e8 (\lambda_\mu)^2 I_\lambda
+  + I_\nu (GJy/sr) = 42.54 3.336e8  (\lambda_\mu)^2 I_\lambda = 1.419e10 (\lambda_\mu)^2 I_\lambda
++ Take the 10.48 micron point from Fig 4:
+  + I_\lambda = 1e-10 erg /cm^2 /s /micron /arcsec^2
+  + => I_\nu = 1.419 10.48**2 = 155.85 GJy/sr
+  + Whereas I had 98, so need a correction factor of 1.5
+  + We will apply that to all the short wavelengths, meaning effective area A = 0.788 1.5 = 1.182 nsr
++ Now the 19.62 micron point as representative of the long ones
+  + I_\lambda = 1e-10 erg /cm^2 /s /micron /arcsec^2
+  + => I_\nu = 1.419 19.62**2 = 546.23 GJy/sr
+  + Whereas I had 436, so correction factor of 1.253
+  + So use A = 0.788 1.253 = 0.987
 
 
 ****** Hale SpectroCam - Hayward:1994b
@@ -494,6 +540,9 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 
 
 ****** UKIRT MAX - Robberto:2005a
+:PROPERTIES:
+:ID:       CEC2E640-8DFC-4CE8-AE69-513510017BE1
+:END:
 + Using the profiles from Fig 14 of Robberto:2005a, and comparing with "counts" in the FITS file ~10_wjh_hdr.fits~
   + 100 is 0.11 Jy/pix
   + 300 is 0.34 Jy/pix
@@ -519,8 +568,32 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 | 19.7 |           610 | 370 +/- 40 | 166.1 +/- 27.7 | 256.0 +/- 27.7 |
 #+TBLFM: $4=0.692 ($2 - $3);f1::$5=0.692 $3;f1
 
-
++ Doing Epandas ellipse photometry at 10.1 microns
+  + Total flux: (96141.966 + 77094.644)/1000 = 173.2 Jy
+    + That is very close to the T-ReCS value at 11.7, but the BG values are very different
+    + Area 1052 pixels = 74.83 arcsec^2
+      + I don't understand why this is slightly smaller area than with T-ReCS, given that I copied the region over - but never mind
+  + Box for BG, same as T-ReCS:
+    + 1.499 +/- 6% Jy/arcsec^2
+    + 112 Jy in the Epandas aperture, which is enormous
+    + The problem here is that there is a glow underneath the MAX observations, and this BG box is right on its maximum - need to find a region that is more representative of the glow underneath th1D
+      + This gives me 1.085 +/- 5% Jy/arcsec^2
+      + Or 81.2 Jy in aperture, which seems about right, but I would put up the error to +/- 10
+  + So BG-subtracted flux is
+    + 173.2 - (81.2 +/- 10) = 92. +/- 10 Jy
+  + Matching that to the peak-intensity derived fluxes, then implies an effective area of 92./131.5 = 0.70 nsr, which is like what we had anyway
++ Repeat but for 19.7 micron
+  + Total flux: 263.30496 + 272.37955 = 535.68 Jy
+  + BG box: 4.96 Jy/arcsec^2 +/- 3%
+    + 371 +/- 11 Jy in source aperture
+  + BG-subtracted flux is
+    + 535.68 - (371 +/- 11) = 164.68 +/- 11
+  + Matching to peak-intensity derived fluxes:
+    + effective area of 165/166.1 = 0.99 nsr,
 ****** Gemini T-ReCS - Smith:2005a 
+:PROPERTIES:
+:ID:       A56D8FCA-B3E1-4ACC-A973-4838DB208748
+:END:
 + Pixel is 0.089 arcsec supposedly, but fits header says 0.044499996
 + Assume Jy/pix
   + 1 Jy/pix = 504.99 Jy/arcsec = 504.99 42.54 GJy/sr = 21482 GJy/sr
@@ -537,15 +610,19 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
     + Total flux: 87.49 + 72.08 = 160 +/- 18 Jy 
     + Area: 40000 pixels or 79.35 arcsec^2
     + Average surface brightness: 2.0 +/- 0.23 Jy/arcsec^2 = 85.1 +/- 9.8 GJy/sr, which is half of the peak value
-  + Use sector 4 as BG:
+  + Use sector 4 as BG  /cancelled/ :
     + Total flux: 14.33 Jy
     + Area: 1848 pixels or 16.135 arcsec^2
     + Surface brightness: 0.888 +/- 0.235 Jy/arcsec^2 = 37.78 +/- 10.00 GJy/sr
       + That is a bit higher than we were using, which we measured in front
-    + Taking a box instead I get 0.41 +/- 0.12 Jy/arcsec^2 for BG = 17.4 +/- 5.1 GJy/sr
-      + Let's go with that
+  + Taking a box instead I get:
+    + 0.41 +/- 0.12 Jy/arcsec^2 for BG = 17.4 +/- 5.1 GJy/sr
+    + Let's go with that
+    + It is 32.5335 +/- 9.522 Jy in the source apertures 
   + So then BG-subtracted flux is
     + (160 +/- 18) - 79.35 (0.41 +/- 0.12) = 127 +/- 20
+  + If we wanted to match that to the intensity-derived fluxes, then it would require an effective area of 127/161.1 = 0.788 nsr
+    + *but* the other measurements are lower resolution, so need to check on the UKIRT data
 ****** Herschel
 + Amazingly, it is detected at 70 micron
 + Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec (160) or 1.6 arcsec (70 micron)
@@ -574,50 +651,53 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 ****** Full table of brightness peaks
 
 #+name: ney-allen-sed
-| Instrument      |  Wave | dWave |     S | E(S) |
-|-----------------+-------+-------+-------+------|
-| Spitzer IRAC    |   3.6 |   0.8 |  1.45 |  0.2 |
-| Spitzer IRAC    |   4.5 |   1.0 |   2.4 |  0.2 |
-| Spitzer IRAC    |   5.8 |   1.6 | 4.426 |  0.6 |
-| WIRO Short      |  7.58 |   0.8 |   11. |   4. |
-| SOFIA FORCAST   |   7.7 |  0.47 |   7.2 |  2.9 |
-| Spitzer IRAC    |   8.0 |   2.9 |  16.6 |    2 |
-| WIRO Short      |  8.21 |  1.54 |   20. |   4. |
-| WIRO Short      |  9.48 |  1.66 |   74. |   4. |
-| UKIRT MAX       |  10.1 |  3.13 | 131.5 | 20.8 |
-| WIRO Short      | 10.48 |  1.42 |   98. |   6. |
-| WIRO Short      | 11.40 |  1.41 |   86. |   4. |
-| Hale SpectroCam |  11.7 |   1.0 |       |      |
-| Gemini T-RecS   |  11.7 |  1.11 | 161.1 | 10.7 |
-| WIRO Short      | 12.43 |  1.34 |   72. |   6. |
-| WIRO Long       | 15.69 |  2.22 |  298. | 128. |
-| WIRO Long       | 17.37 |  2.94 |  319. |  21. |
-| WIRO Long       | 19.62 |  2.88 |  436. |  43. |
-| UKIRT MAX       |  19.7 |  2.44 | 166.1 | 27.7 |
-| SOFIA FORCAST   |  19.7 |   5.5 | 306.4 | 54.1 |
-| WIRO Long       | 21.42 |  2.76 |  383. |  43. |
-| WIRO Long       | 22.82 |  3.06 |  404. | 213. |
-| WIRO Long       | 24.30 |  2.52 |  676. | 425. |
-| SOFIA FORCAST   |  37.1 |   3.3 | 165.8 | 21.6 |
-| Herschel PACS   |    70 |    25 |  10.8 |  1.7 |
-| Herschel PACS   |   160 |    80 |   0.1 |  4.2 |
-
-+ 
+| Instrument      |  Wave | dWave |     A |     S | E(S) | Use |
+|-----------------+-------+-------+-------+-------+------+-----|
+| Spitzer IRAC    |   3.6 |   0.8 | 0.788 |  1.45 |  0.2 |   1 |
+| Spitzer IRAC    |   4.5 |   1.0 | 0.788 |   2.4 |  0.2 |   1 |
+| Spitzer IRAC    |   5.8 |   1.6 | 0.788 | 4.426 |  0.6 |   1 |
+| WIRO Short      |  7.58 |   0.8 | 1.182 |   11. |   4. |   1 |
+| SOFIA FORCAST   |   7.7 |  0.47 | 0.788 |   7.2 |  2.9 |   0 |
+| Spitzer IRAC    |   8.0 |   2.9 | 0.788 |  16.6 |    2 |   0 |
+| WIRO Short      |  8.21 |  1.54 | 1.182 |   20. |   4. |   1 |
+| WIRO Short      |  9.48 |  1.66 | 1.182 |   74. |   4. |   1 |
+| UKIRT MAX       |  10.1 |  3.13 | 0.788 | 131.5 | 20.8 |   0 |
+| WIRO Short      | 10.48 |  1.42 | 1.182 |   98. |   6. |   1 |
+| WIRO Short      | 11.40 |  1.41 | 1.182 |   86. |   4. |   1 |
+| Hale SpectroCam |  11.7 |   1.0 |   1.0 |   228 |   20 |   0 |
+| Gemini T-RecS   |  11.7 |  1.11 | 0.788 | 161.1 | 10.7 |   1 |
+| WIRO Short      | 12.43 |  1.34 | 1.182 |   72. |   6. |   1 |
+| WIRO Long       | 17.37 |  2.94 | 0.987 |  319. |  21. |   1 |
+| WIRO Long       | 19.62 |  2.88 | 0.987 |  436. |  43. |   1 |
+| UKIRT MAX       |  19.7 |  2.44 |  0.99 | 166.1 | 27.7 |   0 |
+| SOFIA FORCAST   |  19.7 |   5.5 | 0.788 | 306.4 | 54.1 |   0 |
+| WIRO Long       | 21.42 |  2.76 | 0.987 |  383. |  43. |   1 |
+| SOFIA FORCAST   |  37.1 |   3.3 | 0.788 | 165.8 | 21.6 |   1 |
+| Herschel PACS   |    70 |    25 | 0.788 |  10.8 |  1.7 |   1 |
++ Column ~A~ is the effective area in nano-steradians.  This is what we multiply the peak surface brightness by to get the total flux.  See discussion above in [[id:A56D8FCA-B3E1-4ACC-A973-4838DB208748][Gemini T-ReCS - Smith:2005a]] and [[id:CEC2E640-8DFC-4CE8-AE69-513510017BE1][UKIRT MAX - Robberto:2005a]] sections
++ Column ~Use~ is whether or not to use the point in integrating the SED
++ Eliminated points, because the errors are too large
+| WIRO Long       | 15.69 |  2.22 | 0.987 |  298. | 128. |
+| WIRO Long       | 22.82 |  3.06 | 0.987 |  404. | 213. |
+| WIRO Long       | 24.30 |  2.52 | 0.987 |  676. | 425. |
+| Herschel PACS   |   160 |    80 | 0.788 |   0.1 |  4.2 |
 
 #+header: :var intab=ney-allen-sed :colnames no
-#+BEGIN_SRC python :return figfile :results file 
+#+BEGIN_SRC python :return figfile :results file
   import numpy as np
   from astropy.table import Table
   from matplotlib import pyplot as plt
   import seaborn as sns
+  import sys
 
   figfile = 'ney-allen-sed.pdf'
 
   styles = [
       ['WIRO Short', dict()],
       ['WIRO Long', dict()],
-      ['UKIRT MAX', dict(marker='.', ls=':')],
+      ['Hale SpectroCam', dict(ls='none')],
       ['Gemini T-RecS', dict(marker='o', ls='none')],
+      ['UKIRT MAX', dict(marker='.', ls=':')],
       ['Spitzer IRAC', dict(ls=':')],
       ['Herschel PACS', dict(ls=':')],
       ['SOFIA FORCAST', dict(ls=':')],
@@ -625,10 +705,20 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 
   data = Table(rows=intab[1:], names=intab[0])
 
-  data['sed'] = 0.665 * 2.9979e-9 * 5.265e9 *data['S'] / data['Wave']
+  # Calculate SED from S_nu measurements 
+  data['sed'] = 2.9979e-9 * 5.265e9 *data['S']*data['A'] / data['Wave']
   data['E(sed)'] = data['E(S)']*data['sed']/data['S']
   data['dWave'] = data['dWave']/2
 
+  # Integrate SED
+  m = data['Use'] == 1
+  logwav = np.log(data['Wave'][m])
+  nuLnu = data['sed'][m]
+
+  Luminosity = np.trapz(nuLnu, logwav)
+  title = rf'Ney-Allen Nebula: $L_\mathrm{{IR}} = {Luminosity:.1f}\ \mathrm{{L}}_\odot$'
+
+  # Plot SED
   sns.set_color_codes()
   fig, ax = plt.subplots()
   for label, style in styles:
@@ -636,12 +726,13 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       ax.errorbar('Wave', 'sed', xerr='dWave', yerr='E(sed)',
                   data=thisdata, label=label, **style)
 
-  ax.legend(loc='lower center', title='Instrument')
+  ax.legend(loc='lower center', ncol=2, title='Instrument', fontsize='small')
   ax.set(
       xscale='log', yscale='log',
-      ylim=[0.1, 400],
+      #ylim=[0.2, 500],
       xlabel=r'Wavelength: $\lambda$, $\mu$m',
-      ylabel=r'SED: $\nu L_\nu$, $L_{\odot}$',
+      ylabel=r'SED: $\nu L_\nu$, $\mathrm{L}_{\odot}$',
+      title=title,
   )
 
   fig.savefig(figfile)
@@ -652,10 +743,27 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 #+RESULTS:
 [[file:ney-allen-sed.pdf]]
 
-
++ Comments on the SED:
+  1. Agreement is very good around 10 micron, three different instruments give F_\nu \approx 100 Jy, with the exception of Hale SpectroCam, which is about 200 Jy
+  2. At 20 microns, there is much more disagreement, by a factor of 4
+  3. The Sofia points are systematically low
+  4. SED integrates to 310 Lsun
+  5. If we use L_* = 2.95e4 Lsun, then we get \tau = 2 L_IR / L_* = 0.02
+     - This is distressingly low!
 
 ****** Possible line contamination 
-+ Br\alpha at 4.5 \mu 
++ Br\alpha at 4.5 \mu
+
+****** Modeling the SED
++ [ ] Need to run some Cloudy models
++ Comparison with Hayward:1994a two component models
+  1. T = 358 K, \tau = 1.22e-4
+  2. T = 117 K, \tau = 0.154
++ Note that Hayward did not have the longer wavelengths, so didn't need a very cold component
++ Comparison with Salgado:2016a models (at th1D position)
+  1. T = 40 K, \tau = 0.1
+  2. T = 110 K, \tau = 0.002
++ Note that Salgado doesn't have the 10 micron wavelengths, so doesn't need the hot component!
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori
@@ -700,7 +808,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 **** \sigma Ori as a weak-wind star
 + Najarro et al 2011
   + 
-***** Email to Najarro et el and Simón-Díaz
+***** Email to Najarro et al and Simón-Díaz
 + Sent [2018-08-30 Thu 12:15]
 + F. Najarro
   + Torrejón, Spain
@@ -802,7 +910,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 + Images seem to be from program of Rafael Barrena
 ****** Download instructions
 #+BEGIN_SRC sh
-wget -r -l1 -A "*.fit*" -nH --cut-dirs=4 -e robots=off http://casu.ast.cam.ac.uk/~eglez/casuadc/requests/004733 -P download_dir
+wget -r -l1 -A *.fit* -nH --cut-dirs=4" -e robots=off http://casu.ast.cam.ac.uk/~eglez/casuadc/requests/004733 -P download_dir
 #+END_SRC
 Same for 4734 and 4735
 ****** The Ha images
@@ -844,7 +952,7 @@ Same for 4734 and 4735
           if 'IMAGE' in hdu.name:
               ohdu = fits.PrimaryHDU(header=hdulist[0].header,
                                      data=hdulist[ext].data - BIAS)
-              ohdu.writeto(fn.replace(".fits.fz", f"-{ext}.fits"), overwrite=True)
+              ohdu.writeto(fn.replace(".fits.fz", f"-{ext}."fits"), overwrite=True)
 
 
 
