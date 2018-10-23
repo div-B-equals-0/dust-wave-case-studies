@@ -137,6 +137,8 @@ So, objects like
 * New "discoveries" in Orion
 ** B star bow shock over to E of M42
 + Shows up in the WISE maps
+  + Also in Spitzer 24 micron
+  + And in MSX 
 + Coordinates
   + 84.158869 -5.4750212
   + 5:36:38.129 -5:28:36.13
@@ -634,11 +636,14 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 |  70 | 1.6 | 12.45 | 11.8 +/- 0.1 | 10.8 +/- 1.7 | 196.1 +/- 1.7 |
 | 160 | 3.2 |  12.5 | 12.5 +/- 1.0 | 0.0 +/- 4.2  | 51.9 +/- 4.2  |
 #+TBLFM: $5= 1e-9 (206265/$2)**2  ($3 - $4);f1::$6=1e-9 (206265/$2)**2 $4;f1
-****** Converting to F_\nu, \nu F_\nu, and luminosity
+****** MSX
++ Take measurements in the same epanda aperture 
+****** Converting to F_{\nu}, \nu F_{\nu}, \nu L_{\nu}, and \nu I_{\nu}
 + Radius of peak is about 3 arcsec, so that would give an area of
   + 28.3 arcsec^2
   + 0.665 nsr (nano-steradians)
   + Convenient, since multiply by GJy/sr to get Jy
+  + Although we now use a column ~A~ to specify the effective area, which varies slightly between instruments
 + Using that would mean T-RecS gives 104.65 Jy
   + Compare with 228 Jy from Hale at same wavelength 
 + To get the SED, we have to multiply by \nu
@@ -648,6 +653,15 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 + To get luminosity, multiply by 4\pi D^2
   + For Orion: 2.011e43 to give erg/s
   + Or 5.2652e9 to give L_\odot
++ Or, we can just convert to intensity SED \nu I_{\nu}, as in Salgado:2016a Fig 6
+  + Same as flux calculation
+  + \nu I_\nu (erg/s/cm^2/sr) =  2.9979 I_\nu(GJy/sr) / \lambda(micron)
++ E.g., T-ReCS value @ 11.7 micron of 161.1 GJy/sr
+  + \nu I_\nu = 41.3 erg/s/cm^2/sr
+  + with A = 0.788 nsr: F_\nu = 127 Jy
+  + \nu F_\nu = 3.254e-8 erg/s/cm^2
+  + with D = 410 pc: \nu L_\nu = 171.3 L_\odot 
+
 ****** Full table of brightness peaks
 
 #+name: ney-allen-sed
@@ -764,6 +778,16 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   1. T = 40 K, \tau = 0.1
   2. T = 110 K, \tau = 0.002
 + Note that Salgado doesn't have the 10 micron wavelengths, so doesn't need the hot component!
+****** Comparison of luminosities
++ We have total Ney-Allen luminosity of 308.6 Lsun
++ Salgado:2016a have total luminosity of Orion Bar as 9500 Lsun
+  + Check that I understand their map in Fig 9 correctly
+    + 15 red pixels @ 40 = 600 Lsun
+    + 29 purple pixels @ 30 = 870 Lsun
+    + 28 blue pixels @ 20 = 560 Lsun
+    + Sums to 2030 Lsun
++ Total IR luminosity of Trapezium region and Orion S
+  + I can't find any actual calculations of this, but I will try and estimate from 
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori

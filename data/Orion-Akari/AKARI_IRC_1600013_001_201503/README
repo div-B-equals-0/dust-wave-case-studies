@@ -1,0 +1,45 @@
+1. File information
+-------------------
+
+<directories>
+   dark/         : contains neighbor dark frames for MIR-S and -L
+   stacked_IM/   : contains calibrated and stacked images
+
+<files>
+   ircpipeline.log  : process logs
+   README           : this file
+
+
+2. Observation summary
+----------------------
+
+   Target ID               : 1600013             
+   Sub ID                  : 001                 
+   Pointing ID             : 1600013             
+   Object Name             : OMC1-BN                  
+   Proposal ID             : AFSAS               
+   PI Name                 : Ueno Munetaka       
+   Observation Category    : MP                  
+   Target Position (R.A.)  : 83.809    [degree]
+   Target Position (Dec.)  : -5.373    [degree]
+   Observation AOT         : IRC02               
+   AOT Parameter           : a;N                 
+   IRC Mode                : MAIN                
+   Observation Start       : 2006-09-15T20:46:19 
+   Observation End         : 2006-09-15T21:16:19 
+
+   Please refer to the IRC Data Users Manual for deltails of
+   the summary information.
+
+
+3. Process summary
+------------------
+
+   MIR-S Ghost Warning         : Yes
+   MIR-S memory effect Warning : No
+   MIR-L memory effect Warning : No
+
+   Stacked Images Summary
+      Filt, Nall, Ncom, Shiftty, WCSROOT, WCSERR, WCSNS, RAcenter, DEcenter
+      N3       4     4  COADD    AOCS        NaN      0   83.7823   -5.3796
+      N4       4     4  COADD    AOCS        NaN      0   83.7822   -5.3792
