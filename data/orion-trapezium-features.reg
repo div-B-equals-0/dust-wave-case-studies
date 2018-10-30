@@ -1,0 +1,33 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+point(5:35:16.458,-5:23:22.95) # point=cross color=#aaa text={C}
+point(5:35:15.803,-5:23:14.47) # point=cross color=#aaa text={A}
+point(5:35:16.060,-5:23:07.02) # point=cross color=#aaa text={B}
+point(5:35:17.249,-5:23:16.62) # point=cross color=#aaa text={D}
+point(5:35:15.949,-5:23:50.09) # point=cross color=#aaa text={HST 3}
+line(5:35:14.379,-5:23:38.72,5:35:13.590,-5:23:34.68) # line=0 0 color=white width=4 text={10 micron arc}
+line(5:35:13.602,-5:23:32.20,5:35:12.814,-5:23:23.20) # line=0 0 color=white
+line(5:35:13.501,-5:23:34.06,5:35:12.712,-5:23:25.06) # line=0 0 color=white width=4
+line(5:35:14.379,-5:23:36.39,5:35:13.652,-5:23:32.53) # line=0 0 color=white
+line(5:35:15.142,-5:23:32.02,5:35:14.170,-5:23:23.29) # line=0 0 color=white
+line(5:35:14.832,-5:23:49.15,5:35:14.224,-5:23:40.80) # line=0 0 color=white
+line(5:35:14.926,-5:23:47.66,5:35:14.467,-5:23:41.36) # line=0 0 color=white
+line(5:35:15.454,-5:23:53.46,5:35:14.792,-5:23:53.09) # line=0 0 color=#aaa dash=1
+line(5:35:15.278,-5:24:09.67,5:35:15.103,-5:23:59.24) # line=0 0 color=#aaa dash=1
+line(5:35:15.630,-5:23:58.68,5:35:15.116,-5:23:51.60) # line=0 0 color=#aaa dash=1
+line(5:35:12.697,-5:23:24.19,5:35:12.157,-5:23:11.93) # line=0 0 color=white
+line(5:35:16.952,-5:23:37.17,5:35:16.974,-5:23:28.54) # line=0 0 color=#aaa dash=1
+line(5:35:15.885,-5:23:32.97,5:35:15.737,-5:23:28.22) # line=0 0 color=#faa width=4
+line(5:35:15.705,-5:23:27.68,5:35:15.393,-5:23:23.05) # line=0 0 color=#faa width=4 text={20 micron}
+line(5:35:15.815,-5:23:26.39,5:35:15.729,-5:23:27.90) # line=0 0 color=#faa width=4
+line(5:35:15.998,-5:23:41.65,5:35:14.643,-5:23:39.71) # line=0 0 color=#faa width=2
+line(5:35:15.172,-5:23:49.02,5:35:14.474,-5:23:39.56) # line=0 0 color=#faa width=2
+line(5:35:16.501,-5:23:50.11,5:35:15.206,-5:23:35.68) # line=0 0 color=#faa
+line(5:35:13.675,-5:23:31.95,5:35:13.337,-5:23:25.90) # line=0 0 color=#faa
+line(5:35:16.854,-5:23:03.94,5:35:16.231,-5:23:07.12) # line=0 0 color=#faa width=4
+line(5:35:17.529,-5:23:04.87,5:35:17.188,-5:22:58.12) # line=0 0 color=#faa width=2
+line(5:35:17.755,-5:23:21.95,5:35:17.504,-5:23:16.94) # line=0 0 color=#faa width=2
+line(5:35:16.256,-5:24:15.31,5:35:16.066,-5:24:07.44) # line=0 0 color=#faa dash=1
+line(5:35:15.789,-5:24:26.04,5:35:15.482,-5:24:10.39) # line=0 0 color=#faa dash=1
+line(5:35:17.774,-5:23:49.35,5:35:16.517,-5:23:44.43) # line=0 0 color=#faa dash=1
