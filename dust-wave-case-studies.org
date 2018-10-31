@@ -451,7 +451,53 @@ stars.update(
     - icol04030
     - PHOTFLAM=        9.1828299E-20 / inverse sensitivity, ergs/cm2/Ang/electron
     - PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron
-*** \theta^{1} Ori D
+***** Spitzer
+***** Herschel
++ 70 micron
+  + Source
+    + sum: 349.82 Jy
+    + area: 368.64 arcsec^2
+    + S: 0.949 Jy/arcsec^2
+  + BG 1
+    + 0.600 Jy/arcsec^2
+  + BG 2
+    + 0.494 Jy/arcsec^2
++ 160 micron
+  + Similar, see table
++ For both wavelengths, we shrink the central hole in the aperture since there is no star emission
+|    Wav |      F |       S |      B1 |       B2 | F_B            | F - F_B        |
+| micron |     Jy | Jy/sqas | Jy/sqas | Jy/Squas | Jy             | Jy             |
+|--------+--------+---------+---------+----------+----------------+----------------|
+|     70 |  375.7 |   0.941 |   0.600 |    0.494 | 218.4 +/- 21.2 | 157.3 +/- 21.2 |
+|    160 | 155.45 |   0.361 |   0.393 |    0.216 | 131.1 +/- 38.1 | 24.4 +/- 38.1  |
+#+TBLFM: $6=($2 / $3) (vmean([$4, $5]) +/- vpsdev([$4, $5])) ;f1::$7=$2 - $6;f1
+***** MSX
++ Bands
+  |   |      \lambda |     d\lambda | d\nu      |
+  |   | micron | micron | Hz      |
+  |---+--------+--------+---------|
+  | A |   8.28 |   3.36 | 1.47e13 |
+  | C |  12.13 |   1.72 | 3.50e12 |
+  | D |  14.65 |   2.23 | 3.11e12 |
+  | E |  21.34 |   6.24 | 4.11e12 |
+#+TBLFM: $4=2.99792458e10 $3 1e-4 / (1e-4 $2)**2;s3
++ d \nu = d \lambda d/d\lambda (c/\lambda) = c d\lambda / \lambda^{2} 
++ Resolution is worse, so we take a slightly larger aperture to avoid losing flux
++ Brightness units are W/m^2/sr over wavelength band
+  + 1 W/m^2/sr = 1000/d\nu erg/s/cm^2/sr/Hz = 1e26/d\nu Jy/sr = 2.35e15/d\nu Jy/sqas
+    + Check against numbers on [[https://irsa.ipac.caltech.edu/applications/MSX/MSX/imageDescriptions.htm][this page]]
+    + For A I get 1 W/m^2/sr = 6.8e12 Jy/sr
+    + They get 7.133e12 for a \nu^{-1 }spectrum, which is close enough
+  + Pixel size is 6 arcsec
+  + => 1 W/m^2/sr = 8.46e16/d\nu Jy/pixel
+|    Wav | Bandwidth | \sum pix          | F    | S       | B1      | B2       | F_B | F - F_B |
+| micron |        Hz | pix \times W/m^2/sr | Jy   | Jy/sqas | Jy/sqas | Jy/Squas | Jy  | Jy      |
+|--------+-----------+----------------+------+---------+---------+----------+-----+---------|
+|   8.28 |   1.47e13 | 0.010260685    | 59.1 |         |         |          |     |         |
+|  12.13 |   3.50e12 |                |      |         |         |          |     |         |
+|  14.65 |   3.11e12 |                |      |         |         |          |     |         |
+|  21.34 |   4.11e12 |                |      |         |         |          |     |         |
+#+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1*** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
 + Stellar data
