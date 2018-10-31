@@ -410,6 +410,47 @@ stars.update(
         + 0.05 0.5 410 1.49597870691e13 / 10 3.15576e7 1e5 = 5 km/s
 + Save file of all the LP Ori images
   + [[file:proper-motions/lp-ori-prop-motions-and-rgb.save]]
+**** SED for LP Ori
+***** TODO Optical continuum
++ There is a color gradient across the object
+  + Redder to the east
+  + Almost certainly this is due to reddening from the foreground cloud
++ In principle, we can use the ~PHOTFLAM~ inverse sensitivity to convert from counts/s to something more physical
+  + F_{\lambda }= ~PHOTFLAM~ \times \sum pixels
++ Define an ~epandas~ aperture
+  + This can remove the star, but has problems with the saturation spikes
+  + [ ] Come back to this later
++ ACS bands
+  + F850LP
+  + F775W
+    : PHOTFLAM= 9.94972069999999E-20 / inverse sensitivity, ergs/cm2/Ang/electron     
+  + F555W
+  + F435W
++ WFPC2 bands
+  + F606W
+  + F336W
+    + PHOTFLAM = 1.115396E-16
+***** Optical lines
+  + Lines we have
+    + ACS F658N
+    + WFPC2 F658N
+    + WFPC2 F656N
+    + WFPC2 F502N
+  + I am guessing there is no actual line emission, and we are just seeing continuum
+    + This is consistent with the fact that the bow is weaker in the narrower WFPC2 filters
+***** Near-infrared
++ NICMOS observations just miss
++ WFC3 bands
+  + F130N
+    - narrow-band continuum near Pa\beta
+    - \lambda_0 = 1281.8 nm; \Delta\lambda = 15.6 nm
+    - icol04020
+  + F139M
+    - Designed for H2O/CH4 absorption
+    - \lambda_0 = 1383.8 nm; \Delta\lambda = 64.3 nm
+    - icol04030
+    - PHOTFLAM=        9.1828299E-20 / inverse sensitivity, ergs/cm2/Ang/electron
+    - PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc

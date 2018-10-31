@@ -312,7 +312,7 @@ Frame21 rotate to 0
 Frame21 orient none
 Frame21 wcs align 1
 Frame21 block to  1 1 
-Frame21 marker load ds9 {"./lp-ori-prop-motions-and-rgb.save.dir/Frame21/ds9.reg"}
+Frame21 marker load ds9 {"./lp-ori-prop-motions-and-rgb.bck.dir/Frame21/ds9.reg"}
 Frame21 marker centroid radius 10
 Frame21 marker centroid iteration 30
 Frame21 wcs wcs fk5 degrees
@@ -371,11 +371,11 @@ Frame22 rotate to 0
 Frame22 orient none
 Frame22 wcs align 1
 Frame22 block to  1 1 
-Frame22 marker load ds9 {"./lp-ori-prop-motions-and-rgb.save.dir/Frame22/ds9.reg"}
+Frame22 marker load ds9 {"./lp-ori-prop-motions-and-rgb.bck.dir/Frame22/ds9.reg"}
 Frame22 marker centroid radius 10
 Frame22 marker centroid iteration 30
 Frame22 wcs wcs fk5 degrees
-WCSLoadFile ./lp-ori-prop-motions-and-rgb.save.dir/Frame22/ds9.wcs
+WCSLoadFile ./lp-ori-prop-motions-and-rgb.bck.dir/Frame22/ds9.wcs
 Frame22 wcs replace text 1 \{[WCSFromVar]\}
 Frame22 mask color red
 Frame22 mask mark 1
@@ -435,7 +435,7 @@ Frame24 block to  1 1
 Frame24 marker centroid radius 10
 Frame24 marker centroid iteration 30
 Frame24 wcs wcs fk5 degrees
-WCSLoadFile ./lp-ori-prop-motions-and-rgb.save.dir/Frame24/ds9.wcs
+WCSLoadFile ./lp-ori-prop-motions-and-rgb.bck.dir/Frame24/ds9.wcs
 Frame24 wcs replace text 1 \{[WCSFromVar]\}
 Frame24 mask color red
 Frame24 mask mark 1
@@ -565,7 +565,7 @@ Frame25 rgb channel red
 Frame25 marker centroid radius 10
 Frame25 marker centroid iteration 30
 Frame25 wcs wcs fk5 degrees
-WCSLoadFile ./lp-ori-prop-motions-and-rgb.save.dir/Frame25/ds9.wcs
+WCSLoadFile ./lp-ori-prop-motions-and-rgb.bck.dir/Frame25/ds9.wcs
 Frame25 wcs replace text 1 \{[WCSFromVar]\}
 Frame25 mask color red
 Frame25 mask mark 1
