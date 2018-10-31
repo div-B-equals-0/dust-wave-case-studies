@@ -451,7 +451,45 @@ stars.update(
     - icol04030
     - PHOTFLAM=        9.1828299E-20 / inverse sensitivity, ergs/cm2/Ang/electron
     - PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron
-***** Spitzer
+***** Spitzer IRAC
++ Images are in MJy/sr
+  + 1 MJy/sr = 2.3504e-5 Jy/sqas
+  + Pixels are 0.6 arcsec => 1 MJy/sr = 8.4616e-6 Jy/pixel
++ First do the star, so we can subtract it
+  + Use a circular aperture with radius 2.5 arcsec
+  + And two identical ones for the star's BG, which is really the shell!
+    + We put it at a similar distance from the shell
+    + Because all apertures are the same sixe, we don't need to use surface brightness at all - everything is fluxes
+  |    Wav |  \sum pix | \Sigma bg1 | \Sigma bg2 | BG               | F_*             |
+  | micron |        |       |       |                  | Jy              |
+  |--------+--------+-------+-------+------------------+-----------------|
+  |    3.6 |  34605 |  5655 |  5023 | 5339 +/- 316     | 0.248 +/- 0.003 |
+  |    4.5 |  25861 |  5732 |  5467 | 5600. +/- 133.   | 0.171 +/- 0.001 |
+  |    5.8 |  46580 | 28076 | 23711 | 25894. +/- 2183. | 0.175 +/- 0.018 |
+  |    8.0 | 114441 | 80768 | 69127 | 74948. +/- 5821. | 0.334 +/- 0.049 |
+  #+TBLFM: $5=vmeane([$3, $4]);f0::$6=8.4616e-6 ($2 - $5);f3
++ Now, do the nebula plus star using same aperture as for MSX (a bit big, but never mind)
+  |    Wav |   \sum pix |     S |    B1 |    B2 | BG             | F_tot            |
+  | micron |         |       |       |       |                | Jy               |
+  |--------+---------+-------+-------+-------+----------------+------------------|
+  |    3.6 |  250842 | 248.8 |  74.2 |  82.9 | 79. +/- 4.     | 1.449 +/- 0.034  |
+  |    4.5 |  219439 |   218 |  63.4 |  76.1 | 70. +/- 6.     | 1.261 +/- 0.051  |
+  |    5.8 | 1318338 |  1308 | 490.2 | 554.9 | 523. +/- 32.   | 6.695 +/- 0.273  |
+  |    8.0 | 3831944 |  3801 |  1497 |  1776 | 1637. +/- 140. | 18.460 +/- 1.194 |
+  #+TBLFM: $6=vmeane([$4, $5]);f0::$7=8.4616e-6 $2 ($3 - $6)/$3;f3
+  + As with MSX the surface brightness is in funny units, but we only use ratios so it doesn't matter
+  + This aperture corresponds to an effective radius of sqrt(A/\pi) = 17.6 arcsec
++ Try also with a tighter aperture, more loke we are going to use for HST images
+  |    Wav |   \sum pix |    S |   B1 |   B2 | BG            | F_tot           |
+  | micron |         |      |      |      |               | Jy              |
+  |--------+---------+------+------+------+---------------+-----------------|
+  |    3.6 |   76843 |  330 |  150 |  103 | 127. +/- 24.  | 0.400 +/- 0.047 |
+  |    4.5 |   69345 |  298 |  112 |   91 | 102. +/- 11.  | 0.386 +/- 0.022 |
+  |    5.8 |  434407 | 1867 |  953 |  698 | 826. +/- 128. | 2.050 +/- 0.252 |
+  |    8.0 | 1262209 | 5427 | 2766 | 2088 | 2427 +/- 339  | 5.904 +/- 0.667 |
+  #+TBLFM: $6=vmeane([$4, $5]);f0::$7=8.4616e-6 $2 ($3 - $6)/$3;f3
+  + In this case, the effective radius is 8.6 arcsec
+
 ***** Herschel
 + 70 micron
   + Source
@@ -473,8 +511,8 @@ stars.update(
 #+TBLFM: $6=($2 / $3) (vmean([$4, $5]) +/- vpsdev([$4, $5])) ;f1::$7=$2 - $6;f1
 ***** MSX
 + Bands
-  |   |      \lambda |     d\lambda | d\nu      |
-  |   | micron | micron | Hz      |
+  |   |      \lambda |     d\lambda |      d\nu |
+  |   | micron | micron |      Hz |
   |---+--------+--------+---------|
   | A |   8.28 |   3.36 | 1.47e13 |
   | C |  12.13 |   1.72 | 3.50e12 |
@@ -490,14 +528,16 @@ stars.update(
     + They get 7.133e12 for a \nu^{-1 }spectrum, which is close enough
   + Pixel size is 6 arcsec
   + => 1 W/m^2/sr = 8.46e16/d\nu Jy/pixel
-|    Wav | Bandwidth | \sum pix          | F    | S       | B1      | B2       | F_B | F - F_B |
-| micron |        Hz | pix \times W/m^2/sr | Jy   | Jy/sqas | Jy/sqas | Jy/Squas | Jy  | Jy      |
-|--------+-----------+----------------+------+---------+---------+----------+-----+---------|
-|   8.28 |   1.47e13 | 0.010260685    | 59.1 |         |         |          |     |         |
-|  12.13 |   3.50e12 |                |      |         |         |          |     |         |
-|  14.65 |   3.11e12 |                |      |         |         |          |     |         |
-|  21.34 |   4.11e12 |                |      |         |         |          |     |         |
-#+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1*** \theta^{1} Ori D
+  + *Note:* The surface brightness values are in strange units, but that does not matter since I only use the ratios BG/Source
+|    Wav |      d\nu |        \sum pix |     F |    S |   B1 |   B2 | F_B          | F - F_B       |
+| micron |      Hz | W.pix/m^2/sr |    Jy | 1e-6 | 1e-6 | 1e-6 | Jy           | Jy            |
+|--------+---------+--------------+-------+------+------+------+--------------+---------------|
+|   8.28 | 1.47e13 |     0.002721 |  15.7 | 2.80 | 1.34 | 1.19 | 7.1 +/- 0.4  | 8.6 +/- 0.4   |
+|  12.13 | 3.50e12 |    0.0009256 |  22.4 | 0.95 | 0.56 | 0.44 | 11.8 +/- 1.4 | 10.6 +/- 1.4  |
+|  14.65 | 3.11e12 |     0.001017 |  27.7 | 1.05 | 0.40 | 0.33 | 9.6 +/- 0.9  | 18.1 +/- 0.9  |
+|  21.34 | 4.11e12 |      0.01026 | 211.2 | 10.6 | 2.55 | 2.22 | 47.5 +/- 3.3 | 163.7 +/- 3.3 |
+#+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1
+*** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
 + Stellar data
@@ -723,8 +763,9 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 |  70 | 1.6 | 12.45 | 11.8 +/- 0.1 | 10.8 +/- 1.7 | 196.1 +/- 1.7 |
 | 160 | 3.2 |  12.5 | 12.5 +/- 1.0 | 0.0 +/- 4.2  | 51.9 +/- 4.2  |
 #+TBLFM: $5= 1e-9 (206265/$2)**2  ($3 - $4);f1::$6=1e-9 (206265/$2)**2 $4;f1
-****** MSX
+****** TODO MSX
 + Take measurements in the same epanda aperture 
+
 ****** Converting to F_{\nu}, \nu F_{\nu}, \nu L_{\nu}, and \nu I_{\nu}
 + Radius of peak is about 3 arcsec, so that would give an area of
   + 28.3 arcsec^2
