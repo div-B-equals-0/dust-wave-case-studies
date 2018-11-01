@@ -321,8 +321,13 @@ So, objects like
 ** OB bowshocks in Orion Nebula
 *** LP Ori
 **** Info about star
++ Also known as
+  + HD36982
+  + Parenago 1772
+***** Older info  
 + Taken from [[file:~/Work/OrionNI/git-paper/models/individual/orion-stars.org]]
 + LP Ori (B1.5V) is 5 arcmin to the SSW of Trapezium
+  + Luminosity 5623 Lsun *BUT SEE BELOW - actually smaller*
 + Parenago 1744 (B5V) is 12 arcmin to N of Trapezium
 #+begin_src python
 stars.update(
@@ -330,7 +335,33 @@ stars.update(
     P1774 = dict(T=16000., g=4.1, L=2.7), 
 )
 #+end_src
-
+***** Turns out, LP Ori is a Herbig Be star
++ This is presumably why it has an excess at 2 microns and 8 microns
++ Alecian:2013a do spectropolarimetry of it
+  + Give Teff = 20,000 +/- 1000 K, which is significantly less than I had before (23000)
+  + A_V = 1.55, which is highish
+  + L = 10**(3.2 +/- 0.07) = 1580 +/- 260 Lsun, again much less than I had thought
+  + M \approx 7 Msun, so not even a high-mass star
+  + Age = 200,000 years
+  + Strong magnetic field: B_z  =-240 +/- 70 G
++ First detected B field in Petit:2008a
+  + Variable with phase
+  + Gives B2 spectral type
++ Other Ae/Be stars have similar reflection nebulae
+  + V1025 Tauri has a similar-looking nebula
+    + [[https://en.wikipedia.org/wiki/Herbig_Ae/Be_star#/media/File:V1025_Tauri_Taurus_Molecular_Nebula_from_the_Mount_Lemmon_SkyCenter_Schulman_Telescope_courtesy_Adam_Block.jpg][image on wikipedia]]
+    + But it seems to be a G2 star, and probably low mass
+  + V892 Tau has what looks like it might be a bow shock
++ Chen:2016a look at IR colors of lots of HAeBe stars, but strangely not LP Ori
++ NGC 2023
+  + Enormous (4 pc) reflection nebula near the Horsehead
+  + Powered by B1.5V star HD 37903
++ NGC 7023
+  + Also a parsec-scale reflection nebula
++ Boersma:2009a look at IR spectra of HAeBe stars
+  + The identify PAH and silicate components, with silicates coming from closer to star
+  + But they are talking of very small scales: 130 AU (would be 0.325 au at Orion)
+  + There is extended emission on scales of ten arcsecs, but his seems to be mainly PAH emission
 **** Info from Gaia
 + [[file:1528254812272O-result.json]]
 + Extracted and derived data
