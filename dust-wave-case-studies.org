@@ -362,6 +362,43 @@ stars.update(
   + The identify PAH and silicate components, with silicates coming from closer to star
   + But they are talking of very small scales: 130 AU (would be 0.325 au at Orion)
   + There is extended emission on scales of ten arcsecs, but his seems to be mainly PAH emission
+**** Trying to isolate the Ha emission in LP Ori
++ Subtract the f658n from f656n should do it
+  + Then Ha would be white and [N II] black
++ Filter widths:
+  + f658n: Weff = 39.2 Ang
+  + f656n: Weff = 28.3 Ang
+#+BEGIN_SRC python
+  import numpy as np
+  from astropy.io import fits
+
+  DATADIR = 'data/LP-Ori-HST/WFPC2'
+
+  def fn(filter):
+      return f'{DATADIR}/hst_07514_01_wfpc2_{filter}_wf_drz.fits'
+
+
+  hdu658 = fits.open(fn('f658n'))['SCI']
+  hdu656 = fits.open(fn('f656n'))['SCI']
+
+  # Adjust alignment by 1 pixel
+  hdu656.data -= np.roll(hdu658.data, shift=-1, axis=1)*(28.3/39.2)
+
+  hdu656.writeto(DATADIR + '/ha-nocont.fits', overwrite=True)
+
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+attr_html: :width 300
+[[file:Screenshot-LP-Ori-pure-halpha.png]]
+
+**** Is LP Ori really a bow?
++ Other possibility is that it is just an asymmetric cavity
++ On the other hand, most "cometary reflection nebulae" are rather different
+  + They tend to be centered on the star
 **** Info from Gaia
 + [[file:1528254812272O-result.json]]
 + Extracted and derived data
