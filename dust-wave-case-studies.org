@@ -411,7 +411,8 @@ stars.update(
 + Save file of all the LP Ori images
   + [[file:proper-motions/lp-ori-prop-motions-and-rgb.save]]
 **** SED for LP Ori
-***** TODO Optical continuum
+***** DONE Optical continuum
+CLOSED: [2018-10-31 Wed 22:39]
 + There is a color gradient across the object
   + Redder to the east
   + Almost certainly this is due to reddening from the foreground cloud
@@ -430,28 +431,97 @@ stars.update(
   + F606W
   + F336W
     + PHOTFLAM = 1.115396E-16
-***** Optical lines
++ First we do the epandas region that has the bow and a bit of diffraction spikes
+  |    Wav |  PHOTFLAM |      F |     A |    B1 |    B2 |  A_B |     F* |    A* | Fnu               | Fnu*               |
+  | micron |           |    e/s |  sqas |   e/s |   e/s | sqas |        |       | Jy                | Jy                 |
+  |--------+-----------+--------+-------+-------+-------+------+--------+-------+-------------------+--------------------|
+  | 0.3359 | 1.115E-16 |   1510 |   107 |  1024 |  1155 |  142 |  12046 | 43.74 | 0.0289 +/- 0.0021 | 0.4914 +/- 0.0008  |
+  |  0.435 | 3.076e-19 | 120496 | 116.3 | 29672 | 56624 |  142 | 587537 | 43.74 | 0.0165 +/- 0.0021 | 0.1115 +/- 0.0008  |
+  |  0.555 | 1.931e-19 | 138296 | 116.3 | 42297 | 71316 |  142 | 597109 | 43.74 | 0.0182 +/- 0.0024 | 0.1150 +/- 0.0009  |
+  |  0.606 | 1.862e-18 |  19170 |   113 |  7945 | 10729 |  142 |        | 43.74 | 0.0268 +/- 0.0025 | -0.0066 +/- 0.0010 |
+  |  0.775 | 9.863e-20 | 107122 | 116.3 | 34400 | 43121 |  142 | 560811 | 43.74 | 0.0149 +/- 0.0007 | 0.1085 +/- 0.0003  |
+  |  0.850 | 1.492e-19 |  57396 | 116.3 | 22584 | 27048 |  142 | 473438 | 43.74 | 0.0133 +/- 0.0007 | 0.1675 +/- 0.0002  |
+  #+TBLFM: $10=3.3356e12 $1**2 $2 ($3 - ($4/$7) vmeane([$5, $6]));f4::$11=3.3356e12 $1**2 $2 ($8 - ($9/$7) vmeane([$5, $6]));f4
+  + With F336W I had to finesse the epanda a bit to avoid a readout spike
+  + F606W has a big blank space where the star should be
+  + The ~PHOTFLAM~ values were found from
+    + https://acszeropoints.stsci.edu/checks1/
+    + Using date of 2005-04-11
+  + So, with ~PHOTFLAM~ we get to F_{\lambda} in erg/s/cm^2/\AA
+  + So to convert it to F_{\nu} in Jy, we need to use
+    + F_{\nu} = d\lambda/d\nu F_{\lambda} = F_{\lambda} / (d\nu/d\lambda)
+    + d\nu/d\lambda = d/d\lambda (c/\lambda) = c/\lambda^{2}
+    + => F_{\nu} = (\lambda^{2}/c) F_{\lambda}
+    + 1 erg/s/cm^2/\AA = 1e8 erg/s/cm^2/cm = 3.3356e-11 \lambda_{\mu}^{2 } erg/s/cm^2/Hz = 3.3356e12 \lambda_{\mu}^{2 } Jy
+
+***** DONE Optical lines
+CLOSED: [2018-10-31 Wed 22:39]
   + Lines we have
     + ACS F658N
     + WFPC2 F658N
     + WFPC2 F656N
     + WFPC2 F502N
   + I am guessing there is no actual line emission, and we are just seeing continuum
-    + This is consistent with the fact that the bow is weaker in the narrower WFPC2 filters
-***** Near-infrared
+    * This is consistent with the fact that the bow is weaker in the narrower WFPC2 filters
+***** DONE Near-infrared
+CLOSED: [2018-10-31 Wed 18:34]
 + NICMOS observations just miss
 + WFC3 bands
   + F130N
     - narrow-band continuum near Pa\beta
     - \lambda_0 = 1281.8 nm; \Delta\lambda = 15.6 nm
     - icol04020
+    - PHOTFLAM=        4.0980456E-19 / inverse sensitivity, ergs/cm2/Ang/electron
+    - PHOTFNU =        2.3121822E-06 / inverse sensitivity, Jy*sec/electron 
   + F139M
     - Designed for H2O/CH4 absorption
     - \lambda_0 = 1383.8 nm; \Delta\lambda = 64.3 nm
     - icol04030
     - PHOTFLAM=        9.1828299E-20 / inverse sensitivity, ergs/cm2/Ang/electron
     - PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron
-***** Spitzer IRAC
++ Like with Spitzer, we first do the star
+  |    Wav |  PhotFnu |        |        |       |         |      |     |            | F_*               |
+  | micron |          |   Core | A_core | Spike | A_spike |  BG1 | BG2 | BG         | Jy                |
+  |--------+----------+--------+--------+-------+---------+------+-----+------------+-------------------|
+  |   1.30 | 2.312e-6 | 289806 |   53.4 |   698 |    3.49 |  283 | 303 | 293 +/- 10 | 0.6625 +/- 0.0004 |
+  |   1.39 | 5.865e-7 | 934675 |   54.6 |  2630 |    3.49 | 1039 | 871 | 955 +/- 84 | 0.5424 +/- 0.0008 |
+  #+TBLFM: $9=vmeane([$7, $8]);f0::$10=$2 ($3 - ($4 $9 / $6 ) + 3 ($5 -  $9));f4
+  + We just do one spike and multiply by 3 (only 3 diffraction spikes are in source region)
+  + The BG boxes are same size as spike box
++ Same, but just the spike
+  |    Wav |  PhotFnu |       |      |     |            | F_spike             |
+  | micron |          | Spike |  BG1 | BG2 | BG         | Jy                  |
+  |--------+----------+-------+------+-----+------------+---------------------|
+  |   1.30 | 2.312e-6 |   698 |  283 | 303 | 293 +/- 10 | 0.00281 +/- 0.00007 |
+  |   1.39 | 5.865e-7 |  2630 | 1039 | 871 | 955 +/- 84 | 0.00295 +/- 0.00015 |
+  #+TBLFM: $6=vmeane([$4, $5]);f0::$7=$2 3 ($3 -  $6);f5
++ Other stars
+  |    Wav |  PhotFnu |       |       |      |      |              | F_*               |
+  | micron |          | Star1 | Star2 |  BG1 |  BG2 | BG           | Jy                |
+  |--------+----------+-------+-------+------+------+--------------+-------------------|
+  |   1.30 | 2.312e-6 |  5479 |  3551 |  329 |  432 | 381. +/- 52. | 0.0109 +/- 0.0002 |
+  |   1.39 | 5.865e-7 | 24221 | 15955 | 1085 | 1513 | 1299 +/- 214 | 0.0127 +/- 0.0003 |
+  #+TBLFM: $7=vmeane([$5, $6]);f0::$8=$2 ($3 - 2 $7);f4
+  + Actually, we don't use Star 2 since it is not in the arc source aperture
++ Now, we try the arc + small star + 3 spikes
+  |    Wav |  PhotFnu |        |       |      |                  |          |        | F_sum             |
+  | micron |          | Source |   BG1 |  BG2 | BG               | A_source |   A_BG | Jy                |
+  |--------+----------+--------+-------+------+------------------+----------+--------+-------------------|
+  |   1.30 | 2.312e-6 |  34724 |  5558 | 6379 | 5969. +/- 411.   |    268.6 | 142.16 | 0.0542 +/- 0.0018 |
+  |   1.39 | 5.865e-7 | 121610 | 13098 | 9273 | 11186. +/- 1913. |    268.6 | 142.16 | 0.0589 +/- 0.0021 |
+  #+TBLFM: $6=vmeane([$4, $5]);f0::$9=$2 ($3 - ($6 $7 / $8 ));f4
+  + (we have excluded the main star by using the epandas shape)
++ Now, put things together
+  |    Wav | F_sum             | F_*               | F_spike             | F_arc             |
+  | micron | Jy                | Jy                | Jy                  | Jy                |
+  |--------+-------------------+-------------------+---------------------+-------------------|
+  |   1.30 | 0.0542 +/- 0.0018 | 0.0109 +/- 0.0002 | 0.00281 +/- 0.00007 | 0.0405 +/- 0.0018 |
+  |   1.39 | 0.0589 +/- 0.0021 | 0.0127 +/- 0.0003 | 0.00295 +/- 0.00015 | 0.0433 +/- 0.0021 |
+  #+TBLFM: $5=$2 - ($3 + $4) ;f4
+
+
+***** DONE Spitzer IRAC
+CLOSED: [2018-10-31 Wed 12:15]
 + Images are in MJy/sr
   + 1 MJy/sr = 2.3504e-5 Jy/sqas
   + Pixels are 0.6 arcsec => 1 MJy/sr = 8.4616e-6 Jy/pixel
@@ -459,7 +529,7 @@ stars.update(
   + Use a circular aperture with radius 2.5 arcsec
   + And two identical ones for the star's BG, which is really the shell!
     + We put it at a similar distance from the shell
-    + Because all apertures are the same sixe, we don't need to use surface brightness at all - everything is fluxes
+    + Because all apertures are the same size, we don't need to use surface brightness at all - everything is fluxes
   |    Wav |  \sum pix | \Sigma bg1 | \Sigma bg2 | BG               | F_*             |
   | micron |        |       |       |                  | Jy              |
   |--------+--------+-------+-------+------------------+-----------------|
@@ -489,8 +559,31 @@ stars.update(
   |    8.0 | 1262209 | 5427 | 2766 | 2088 | 2427 +/- 339  | 5.904 +/- 0.667 |
   #+TBLFM: $6=vmeane([$4, $5]);f0::$7=8.4616e-6 $2 ($3 - $6)/$3;f3
   + In this case, the effective radius is 8.6 arcsec
-
-***** Herschel
++ Put it together, taking average of the broad and narrow apertures
+  |    Wav | F_narrow |     E | F_broad |     E |   F_* |     E | F_arc            |
+  | micron |       Jy |       |      Jy |       |    Jy |       | Jy               |
+  |--------+----------+-------+---------+-------+-------+-------+------------------|
+  |    3.6 |    0.400 | 0.047 |   1.449 | 0.034 | 0.248 | 0.003 | 0.677 +/- 0.525  |
+  |    4.5 |    0.386 | 0.022 |   1.261 | 0.051 | 0.171 | 0.001 | 0.653 +/- 0.438  |
+  |    5.8 |    2.050 | 0.252 |   6.695 | 0.273 | 0.175 | 0.018 | 4.198 +/- 2.323  |
+  |    8.0 |    5.904 | 0.667 |  18.460 | 1.194 | 0.334 | 0.049 | 11.848 +/- 6.278 |
+  #+TBLFM: $8=vmeane([$2, $4]) - ($6 +/- $7) ;f3
+  + [ ] *However*, this gives ridiculously large uncertainties, so I may want to revisit
+***** TODO Spitzer MIPS
++ The MIPS 1 (24 micron) band is saturated
++ But I have found one MIPS 2 (70 micron) image that might be usable 
+***** DONE WISE
+CLOSED: [2018-10-31 Wed 12:15]
++ The WISE 3 and 4 bands are saturated, so we can only use 1 and 2
++ These are almost identical to IRAC bands 1 and 2, so not really worth it
++ But I did find a good page on how to do photometry with WISE
+  + http://wise2.ipac.caltech.edu/docs/release/allsky/expsup/sec2_3f.html
+  + Gives conversions from DN \to Jy
+  + Discussion of various noise sources that I hadn't considered
+    + Confusion noise from multiple BG stars and galaxies
+    + Correlated noise correction factor
+***** DONE Herschel
+CLOSED: [2018-10-31 Wed 12:15]
 + 70 micron
   + Source
     + sum: 349.82 Jy
@@ -537,6 +630,95 @@ stars.update(
 |  14.65 | 3.11e12 |     0.001017 |  27.7 | 1.05 | 0.40 | 0.33 | 9.6 +/- 0.9  | 18.1 +/- 0.9  |
 |  21.34 | 4.11e12 |      0.01026 | 211.2 | 10.6 | 2.55 | 2.22 | 47.5 +/- 3.3 | 163.7 +/- 3.3 |
 #+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1
+***** Plot total SED for LP Ori
+#+name: lp-ori-sed
+| Instrument    |   Wave |  dWave |      F |   E(F) |     F* |  E(F*) | Use |
+|---------------+--------+--------+--------+--------+--------+--------+-----|
+| HST           | 0.3359 |  0.060 | 0.0289 | 0.0021 | 0.4914 | 0.0008 |   1 |
+| HST           |  0.435 |  0.159 | 0.0165 | 0.0021 | 0.1115 | 0.0008 |   1 |
+| HST           |  0.555 |  0.121 | 0.0182 | 0.0024 | 0.1150 | 0.0009 |   1 |
+| HST           |  0.775 |  0.155 | 0.0149 | 0.0007 | 0.1085 | 0.0003 |   1 |
+| HST           |  0.850 |  0.120 | 0.0133 | 0.0007 | 0.1675 | 0.0002 |   1 |
+| HST           | 1.2818 | 0.0156 | 0.0405 | 0.0018 | 0.6625 | 0.0004 |   1 |
+| HST           | 1.3838 | 0.0643 | 0.0433 | 0.0021 | 0.5424 | 0.0008 |   1 |
+| Spitzer IRAC  |    3.6 |    0.8 |  0.677 |  0.525 |  0.248 |  0.003 |   1 |
+| Spitzer IRAC  |    4.5 |    1.0 |  0.653 |  0.438 |  0.171 |  0.001 |   1 |
+| Spitzer IRAC  |    5.8 |    1.6 |  4.198 |  2.323 |  0.175 |  0.018 |   1 |
+| Spitzer IRAC  |    8.0 |    2.9 | 11.848 |  6.278 |  0.334 |  0.049 |   1 |
+| MSX           |   8.28 |   3.36 |    8.6 |    0.4 |      0 |      0 |   1 |
+| MSX           |  12.13 |   1.72 |   10.6 |    1.4 |      0 |      0 |   1 |
+| MSX           |  14.65 |   2.23 |   18.1 |    0.9 |      0 |      0 |   1 |
+| MSX           |  21.34 |   6.24 |  163.7 |    3.3 |      0 |      0 |   1 |
+| Herschel PACS |     70 |     25 |  157.3 |   21.2 |      0 |      0 |   1 |
+| Herschel PACS |    160 |     80 |   24.4 |   38.1 |      0 |      0 |   1 |
+
+
+#+header: :var intab=lp-ori-sed :colnames no
+#+BEGIN_SRC python :return figfile :results file
+  import numpy as np
+  from astropy.table import Table
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+  import sys
+
+  figfile = 'lp-ori-sed.pdf'
+
+  styles = [
+      ['HST', dict(marker='.', ls=':')],
+      ['Spitzer IRAC', dict(ls=':')],
+      ['MSX', dict(ls=':')],
+      ['Herschel PACS', dict(marker='.', ls=':')],
+  ]
+
+  data = Table(rows=intab[1:], names=intab[0])
+
+  # Calculate SED from F_nu measurements 
+  data['sed'] = 5.2652e9 * 2.9979e-9 * data['F'] / data['Wave']
+  data['E(sed)'] = data['E(F)']*data['sed']/data['F']
+  data['star'] = 5.2652e9 * 2.9979e-9 * data['F*'] / data['Wave']
+  data['E(star)'] = data['E(F*)']*data['star']/data['F*']
+  data['dWave'] = data['dWave']/2
+
+  # Integrate SED
+  m = data['Use'] == 1
+  logwav = np.log(data['Wave'][m])
+  nuLnu = data['sed'][m]
+
+  Luminosity = np.trapz(nuLnu, logwav)
+  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {Luminosity:.1f}\ \mathrm{{L}}_\odot$'
+
+  # Plot SED
+  sns.set_color_codes()
+  fig, ax = plt.subplots()
+  for label, style in styles:
+      thisdata = data[data['Instrument'] == label]
+      ax.errorbar('Wave', 'sed', xerr='dWave', yerr='E(sed)',
+                  data=thisdata, label=label, **style)
+
+  # Plot stellar SED
+  m = data['star'] > 0.0
+  ax.errorbar('Wave', 'star', xerr='dWave', yerr='E(star)',
+              data=data[m], label='star',
+              ls='--', marker='.', color='k', alpha=0.1,
+  )
+
+  ax.legend(loc='upper left', ncol=1, title='Instrument', fontsize='small')
+  ax.set(
+      xscale='log', yscale='log',
+      #ylim=[0.2, 500],
+      xlabel=r'Wavelength: $\lambda$, $\mu$m',
+      ylabel=r'SED: $\nu L_\nu$, $\mathrm{L}_{\odot}$',
+      title=title,
+  )
+
+  fig.savefig(figfile)
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:lp-ori-sed.pdf]]
+
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
