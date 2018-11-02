@@ -366,14 +366,12 @@ stars.update(
 + Subtract the f658n from f656n should do it
   + Then Ha would be white and [N II] black
 + Filter widths and exposure times:
-  |       | Weff, \AA | LP texp, s | Trap texp, s |
-  |-------+---------+------------+--------------|
-  | f547m |   657.2 |         30 |              |
-  | f502n |    35.6 |        600 |              |
-  | f658n |    39.2 |        350 |              |
-  | f656n |    28.3 |        180 |              |
-  | f631n |    42.1 |            |              |
-  | f673n |    63.3 |            |              |
+  |       | Weff, \AA | texp, s |
+  |-------+---------+---------|
+  | f547m |   657.2 |      30 |
+  | f502n |    35.6 |     600 |
+  | f658n |    39.2 |     350 |
+  | f656n |    28.3 |     180 |
 + But LP observations are in counts/s, so don't use the times!
 
 #+BEGIN_SRC python
@@ -842,6 +840,62 @@ CLOSED: [2018-10-31 Wed 12:15]
       + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
       + So this means we will see the small grains at 10 microns and the large grains at 20 microns
     + This means that 0.02 micron grains will be twice as hot
+**** Continuum-subtracted wfpc2 emission line maps
+
+  |       | Weff, \AA | t, s |
+  |-------+---------+------|
+  | f547m |   657.2 |      |
+  | f502n |    35.6 | 100  |
+  | f658n |    39.2 |      |
+  | f656n |    28.3 |      |
+  | f631n |    42.1 |      |
+  | f673n |    63.3 |      |
+
+#+BEGIN_SRC python
+  import numpy as np
+  from astropy.io import fits
+  '/Users/will/Dropbox/dust-wave-case-studies/data/Trap-HST/wcs_3f502.fits'
+  DATADIR = 'data/Trap-HST'
+
+  def fn(filter):
+      return f'{DATADIR}/wcs_3f{filter}.fits'
+
+
+  hdu658 = fits.open(fn('658'))[0]
+  hdu656 = fits.open(fn('656'))[0]
+
+  # Adjust alignment by 1 pixel
+  hdu656.data -= np.roll(hdu658.data, shift=0, axis=1)*(28.3/39.2)*0.5
+
+  hdu656.writeto(DATADIR + '/wcs_3f656_nocont.fits', overwrite=True)
+
+  hdu502 = fits.open(fn('502'))[0]
+  hdu547 = fits.open(fn('547'))[0]
+
+  hdu502.data -= np.roll(
+      np.roll(hdu547.data, shift=0, axis=0), shift=0, axis=1
+  )*0.25
+  hdu502.writeto(DATADIR + '/wcs_3f502_nocont.fits', overwrite=True)
+
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+That didn't work very well
+***** Subtract stellar PSF with TinyTim
+****** Find the appropriate defocus from the HST focus model
++ http://www.stsci.edu/hst/observatory/focus/FocusModel
++ F547M observations
+  + 1995-03-21
+  + 12:19:16 UT
++ Turns out that focus varies between -6 and +6 microns on timescale of roughly an hour
++ There is a model for it, but only since 2003
++ So I will have to try out various values
+
+
+
 **** Mid-IR photometry for \theta^1 D
 + Robberto:2005a have 10 micron and 20 micron
 + Units are Jy/pixel
