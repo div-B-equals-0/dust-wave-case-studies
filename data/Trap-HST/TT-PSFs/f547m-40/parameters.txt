@@ -1,0 +1,8 @@
+Camera |WFPC2 - Planetary Camera
+Pixel Position|638 640
+Filter|F547M
+Spectrumtype|Select a spectrum from a list
+Spectrumvalue|2
+PSF diameter|8 [arcsec]
+Oversampling|1
+Focus|-4.0 [microns secondary mirror despace]

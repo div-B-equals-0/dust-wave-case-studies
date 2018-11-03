@@ -885,6 +885,8 @@ CLOSED: [2018-10-31 Wed 12:15]
 
 That didn't work very well
 ***** Subtract stellar PSF with TinyTim
++ This is getting too complicated, and might not lead anywhere
++ So, leave it for now
 ****** Find the appropriate defocus from the HST focus model
 + http://www.stsci.edu/hst/observatory/focus/FocusModel
 + F547M observations
@@ -893,6 +895,19 @@ That didn't work very well
 + Turns out that focus varies between -6 and +6 microns on timescale of roughly an hour
 + There is a model for it, but only since 2003
 + So I will have to try out various values
+****** Other adjustments to the PSF
+****** Results for F547M
+****** Results for F658N
+****** Try the continuum ACS and WFC3 filters
++ I have done it for the F225W Bally observations
+  + But the results are confusing
+  + There are versions for both distorted and undistorted psf
+    + It seems that distorted is the one to compare with the drizzled ~drz~ image
+    + But I can't figure out if the orientation is right
+  + So it would probably be better to go back to the original frames to do the psf subtraction
+  + Discussion of alternative empirical approaches to PSF modelling [[http://www.stsci.edu/hst/observatory/focus#3b][here]]
++ [ ] ACS is better-modeled than WFC3 apparently
+  + Do that another day
 
 
 

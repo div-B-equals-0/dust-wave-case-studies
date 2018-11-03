@@ -1,0 +1,70 @@
+=== input.txt ===========================================================
+6
+638 640
+F656N
+8
+N
+0.0
+result
+
+=== tiny1 ===============================================================
+
+      ------ Tiny Tim v7.5 : The HST PSF Generator ------
+
+                Release Date : June 1, 2008
+                   Developed by John Krist
+             Additional support by Richard Hook & Felix Stoehr
+        >> Manual in /eng/ssb/websites/tinytim/backend/tinytim/tinytim.pdf <<
+        ** http://www.stsci.edu/software/tinytim **
+
+--------- Aberrated Cameras ---------  -------- Corrected HST Optics -------
+1) Wide Field Camera (WFPC1)             5) WFPC2 - Wide Field Camera 
+2) Planetary Camera  (WFPC1)             6) WFPC2 - Planetary Camera 
+3) FOC f/48                              7) COSTAR-corrected FOC f/48 
+4) FOC f/96                              8) COSTAR-corrected FOC f/96 
+
+--------- Second Generation ---------  -------- Third Generation ---------
+ 9) NICMOS Camera 1 (pre-cryocooler)    15) ACS - Wide Field Channel 
+10) NICMOS Camera 2 (pre-cryocooler)    16) ACS - High Resolution Channel 
+11) NICMOS Camera 3 (pre-cryocooler)    17) ACS - HRC coronagraph off-spot PSF
+12) STIS CCD                            18) ACS - Solar Blind Channel 
+13) STIS NUV-MAMA                       19) NICMOS Camera 1 + cryocooler 
+14) STIS FUV-MAMA                       20) NICMOS Camera 2 + cryocooler 
+                                        21) NICMOS Camera 3 + cryocooler 
+--------- Fourth Generation --------- 
+22) WFC3 UVIS channel
+23) WFC3 IR channel
+
+Choice : 
+Enter position (x and y) on detector in INTEGER
+pixels (range = 0-799) or the filename of a list
+of positions preceded by a '@' (ie. @xy.lis).
+
+Position : 
+Select filter passband :
+    - Enter the name of the filter (eg. f555w)
+    - Enter MONO to specify a single wavelength
+Filter : 
+1 wavelengths will be used to generate PSF
+
+Assuming detector pixel size of 0.04555 arcsec
+
+The maximum computable PSF size is 30.0 arcsec.
+The recommended size is about 3.0 arcseconds.
+What diameter should your PSF be (in arcseconds)? : 
+Do you wish to generate a subsampled PSF? (Y/N) : Secondary mirror despace is scaled by 0.011 and added to Z4.
+Focus, secondary mirror despace? [microns]: 
+Rootname of PSF image files (no extension) : 
+To execute the next stage, enter the command :
+        tiny2 output.txt
+=== tiny2 ===============================================================
+Tiny Tim v7.5
+Integrated PSF dimensions are 174 by 174
+
+Computing PSF for position 1/1 (x,y) = 638 640
+   Computing PSF for wavelength = 656.32 nm
+   Applied WFPC2 pixel scatter function.
+   Writing PSF to result00.fits
+
+Started at  Sat Nov  3 11:28:28 2018
+Finished at Sat Nov  3 11:28:29 2018

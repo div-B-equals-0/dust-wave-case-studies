@@ -1,0 +1,8 @@
+Camera |WFC3 UVIS channel
+Chip|2
+Pixel Position|385 615
+Filter|F225W
+Spectrumtype|Select a spectrum from a list
+Spectrumvalue|2
+PSF diameter|8 [arcsec]
+Focus|-1.5 [microns secondary mirror despace]
