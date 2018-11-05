@@ -262,7 +262,7 @@ So, objects like
   + Can have \eta > 1, so radiation support is never important (unless \tau is high enough to trap the re-emitted IR radiation too)
 + Strong-wind T Tauri stars
   + Take L = 10 Lsun, Mdot = 1e-8, and V = 200 km/s
-  + Gives \eta = 10, implying a non-radiative wind
+  + Gives \eta = 10, implying a non-radiative driving of the wind
 + Proplyds:
   + L = 0.1 Lsun, Mdot = 1e-8, V = 30
   + Gives \eta = 150
@@ -297,6 +297,11 @@ So, objects like
         + So this is about 0.05 for the strongest case (167-317), which is smaller than \eta, meaning that radiative confinement does not dominate, but might be important
           + /however/, there is evidence that the 11 micron dust opacity 
 * Particular objects
+** Other runaway stars
+*** AE Aur
++ Very fast: 150 km/s
++ Comes from Trapezium
+*** \zeta Oph
 ** Galactic center bow shocks
 + Zajacek:2016a model these as winds with Mdot = 1e-8 and V = 200 km/s
   + They are supposedly T Tauri stars, which seems weird
@@ -362,6 +367,60 @@ stars.update(
   + The identify PAH and silicate components, with silicates coming from closer to star
   + But they are talking of very small scales: 130 AU (would be 0.325 au at Orion)
   + There is extended emission on scales of ten arcsecs, but his seems to be mainly PAH emission
+**** Models for LP Ori
+***** How to derive density of dust shell
++ We can estimate \tau for the shell
+  + L_{neb} = L_{*} (1 - e^{-\tau}) (\Omega / 4\pi)
+    + Assume (\Omega / 4\pi) = 1/2
+    + \tau = -ln[ 1 - 2 L_{neb}/L_* ]
+  + Absorption \tau in the UV from the MIR SED
+    + L_{neb} = 155 Lsun
+    + L_{*} = 2000 Lsun if B2
+    + => \tau_{abs}(UV) = 0.168 /although it might be slightly higher if we have a peak around 30-40 micron/
+  + Scattering \tau in the optical from the optical SED
+    + Table of optical reflection nebula (see [[id:16B7695B-DB17-46EE-947F-B833BCFA3451][Plot total SED for LP Ori]])
+      |   Wave | dWave |      F |   E(F) |     F* |  E(F*) | Lneb/L*         | \tau_{scat}           |
+      |--------+-------+--------+--------+--------+--------+-----------------+-----------------|
+      | 0.3359 | 0.060 | 0.0289 | 0.0021 | 0.4914 | 0.0008 | 0.059 +/- 0.004 | 0.126 +/- 0.009 |
+      |  0.435 | 0.159 | 0.0165 | 0.0021 | 0.1115 | 0.0008 | 0.148 +/- 0.019 | 0.351 +/- 0.054 |
+      |  0.555 | 0.121 | 0.0182 | 0.0024 | 0.1150 | 0.0009 | 0.158 +/- 0.021 | 0.380 +/- 0.061 |
+      |  0.775 | 0.155 | 0.0149 | 0.0007 | 0.1085 | 0.0003 | 0.137 +/- 0.006 | 0.320 +/- 0.017 |
+      |  0.850 | 0.120 | 0.0133 | 0.0007 | 0.1675 | 0.0002 | 0.079 +/- 0.004 | 0.172 +/- 0.010 |
+      #+TBLFM: $7=($3 +/- $4)/($5 +/- $6);f3::$8=-ln(1 - 2 $7) ;f3
+    + Conclusion: \tau_{scat}(optical) \approx 0.3 in the optical
++ Now we can estimate the density and hence pressure in the bow shell
+  + Assume shell thickness h \approx 0.2 R
+  + R \approx 0.01 pc => h \approx 0.002 pc = 6.17e15 cm
+  + \tau = \kappa \rho h
+  + According to Hazy3 Fig 7.1, we have the following cross-sections for ISM dust
+    + Scattering around 0.2 Ryd (5000 \AA): 2e-22 cm^{2}/H => \omega \kappa = 100 cm^{2}/g
+    + Absorption around 1 Ryd: 1.6e-21 cm^{2}/H => (1 - \omega) \kappa = 736 cm^{2}/g
+    + But this is clearly inconsistent with the observed SED
+      + We have \tau_{scat}(optical) \approx \tau_{abs}(UV) (or even higher), whereas the ISM dust has it being 7 times lower
+      + [ ] We should calculate the same for the Orion dust
+    + For the time being, we will use the optical value as being more credible
+  + So we have
+    + n = \tau / m \kappa h
+    + \tau = 0.3, \kappa = 100 cm^{2}/g, m = 2.17e-24 g, h = 6.17e15 cm
+    + => n = 2.24e5 cm^{-3}
+  + But to calculate the pressure, we need to know if it is ionized or not
+  + Ionizing flux from B2 star
+    + 6.3e46 s^{-1} according to Smith:2006a
+    + L_{4} = 1.55
+    + Ionizing flux at R = 0.01 pc is F = 5.26e12
+    + ionized layer thickness is h_{i} = F / \alpha_{B} n^{2} = 4e14 cm
+      + corresponding to 0.065 arcsec
+    + So we have h_i \approx 0.065 h
+  + Just for completeness, do flux from th1C
+    + R = 0.6 pc - 60 times further away
+    + S = 8e48 s^{-1} more or less - 100 times bigger
+    + So F = 100/60**2 = 0.0278 times that from LP Ori itself, or 36 times smaller
+  + What about H\alpha emission from inner portion?
+    + Ionized density, assuming stromgren sphere with R = 0.01 pc
+    + 4/3 \pi R^3 n^2 \alpha_B = S
+    + n = sqrt(3 S / 4 \pi R^3 \alpha_B) = 4.4e4 pcc
+    + Ionized column: 1.35e21 => \tau = 0.295 if \kappa = 100
+
 **** Trying to isolate the Ha emission in LP Ori
 + Subtract the f658n from f656n should do it
   + Then Ha would be white and [N II] black
@@ -719,6 +778,9 @@ CLOSED: [2018-10-31 Wed 12:15]
 |  21.34 | 4.11e12 |      0.01026 | 211.2 | 10.6 | 2.55 | 2.22 | 47.5 +/- 3.3 | 163.7 +/- 3.3 |
 #+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1
 ***** Plot total SED for LP Ori
+:PROPERTIES:
+:ID:       16B7695B-DB17-46EE-947F-B833BCFA3451
+:END:
 #+name: lp-ori-sed
 | Instrument    |   Wave |  dWave |      F |   E(F) |     F* |  E(F*) | Use |
 |---------------+--------+--------+--------+--------+--------+--------+-----|
@@ -906,8 +968,13 @@ That didn't work very well
     + But I can't figure out if the orientation is right
   + So it would probably be better to go back to the original frames to do the psf subtraction
   + Discussion of alternative empirical approaches to PSF modelling [[http://www.stsci.edu/hst/observatory/focus#3b][here]]
+  + *No, using F225W is pointless* because expected position of bow is in the saturated region
 + [ ] ACS is better-modeled than WFC3 apparently
   + Do that another day
+****** Another crazy idea
++ We could use th1A as a template to subtract the PSF from th1D
+  + There would have to be a snall brightness scaling, but they are pretty well matched
+  + Of course, this smeans that CS emission around th1A would show up as negative, but hopefully that doesn't matter - there is one proply though I think
 
 
 
