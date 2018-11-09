@@ -345,7 +345,7 @@ stars.update(
 + Alecian:2013a do spectropolarimetry of it
   + Give Teff = 20,000 +/- 1000 K, which is significantly less than I had before (23000)
   + A_V = 1.55, which is highish
-  + L = 10**(3.2 +/- 0.07) = 1580 +/- 260 Lsun, again much less than I had thought
+  + L = 10**(3.22 +/- 0.07) = 1580 +/- 260 Lsun, again much less than I had thought
   + M \approx 7 Msun, so not even a high-mass star
   + Age = 200,000 years
   + Strong magnetic field: B_z  =-240 +/- 70 G
@@ -402,7 +402,8 @@ stars.update(
   + So we have
     + n = \tau / m \kappa h
     + \tau = 0.3, \kappa = 100 cm^{2}/g, m = 2.17e-24 g, h = 6.17e15 cm
-    + => n = 2.24e5 cm^{-3}
+    + => n = 2.24e5 / \kappa_{100} cm^{-3}
+    + Column is N = 1.4e21 cm^{-2} 
   + But to calculate the pressure, we need to know if it is ionized or not
   + Ionizing flux from B2 star
     + 6.3e46 s^{-1} according to Smith:2006a
@@ -419,7 +420,33 @@ stars.update(
     + Ionized density, assuming stromgren sphere with R = 0.01 pc
     + 4/3 \pi R^3 n^2 \alpha_B = S
     + n = sqrt(3 S / 4 \pi R^3 \alpha_B) = 4.4e4 pcc
-    + Ionized column: 1.35e21 => \tau = 0.295 if \kappa = 100
+    + Ionized column: 1.35e21 => \tau = 0.295 if \kappa = 100 - suprisingly high!
+  + [ ] And the observed Ha brightness
+    + Need to calibrate the Ha image
+  + Back to the shell pressure
+    + Assuming T = 1000 T_{3} K, then pressure is
+    + P_{shell} = n k T = 3.12e-8 T_{3}/\kappa_{100} cgs
+  + Radiation pressure is (1 - e^{-\tau}) times L / 4\pi R^{2} c
+    + The \tau is the rad pressure version, averaged over spectrum, but assume 0.3
+    + => (1 - e^{-\tau}) = 0.26 \approx \tau
+    + P_{rad} = 1.06e-7 \tau L_{4} cgs
+    + With L_{4} = 0.2 and \tau = 0.3 we get P_{rad} = 6.36e-9 cgs
+      + So radiation can pressurize the shell if T < 500 K and \kappa > 200 cm^2/g
+  + Photoevaporated disk wind
+    + With S = 6e46 then Richling:1997a Fig 7 gives
+      + Mdot = (3 - 6)e-7
+      + Depending on treatment of dust scattering
+    + Hollenbach:1994a have an analytic formula:
+      + 1e-5 sqrt(M_{10} S_{49}) Msun/yr
+      + With M_{10} = 0.7, S_{49} = 0.006, we get 6.5e-7
+    + Terminal velocity is about 40 km/s
+    + Hence we can calculate the wind momentum efficiency
+      + \eta = Mdot V / (L/c)
+      + = 3e-7 1.989e33 40 1.0e5 2.99792458e10 / 2000 3.82e33 3.15576e7 
+      + = 0.298
+  + *Conclusion: wind and radiation contribute equally!*
+
+
 
 **** Trying to isolate the Ha emission in LP Ori
 + Subtract the f658n from f656n should do it
