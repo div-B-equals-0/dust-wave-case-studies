@@ -501,6 +501,127 @@ stars.update(
 #+attr_html: :width 300
 [[file:Screenshot-LP-Ori-pure-halpha.png]]
 
+
++ Try the same with the ACS filters
+  + Subtract f775w from f658n
+  + This time f658n is the sum of the H\alpha and [N II]
+
+#+BEGIN_SRC python
+  import numpy as np
+  from astropy.io import fits
+
+  DATADIR = 'data/LP-Ori-HST'
+
+  def fn(filter):
+      return f'{DATADIR}/lp-ori-{filter}.fits'
+
+
+  hdu658 = fits.open(fn('f658n'))[0]
+  hdu775 = fits.open(fn('f775w'))[0]
+  hdu555 = fits.open(fn('f555w'))[0]
+
+  # Adjust alignment by 1 pixel
+  hdu658.data -= (hdu555.data + hdu775.data)/24.0
+
+  hdu658.writeto(DATADIR + '/lp-ori-acs-f658n-minus-f775wf555w.fits',
+                 output_verify='fix', overwrite=True)
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+****** Further exploration of the LP Ori line emission
++ Is it possible that faint [N II] emission is what makes the Ha appear to fall off gradually before getting to the inner edge of the continuum shell?
++ Try dividing f502n by f658n to see if there is anything happening there in the line emission
+  + Need to shift the f658n by 1 pixel in both directions to align
+
+#+BEGIN_SRC python
+  import numpy as np
+  from astropy.io import fits
+
+  DATADIR = 'data/LP-Ori-HST/WFPC2'
+
+  def fn(filter):
+      return f'{DATADIR}/hst_07514_01_wfpc2_{filter}_wf_drz.fits'
+
+
+  hdu658 = fits.open(fn('f658n'))['SCI']
+  hdu502 = fits.open(fn('f502n'))['SCI']
+
+  hdu502.data /= np.roll(
+      np.roll(hdu658.data, shift=-1, axis=0), shift=-1, axis=1
+  )
+  hdu502.writeto(DATADIR + '/f502n-over-f658n.fits', overwrite=True)
+
+  hdu547 = fits.open(fn('f547m'))['SCI']
+  hdu658.data -= hdu547.data*(28.3/657.2)
+  hdu658.writeto(DATADIR + '/f658n-minus-f547m.fits', overwrite=True)
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
++ So this does show a gradient in f502n/f658n inside the continuum shell
+  + This can't be due to continuum, so must represent a gradient in [O III]/[N II]
+  + Suggests ionization front (or recombination front) before we get to the shell
++ We also use the ACS H\alpha filter, which also includes [N II]
++ And we can try and directly subtract the f547m continuum from the wfpc2 f658n filter
+
+
+***** Flux calibration of the H\alpha image
++ The above gives evidence that there is /some/ [N II] emission, but less than H\alpha
++ Taking the zone of the ionized core where we can see [N II], we get the following brightnesses (in counts/s/pix but note that ACS has smaller pixels)
+  | Camera |  PHOTFLAM |    W | pixel | Line        | core |  bg | S, erg/s/cm^2/sr |
+  |--------+-----------+------+-------+-------------+------+-----+------------------|
+  | WFPC2  | 1.454E-17 | 39.2 |   0.1 | [N II]      |  0.2 | 0.1 |           2.4e-4 |
+  | WFPC2  | 2.052E-17 | 28.3 |   0.1 | Ha - [N II] | 0.75 | 0.4 |           8.6e-4 |
+  | WFPC2  | 4.220E-17 |      |   0.1 | [O III]     |  0.1 | 0.1 |              0e0 |
+  | ACS    | 1.999e-18 |   80 |  0.05 | Ha + [N II] | 1.75 | 1.5 |           6.8e-4 |
+  #+TBLFM: $8=$2 $3 ($6 - $7) / ($4/206265)**2;s2
++ WFPC2 has
+  + f656n :: PHOTFLAM= 2.05238904494382E-17 / Inverse Sensitivity
+  + f658n :: PHOTFLAM= 1.454421348314607E-17 / Inverse Sensitivity
+  + f502n :: PHOTFLAM= 4.220463483146067E-17 / Inverse Sensitivity
+  + f547m :: PHOTFLAM= 1.080204494382022E-18 / Inverse Sensitivity
++ ACS has
+  + PHOTFLAM=        1.9991804E-18 / inverse sensitivity, ergs/cm2/Ang/electron
++ This seems too large a difference - a factor of 10 in sensitivity
++ Ah, but we have to then multiply by bandwidth
+  + This is 80 \AA for ACS f658n
+  + 28.3, 39.2 for WFPC2
+  + Still doesn't quite work
++ Also, this is for flux/pixel so we need to divide by pixel area!
+  + Now we get within a factor of two or so, which is good enough
+  + [ ] Other option would be to use the Doi & O'Dell calibration
++ So H\alpha brightness is about 0.001 erg/s/cm^2/sr
+  + Convert to emission measure
+  + S = (\alpha_{eff} / 4\pi) h\nu EM
+  + \alpha_{eff} = 1e-13 cm^3/s
+  + h\nu = (1/4 - 1/9) 13.6 eV = 3.026e-12 erg
+  + => EM = 0.001 / (1e-13 / 4 pi) 3.026e-12 = 4.153e22 cm^-5
++ RMS electron density
+  + Assume L \approx R = 0.01 pc = 3.086e16 cm
+  + n = sqrt(EM / L) = 1160 cm^-3
+  + That sounds like a reasonable number, but might imply a small ionizing photon luminosity
+    + Q_H = (4 \pi / 3) \alpha_B n^2 R^3 = (4 pi / 3) 2.6e-13 1160**2 (0.01 3.085677582e18)**3 = 4.305e43
+    + *This is very faint!*
+
+
+***** Compare empirical ionized density with expectations
++ We calculate around 1000 pcc from the H\alpha surface brightness
++ What is density expected from photoevaporation flow?
+  + From above we had Mdot \approx 3e-7 Msun/yr and V \approx 40 km/s
+  + So at R = 0.01 pc, we should have \rho = Mdot / 4 \pi R^2 V
+  + => n = \rho / m = 3e-7 1.989e33 / 4 pi 3.15576e7 (0.01 3.085677582e18)**2 40 1.0e5 1.3 1.67262158e-24 = 181.693786957
+  + Really, the measurement is at about half of the bow radius, so n = 730 cm^{-3}
++ That is very close to what is observed (1000 pcc), but it is all rather puzzling
+  + The H\alpha brightness does not fall as r^{-3}, as one would expect from a wind
++ There is no visible ionized shell, as would be expected on the inside of the neutral shell
++ Could it be a recombination front?
+
 **** Is LP Ori really a bow?
 + Other possibility is that it is just an asymmetric cavity
 + On the other hand, most "cometary reflection nebulae" are rather different
