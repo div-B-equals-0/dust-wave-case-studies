@@ -958,6 +958,11 @@ CLOSED: [2018-10-31 Wed 12:15]
   from matplotlib import pyplot as plt
   import seaborn as sns
   import sys
+  import os
+
+  CDC = "../cloudy-dust-charging"
+  sys.path.append(CDC)
+  from cloudytab import CloudyModel
 
   figfile = 'lp-ori-sed.pdf'
 
@@ -1000,10 +1005,24 @@ CLOSED: [2018-10-31 Wed 12:15]
               ls='--', marker='.', color='k', alpha=0.1,
   )
 
+  # Plot Cloudy models ...
+  LSUN = 3.82e33
+  # ... the AV=0.3 model for the dust shell ...
+  mod03 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n23-LP_Ori20BB"))
+  # ... and the AV=1.5 model for the attenuated star
+  mod15 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n23-LP_Ori20AV"))
+
+  wav = 0.0912 / mod03.data['cont']['Cont  nu']
+  star_sed = mod15.data["cont"]["trans"] / LSUN
+  shell_sed = mod03.data["cont"]["DiffOut"] / LSUN
+  ax.fill_between(wav, star_sed, facecolor="yellow", alpha=0.3)
+  ax.fill_between(wav, shell_sed, facecolor="red", alpha=0.3)
+
   ax.legend(loc='upper left', ncol=1, title='Instrument', fontsize='small')
   ax.set(
       xscale='log', yscale='log',
-      #ylim=[0.2, 500],
+      xlim=[0.1, 300],
+      ylim=[0.2, 500],
       xlabel=r'Wavelength: $\lambda$, $\mu$m',
       ylabel=r'SED: $\nu L_\nu$, $\mathrm{L}_{\odot}$',
       title=title,
@@ -1016,6 +1035,15 @@ CLOSED: [2018-10-31 Wed 12:15]
 
 #+RESULTS:
 [[file:lp-ori-sed.pdf]]
+
++ [ ] We will compare with the SED from a Cloudy model
+  + For stellar SED, need to do extra foreground extinction
+  + I was going to do it with pyNeb, but that only goes down to 1250 \AA
+  + Other options:
+    1. [X] Cloudy - I can run a special model with the star extincted by a certain column
+       - This has to be done by running an actual model out to AV = 1.5, which we wwill try
+    2. Look at getting Draine's extinction curve from somewhere
++ [ ] And I also want to put on some magnitudes from the literature
 
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
