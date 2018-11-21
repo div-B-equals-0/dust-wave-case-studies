@@ -367,6 +367,7 @@ stars.update(
   + The identify PAH and silicate components, with silicates coming from closer to star
   + But they are talking of very small scales: 130 AU (would be 0.325 au at Orion)
   + There is extended emission on scales of ten arcsecs, but his seems to be mainly PAH emission
+
 **** Models for LP Ori
 ***** How to derive density of dust shell
 + We can estimate \tau for the shell
@@ -1613,6 +1614,305 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
     + Sums to 2030 Lsun
 + Total IR luminosity of Trapezium region and Orion S
   + I can't find any actual calculations of this, but I will try and estimate from 
+*** Extinction curves for Orion stars 
++ This all comes from IUE observations in Fitzpatrick:2007a
++ Relevant figures:
+  + [[file:extinction-curves/fg4_8.h.jpg]]
+  + [[file:extinction-curves/fg4_9.h.jpg]]
++ There are several Orion stars:
+  + HD36982 - LP Ori
+  + HD37020 - \theta^{1} A - B0.5
+  + HD37022 - \theta^{1} C - O7
+  + HD37061 - NU Ori - B0.5
+  + HD294264 - V2239 Ori - B3 
+  + Other, later B stars
++ Also some Carina stars from Tr16 in Fig 4.16
++ General properties of the Orion curves
+  + All are similar in that they have high R_V and almost completely flat FUV curves
+  + Most have very weak 2000 \AA bump, but LP Ori's is more normal
+  + The graphs are all normalized by E(B - V), but if we normalize by A(1\mu{}m), as in lower panel of Fig 8, then things are clearer
+    + Extinction hardly varies from 5000 down to 1200 \AA, and is about 2 to 3 times the 1 micron value
+    + This is very different from general ISM, where extinction at 1200 \AA is 10 to 20 times the 1 micron value 
++ The Carina stars
+  + These tend to have R_V = 3 to 4 and UV slopes that are steeper than Orion but less so than average ISM
+**** Extinction data for Orion stars
+#+BEGIN_QUOTE
+Title: An Analysis of the Shapes of Interstellar Extinction Curves. V. 
+       The IR-Through-UV Curve Morphology  
+Authors: Fitzpatrick E.L., Massa D. 
+#+END_QUOTE
+***** Table 1 - Basic Data for Survey Stars
+| Name                | SpType     |  Vmag | Dist |    GLON |   GLAT | Ref |
+|---------------------+------------+-------+------+---------+--------+-----|
+| HD36982 (NGC  1977) | B1.5 Vpvar |  8.47 |  476 | 209.082 | -19.44 |  21 |
+| HD294264 (NGC 1977) | B3 Vn      |  9.53 |  476 | 208.494 | -19.16 |  22 |
+| NGC 1977   #885     | B4 V       | 11.33 |  476 | 209.341 | -19.39 |  23 |
+| NGC 1977  #1018     | B6 V       | 10.67 |  476 | 209.246 | -19.13 |  24 |
+| HD37020 (NGC 1977)  | B0.5 V     |  6.73 |  476 | 209.023 | -19.38 |  25 |
+| HD37022 (NGC 1977)  | O4-6p var  |  5.13 |  476 | 209.023 | -19.38 |   4 |
+| HD37061 (NGC 1977)  | B0.5 V     |  6.83 |  476 | 208.928 | -19.28 |  26 |
+| HD37130 (NGC 1977)  |            |  9.97 |  476 | 208.507 | -18.92 |     |
+#+BEGIN_QUOTE
+Table: Basic Data for Survey Stars
+================================================================================
+Byte-by-byte Description of file: datafile1.txt
+--------------------------------------------------------------------------------
+   Bytes Format Units Label   Explanations
+--------------------------------------------------------------------------------
+   1- 22 A22    ---   Name    Star name (1)
+  24- 38 A15    ---   SpType  Spectral type (2)
+  40- 44 F5.2   mag   Vmag    The V band magnitude  
+  46- 49 I4     pc    Dist    ? Distance (3)
+  51- 57 F7.3   deg   GLON    Galactic longitude
+  59- 64 F6.2   deg   GLAT    Galactic latitude
+  66- 67 I2     ---   Ref     ? Reference (4)
+--------------------------------------------------------------------------------
+Note (1): The stars are listed in order of increasing Right Ascension using the
+          most commonly adopted forms of their names. The first preference was 
+          ``HDnnn'', followed by ``BDnnn'', etc.  There are 185 survey stars 
+          which are members of open clusters or associations.  The identity of 
+          the cluster or association is either contained in the star name 
+          itself (e.g., NGC 457 Pesch 34) or is given in parentheses after the 
+          star's name. 
+Note (2): Spectral types were selected from those given in the SIMBAD database,
+          and the source of the adopted types is shown in the ``Ref''.  When 
+          multiple types were available for a particular star, we selected one 
+          based on our own preferred ranking of the sources. 
+Note (3): The NGC 2244 distance is from Perez et al. (1987); the NGC 3293 
+          distance is from Bolona & Crampton (1974); the Trumpler 14 and 16 
+          distances are from Massey & Johnson (1993); the Cep OB3 distance is 
+          from  Crawford & Barnes (1970).  The distances to all other clusters 
+          or associations are from the Open Clusters and Galactic Structure 
+          database maintained by Wilton S. Dias, Jacques Lepine, Bruno S. 
+          Alessi, and Andre Moitinho at http://www.astro.iag.usp.br/~wilton/.  
+          For the non-cluster stars, distances were calculated using the 
+          E(B-V) values from this study and the absolute magnitudes from 
+          Turner (1980) (for mid-B and earlier types) and Blaauw (1963) 
+          (for mid-B and later types). 
+Note (4):
+    1 = Hiltner (1956);
+    2 = Morgan, Code, & Whitford (1955);
+    3 = Hoag & Applequist (1965);
+    4 = Maiz-Apellaniz, Walborn, Galue, & Wei (2005);
+    5 = Johnson & Morgan (1955);
+    6 = Slettebak (1968);
+    7 = Schild (1965);
+    8 = Racine (1968);
+    9 = Morgan, Keenan, & Kellman (1943);
+   10 = Mendoza (1956);
+   11 = Morgan, Whitford, & Code (1953);
+   12 = Osawa (1959);
+   13 = Cowley, Cowley, Jaschek, & Jaschek (1969);
+   14 = Metreveli (1968);
+   15 = Guetter (1968);
+   16 = Boulon & Fehrenbach (1959);
+   17 = Buscombe (1962);
+   18 = Roman (1955);
+   19 = Georgelin, Georgelin, & Roux (1973);
+   20 = Bouigue (1959);
+   21 = Wenzel (1951);
+   22 = Smith (1972);
+   23 = Penston, Hunter, & O'Neill (1975);
+   24 = McNamara (1976);
+   25 = Levato H. & Abt H.A.; 
+   26 = Schild, & Chaffee (1971);
+   27 = Borgman (1960);
+   28 = Warren & Hesser (1977);
+   29 = Sharpless (1952);
+   30 = Racine (1968);
+   31 = Crawford, Limber, Mendoza, Schulte, Steinman, & Swihart (1955);
+   32 = Johnson & Morgan (1953);
+   33 = Meadows (1961);
+   34 = Johnson (1962);
+   35 = Hoag & Smith (1959);
+   36 = Barbier & Boulon (1960);
+   37 = Young (1978);
+   38 = Claria (1974);
+   39 = Feast, Thackeray, & Wesselink (1955);
+   40 = Moffat, & Fitzgerald (1974);
+   41 = Houk (1978);
+   42 = Feast, Stoy, Thackeray,& Wesselink (1961);
+   43 = Denoyelle (1977);
+   44 = Hoffleit (1956);
+   45 = Turner, Grieve, Herbst, & Harris (1980);
+   46 = Morrell, Garcia, & Levato (1988);
+   47 = Massey, & Johnson (1993);
+   48 = Levato, Malaroda, Morrell, Garcia, & Hernandez (1991);
+   49 = Morris (1961);
+   50 = Hiltner, Garrison, & Schild (1969);
+   51 = Houk & Cowley (1975);
+   52 = Seidensticker (1989);
+   53 = Feast, Thackeray, & Wesselink (1957);
+   54 = Perry, Franklin, Landolt, & Crawford (1976);
+   55 = Schild (1970);
+   56 = De Vaucouleurs (1957);
+   57 = Walraven & Walraven (1960);
+   58 = Garrison (1967);
+   59 = Buscombe (1969);
+   60 = Hardie & Crawford (1961);
+   61 = Perry, Hill, & Christodoulou (1991);
+   62 = Schild, Neugebauer, & Westphal (1971);
+   63 = Schild, Hiltner, & Sanduleak (1969);
+   64 = Levato & Malaroda (1980);
+   65 = Garrison & Schild (1979);
+   66 = Roman (1956);
+   67 = Houk & Smith-Moore (1988);
+   68 = Hiltner, Morgan, & Neff (1965);
+   69 = Walker (1957);
+   70 = Walker (1961);
+   71 = Stebbins & Kron (1956);
+   72 = Guetter (1964);
+   73 = Hill (1970);
+   74 = Herbig & Spalding (1955);
+   75 = Vrba & Rydgren (1984);
+   76 = Hack (1953);
+   77 = Roman (1951);
+   78 = Divan (1954);
+   79 = Garrison & Kormendy (1976);
+   80 = Simonson (1968);
+   81 = Blaauw, Hiltner, & Johnson (1959);
+   82 = Pecker (1953);
+   83 = Boulon, Duflot, & Fehrenbach 1958 
+--------------------------------------------------------------------------------
+#+END_QUOTE
+***** Table 3 - Best-Fit Parameters for Survey Stars
+| Name                  |  Teff | e_Teff | log(g) | e_log(g) | [m/H] | e_[m/H] | Vturb | e_Vturb |  theta | e_theta | E(B-V) | e_E(B-V) |
+|-----------------------+-------+--------+--------+----------+-------+---------+-------+---------+--------+---------+--------+----------|
+| HD36982.(NGC.1977)... | 19438 |    352 |   4.04 |     0.16 | -0.14 |    0.05 |    0. | -       | 0.0400 |  0.0008 |   0.31 |     0.01 |
+| HD294264.(NGC.1977).. | 19201 |    503 |   4.01 |     0.16 | -0.68 |    0.10 |   1.6 | 1.0     | 0.0413 |  0.0010 |   0.52 |     0.01 |
+| NGC.1977.#885........ | 18660 |    648 |   4.09 |     0.15 | -0.46 |    0.10 |    0. | -       | 0.0359 |  0.0010 |   0.82 |     0.01 |
+| NGC.1977.#1018....... | 17904 |    668 |   3.62 |     0.16 | -0.75 |    0.15 |    0. | -       | 0.0675 |  0.0020 |   0.89 |     0.01 |
+| HD37020.(NGC.1977)... | 30284 |    884 |   4.05 |     0.17 | -0.82 |    0.10 |   4.9 | 1.0     | 0.0603 |  0.0015 |   0.31 |     0.01 |
+| HD37022.(NGC.1977)... | 37000 |   1000 |   3.83 |     0.12 |    0. |       - |   10. | -       | 0.1111 |  0.0026 |   0.30 |     0.01 |
+| HD37061.(NGC.1977)... | 30057 |    599 |   3.87 |     0.16 | -0.72 |    0.05 |   8.6 | 0.7     | 0.0770 |  0.0018 |   0.53 |     0.01 |
+| HD37130.(NGC.1977)..  | 11440 |    141 |   4.08 |     0.15 | -0.45 |    0.08 |   1.6 | 0.7     | 0.0250 |  0.0009 |   0.23 |     0.01 |
+#+BEGIN_QUOTE
+Table: Best-Fit Parameters for Survey Stars
+================================================================================
+Byte-by-byte Description of file: datafile3.txt
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label   Explanations
+--------------------------------------------------------------------------------
+   1- 22 A22    ---       Name    Star name (1)  
+  24- 28 I5     K         Teff    Model effective temperature (2)
+  30- 33 I4     K       e_Teff    The 1{sigma} uncertainty in Teff   
+  35- 38 F4.2   [cm/s2]   log(g)  Log of model surface gravity (3)
+  40- 43 F4.2   [cm/s2] e_log(g)  The 1{sigma} uncertainty in log(g)   
+  45- 49 F5.2   [Sun]     [m/H]   Log of model metallicity (4)
+  51- 54 F4.2   [Sun]   e_[m/H]   ?The 1{sigma} uncertainty in [m/H] 
+  56- 59 F4.1   km/s      Vturb   Model turbulent velocity (5)   
+  61- 63 F3.1   km/s    e_Vturb   ?The 1{sigma} uncertainty in Vturb   
+  65- 70 F6.4   mas       theta   Model angular radius  
+  72- 77 F6.4   mas     e_theta   The 1{sigma} uncertainty in theta 
+  79- 82 F4.2   mag       E(B-V)  Model reddening  
+  84- 87 F4.2   mag     e_E(B-V)  The 1{sigma} uncertainty in E(B-V)  
+--------------------------------------------------------------------------------
+Note (1): The stars are listed in order of increasing Right Ascension using the
+          most commonly adopted forms of their names. The first preference was
+          ``HDnnn'', followed by ``BDnnn'', etc.  There are 185 survey stars
+          which are members of open clusters or associations.  The identity of
+          the cluster or association is either contained in the star name
+          itself (e.g., NGC 457 Pesch 34) or is given in parentheses after the
+          star's name.
+Note (2): For the O stars analyzed using the TLUSTY atmosphere models, the 
+          values of Teff were adopted from the Spectral Type vs. T_eff_ 
+          relation given in Table 2.  These stars can be identified by their 
+          1-{sigma} uncertainties, which are {+/-}1000 K. 
+Note (3): For stars in clusters, the surface gravities are determined as 
+          discussed in S 3.1 and rely on stellar evolution models and cluster 
+          distance determinations.  Surface gravities for non-cluster stars are
+          not always well-determined, because of a lack of specific 
+          spectroscopic indicators.  In some cases, the best-fit solutions for 
+          these stars indicated physically unlikely results 
+          (i.e., log(g) > ~4.3 or log(g) < ~3.0).  For these stars, a value of 
+          log(g) = 3.9 was assumed (which is the mean log(g) of the rest of the
+          sample) and a 1-{sigma} uncertainty of {+/-}0.2 was incorporated in 
+          the error analysis.  These cases can be identified by log(g) entries 
+          of ``3.9{+/-}0.2.''.
+Note (4): For the O stars in the sample, our fitting procedure utilized solar 
+          abundance TLUSTY models.  For these stars the values of [m/H] are 
+          indicated by entries of ``0'' without uncertainties. 
+Note (5): For the O stars, the adopted TLUSTY models incorporate 
+          Vturb = 10 km/s.  For these stars the values of Vturb are indicated 
+          by entries of ``10'' without uncertainties.  For the B stars, which 
+          were modeled using ATLAS9 models, the values of Vturb were determined
+          by the fitting procedure, but were constrained to lie between 0 and 
+          10 km/s. Stars whose best-fit SED models required these limiting 
+          values are indicated by Vturb entries of ``0'' or ``10'', without 
+          error bars. The uncertainties for stars with best-fit Vturb values 
+          close to these limits may be underestimated due to this truncation. 
+#+END_QUOTE
+***** Table 4 - Best-Fit Extinction Curve Parameters for Survey Stars
+| Name                |    x0 |  e_x0 |  gam | e_gam |   c1 | e_c1 |    c2 | e_c2 |   c3 | e_c3 |   c4 | e_c4 |   c5 | e_c5 |   O1 | e_O1 |   O2 |   O3 | R(V) | e_R(V) |  kIR | e_kIR |
+|---------------------+-------+-------+------+-------+------+------+-------+------+------+------+------+------+------+------+------+------+------+------+------+--------+------+-------|
+| HD36982.(NGC.1977). | 4.588 | 0.006 | 0.87 |  0.02 | 1.80 | 0.51 | -0.08 | 0.11 | 2.33 | 0.18 | 0.22 | 0.02 | 5.51 | 0.31 | 1.59 | 0.11 | 1.28 | 0.00 | 5.60 |   0.25 | 2.82 |  0.27 |
+| HD294264.(NGC.1977) | 4.582 | 0.007 | 1.07 |  0.04 | 1.79 | 0.18 |  0.01 | 0.04 | 2.32 | 0.18 | 0.12 | 0.01 | 5.23 | 0.19 | 1.70 | 0.06 | 1.29 | 0.01 | 5.48 |   0.17 | 2.74 |  0.20 |
+| NGC.1977.#885...... | 4.582 | 0.006 | 1.03 |  0.02 | 1.28 | 0.08 |  0.18 | 0.02 | 2.20 | 0.11 | 0.20 | 0.01 | 5.88 | 0.09 | 1.96 | 0.05 | 1.34 | 0.02 | 5.22 |   0.09 | 2.53 |  0.11 |
+| NGC.1977.#1018..... | 4.570 | 0.011 | 1.25 |  0.05 | 0.41 | 0.19 |  0.46 | 0.03 | 4.58 | 0.37 | 0.48 | 0.03 | 6.35 | 0.05 | 2.05 | 0.06 | 1.33 | 0.03 | 5.50 |      - | 2.62 |     - |
+| HD37020.(NGC.1977). | 4.567 | 0.018 | 0.87 |  0.07 | 2.84 | 0.47 | -0.17 | 0.09 | 0.72 | 0.16 | 0.10 | 0.01 | 5.00 | 0.34 | 1.52 | 0.10 | 1.24 | 0.00 | 5.77 |   0.21 | 2.79 |     - |
+| HD37022.(NGC.1977). | 4.585 | 0.005 | 0.99 |  0.03 | 1.84 | 0.26 | -0.04 | 0.06 | 1.79 | 0.17 | 0.18 | 0.08 | 5.99 | 0.49 | 1.58 | 0.09 | 1.24 | 0.01 | 6.42 |   0.30 | 3.14 |  0.31 |
+| HD37061.(NGC.1977). | 4.584 | 0.003 | 0.87 |  0.02 | 2.15 | 0.19 |  0.10 | 0.03 | 1.38 | 0.06 | 0.16 | 0.04 | 6.98 | 0.28 | 2.03 | 0.07 | 1.30 | 0.01 | 4.55 |   0.13 | 1.95 |  0.17 |
+| HD37130.(NGC.1977)  | 4.729 | 0.077 | 1.26 |  0.43 | 2.23 | 0.58 | -0.02 | 0.09 | 1.76 | 1.17 | 0.20 | 0.05 | 5.10 | 0.28 | 1.90 | 0.19 | 1.31 | 0.01 | 5.50 |      - | 2.62 |     - |
+#+BEGIN_QUOTE
+Table: Best-Fit Extinction Curve Parameters for Survey Stars
+================================================================================
+Byte-by-byte Description of file: datafile4.txt
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label  Explanations
+--------------------------------------------------------------------------------
+   1- 22 A22    ---     Name   Star name (1)
+  24- 28 F5.3   ---     x0     The UV x_0_ coefficient (2)
+  30- 34 F5.3   ---   e_x0     The 1-{sigma} uncertainty in x0 
+  36- 39 F4.2   ---     gamma  The UV {gamma} coefficient (2)
+  41- 44 F4.2   ---   e_gamma  The 1-{sigma} uncertainty in {gamma} 
+  46- 50 F5.2   ---     c1     The UV c_1_ coefficient (2)
+  52- 55 F4.2   ---   e_c1     ? The 1-{sigma} uncertainty in c1 
+  57- 61 F5.2   ---     c2     The UV c_2_ coefficient (2)
+  63- 66 F4.2   ---   e_c2     The 1-{sigma} uncertainty in c2 
+  68- 72 F5.2   ---     c3     The UV c_3_ coefficient (2)
+  74- 77 F4.2   ---   e_c3     The 1-{sigma} uncertainty in c3 
+  79- 82 F4.2   ---     c4     The UV c_4_ coefficient (2)
+  84- 87 F4.2   ---   e_c4     The 1-{sigma} uncertainty in c4 
+  89- 92 F4.2   ---     c5     The UV c_5_ coefficient (2)
+  94- 97 F4.2   ---   e_c5     The 1-{sigma} uncertainty in c5 
+  99-102 F4.2   ---     O1     ? The optical spline O_1_ point (3) 
+ 104-107 F4.2   ---   e_O1     ? The 1-{sigma} uncertainty in O1 
+ 109-112 F4.2   ---     O2     The optical spline O_2_ point (3)
+ 114-118 F5.2   ---     O3     The optical spline O_3_ point (3)
+ 120-123 F4.2   ---     R(V)   The IR R(V) coefficient (4)
+ 125-128 F4.2   ---   e_R(V)   ? The 1-{sigma} uncertainty in R(V) 
+ 130-133 F4.2   ---     kIR    The IR k_IR_ coefficient (4)
+ 135-138 F4.2   ---   e_kIR    ? The 1-{sigma} uncertainty in kIR
+--------------------------------------------------------------------------------
+Note (1): The stars are listed in order of increasing Right Ascension using the
+          most commonly adopted forms of their names. The first preference was
+          ``HDnnn'', followed by ``BDnnn'', etc.  There are 185 survey stars
+          which are members of open clusters or associations.  The identity of
+          the cluster or association is either contained in the star name
+          itself (e.g., NGC 457 Pesch 34) or is given in parentheses after the
+          star's name.
+Note (2): For the stars HD237019, HD18352, and HD25443 the long wavelength IUE 
+          spectra are incomplete.  For these cases we constrained the UV linear
+          extinction component to follow the relation c1 = 2.18 - 2.91*c2 from 
+          Fitzpatrick (2004).  For these stars we list uncertainties for the 
+          c2 values but not for the c1 values. 
+Note (3): The uncertainties in the O2 and O3 optical spline points (at 
+          wavelengths of 4000 and 5530 Angstroms, respectively) are tyically 
+          0.01 or less and are not listed.  For several stars, those without U 
+          band photometry, we did not solve for the O1 point at 3300 Angstroms.
+Note (4): For field stars without IR photometry, we assumed R(V) = 3.1 and 
+          kIR = 1.11, with the latter based on the relation 
+          kIR = 0.63*R(V) - 0.84 from Fitzpatrick (2004).  For such stars in 
+          clusters, we adopted the mean R(V) of the other cluster members and a
+          value of kIR based on the aforementioned relation.  These assumed 
+          values are listed in the Table without uncertainties.  Several survey
+          stars have apparently noisy JHK data and yielded very uncertain 
+          values of kIR.  For these, we ultimately derived the extinction curve
+          by solving for the best-fit value of R(V) with kIR constrained to 
+          follow the Fitzpatrick (2004) relation.  The resultant R(V) values 
+          are listed with their uncertainties while the kIR values are listed 
+          without uncertainties. 
+#+END_QUOTE
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori
