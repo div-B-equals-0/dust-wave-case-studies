@@ -951,7 +951,7 @@ CLOSED: [2018-10-31 Wed 12:15]
 | Herschel PACS |    160 |     80 |   24.4 |   38.1 |      0 |      0 |   1 |
 
 
-#+header: :var intab=lp-ori-sed :colnames no
+#+header: :var intab=lp-ori-sed magtab=lp-ori-magnitudes :colnames no
 #+BEGIN_SRC python :return figfile :results file
   import numpy as np
   from astropy.table import Table
@@ -982,6 +982,14 @@ CLOSED: [2018-10-31 Wed 12:15]
   data['E(star)'] = data['E(F*)']*data['star']/data['F*']
   data['dWave'] = data['dWave']/2
 
+  # Extra data from literature magnitudes
+  magdata = Table(rows=magtab[1:], names=magtab[0])
+  magdata['star'] = 5.2652e9 * 2.9979e-9 * magdata['F'] / magdata['wav']
+  magdata['E(star)'] = magdata['dF']*magdata['star']/magdata['F']
+  magdata['Wave'] = magdata['wav']
+  magdata['dWave'] = magdata['dwav']/2
+
+
   # Integrate SED
   m = data['Use'] == 1
   logwav = np.log(data['Wave'][m])
@@ -1002,27 +1010,40 @@ CLOSED: [2018-10-31 Wed 12:15]
   m = data['star'] > 0.0
   ax.errorbar('Wave', 'star', xerr='dWave', yerr='E(star)',
               data=data[m], label='star',
-              ls='--', marker='.', color='k', alpha=0.1,
+              ls='--', marker='.', color='k', alpha=0.05,
+  )
+
+  # Same for magnitude data
+  ax.errorbar('Wave', 'star', xerr='dWave', yerr='E(star)',
+              data=magdata, label='star',
+              ls='none', marker='.', color='0.5', alpha=1.0,
   )
 
   # Plot Cloudy models ...
   LSUN = 3.82e33
   # ... the AV=0.3 model for the dust shell ...
-  mod03 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n23-LP_Ori20BB"))
+  #mod03 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n28-LP_Ori20BZ5"))
+  mod03 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n27-LP_Ori20Bz5"))
   # ... and the AV=1.5 model for the attenuated star
   mod15 = CloudyModel(os.path.join(CDC, "models", "shell-R001-n23-LP_Ori20AV"))
 
   wav = 0.0912 / mod03.data['cont']['Cont  nu']
   star_sed = mod15.data["cont"]["trans"] / LSUN
+  star_sed0 = mod15.data["cont"]["incident"] / LSUN
   shell_sed = mod03.data["cont"]["DiffOut"] / LSUN
-  ax.fill_between(wav, star_sed, facecolor="yellow", alpha=0.3)
-  ax.fill_between(wav, shell_sed, facecolor="red", alpha=0.3)
+  shell_luminosity = np.trapz(shell_sed[::-1], np.log(wav[::-1]))
 
-  ax.legend(loc='upper left', ncol=1, title='Instrument', fontsize='small')
+  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {Luminosity:.1f}\ \mathrm{{L}}_\odot$ (model: ${shell_luminosity:.1f}\ \mathrm{{L}}_\odot$)'
+
+  ax.fill_between(wav, star_sed, facecolor="0.9", alpha=1.0)
+  ax.fill_between(wav, shell_sed, facecolor="0.75", alpha=1.0)
+  ax.plot(wav, star_sed0, color="0.9", lw=0.2)
+
+  ax.legend(loc='upper right', ncol=1, title='Instrument', fontsize='small')
   ax.set(
       xscale='log', yscale='log',
-      xlim=[0.1, 300],
-      ylim=[0.2, 500],
+      xlim=[0.05, 800],
+      ylim=[0.05, 3200],
       xlabel=r'Wavelength: $\lambda$, $\mu$m',
       ylabel=r'SED: $\nu L_\nu$, $\mathrm{L}_{\odot}$',
       title=title,
@@ -1036,15 +1057,107 @@ CLOSED: [2018-10-31 Wed 12:15]
 #+RESULTS:
 [[file:lp-ori-sed.pdf]]
 
-+ [ ] We will compare with the SED from a Cloudy model
++ [X] We will compare with the SED from a Cloudy model
   + For stellar SED, need to do extra foreground extinction
   + I was going to do it with pyNeb, but that only goes down to 1250 \AA
   + Other options:
     1. [X] Cloudy - I can run a special model with the star extincted by a certain column
-       - This has to be done by running an actual model out to AV = 1.5, which we wwill try
+       - This has to be done by running an actual model out to AV = 1.5, which we will try
     2. Look at getting Draine's extinction curve from somewhere
-+ [ ] And I also want to put on some magnitudes from the literature
++ [X] And I also want to put on some magnitudes from the literature
+  + Need to find zero points
++ [ ] So now, I need to work out how I went so badly wrong with the HST photometry
+***** LP Ori magnitudes from literature
++ Includes values from [[http://simbad.u-strasbg.fr/simbad/sim-id?Ident=LP+Ori&NbIdent=1&Radius=2&Radius.unit=arcmin&submit=submit+id][SIMBAD]]
+  + I gave an uncertainty of 0.05 mag to values with no stated errors
++ Jansky zero points F_0 are taken from
+  + https://www.astro.umd.edu/~ssm/ASTR620/mags.html
+  + F_{0} is flux density for magnitude of zero
+  + F / F_{0} = 10^{-0.4 m}
 
+| Band |   \lambda_{0} |   d\lambda |   F_{0} |    Mag |   dMag | F               |
+|      |   \mu{}m |   \mu{}m |   Jy |        |        | Jy              |
+|------+------+------+------+--------+--------+-----------------|
+| U    | 0.36 | 0.15 | 1810 |   8.00 |   0.05 | 1.14 +/- 0.05   |
+| B    | 0.44 | 0.22 | 4260 |   8.58 |   0.05 | 1.58 +/- 0.07   |
+| G    | 0.52 | 0.14 | 3730 | 8.3259 | 0.0006 | 1.74 +/- 9.6e-4 |
+| V    | 0.55 | 0.16 | 3640 |   8.46 |   0.05 | 1.50 +/- 0.07   |
+| R    | 0.64 | 0.23 | 3080 |   8.19 |   0.05 | 1.63 +/- 0.08   |
+| I    | 0.79 | 0.19 | 2550 |  7.980 |   0.05 | 1.64 +/- 0.08   |
+| J    | 1.26 | 0.16 | 1600 |  7.743 |  0.024 | 1.28 +/- 0.03   |
+| H    | 1.60 | 0.23 | 1080 |  7.636 |  0.047 | 0.95 +/- 0.04   |
+| K    | 2.22 | 0.23 |  670 |  7.472 |  0.020 | 0.69 +/- 0.01   |
+| L    | 3.45 |  0.3 |  290 |   7.40 |    0.1 | 0.32 +/- 0.03   |
+#+TBLFM: $7=$4 10**(-0.4 ($5 +/- $6));f2
+
+
+Version suitable for reading with python
+
+#+name: lp-ori-magnitudes
+| Band |    wav |  dwav |     F |      dF |
+|------+--------+-------+-------+---------|
+|      | 0.1150 | 0.006 | 0.882 |   0.088 |
+|      | 0.1200 | 0.003 | 0.480 |   0.096 |
+|      | 0.1220 | 0.003 | 0.099 |   0.09  |
+|      | 0.1250 | 0.003 | 0.625 |   0.104 |
+|      |  0.140 |  0.02 | 1.569 |   0.131 |
+|      |  0.160 |  0.02 | 1.451 |   0.087 |
+|      | 0.1800 |  0.02 | 1.405 |   0.108 |
+|      | 0.2000 |  0.02 | 0.801 |   0.018 |
+|      | 0.2100 |  0.02 | 0.588 |   0.014 |
+|      | 0.2257 |  0.02 | 0.508 |   0.010 |
+|      |  0.306 |  0.02 | 0.954 |   0.012 |
+| U    |  0.365 | 0.066 |  1.14 |    0.05 |
+| B    |   0.44 |  0.22 |  1.58 |    0.07 |
+| G    |   0.52 |  0.14 |  1.74 | 0.00096 |
+| V    |   0.55 |  0.16 |  1.50 |    0.07 |
+| R    |   0.64 |  0.23 |  1.63 |    0.08 |
+| I    |   0.79 |  0.19 |  1.28 |    0.03 |
+| J    |   1.26 | 0.213 |  1.28 |    0.03 |
+| H    |   1.60 | 0.307 |  0.95 |    0.04 |
+| K    |   2.22 | 0.390 |  0.69 |    0.01 |
+| L    |   3.45 | 0.472 |  0.32 |    0.03 |
+****** IUE near UV from Valenti:2003a and far UV from Valenti:2000a
++ Flux is in erg/s/cm^2/\AA
+  + From what I had before, multiply by 3.3356e12 \lambda_{\mu}^{2 }to get Jy
+  + F_{\nu} = (\lambda/\nu) F_{\lambda} = (\lambda^{2} / c) F_{\lambda}
+
+|    Wav | log F_\lambda             | F_\nu             |
+|--------+---------------------+-----------------|
+| 0.1150 | -10.6990 +/- 0.0434 | 0.882 +/- 0.088 |
+| 0.1200 | -11.0 +/- 0.0869    | 0.480 +/- 0.096 |
+| 0.1220 | -11.6989 +/- 0.4343 | 0.099 +/- 0.09  |
+| 0.1250 | -10.9208 +/- 0.0724 | 0.625 +/- 0.104 |
+| 0.1400 | -10.6198 +/- 0.0362 | 1.569 +/- 0.131 |
+| 0.1600 | -10.7696 +/- 0.026  | 1.451 +/- 0.087 |
+| 0.1800 | -10.8861 +/- 0.0334 | 1.405 +/- 0.108 |
+| 0.2000 | -11.2218 +/- 0.01   | 0.801 +/- 0.018 |
+| 0.2100 | -11.3979 +/- 0.01   | 0.588 +/- 0.014 |
+| 0.2257 | -11.5244 +/- 0.0088 | 0.508 +/- 0.010 |
+| 0.3060 | -11.5150 +/- 0.0055 | 0.954 +/- 0.012 |
+#+TBLFM: $3=3.3356e12 $1**2 10**$2;f3
+****** Other papers
+******* Morel:1978a
++ http://vizier.u-strasbg.fr/viz-bin/VizieR?-source=II/7A
+| U | 7.910 |
+| B | 8.530 |
+| V | 8.430 |
+| R | 8.190 |
+| I | 7.980 |
+| J | 7.700 |
+| K | 7.330 |
+******* Hillenbrand:1998a
++ http://vizier.u-strasbg.fr/viz-bin/VizieR?-source=J/AJ/116/1816
+| J | 7.750 |
+| H | 7.620 |
+| K | 7.520 |
+| L |  7.40 |
+| M |  6.23 |
+******* Robberto:2010a
++ http://vizier.u-strasbg.fr/viz-bin/VizieR?-source=J/AJ/139/950
+| J | 7.743 | 0.024 |
+| H | 7.636 | 0.024 |
+| K | 7.472 | 0.020 |
 *** \theta^{1} Ori D
 + Size: about 1.5 arcsec"
   + => 0.003 pc
@@ -1083,7 +1196,7 @@ CLOSED: [2018-10-31 Wed 12:15]
   |       | Weff, \AA | t, s |
   |-------+---------+------|
   | f547m |   657.2 |      |
-  | f502n |    35.6 | 100  |
+  | f502n |    35.6 |  100 |
   | f658n |    39.2 |      |
   | f656n |    28.3 |      |
   | f631n |    42.1 |      |
