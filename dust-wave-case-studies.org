@@ -754,7 +754,7 @@ CLOSED: [2018-10-31 Wed 22:39]
 + [2018-11-21 Wed] There is a clear problem with the visual points in the observed SED
   + By comparison with magnitudes from literature, they should be higher by a factor of 10 or so
 + Steps to do
-  + [X] Check against original ACS images
+  + [X] Check against 2015 observations
     * ACS F775W, ~jcol19010_drc.fits~
       :                    / PHOTOMETRY KEYWORDS                                             
       : PHOTMODE= 'ACS WFC1 F775W MJD#57235.8664' / observation con                     
@@ -786,9 +786,8 @@ CLOSED: [2018-10-31 Wed 22:39]
         + 3.3356e12 1.38376**2 9.1828299E-20 = 5.86505446698e-7
         + So that isn't where the problem lies
       + But the IR doesn't have such a problem
-
-
-  + [ ] Compare photometry with results from Robberto:2013a
+  + [X] Redo using original [[file:/Volumes/SSD-1TB/OrionTreasury/acs/]] images
+    + Make sure to connect esternal disk first
     + Using ~strip1l_f775w~ and small circle (4.3 arcsec radius)
       + PHOTOMETRY KEYWORDS                                             
        : PHOTMODE= 'ACS WFC1 F775W'     / observation con                                
@@ -868,8 +867,44 @@ CLOSED: [2018-10-31 Wed 22:39]
         | F850LP | 0.850 | 1.5074510E-19 | 1.27e6 +/- 2.12e4 | 8.52e5 +/- 1.27e3 | 2.37e5 +/- 2.95e2 | 1.37e4 +/- 1.48e2 | 0.482 +/- 5.09e-4 | 0.061 +/- 0.008 |
         #+TBLFM: $8=3.3356e12 $2**2 $3 ($5 + 2 $6) ;f3::$9=3.3356e12 $2**2 $3 ($4 - $5 - $6 - $7) ;f3
       + Still 4 to 5 times too small - why?
+  + [ ] Compare photometry for non-saturated stars with table from Robberto:2013a
+    + From Robberto Table 5 (just first visit for each star)
+      |   ID |          RA |         Dec |   F435W |   F555W |   F775W |  F850LP |
+      |------+-------------+-------------+---------+---------+---------+---------|
+      | 3290 | 5:35:10.880 | -5:28:00.76 | 19.0222 | 17.3977 | 14.7463 | 13.7581 |
+      | 3086 | 5:35:09.591 | -5:28:00.02 | 20.2658 | 18.7080 | 15.4081 | 14.4585 |
+      | 2963 | 5:35:08.344 | -5:27:56.89 | 19.4596 | 17.7425 | 14.9634 | 13.8078 |
+    + My measurements at F555W
+      |   ID |          RA |         Dec | F555W e/s       | VEGAMAG          | F_\nu, Jy               | JYMAG            |
+      |------+-------------+-------------+-----------------+------------------+-----------------------+------------------|
+      | 3290 | 5:35:10.880 | -5:28:00.76 | 1924.5 +/- 12.5 | 17.421 +/- 0.007 | 0.000380 +/- 0.000002 | 17.453 +/- 0.006 |
+      | 3086 | 5:35:09.588 | -5:28:00.02 | 758.5 +/- 16.5  | 18.432 +/- 0.024 | 0.000150 +/- 0.000003 | 18.463 +/- 0.022 |
+      | 2963 | 5:35:08.343 | -5:27:56.89 | 1402 +/- 34     | 17.765 +/- 0.026 | 0.000277 +/- 0.000007 | 17.797 +/- 0.027 |
+      #+TBLFM: $5=25.724 - 0.092 - 2.5 log10($4);f3::$6=3.3356e12 0.55**2 1.9559270E-19 $4;f6::$7=-2.5 log10($6/3640);f3::@2$4=2373 - vmeane([436, 461])::@3$4=1686 - vmeane([911, 944])::@4$4=2074 - vmeane([638, 706])
+      + ~PHOTZPT = -21.1~
+      + ~PHOTFLAM = 1.9559270E-19~
+      + Zero point for Vega magnitudes from Sirianni:2005a Table 10: 25.724
+        + Not sure why header says something different
+      + Aperture correction from Sirianni:2005a: 0.092 mag
+      + So Vega magnitudes check out
+      + BUT, we still haven't verified the PHOTFLAM value
+        + I use the header PHOTFLAM to convert to Jy
+        + Jansky zeropoint is supposedly F0 = 3640 Jy for V band
+        + Magnitude = -2.5 log10(F / F0), given in JYMAG column above
+      + So that checks out too
+    + Final check is to find independent measurements of V magnitude of one of these stars
+      + Source 3290
+        + DaRio:2009a give V = 17.490, which is perfectly consistent
+        + Hillenbrand:1997a give V = 17.33, which is close enough (\Delta{}m = 0.16 => 15% brighter)
+        + Parihar:2009a give V = 16.28, which is a whole magnitude brighter (factor of 2.5)
+
+
 
   + [ ] Is it anything to do with the non-standard gain?
+    + Robberto used 2 e/ADU instead of 1 e/ADU, but the header says that the units are electrons, so does this matter?
+    + We could use synphot to try and find out
+    + Turns out that pysynphot has no "ADC gain" keywords, although other instruments, such as WFPC2, do
+    + So, I am still none the wiser
 ***** DONE Optical lines
 CLOSED: [2018-10-31 Wed 22:39]
   + Lines we have
