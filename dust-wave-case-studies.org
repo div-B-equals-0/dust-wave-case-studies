@@ -367,6 +367,7 @@ stars.update(
   + The identify PAH and silicate components, with silicates coming from closer to star
   + But they are talking of very small scales: 130 AU (would be 0.325 au at Orion)
   + There is extended emission on scales of ten arcsecs, but his seems to be mainly PAH emission
+***** Revisiting LP Ori stellar parameters
 
 **** Models for LP Ori
 ***** How to derive density of dust shell
@@ -749,7 +750,126 @@ CLOSED: [2018-10-31 Wed 22:39]
     + d\nu/d\lambda = d/d\lambda (c/\lambda) = c/\lambda^{2}
     + => F_{\nu} = (\lambda^{2}/c) F_{\lambda}
     + 1 erg/s/cm^2/\AA = 1e8 erg/s/cm^2/cm = 3.3356e-11 \lambda_{\mu}^{2 } erg/s/cm^2/Hz = 3.3356e12 \lambda_{\mu}^{2 } Jy
+****** TODO Audit of HST photometry
++ [2018-11-21 Wed] There is a clear problem with the visual points in the observed SED
+  + By comparison with magnitudes from literature, they should be higher by a factor of 10 or so
++ Steps to do
+  + [X] Check against original ACS images
+    * ACS F775W, ~jcol19010_drc.fits~
+      :                    / PHOTOMETRY KEYWORDS                                             
+      : PHOTMODE= 'ACS WFC1 F775W MJD#57235.8664' / observation con                     
+      : PHOTFLAM= 9.94972069999999E-20 / inverse sensitivity, ergs/cm2/Ang/electron     
+      : PHOTZPT =       -2.1100000E+01 / ST magnitude zero point                        
+      : PHOTPLAM=        7.6931802E+03 / Pivot wavelength (Angstroms)                   
+      : PHOTBW  =        4.3447256E+02 / RMS bandwidth of filter plus detector
+      * This from 2015
+      * Use a big circle aperture
+        - Total source flux: 2346364.3
+        - Total BG flux: -273264.15
+        - Yes, that is negative - some problem with the zero point
+        - Net source flux: 2619628.45 e/s = 2.58373954024e-13 erg/s/cm2/AA = 0.517 Jy
+      * Compare with ~lp-ori-f775w.fits~
+        - Seems it is not using native pixels
+        - Use circle aperture
+          - Total source flux: 1084975.8
+          - Total BG flux: 154755.88
+          - Net source flux: 930219.92 e/s = 0.1838 Jy
+    * WFC3 F139M ~icol04030_drz.fits~
+      :               / PHOTOMETRY KEYWORDS                                             
+      : PHOTMODE= 'WFC3 IR F139M'      / observation con                                
+      : PHOTFLAM=        9.1828299E-20 / inverse sensitivity, ergs/cm2/Ang/electron     
+      : PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron           
+      : PHOTZPT =       -2.1100000E+01 / ST magnitude zero point                        
+      : PHOTPLAM=        1.3837616E+04 / Pivot wavelength (Angstroms)                   
+      : PHOTBW  =        2.7801804E+02 / RMS bandwidth of filter plus detector          
+      + The conversion to Jy checks out fine:
+        + 3.3356e12 1.38376**2 9.1828299E-20 = 5.86505446698e-7
+        + So that isn't where the problem lies
+      + But the IR doesn't have such a problem
 
+
+  + [ ] Compare photometry with results from Robberto:2013a
+    + Using ~strip1l_f775w~ and small circle (4.3 arcsec radius)
+      + PHOTOMETRY KEYWORDS                                             
+       : PHOTMODE= 'ACS WFC1 F775W'     / observation con                                
+       : PHOTFLAM=        1.0065458E-19 / inverse sensitivity, ergs/cm2/Ang/electron     
+       : PHOTZPT =       -2.1100000E+01 / ST magnitude zero point                        
+       : PHOTPLAM=        7.6930146E+03 / Pivot wavelength (Angstroms)                   
+       : PHOTBW  =        4.3459634E+02 / RMS bandwidth of filter plus detector          
+      + Total source flux: 1092808.3
+      + BG fluxes: 26089, 33978, 23105, 36157
+        + Mean 29832.25 +/- 3115.25
+      + Net source flux: 1062976 +/- 3000 e/s = 0.214 Jy - too low!
+    + Same with big circle (15 arcsec) - includes saturation spike and shell
+      + Total source: 2025509
+      + BG: 325640, 356142, 417123, 339335
+        + Mean: 359560 +/- 20175
+      + Net source: 1665949 +/- 20175 e/s = 0.336 +/- 0.004 Jy
+    + We need to take into account of other bleed spike, which goes off the image
+      - use a snug circle and a box for the right-hand bleed spike, which we can then double
+      - Snug circle (3.8 arcsec):
+        - Source: 1024562
+        - BG: 27785, 25810, 23921, 16258 = 23443 +/- 2521
+        - Net: 1001119 +/- 2521
+      - Box for spike (16.79 x 0.88 arcsec)
+        - Source: 327695
+        - BG: 8938, 7571, 6299, 6189 = 7249 +/- 644
+        - Net: 320446 +/- 644
+      - So total star is Snug circle plus two times box:
+        - 1642011 +/- 2831 e/s = 0.331 Jy
+        - This is 3 times higher than I had before, but is a bit smaller than the 0.5-ish that I get from the 2015 observations
+      - Also shell plus other stars is Big circle minus (Snug circle plus one times box)
+        - 344384 +/- 20342 = 0.069 +/- 0.004 Jy
+      - Other stars from tiny circle (0.5 arcsec):
+        - Stars: 8276 + 2990 + 3145
+        - BG: 1291, 1359, 873, 1172, 620, 758 = 1012 +/- 124
+        - Net: Stars minus three times BG = 11375 +/- 372
+      - Corrected shell: 333009 +/- 20345 e/s = 0.067 +/- 0.004 Jy
+        - Thus is 4.5 times higher than last time - how come?
+    + Repeat for all the filters: 
+      + Big circle (R=15)
+        | Filter |   Source |    BG1 |    BG2 |    BG3 | Net                 |
+        |--------+----------+--------+--------+--------+---------------------|
+        | F435W  | 2132996. | 524671 | 392794 | 424808 | 1.686e6 +/- 3.971e4 |
+        | F555W  | 2290373. | 694532 | 524089 | 533676 | 1.706e6 +/- 5.529e4 |
+        | F775W  | 2025509. | 325640 | 356142 | 417123 | 1.659e6 +/- 2.689e4 |
+        | F850LP | 1507335. | 274625 | 203363 | 223608 | 1.273e6 +/- 2.120e4 |
+        #+TBLFM: $6=$2 - vmeane($3..$5) ; s4
+      + Snug circle (3.8 arcsec):
+        | Filter |   Source |   BG1 |   BG2 |   BG3 | Net               |
+        |--------+----------+-------+-------+-------+-------------------|
+        | F435W  | 1068232. | 32951 | 18923 | 33656 | 1.04e6 +/- 4.80e3 |
+        | F555W  | 1089523. | 40711 | 26710 | 41979 | 1.05e6 +/- 4.89e3 |
+        | F775W  | 1024562. | 27785 | 25810 | 23921 | 9.99e5 +/- 1.12e3 |
+        | F850LP |  868698. | 18799 | 14470 | 15875 | 8.52e5 +/- 1.28e3 |
+        #+TBLFM: $6=$2 - vmeane($3..$5) ; s3
+      + Box for spike
+        | Filter |  Source |   BG1 |  BG2 |   BG3 | Net               |
+        |--------+---------+-------+------+-------+-------------------|
+        | F435W  | 322589. |  9689 | 5065 | 10414 | 3.14e5 +/- 1.68e3 |
+        | F555W  | 327436. | 11832 | 7301 | 13187 | 3.17e5 +/- 1.78e3 |
+        | F775W  | 327695. |  8938 | 7571 |  6299 | 3.20e5 +/- 7.62e2 |
+        | F850LP | 242350. |  4979 | 4058 |  4904 | 2.38e5 +/- 2.95e2 |
+        #+TBLFM: $6=$2 - vmeane($3..$5) ; s3
+      + Other stars (R=0.5)
+        | Filter | Star1 | Star2 | Star3 | BG1a | BG1b | BG2a | BG2b | BG3a | BG3b | Net               |
+        |--------+-------+-------+-------+------+------+------+------+------+------+-------------------|
+        | F435W  |   926 |   948 |  1619 |  809 |  978 |  835 |  732 | 1778 | 1554 | 1.50e2 +/- 5.39e2 |
+        | F555W  |  1152 |  1688 |  1844 | 1006 | 1268 |  866 |  990 | 1734 | 1926 | 7.89e2 +/- 5.34e2 |
+        | F775W  |  8276 |  2990 |  3145 | 1291 | 1359 |  873 | 1172 |  620 |  758 | 1.14e4 +/- 3.72e2 |
+        | F850LP |  3532 |  8261 |  3870 |  550 |  700 |  446 |  600 |  762 |  731 | 1.38e4 +/- 1.49e2 |
+        #+TBLFM: $11=vsum($2..$4) - 3 vmeane($5..$10);s3
+      + Star and shell in Jy
+        | Filter |  wave |      PHOTFLAM | Big               | Snug              | Box               | Stars             | LP Ori            | Shell           |
+        |--------+-------+---------------+-------------------+-------------------+-------------------+-------------------+-------------------+-----------------|
+        | F435W  | 0.435 | 3.1412476E-19 | 1.68e6 +/- 3.97e4 | 1.04e6 +/- 4.79e3 | 3.14e5 +/- 1.67e3 | 1.50e2 +/- 5.39e2 | 0.331 +/- 0.001   | 0.065 +/- 0.008 |
+        | F555W  | 0.555 | 1.9559270E-19 | 1.70e6 +/- 5.52e4 | 1.05e6 +/- 4.89e3 | 3.16e5 +/- 1.78e3 | 7.89e2 +/- 5.34e2 | 0.338 +/- 0.001   | 0.067 +/- 0.011 |
+        | F775W  | 0.775 | 1.0065458E-19 | 1.65e6 +/- 2.68e4 | 9.98e5 +/- 1.11e3 | 3.20e5 +/- 7.62e2 | 1.13e4 +/- 3.72e2 | 0.330 +/- 3.80e-4 | 0.065 +/- 0.005 |
+        | F850LP | 0.850 | 1.5074510E-19 | 1.27e6 +/- 2.12e4 | 8.52e5 +/- 1.27e3 | 2.37e5 +/- 2.95e2 | 1.37e4 +/- 1.48e2 | 0.482 +/- 5.09e-4 | 0.061 +/- 0.008 |
+        #+TBLFM: $8=3.3356e12 $2**2 $3 ($5 + 2 $6) ;f3::$9=3.3356e12 $2**2 $3 ($4 - $5 - $6 - $7) ;f3
+      + Stil 4 to 5 times too small - why?
+
+  + [ ] Is it anything to do with the non-standard gain?
 ***** DONE Optical lines
 CLOSED: [2018-10-31 Wed 22:39]
   + Lines we have
