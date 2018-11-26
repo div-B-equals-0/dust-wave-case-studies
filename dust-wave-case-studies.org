@@ -867,7 +867,40 @@ CLOSED: [2018-10-31 Wed 22:39]
         | F850LP | 0.850 | 1.5074510E-19 | 1.27e6 +/- 2.12e4 | 8.52e5 +/- 1.27e3 | 2.37e5 +/- 2.95e2 | 1.37e4 +/- 1.48e2 | 0.482 +/- 5.09e-4 | 0.061 +/- 0.008 |
         #+TBLFM: $8=3.3356e12 $2**2 $3 ($5 + 2 $6) ;f3::$9=3.3356e12 $2**2 $3 ($4 - $5 - $6 - $7) ;f3
       + Still 4 to 5 times too small - why?
-  + [ ] Compare photometry for non-saturated stars with table from Robberto:2013a
+  + [ ] Also check the WFC3 IR photometry
+    + ~icol04030~
+    + ~PHOTMODE= 'WFC3 IR F139M'~
+    + ~PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron~
+    + Using circles
+      | Region       |  Source |   BG1 |   BG2 | Net flux, Jy        |
+      |--------------+---------+-------+-------+---------------------|
+      | Circle 15    | 1161104 | 39642 | 42966 | 0.65678 +/- 0.00097 |
+      | Circle 1     |  792321 |   815 |   858 | 0.46422 +/- 0.00001 |
+      | Inner star 1 |   15813 |  1158 |  1363 | 0.00854 +/- 0.00006 |
+      | Inner star 2 |   12432 |   980 |   522 | 0.00685 +/- 0.00013 |
+      | Inner star 3 |   23812 |  1545 |  1228 | 0.01315 +/- 0.00009 |
+      | Outer star 1 |   20924 |   288 |   371 | 0.01208 +/- 0.00002 |
+      #+TBLFM: $5=5.8651381e-07 ($2 - vmeane([$3, $4])) ;f5
+    + Inner stars are inside the 15 arcsec source aperture, while outer stars are outside it
+      + The BG values for the 15 arcsec circle avoid stars, so the inner stars need subtracting separately
+    + In principle this needs an aperture correction for the 1 arcsec apertures
+      + According to [[http://www.stsci.edu/hst/wfc3/analysis/ir_ee][this page]] the encircled energy is 0.92 at 1 arcsec
+      + Gives total stellar flux of 0.4642/0.92 = 0.505 Jy
+      + This is actually a bit less than I got before
+    + For outer star 1 (source 3290 from Robberto:2013a), we can convert to magnitudes
+      + 1.39 is intermediate between J and H (13/34 = 0.38 of way from 1.26 to 1.6)
+      + Assume zero point of 1600 + 0.38 (1080 - 1600) = 1400 Jy
+      + Magnitude is 12.66
+      + Compare Robberto:2010a : J = 12.66, H = 12.07 - predict m = 12.43
+      + Compare Hillenbrand:1998a : J = 12.66, H = 12.08
+      + Other catalogs give J = 12.62 to 12.66
+      + So, literature is maybe 0.22 mag brighter => factor of 10**(0.4 0.22) = 1.22
+    + For the shell, we can approximate as 0.65678 - (0.46422 + 0.00854 + 0.00685 + 0.01315)/0.92 = 0.12 Jy
+      + Compare the 0.043 that we got last time - much larger than that!
+      + Why? Probably because of a bigger aperture
+
+
+  + [X] Compare photometry for non-saturated stars with table from Robberto:2013a
     + From Robberto Table 5 (just first visit for each star)
       |   ID |          RA |         Dec |   F435W |   F555W |   F775W |  F850LP |
       |------+-------------+-------------+---------+---------+---------+---------|
@@ -897,14 +930,11 @@ CLOSED: [2018-10-31 Wed 22:39]
         + DaRio:2009a give V = 17.490, which is perfectly consistent
         + Hillenbrand:1997a give V = 17.33, which is close enough (\Delta{}m = 0.16 => 15% brighter)
         + Parihar:2009a give V = 16.28, which is a whole magnitude brighter (factor of 2.5)
-
-
-
-  + [ ] Is it anything to do with the non-standard gain?
+  + [X] Is it anything to do with the non-standard gain?
     + Robberto used 2 e/ADU instead of 1 e/ADU, but the header says that the units are electrons, so does this matter?
     + We could use synphot to try and find out
     + Turns out that pysynphot has no "ADC gain" keywords, although other instruments, such as WFPC2, do
-    + So, I am still none the wiser
+    + The agreement of magnitudes for the non-saturated stars, means that this cannot be an issue
 ***** DONE Optical lines
 CLOSED: [2018-10-31 Wed 22:39]
   + Lines we have
@@ -1164,11 +1194,11 @@ CLOSED: [2018-10-31 Wed 12:15]
       ax.errorbar('Wave', 'sed', xerr='dWave', yerr='E(sed)',
                   data=thisdata, label=label, **style)
 
-  # Plot stellar SED
-  m = data['star'] > 0.0
+  # Plot stellar SED but just IRAC
+  m = ((data['star'] > 0.0) & (data['Instrument'] == "Spitzer IRAC"))
   ax.errorbar('Wave', 'star', xerr='dWave', yerr='E(star)',
-              data=data[m], label='star',
-              ls='--', marker='.', color='k', alpha=0.05,
+              data=data[m], label='_nolabel_',
+              ls='none', marker='.', color='0.5', alpha=1.0,
   )
 
   # Same for magnitude data
@@ -1191,7 +1221,7 @@ CLOSED: [2018-10-31 Wed 12:15]
   shell_sed = mod03.data["cont"]["DiffOut"] / LSUN
   shell_luminosity = np.trapz(shell_sed[::-1], np.log(wav[::-1]))
 
-  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {Luminosity:.1f}\ \mathrm{{L}}_\odot$ (model: ${shell_luminosity:.1f}\ \mathrm{{L}}_\odot$)'
+  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {shell_luminosity:.1f}\ \mathrm{{L}}_\odot$'
 
   ax.fill_between(wav, star_sed, facecolor="0.9", alpha=1.0)
   ax.fill_between(wav, shell_sed, facecolor="0.75", alpha=1.0)
