@@ -750,7 +750,8 @@ CLOSED: [2018-10-31 Wed 22:39]
     + d\nu/d\lambda = d/d\lambda (c/\lambda) = c/\lambda^{2}
     + => F_{\nu} = (\lambda^{2}/c) F_{\lambda}
     + 1 erg/s/cm^2/\AA = 1e8 erg/s/cm^2/cm = 3.3356e-11 \lambda_{\mu}^{2 } erg/s/cm^2/Hz = 3.3356e12 \lambda_{\mu}^{2 } Jy
-****** TODO Audit of HST photometry
+****** DONE Audit of HST photometry
+CLOSED: [2018-11-26 Mon 10:29]
 + [2018-11-21 Wed] There is a clear problem with the visual points in the observed SED
   + By comparison with magnitudes from literature, they should be higher by a factor of 10 or so
 + Steps to do
@@ -867,7 +868,7 @@ CLOSED: [2018-10-31 Wed 22:39]
         | F850LP | 0.850 | 1.5074510E-19 | 1.27e6 +/- 2.12e4 | 8.52e5 +/- 1.27e3 | 2.37e5 +/- 2.95e2 | 1.37e4 +/- 1.48e2 | 0.482 +/- 5.09e-4 | 0.061 +/- 0.008 |
         #+TBLFM: $8=3.3356e12 $2**2 $3 ($5 + 2 $6) ;f3::$9=3.3356e12 $2**2 $3 ($4 - $5 - $6 - $7) ;f3
       + Still 4 to 5 times too small - why?
-  + [ ] Also check the WFC3 IR photometry
+  + [X] Also check the WFC3 IR photometry
     + ~icol04030~
     + ~PHOTMODE= 'WFC3 IR F139M'~
     + ~PHOTFNU =        5.8651381E-07 / inverse sensitivity, Jy*sec/electron~
@@ -1050,9 +1051,11 @@ CLOSED: [2018-10-31 Wed 12:15]
   |    8.0 |    5.904 | 0.667 |  18.460 | 1.194 | 0.334 | 0.049 | 11.848 +/- 6.278 |
   #+TBLFM: $8=vmeane([$2, $4]) - ($6 +/- $7) ;f3
   + [ ] *However*, this gives ridiculously large uncertainties, so I may want to revisit
-***** TODO Spitzer MIPS
+***** DONE Spitzer MIPS
+CLOSED: [2018-11-26 Mon 10:30]
 + The MIPS 1 (24 micron) band is saturated
-+ But I have found one MIPS 2 (70 micron) image that might be usable 
++ But I have found one MIPS 2 (70 micron) image that might be usable
+  + *Cancelled* [2018-11-26 Mon]
 ***** DONE WISE
 CLOSED: [2018-10-31 Wed 12:15]
 + The WISE 3 and 4 bands are saturated, so we can only use 1 and 2
@@ -1254,7 +1257,8 @@ CLOSED: [2018-10-31 Wed 12:15]
     2. Look at getting Draine's extinction curve from somewhere
 + [X] And I also want to put on some magnitudes from the literature
   + Need to find zero points
-+ [ ] So now, I need to work out how I went so badly wrong with the HST photometry
++ [X] So now, I need to work out how I went so badly wrong with the HST photometry
+  + Seems fine now
 ***** LP Ori magnitudes from literature
 + Includes values from [[http://simbad.u-strasbg.fr/simbad/sim-id?Ident=LP+Ori&NbIdent=1&Radius=2&Radius.unit=arcmin&submit=submit+id][SIMBAD]]
   + I gave an uncertainty of 0.05 mag to values with no stated errors
