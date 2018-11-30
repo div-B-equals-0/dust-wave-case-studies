@@ -1260,6 +1260,9 @@ CLOSED: [2018-10-31 Wed 12:15]
 + [X] So now, I need to work out how I went so badly wrong with the HST photometry
   + Seems fine now
 ***** LP Ori magnitudes from literature
+:PROPERTIES:
+:ID:       CEB4DBF1-0986-46BA-BE41-00678A1E47AE
+:END:
 + Includes values from [[http://simbad.u-strasbg.fr/simbad/sim-id?Ident=LP+Ori&NbIdent=1&Radius=2&Radius.unit=arcmin&submit=submit+id][SIMBAD]]
   + I gave an uncertainty of 0.05 mag to values with no stated errors
 + Jansky zero points F_0 are taken from
@@ -1383,6 +1386,18 @@ Version suitable for reading with python
       + Peak b-body wavelength = 20 micron @ 100 K, or 10 micron @ 200 K
       + So this means we will see the small grains at 10 microns and the large grains at 20 microns
     + This means that 0.02 micron grains will be twice as hot
+**** Shell density in Ney-Allen
++ From the Smith:2005a image, you can see a small hole in the middle, then the density seems to ramp up to the shell
++ Assuming a reasonably strong wind, with \eta = 0.1, then the ram pressure at tha inner edge is
+  + \eta L / 4 \pi R^2 c
+  + Assume L = 2.95e4 Lsun and R = 0.003 pc
+  + = 0.1 2.95e4 3.82e33 / 4 pi 0.003**2 3.085677582e18**2 2.99792458e10
+  + = 3.49e-7 cgs
+  + With T = 10^4 K and P = 2 n k T, this is n = 1.26e5 cm^{-3}, which is really high
++ If we have standard dust opacity of 5e-22 then \tau = 0.02 will correspond to a thickness:
+  + h = \tau / n \sigma  = 0.02 / 1e5 5e-22 = 4e14 cm = 1.3e-4 pc = 0.04 R
+  + This is a bit small, but not excessively so
+  + If \sigma is lower by a factor of 3 then maybe it will work
 **** Continuum-subtracted wfpc2 emission line maps
 
   |       | Weff, \AA | t, s |
@@ -1782,11 +1797,54 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   5. If we use L_* = 2.95e4 Lsun, then we get \tau = 2 L_IR / L_* = 0.02
      - This is distressingly low!
 
+
+****** th1D magnitudes from the literature
++ Modelled on [[id:CEB4DBF1-0986-46BA-BE41-00678A1E47AE][LP Ori magnitudes from literature]]
++ Values come from Vizier tables for the most part
+
+|                   | Band |    \lambda_{0} |    d\lambda |    F_{0} |   Mag |  dMag | F             |
+|                   |      |    \mu{}m |    \mu{}m |    Jy |       |       | Jy            |
+|-------------------+------+-------+-------+-------+-------+-------+---------------|
+| Morell:1978a      | U    |  0.36 |  0.15 |  1810 |  5.96 |  0.05 | 7.48 +/- 0.34 |
+| Morell:1978a      | B    |  0.44 |  0.22 |  4260 |  6.78 |  0.05 | 8.27 +/- 0.38 |
+| Morell:1978a      | V    |  0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
+| Morell:1978a      | R    |  0.64 |  0.23 |  3080 |  6.40 |  0.02 | 8.48 +/- 0.16 |
+| Morell:1978a      | I    |  0.79 |  0.19 |  2550 |  6.21 |  0.02 | 8.37 +/- 0.15 |
+| Mermilliod:1987a  | U    |  0.36 |  0.15 |  1810 |  5.97 |  0.10 | 7.41 +/- 0.68 |
+| Hoffleit:1991a    | B    |  0.44 |  0.22 |  4260 |  6.79 |  0.05 | 8.19 +/- 0.38 |
+| GAIA DR2          | G    |  0.52 |  0.14 |  3730 |  6.56 |  0.02 | 8.87 +/- 0.16 |
+| Hillenbrand:1997a | V    |  0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
+| Hillenbrand:1997a | I    |  0.79 |  0.19 |  2550 |  6.30 |  0.05 | 7.70 +/- 0.35 |
+| Robberto:2010a    | J    |  1.26 |  0.16 |  1600 | 7.146 |  0.02 | 2.22 +/- 0.04 |
+| Robberto:2010a    | H    |  1.60 |  0.23 |  1080 | 5.891 | 0.053 | 4.75 +/- 0.23 |
+| Robberto:2010a    | K    |  2.22 |  0.23 |   670 | 5.751 | 0.027 | 3.35 +/- 0.08 |
+| Hillenbrand:1998a | J    |  1.26 |  0.16 |  1600 |  6.01 |  0.05 | 6.31 +/- 0.29 |
+| Hillenbrand:1998a | H    |  1.60 |  0.23 |  1080 |  5.84 |  0.05 | 4.98 +/- 0.23 |
+| Hillenbrand:1998a | K    |  2.22 |  0.23 |   670 |  5.69 |  0.05 | 3.55 +/- 0.16 |
+| Hillenbrand:1998a | L    |  3.45 |   0.3 |   290 |  5.70 |  0.05 | 1.52 +/- 0.07 |
+| Megeath:2012a     | IRAC |   3.6 |  0.75 | 280.9 |   5.5 |   0.1 | 1.77 +/- 0.16 |
+| Megeath:2012a     | IRAC |   4.5 | 1.015 | 179.7 |  4.97 |   0.1 | 1.85 +/- 0.17 |
+| Megeath:2012a     | IRAC |   5.8 | 1.425 | 115.0 |  4.24 |   0.1 | 2.32 +/- 0.21 |
+#+TBLFM: $8=$5 10**(-0.4 ($6 +/- $7));f2
+ 
+Not used since no Jy zero points
+| Paunzen:2015a     | u    |  0.35 |  0.03 |       | 8.083 |       | 0.00          |
+| Paunzen:2015a     | v    | 0.411 | 0.019 |       | 7.985 |       | 0.00          |
+| Paunzen:2015a     | b    | 0.467 | 0.018 |       | 6.836 |       | 0.00          |
+| Paunzen:2015a     | y    | 0.547 | 0.023 |       |  6.71 |  0.05 | 0.00          |
+
+
+******* Values already in Jy
+|             |  Wav | dWav |    F |   dF |
+|-------------+------+------+------+------|
+| Smith:2005a | 11.7 |      | 0.06 | 0.01 |
+|             |      |      |      |      |
+
 ****** Possible line contamination 
 + Br\alpha at 4.5 \mu
 
 ****** Modeling the SED
-+ [ ] Need to run some Cloudy models
++ [X] Need to run some Cloudy models
 + Comparison with Hayward:1994a two component models
   1. T = 358 K, \tau = 1.22e-4
   2. T = 117 K, \tau = 0.154
