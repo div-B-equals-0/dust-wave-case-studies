@@ -1313,6 +1313,9 @@ Version suitable for reading with python
 | K    |   2.22 | 0.390 |  0.69 |    0.01 |
 | L    |   3.45 | 0.472 |  0.32 |    0.03 |
 ****** IUE near UV from Valenti:2003a and far UV from Valenti:2000a
+:PROPERTIES:
+:ID:       E0F46F48-97C4-4E3F-9C4C-0813A6EB034D
+:END:
 + Flux is in erg/s/cm^2/\AA
   + From what I had before, multiply by 3.3356e12 \lambda_{\mu}^{2 }to get Jy
   + F_{\nu} = (\lambda/\nu) F_{\lambda} = (\lambda^{2} / c) F_{\lambda}
@@ -1493,9 +1496,9 @@ That didn't work very well
     + [X] Herschel - got 70 and 160, but only upper limits for flux
     + 
 
-***** SED for th1D
+**** SED for th1D and Ney-Allen
 
-****** Hayward:1994b
+***** Hayward:1994b
 |   wav | peak mJy/arcsec^2 | BG             | GJy/sr        | BG GJy/sr     |
 |-------+-------------------+----------------+---------------+---------------|
 |  7.58 |               300 | 30 +/- 100     | 11. +/- 4.    | 1. +/- 4.     |
@@ -1536,12 +1539,12 @@ That didn't work very well
   + So use A = 0.788 1.253 = 0.987
 
 
-****** Hale SpectroCam - Hayward:1994b
+***** Hale SpectroCam - Hayward:1994b
 + Only filter is 11.7 micron for Ney-Allen
   + They have 8.8 too, but only for the inner part around th1C
 + Flux is 228 Jy, extracted in an aperture of diameter 12 arcsec
 
-****** IRAC
+***** IRAC
 + At the short wavelengths, the dominant background is the PSF of the star
 + I use the Smith:2005a image to define the position to take the maximum
 + Then reflect the far-side half of the PSF to give estimate of what should be subtracted
@@ -1558,7 +1561,7 @@ That didn't work very well
 #+TBLFM: $4=($2 - $3)/1000
 Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 
-****** Sofia - Shuping:2012a
+***** Sofia - Shuping:2012a
 + For this I have converted scanned figures to FITS
 + Measurements are in Jy/pix
   + pixel is 0.768 arcsec
@@ -1572,7 +1575,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 #+TBLFM: $4=72.1 ($2 - $3);f1::$5=72.1 $3;f1
 
 
-****** UKIRT MAX - Robberto:2005a
+***** UKIRT MAX - Robberto:2005a
 :PROPERTIES:
 :ID:       CEC2E640-8DFC-4CE8-AE69-513510017BE1
 :END:
@@ -1623,7 +1626,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
     + 535.68 - (371 +/- 11) = 164.68 +/- 11
   + Matching to peak-intensity derived fluxes:
     + effective area of 165/166.1 = 0.99 nsr,
-****** Gemini T-ReCS - Smith:2005a 
+***** Gemini T-ReCS - Smith:2005a 
 :PROPERTIES:
 :ID:       A56D8FCA-B3E1-4ACC-A973-4838DB208748
 :END:
@@ -1656,7 +1659,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
     + (160 +/- 18) - 79.35 (0.41 +/- 0.12) = 127 +/- 20
   + If we wanted to match that to the intensity-derived fluxes, then it would require an effective area of 127/161.1 = 0.788 nsr
     + *but* the other measurements are lower resolution, so need to check on the UKIRT data
-****** Herschel
+***** Herschel
 + Amazingly, it is detected at 70 micron
 + Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec (160) or 1.6 arcsec (70 micron)
   + 1 Jy/pixel = 16.62 GJy/sr @ 70 micron
@@ -1667,10 +1670,10 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 |  70 | 1.6 | 12.45 | 11.8 +/- 0.1 | 10.8 +/- 1.7 | 196.1 +/- 1.7 |
 | 160 | 3.2 |  12.5 | 12.5 +/- 1.0 | 0.0 +/- 4.2  | 51.9 +/- 4.2  |
 #+TBLFM: $5= 1e-9 (206265/$2)**2  ($3 - $4);f1::$6=1e-9 (206265/$2)**2 $4;f1
-****** TODO MSX
+***** TODO MSX
 + Take measurements in the same epanda aperture 
 
-****** Converting to F_{\nu}, \nu F_{\nu}, \nu L_{\nu}, and \nu I_{\nu}
+***** Converting to F_{\nu}, \nu F_{\nu}, \nu L_{\nu}, and \nu I_{\nu}
 + Radius of peak is about 3 arcsec, so that would give an area of
   + 28.3 arcsec^2
   + 0.665 nsr (nano-steradians)
@@ -1694,7 +1697,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   + \nu F_\nu = 3.254e-8 erg/s/cm^2
   + with D = 410 pc: \nu L_\nu = 171.3 L_\odot 
 
-****** Full table of brightness peaks
+***** Full table of brightness peaks
 
 #+name: ney-allen-sed
 | Instrument      |  Wave | dWave |     A |     S | E(S) | Use |
@@ -1728,13 +1731,18 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 | WIRO Long       | 24.30 |  2.52 | 0.987 |  676. | 425. |
 | Herschel PACS   |   160 |    80 | 0.788 |   0.1 |  4.2 |
 
-#+header: :var intab=ney-allen-sed :colnames no
+#+header: :var intab=ney-allen-sed magtab=th1d-magnitudes :colnames no
 #+BEGIN_SRC python :return figfile :results file
   import numpy as np
   from astropy.table import Table
   from matplotlib import pyplot as plt
   import seaborn as sns
   import sys
+  import os
+
+  CDC = "../cloudy-dust-charging"
+  sys.path.append(CDC)
+  from cloudytab import CloudyModel
 
   figfile = 'ney-allen-sed.pdf'
 
@@ -1756,6 +1764,14 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   data['E(sed)'] = data['E(S)']*data['sed']/data['S']
   data['dWave'] = data['dWave']/2
 
+
+  # Extra data from literature magnitudes
+  magdata = Table(rows=magtab[1:], names=magtab[0])
+  magdata['star'] = 5.2652e9 * 2.9979e-9 * magdata['F'] / magdata['wav']
+  magdata['E(star)'] = magdata['dF']*magdata['star']/magdata['F']
+  magdata['Wave'] = magdata['wav']
+  magdata['dWave'] = magdata['dwav']/2
+
   # Integrate SED
   m = data['Use'] == 1
   logwav = np.log(data['Wave'][m])
@@ -1772,10 +1788,38 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       ax.errorbar('Wave', 'sed', xerr='dWave', yerr='E(sed)',
                   data=thisdata, label=label, **style)
 
-  ax.legend(loc='lower center', ncol=2, title='Instrument', fontsize='small')
+  # Plot stellar SED from magnitude data
+  ax.errorbar('Wave', 'star', xerr='dWave', yerr='E(star)',
+              data=magdata, label='star',
+              ls='none', marker='.', color='0.5', alpha=1.0,
+  )
+
+    
+  # Plot Cloudy models ...
+  LSUN = 3.82e33
+  # ... the AV=0.03 model for the dust shell ...
+  mod = CloudyModel(os.path.join(CDC, "models", "shell-R003-n50-th1D-triple-AV3"))
+  # ... and the AV=1.5 model for the attenuated star
+  mod2 = CloudyModel(os.path.join(CDC, "models", "shell-R003-n50-th1D-AV150"))
+
+  wav = 0.0912 / mod.data['cont']['Cont  nu']
+  star_sed = mod2.data["cont"]["trans"] / LSUN
+  star_sed0 = mod2.data["cont"]["incident"] / LSUN
+  shell_sed = mod.data["cont"]["DiffOut"] / LSUN
+  shell_luminosity = np.trapz(shell_sed[::-1], np.log(wav[::-1]))
+
+  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {shell_luminosity:.1f}\ \mathrm{{L}}_\odot$'
+
+  ax.fill_between(wav, star_sed, facecolor="0.9", alpha=1.0)
+  ax.fill_between(wav, shell_sed, facecolor="0.75", alpha=1.0)
+  ax.plot(wav, star_sed0, color="0.9", lw=0.2)
+
+  ax.legend(loc='upper right', ncol=1, title='Instrument', fontsize='x-small')
   ax.set(
       xscale='log', yscale='log',
       #ylim=[0.2, 500],
+      xlim=[0.05, 800],
+      ylim=[0.05, 32000],
       xlabel=r'Wavelength: $\lambda$, $\mu$m',
       ylabel=r'SED: $\nu L_\nu$, $\mathrm{L}_{\odot}$',
       title=title,
@@ -1798,33 +1842,34 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
      - This is distressingly low!
 
 
-****** th1D magnitudes from the literature
+***** th1D stellar magnitudes from the literature
 + Modelled on [[id:CEB4DBF1-0986-46BA-BE41-00678A1E47AE][LP Ori magnitudes from literature]]
 + Values come from Vizier tables for the most part
++ HD 37023 is th1D
 
-|                   | Band |    \lambda_{0} |    d\lambda |    F_{0} |   Mag |  dMag | F             |
-|                   |      |    \mu{}m |    \mu{}m |    Jy |       |       | Jy            |
-|-------------------+------+-------+-------+-------+-------+-------+---------------|
-| Morell:1978a      | U    |  0.36 |  0.15 |  1810 |  5.96 |  0.05 | 7.48 +/- 0.34 |
-| Morell:1978a      | B    |  0.44 |  0.22 |  4260 |  6.78 |  0.05 | 8.27 +/- 0.38 |
-| Morell:1978a      | V    |  0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
-| Morell:1978a      | R    |  0.64 |  0.23 |  3080 |  6.40 |  0.02 | 8.48 +/- 0.16 |
-| Morell:1978a      | I    |  0.79 |  0.19 |  2550 |  6.21 |  0.02 | 8.37 +/- 0.15 |
-| Mermilliod:1987a  | U    |  0.36 |  0.15 |  1810 |  5.97 |  0.10 | 7.41 +/- 0.68 |
-| Hoffleit:1991a    | B    |  0.44 |  0.22 |  4260 |  6.79 |  0.05 | 8.19 +/- 0.38 |
-| GAIA DR2          | G    |  0.52 |  0.14 |  3730 |  6.56 |  0.02 | 8.87 +/- 0.16 |
-| Hillenbrand:1997a | V    |  0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
-| Hillenbrand:1997a | I    |  0.79 |  0.19 |  2550 |  6.30 |  0.05 | 7.70 +/- 0.35 |
-| Robberto:2010a    | J    |  1.26 |  0.16 |  1600 | 7.146 |  0.02 | 2.22 +/- 0.04 |
-| Robberto:2010a    | H    |  1.60 |  0.23 |  1080 | 5.891 | 0.053 | 4.75 +/- 0.23 |
-| Robberto:2010a    | K    |  2.22 |  0.23 |   670 | 5.751 | 0.027 | 3.35 +/- 0.08 |
-| Hillenbrand:1998a | J    |  1.26 |  0.16 |  1600 |  6.01 |  0.05 | 6.31 +/- 0.29 |
-| Hillenbrand:1998a | H    |  1.60 |  0.23 |  1080 |  5.84 |  0.05 | 4.98 +/- 0.23 |
-| Hillenbrand:1998a | K    |  2.22 |  0.23 |   670 |  5.69 |  0.05 | 3.55 +/- 0.16 |
-| Hillenbrand:1998a | L    |  3.45 |   0.3 |   290 |  5.70 |  0.05 | 1.52 +/- 0.07 |
-| Megeath:2012a     | IRAC |   3.6 |  0.75 | 280.9 |   5.5 |   0.1 | 1.77 +/- 0.16 |
-| Megeath:2012a     | IRAC |   4.5 | 1.015 | 179.7 |  4.97 |   0.1 | 1.85 +/- 0.17 |
-| Megeath:2012a     | IRAC |   5.8 | 1.425 | 115.0 |  4.24 |   0.1 | 2.32 +/- 0.21 |
+| Reference         | Band   |   \lambda_{0} |    d\lambda |    F_{0} |   Mag |  dMag | F             |
+|                   |        |   \mu{}m |    \mu{}m |    Jy |       |       | Jy            |
+|-------------------+--------+------+-------+-------+-------+-------+---------------|
+| Morell:1978a      | U      | 0.36 |  0.15 |  1810 |  5.96 |  0.05 | 7.48 +/- 0.34 |
+| Morell:1978a      | B      | 0.44 |  0.22 |  4260 |  6.78 |  0.05 | 8.27 +/- 0.38 |
+| Morell:1978a      | V      | 0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
+| Morell:1978a      | R      | 0.64 |  0.23 |  3080 |  6.40 |  0.02 | 8.48 +/- 0.16 |
+| Morell:1978a      | I      | 0.79 |  0.19 |  2550 |  6.21 |  0.02 | 8.37 +/- 0.15 |
+| Mermilliod:1987a  | U      | 0.36 |  0.15 |  1810 |  5.97 |  0.10 | 7.41 +/- 0.68 |
+| Hoffleit:1991a    | B      | 0.44 |  0.22 |  4260 |  6.79 |  0.05 | 8.19 +/- 0.38 |
+| GAIA DR2          | G      | 0.52 |  0.14 |  3730 |  6.56 |  0.02 | 8.87 +/- 0.16 |
+| Hillenbrand:1997a | V      | 0.55 |  0.16 |  3640 |  6.70 |  0.05 | 7.61 +/- 0.35 |
+| Hillenbrand:1997a | I      | 0.79 |  0.19 |  2550 |  6.30 |  0.05 | 7.70 +/- 0.35 |
+| Robberto:2010a    | J      | 1.26 |  0.16 |  1600 | 7.146 |  0.02 | 2.22 +/- 0.04 |
+| Robberto:2010a    | H      | 1.60 |  0.23 |  1080 | 5.891 | 0.053 | 4.75 +/- 0.23 |
+| Robberto:2010a    | K      | 2.22 |  0.23 |   670 | 5.751 | 0.027 | 3.35 +/- 0.08 |
+| Hillenbrand:1998a | J      | 1.26 |  0.16 |  1600 |  6.01 |  0.05 | 6.31 +/- 0.29 |
+| Hillenbrand:1998a | H      | 1.60 |  0.23 |  1080 |  5.84 |  0.05 | 4.98 +/- 0.23 |
+| Hillenbrand:1998a | K      | 2.22 |  0.23 |   670 |  5.69 |  0.05 | 3.55 +/- 0.16 |
+| Hillenbrand:1998a | L      | 3.45 |   0.3 |   290 |  5.70 |  0.05 | 1.52 +/- 0.07 |
+| Megeath:2012a     | IRAC 1 |  3.6 |  0.75 | 280.9 |   5.5 |   0.1 | 1.77 +/- 0.16 |
+| Megeath:2012a     | IRAC 2 |  4.5 | 1.015 | 179.7 |  4.97 |   0.1 | 1.85 +/- 0.17 |
+| Megeath:2012a     | IRAC 3 |  5.8 | 1.425 | 115.0 |  4.24 |   0.1 | 2.32 +/- 0.21 |
 #+TBLFM: $8=$5 10**(-0.4 ($6 +/- $7));f2
  
 Not used since no Jy zero points
@@ -1834,16 +1879,96 @@ Not used since no Jy zero points
 | Paunzen:2015a     | y    | 0.547 | 0.023 |       |  6.71 |  0.05 | 0.00          |
 
 
-******* Values already in Jy
++ Version suitable for reading with python
+  + Combines above with IUE from below
+  + and the Smith:2005a value too
+
+#+name: th1d-magnitudes
+| Band   |    wav |  dwav |     F |    dF |
+|--------+--------+-------+-------+-------|
+|        | 0.1150 | 0.006 | 4.191 | 0.441 |
+|        | 0.1200 | 0.003 | 1.921 | 0.961 |
+|        | 0.1220 | 0.003 | 0.248 | 0.149 |
+|        | 0.1250 | 0.003 | 3.127 | 1.042 |
+|        | 0.1300 |  0.02 | 4.792 | 0.564 |
+|        | 0.1400 |  0.02 | 4.576 | 0.654 |
+|        | 0.1600 |  0.02 | 4.013 | 0.427 |
+|        | 0.1800 |  0.02 | 3.999 | 0.540 |
+|        | 0.2000 |  0.02 | 3.602 | 0.400 |
+|        | 0.2100 |  0.02 | 2.648 | 0.294 |
+|        | 0.2257 |  0.02 | 2.294 | 0.170 |
+|        | 0.2500 |  0.02 | 3.127 | 0.208 |
+|        | 0.2750 |  0.02 | 3.405 | 0.252 |
+|        | 0.3000 |  0.02 | 3.152 | 0.300 |
+| U      |   0.36 |  0.15 |  7.48 |  0.34 |
+| B      |   0.44 |  0.22 |  8.27 |  0.38 |
+| V      |   0.55 |  0.16 |  7.61 |  0.35 |
+| R      |   0.64 |  0.23 |  8.48 |  0.16 |
+| I      |   0.79 |  0.19 |  8.37 |  0.15 |
+| U      |   0.36 |  0.15 |  7.41 |  0.68 |
+| B      |   0.44 |  0.22 |  8.19 |  0.38 |
+| G      |   0.52 |  0.14 |  8.87 |  0.16 |
+| V      |   0.55 |  0.16 |  7.61 |  0.35 |
+| I      |   0.79 |  0.19 |  7.70 |  0.35 |
+| J      |   1.26 |  0.16 |  2.22 |  0.04 |
+| H      |   1.60 |  0.23 |  4.75 |  0.23 |
+| K      |   2.22 |  0.23 |  3.35 |  0.08 |
+| J      |   1.26 |  0.16 |  6.31 |  0.29 |
+| H      |   1.60 |  0.23 |  4.98 |  0.23 |
+| K      |   2.22 |  0.23 |  3.55 |  0.16 |
+| L      |   3.45 |   0.3 |  1.52 |  0.07 |
+| IRAC 1 |    3.6 |  0.75 |  1.77 |  0.16 |
+| IRAC 2 |    4.5 | 1.015 |  1.85 |  0.17 |
+| IRAC 3 |    5.8 | 1.425 |  2.32 |  0.21 |
+| N      |   11.7 |  1.11 |  0.06 |  0.01 |
+
+****** Values already in Jy
 |             |  Wav | dWav |    F |   dF |
 |-------------+------+------+------+------|
 | Smith:2005a | 11.7 |      | 0.06 | 0.01 |
 |             |      |      |      |      |
 
-****** Possible line contamination 
+****** IUE Near/Far UV spectra of th1D
++ From [[http://sdc.cab.inta-csic.es/ines/Overview.html][ESA INES]] (IUE Newly-Extracted Spectra)
+  + Requested acknowledgement
+    : "Based on INES data from the IUE satellite"
++ See [[id:E0F46F48-97C4-4E3F-9C4C-0813A6EB034D][IUE near UV from Valenti:2003a and far UV from Valenti:2000a]] for corresponding data on LP Ori
++ There are lots of spectra, both SWP and LWP, but some have obvious problems:
+  + SWP10007RS.FITS - ten times lower than others - don't know why
+  + SWP14668RL.FITS - 3-4 times higher than others, probably because it is with the large aperture (10 x 20 arcsec), which is bound to include other Trapezium stars
++ Ones that look more reliable
+  + SWP49013RS.FITS - good for 1200 \to 2000 \AA range.  Gives F_{\lambda} around 3e-11 at 2000 \AA
+  + LWP26622RS.FITS and LWP26623RS.FITS - good for the 2000 \to 3200 \AA range.  Also gives F_{\lambda} around 3e-11 at 2000 \AA
+
+
+|    Wav | F_\lambda / 1e-11  | F_\nu             |
+|--------+--------------+-----------------|
+| 0.1150 | 9.5 +/- 1    | 4.191 +/- 0.441 |
+| 0.1200 | 4.0 +/- 2    | 1.921 +/- 0.961 |
+| 0.1220 | 0.5 +/- 0.3  | 0.248 +/- 0.149 |
+| 0.1250 | 6.0 +/- 2.0  | 3.127 +/- 1.042 |
+| 0.1300 | 8.5 +/- 1    | 4.792 +/- 0.564 |
+| 0.1400 | 7.0 +/- 1    | 4.576 +/- 0.654 |
+| 0.1600 | 4.7 +/- 0.5  | 4.013 +/- 0.427 |
+| 0.1800 | 3.7 +/- 0.5  | 3.999 +/- 0.540 |
+| 0.2000 | 2.7 +/- 0.3  | 3.602 +/- 0.400 |
+| 0.2100 | 1.8 +/- 0.2  | 2.648 +/- 0.294 |
+| 0.2257 | 1.35 +/- 0.1 | 2.294 +/- 0.170 |
+| 0.2500 | 1.5 +/- 0.1  | 3.127 +/- 0.208 |
+| 0.2750 | 1.35 +/- 0.1 | 3.405 +/- 0.252 |
+| 0.3000 | 1.05 +/- 0.1 | 3.152 +/- 0.300 |
+#+TBLFM: $3=3.3356e12 $1**2 1e-11 $2;f3
+
+
+***** Audit of th1D fluxes
++ At the momemt, we have two problems
+  1. Observed SED is much lower than extinguished model SED in optical/UV
+  2. UV SED is lower than U-band magnitude suggests
+
+***** Possible line contamination 
 + Br\alpha at 4.5 \mu
 
-****** Modeling the SED
+***** Modeling the SED
 + [X] Need to run some Cloudy models
 + Comparison with Hayward:1994a two component models
   1. T = 358 K, \tau = 1.22e-4
@@ -1853,7 +1978,7 @@ Not used since no Jy zero points
   1. T = 40 K, \tau = 0.1
   2. T = 110 K, \tau = 0.002
 + Note that Salgado doesn't have the 10 micron wavelengths, so doesn't need the hot component!
-****** Comparison of luminosities
+***** Comparison of luminosities
 + We have total Ney-Allen luminosity of 308.6 Lsun
 + Salgado:2016a have total luminosity of Orion Bar as 9500 Lsun
   + Check that I understand their map in Fig 9 correctly
@@ -1864,7 +1989,8 @@ Not used since no Jy zero points
 + Total IR luminosity of Trapezium region and Orion S
   + I can't find any actual calculations of this, but I will try and estimate from 
 *** Extinction curves for Orion stars 
-+ This all comes from IUE observations in Fitzpatrick:2007a
++ This all comes from IUE observations, mainly in Fitzpatrick:2007a
+  + But see also earlier work in Fitzpatrick:1990a, which includes \theta^{1} D
 + Relevant figures:
   + [[file:extinction-curves/fg4_8.h.jpg]]
   + [[file:extinction-curves/fg4_9.h.jpg]]
@@ -1872,6 +1998,7 @@ Not used since no Jy zero points
   + HD36982 - LP Ori
   + HD37020 - \theta^{1} A - B0.5
   + HD37022 - \theta^{1} C - O7
+  + HD37023 - \theta^{1} D - B0.5 /not included in 2007 paper/
   + HD37061 - NU Ori - B0.5
   + HD294264 - V2239 Ori - B3 
   + Other, later B stars
@@ -2162,6 +2289,21 @@ Note (4): For field stars without IR photometry, we assumed R(V) = 3.1 and
           are listed with their uncertainties while the kIR values are listed 
           without uncertainties. 
 #+END_QUOTE
+**** Other papers on dust in Orion
++ McCall:1981a
+  + First to propose big grains in Orion, based on wavelength of max polarization
+  + Some models - concluded that size-dependent separation not important
++ Sorrel:1992a
+  + Has a model of mainly silicates, porous, up to 0.13 micron
+  + Says shocks unimportant (by which he means slow shocks that shatter large grains)
+  + /author does nor believe in cosmological redshift!/
++ Cardelli:1988a
+  + Derives optical/uv extinction curves - R_V = 5.5 or so
++ Da-Rio:2010a
+  + Derives R_V = 3 from (B-V) - (V-I) color-color diagrams for PMS stars in Orion
+  + Impossible to explain the reddest (B - V) colors if R_V = 5
+  + *BUT* this mainly applies to stars with A_V > 1.5, so that is either circumstellar extinction or from the background cloud
++ Hasenberger:2016a 
 ** Ones in Ochsendorf papers
 
 *** \sigma Ori
