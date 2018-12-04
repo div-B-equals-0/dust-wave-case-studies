@@ -1723,6 +1723,8 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 | WIRO Long       | 21.42 |  2.76 | 0.987 |  383. |  43. |   1 |
 | SOFIA FORCAST   |  37.1 |   3.3 | 0.788 | 165.8 | 21.6 |   1 |
 | Herschel PACS   |    70 |    25 | 0.788 |  10.8 |  1.7 |   1 |
+| Herschel PACS   |   160 |    80 | 0.788 |  0.01 |  4.2 |   0 |
+
 + Column ~A~ is the effective area in nano-steradians.  This is what we multiply the peak surface brightness by to get the total flux.  See discussion above in [[id:A56D8FCA-B3E1-4ACC-A973-4838DB208748][Gemini T-ReCS - Smith:2005a]] and [[id:CEC2E640-8DFC-4CE8-AE69-513510017BE1][UKIRT MAX - Robberto:2005a]] sections
 + Column ~Use~ is whether or not to use the point in integrating the SED
 + Eliminated points, because the errors are too large
@@ -1731,7 +1733,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 | WIRO Long       | 24.30 |  2.52 | 0.987 |  676. | 425. |
 | Herschel PACS   |   160 |    80 | 0.788 |   0.1 |  4.2 |
 
-#+header: :var intab=ney-allen-sed magtab=th1d-magnitudes :colnames no
+#+header: :var intab=ney-allen-sed magtab=th1d-magnitudes iuetab=bohlin-iue-th1d :colnames no
 #+BEGIN_SRC python :return figfile :results file
   import numpy as np
   from astropy.table import Table
@@ -1753,7 +1755,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       ['Gemini T-RecS', dict(marker='o', ls='none')],
       ['UKIRT MAX', dict(marker='.', ls=':')],
       ['Spitzer IRAC', dict(ls=':')],
-      ['Herschel PACS', dict(ls=':')],
+      ['Herschel PACS', dict(ls='none')],
       ['SOFIA FORCAST', dict(ls=':')],
   ]
 
@@ -1771,6 +1773,10 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   magdata['E(star)'] = magdata['dF']*magdata['star']/magdata['F']
   magdata['Wave'] = magdata['wav']
   magdata['dWave'] = magdata['dwav']/2
+
+  iuedata = Table(rows=iuetab[1:], names=iuetab[0])
+  iuedata['Wave'] = 1e-4*iuedata['Wav (Ang)']
+  iuedata['star'] = 5.2652e9 * 2.9979e-9 * iuedata['Fnu (Jy)'] / iuedata['Wave']
 
   # Integrate SED
   m = data['Use'] == 1
@@ -1794,13 +1800,15 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
               ls='none', marker='.', color='0.5', alpha=1.0,
   )
 
-    
+  # And IUE spectrum too
+  ax.plot('Wave', 'star', "-", data=iuedata, color='0.5')
+
   # Plot Cloudy models ...
   LSUN = 3.82e33
   # ... the AV=0.03 model for the dust shell ...
   mod = CloudyModel(os.path.join(CDC, "models", "shell-R003-n50-th1D-triple-AV3"))
   # ... and the AV=1.5 model for the attenuated star
-  mod2 = CloudyModel(os.path.join(CDC, "models", "shell-R003-n50-th1D-AV150"))
+  mod2 = CloudyModel(os.path.join(CDC, "models", "shell-R003-n50-th1D-AV200"))
 
   wav = 0.0912 / mod.data['cont']['Cont  nu']
   star_sed = mod2.data["cont"]["trans"] / LSUN
@@ -1808,7 +1816,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   shell_sed = mod.data["cont"]["DiffOut"] / LSUN
   shell_luminosity = np.trapz(shell_sed[::-1], np.log(wav[::-1]))
 
-  title = rf'LP Ori nebula: $L_\mathrm{{IR}} = {shell_luminosity:.1f}\ \mathrm{{L}}_\odot$'
+  title = rf'Ney-Allen Nebula: $L_\mathrm{{IR}} = {shell_luminosity:.1f}\ \mathrm{{L}}_\odot$'
 
   ax.fill_between(wav, star_sed, facecolor="0.9", alpha=1.0)
   ax.fill_between(wav, shell_sed, facecolor="0.75", alpha=1.0)
@@ -1886,20 +1894,6 @@ Not used since no Jy zero points
 #+name: th1d-magnitudes
 | Band   |    wav |  dwav |     F |    dF |
 |--------+--------+-------+-------+-------|
-|        | 0.1150 | 0.006 | 4.191 | 0.441 |
-|        | 0.1200 | 0.003 | 1.921 | 0.961 |
-|        | 0.1220 | 0.003 | 0.248 | 0.149 |
-|        | 0.1250 | 0.003 | 3.127 | 1.042 |
-|        | 0.1300 |  0.02 | 4.792 | 0.564 |
-|        | 0.1400 |  0.02 | 4.576 | 0.654 |
-|        | 0.1600 |  0.02 | 4.013 | 0.427 |
-|        | 0.1800 |  0.02 | 3.999 | 0.540 |
-|        | 0.2000 |  0.02 | 3.602 | 0.400 |
-|        | 0.2100 |  0.02 | 2.648 | 0.294 |
-|        | 0.2257 |  0.02 | 2.294 | 0.170 |
-|        | 0.2500 |  0.02 | 3.127 | 0.208 |
-|        | 0.2750 |  0.02 | 3.405 | 0.252 |
-|        | 0.3000 |  0.02 | 3.152 | 0.300 |
 | U      |   0.36 |  0.15 |  7.48 |  0.34 |
 | B      |   0.44 |  0.22 |  8.27 |  0.38 |
 | V      |   0.55 |  0.16 |  7.61 |  0.35 |
@@ -1939,7 +1933,112 @@ Not used since no Jy zero points
 + Ones that look more reliable
   + SWP49013RS.FITS - good for 1200 \to 2000 \AA range.  Gives F_{\lambda} around 3e-11 at 2000 \AA
   + LWP26622RS.FITS and LWP26623RS.FITS - good for the 2000 \to 3200 \AA range.  Also gives F_{\lambda} around 3e-11 at 2000 \AA
++ *BUT* there are others that give higher fluxes
+  + SWP04986 has large and small apertures
+    + difference is a factor of 2.11 at 1300 \AA or factor of 1.64 at 1950 \AA
+    + Which implies it may partly due to the large aperture letting in some of th1c's light
+  + But even the small aperture has 30e-11 at 1920 \AA, which is 10 times what SWP49013 gives
 
+
+
+******* Measurements from Bohlin:1981a
+
+#+name: bohlin-iue-th1d
+| Wav (Ang) | Flam/1e-11 | Fnu (Jy) |
+|-----------+------------+----------|
+|      1200 |       13.3 |    6.388 |
+|      1225 |       9.24 |    4.625 |
+|      1250 |       27.6 |   14.385 |
+|      1275 |       33.1 |   17.948 |
+|      1300 |       31.4 |   17.701 |
+|      1325 |       33.4 |   19.559 |
+|      1350 |       29.2 |   17.751 |
+|      1375 |       27.8 |   17.532 |
+|      1400 |       22.0 |   14.383 |
+|      1425 |       24.2 |   16.392 |
+|      1450 |       23.8 |   16.691 |
+|      1475 |       22.8 |   16.546 |
+|      1500 |       21.7 |   16.286 |
+|      1525 |       19.3 |   14.972 |
+|      1550 |       14.9 |   11.941 |
+|      1575 |       16.4 |   13.570 |
+|      1600 |       15.4 |   13.150 |
+|      1625 |       14.3 |   12.596 |
+|      1650 |       14.2 |   12.895 |
+|      1675 |       13.7 |   12.821 |
+|      1700 |       13.4 |   12.917 |
+|      1725 |       12.5 |   12.407 |
+|      1750 |       12.7 |   12.973 |
+|      1775 |       12.1 |   12.716 |
+|      1800 |       11.5 |   12.428 |
+|      1825 |       11.3 |   12.554 |
+|      1850 |       10.1 |   11.530 |
+|      1875 |       9.48 |   11.117 |
+|      1900 |       8.81 |   10.609 |
+|      1925 |       7.51 |    9.283 |
+|      1925 |       8.49 |   10.494 |
+|      1950 |       8.19 |   10.388 |
+|      1975 |       7.28 |    9.472 |
+|      2000 |       7.26 |    9.687 |
+|      2025 |       6.64 |    9.082 |
+|      2050 |       6.33 |    8.873 |
+|      2075 |       5.75 |    8.258 |
+|      2100 |       5.42 |    7.973 |
+|      2125 |       5.10 |    7.682 |
+|      2150 |       4.86 |    7.494 |
+|      2175 |       4.46 |    7.038 |
+|      2200 |       4.56 |    7.362 |
+|      2225 |       4.32 |    7.134 |
+|      2250 |       4.22 |    7.126 |
+|      2275 |       4.41 |    7.613 |
+|      2300 |       4.28 |    7.552 |
+|      2325 |       4.57 |    8.240 |
+|      2350 |       4.36 |    8.031 |
+|      2375 |       4.44 |    8.354 |
+|      2400 |       4.51 |    8.665 |
+|      2425 |       4.49 |    8.807 |
+|      2450 |       4.63 |    9.270 |
+|      2475 |       4.41 |    9.011 |
+|      2500 |       4.34 |    9.048 |
+|      2525 |       4.31 |    9.166 |
+|      2550 |       4.32 |    9.370 |
+|      2575 |       4.29 |    9.488 |
+|      2600 |       4.07 |    9.177 |
+|      2625 |       4.04 |    9.286 |
+|      2650 |       4.02 |    9.417 |
+|      2675 |       3.78 |    9.022 |
+|      2700 |       3.60 |    8.754 |
+|      2725 |       3.57 |    8.843 |
+|      2750 |       3.57 |    9.005 |
+|      2775 |       3.51 |    9.016 |
+|      2800 |       3.48 |    9.101 |
+|      2825 |       3.32 |    8.838 |
+|      2850 |       3.30 |    8.941 |
+|      2875 |       3.27 |    9.016 |
+|      2900 |       3.15 |    8.837 |
+|      2925 |       3.25 |    9.275 |
+|      2950 |       3.16 |    9.173 |
+|      2975 |       3.02 |    8.916 |
+|      3000 |       2.95 |    8.856 |
+|      3025 |       2.83 |    8.638 |
+|      3050 |       2.72 |    8.440 |
+|      3075 |       2.69 |    8.484 |
+|      3100 |       2.63 |    8.430 |
+|      3125 |       2.60 |    8.469 |
+|      3150 |       2.43 |    8.043 |
+|      3175 |       2.38 |    8.003 |
+|      3200 |       2.39 |    8.163 |
+#+TBLFM: $3=33356 $1**2 1e-11 $2;f3
+
++ Re-check conversion:
+  + F_\nu = d\lambda/d\nu = F_\lambda / d\nu/d\lambda = (\lambda^2 / c) F_\lambda
+  + With \lambda in \AA, conversion factor from \AA^{-1} to Hz^{-1 }is:
+    + (\lambda**2 1e-8**2/ 2.99792458e10) / 1e-8 = 3.336e-19 \lambda**2
+  + Then divide by another 1e-23 to put it in Jy
+  + => 33360. as expected (1e8 times smaller than the version with microns)
+
+******* My measurements from SWP49013 and LWP26622
+These are now suspect
 
 |    Wav | F_\lambda / 1e-11  | F_\nu             |
 |--------+--------------+-----------------|
@@ -1963,7 +2062,27 @@ Not used since no Jy zero points
 ***** Audit of th1D fluxes
 + At the momemt, we have two problems
   1. Observed SED is much lower than extinguished model SED in optical/UV
-  2. UV SED is lower than U-band magnitude suggests
+     - Maybe partly due to a higher AV than I have used (1.5) - Simon-Diaz:2006a have 1.79, based on Preibisch:1999a
+     - Who in turn cite Hillenbrand:1997a
+       - Parenago 1889
+       - Derives A_V from V versus (I - V) color-magnitude diagram, as compared with inrtinsic colors
+     - And Brown:1994a
+       - [[http://vizier.cfa.harvard.edu/viz-bin/VizieR-3?-source=J/A%252bA/289/101/table1d][Vizier link to table]]
+       - Gives smaller values of A_V
+       - E.g., 1.06 for th1D
+  2. [ ] UV SED is lower than U-band magnitude suggests
+     - This is now sorted by using the Bohlin:1981a measurements
+
+
+****** Audit of V-band magnitude, flux, luminosity
++ Everyone agrees V = 6.7
++ Absolute magnitude
+  + with D = 410 pc, then DM = 5 log10(D) - 5 = 8.06
+  + So M_V = 6.70 - 8.06 = -1.36
+  + Simon-Diaz:2006a give M_V = -3.3 +/- 0.3 because they have used D = 450 pc => DM = 8.27 and they have compensated for A_V = 1.79
+    + M_V = 6.70 - 8.27 - 1.79 = -3.36
+    + I would get -3.15 using D = 410, but correcting for extinction
++ Bolometric correction
 
 ***** Possible line contamination 
 + Br\alpha at 4.5 \mu
