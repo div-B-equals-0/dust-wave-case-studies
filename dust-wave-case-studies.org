@@ -2933,7 +2933,9 @@ Now try the same, but normalized to infrared
   Will Henney
 #+END_EXAMPLE
 **** Evidence that ODW is in the ionized gas
-+ Mainly the 
++ They give a list of reasons, but all seem weak
++ Also refer to Compiegne:2007a who in Horsehead find a correlation r=0.63 between brightness of 11.3 micron and and H alpha for the HII region part
+  + But how impressive is this
 **** Calculations for the inner dust wave
 + [ ] General structure
   + Line-of-sight depth of evaporation flow
@@ -2958,6 +2960,88 @@ Now try the same, but normalized to infrared
 
 
 **** Sigma Ori images
+
+***** Plot EW profiles across inner arc
++ These show it is not a dust wave, since it emits in H alpha
++ projection(5:39:29.026,-2:37:48.83,5:37:54.433,-2:37:38.65,40.4693")
+  + so 40 arcsec wide slit
+  + Spitzer pixels: 2.45 arcsec, it seems
+  + Length of slit:
+    | 5@ 39' 29.026" | 5@ 37' 54.433" | 1418.895 |
+    #+TBLFM: $3=3600 15 deg($1 - $2)
+  + Looks like 1420 arcsec in 579 pixels => 2.4525 arcsec, so close enough
+  + Star is at 84.687293, so in arcsec from end of slit
+    | 5@ 39' 29.026" | 84.687293 | 661.13520 |
+    #+TBLFM: $3=3600 ((15 deg($1)) - $2)
+  + Or fraction of 0.4659
++ Outer shell edge has radius of about 115 arcsec
++ Inner shell edge has radius of about 60
+
+##+BEGIN_SRC python :return data :results verbatim
+#+BEGIN_SRC python :return plotfile :results file
+  import numpy as np
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+  from astropy.table import Table
+
+  data = {}
+
+  slimits = {
+      "24micron": (30.0, 80.0),
+      "int-ha": (7500, 11000),
+      "int-r": (22000, 42000),
+      "mittelman-ha": (100, 170)
+  }
+
+  # position of outer shell edge, in arcsec wrt star
+  x0 = -115.0 
+
+  for band in "24micron", "int-ha", "int-r", "mittelman-ha":
+      data[band] = Table.read(f"data/Sigma-Ori/ew-cut-{band}.dat",
+                              format="ascii.no_header",
+                              names=["i", "S"])
+      data[band]['x'] = data[band]['i'] / data[band]['i'].max()
+      data[band]['x'] = 1418.895*(data[band]['x'] - 0.4659)
+      m = data[band]['S'] != 0.0
+      Smin, Smax =  slimits[band]
+      data[band]['SS'] = (data[band]['S'] - Smin) / (Smax - Smin)
+
+  sns.set_color_codes()
+  fig, axes = plt.subplots(2, 1, sharex=True, sharey=True, figsize=(6, 4))
+
+  axes[0].plot('x', 'SS', '-',
+               data=data["mittelman-ha"],
+               label=r"Mittelman H$\alpha$")
+  axes[0].plot('x', 'SS', '-',
+               data=data["24micron"], color='r',
+               label=r"Spitzer 24 $\mu$m")
+
+  axes[1].plot('x', 'SS', '-',
+               data=data["int-ha"],
+               label=r"INT H$\alpha$")
+  axes[1].plot('x', 'SS', '-',
+               data=data["int-r"],
+               label=r"INT $R$")
+
+  for ax in axes:
+      ax.axvline(0.0, ls='-', color='k')
+      ax.axvline(x0, ls=':', color='k')
+      ax.set_yticklabels([])
+      ax.legend(loc="upper right")
+
+  axes[1].set(xlabel=r"Offset west from $\sigma$ Ori, arcsec",
+              ylabel="Surface brightness", ylim=[0.0, 1.0])
+  axes[0].set(ylabel="(arbitrary scale)")
+
+  sns.despine()
+  plotfile = "sigma-ori-eastwest-cuts.pdf"
+  fig.savefig(plotfile)
+
+#+END_SRC
+
+#+RESULTS:
+[[file:sigma-ori-eastwest-cuts.pdf]]
+
 
 ***** Infrared
 
@@ -3126,6 +3210,7 @@ Same for 4734 and 4735
 
 
 ****** TODO Add WCS info
++ Not strictly necessary, since I aligned the figure by hand
 
 *** RCW 120, RCW 92
 + Ochsendorf:2014a
