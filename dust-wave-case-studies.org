@@ -2850,9 +2850,27 @@ Now try the same, but normalized to infrared
   + L4 = 6.02, so like the 20 Msun case
   + \eta = 0.0697 or 0.0002 - they prefer the second
     + [ ] They cite Najarro et al 2011 - need to check it out
++ Star may be moving at 15 km/s to NW
++ Distance may be less than M42
+  + Bally:2018a have a discussion where they finally adopt 360 pc
+  + But Kounkel:2018a have it in a new grouping called Orion C
+    + 3 epochs of star formation from 10 to 2 Myr ago, correspond to 3 sub-clusters:
+      1. Ori C-North with age of 7.5 Myr
+      2. Ori C-Central with age of 5.5 Myr
+      3. \sigma Ori with age of 1.9 +/- 1.6 Myr
+    + with distance 412 +/- 4 pc for whole lot, or 406 +/- 4pc for \sigma Ori
+    + This is similar to Orion B (containing Horsehead Nebula), which has distance 407 +/- 4 pc
+    + But they have different radial velocities:
+      + about V_LSR = 10 km/s for Orion B
+      + about V_LSR = 13 km/s for Orion C
+      + So 2 Myr ago, \sigma Ori was 6 pc in front of Orion B
+    + Tangential velocities:
+      + 2 mas/yr in RA to E and 3 mas/yr in Dec to N seems typical of \sigma Ori sub cluster, from Fig 14.2
+      + 1 mas/yr = 2 km/s => total speed is about 7 km/s to NW
+      + But what is speed of L1630 Cloud?
 + To get a dust wave, we need that \eta is small or V is large
   + V large is definitely ruled out
-    + Star has V = 15 km/s
+    + Star has V = 15 km/s (maybe)
     + Isothermal photoevaporation flow has
       + M_{1} / M_{0} = sqrt(1 + 2 ln(\rho_{0} / \rho_{1}))
       + They say \rho_{1} = 10, \rho_{0} = 100 pcc, so M_{1} = 2.37 M_{0}
@@ -2878,6 +2896,123 @@ Now try the same, but normalized to infrared
   + R = 1 pc for outer dust wave, which may or may not exist (dust T about 20 K)
 
 
+
+**** Structure of IC 434
++ To the W we have the Orion B cloud, which is supposedly photoevaporating
+  + 0.58 degrees away => 4.15 pc
+  + Peak brightness is about 7000 in SHASSA
++ To the E it peters out, with maybe a little limb brightening
+  + 0.8 degrees away => 5.7 pc
+  + Peak brightness about 1500 in SHASSA
++ In the middle, the brightness is about 1500 too (1000 to N, 2000 to S)
+  + So, if LOS depth is the same, then density has dropped by factor of only 2
+  + But it is probably more than that - in the Horsehead, the density is supposed to be about 100 pcc, but in a thin layer only
+  + Up above I have density going from 100 \to 10, implying Mach number M = 2.4
+  + If we really have as low a T = 6000 K, then sound speed may be 8.5 so v = 20 km/s is about right (ignoring proper motion)
++ This is hard to reconcile with being ionization bounded on both sides
+  + More likely to be matter-bounded to the West
+  + This also explains why there are ionized globules further out associated with the neutral shell GS206-17+13
+    + Which is more like a collection of filaments
+    + Distances up to about 1.6 deg => 11.5 pc
+  + So what is confining the region to the W?
+    1. Perhaps no confinement, still expanding.  With 10 km/s speed and edge-to-edge distance of 10 pc, it would take 1 Myr to cross
+    2. Photoevaporation flows from the globules - this is a bit hard to believe, but it is possible
+    3. Magnetic pressure - maybe
+    4. Hot gas - seems unlikely, but you never know
+
+
+**** Momentum balance at the inner shell
++ Inner radius of shell is 60 arcsec => 0.12 pc
++ Luminosity is about L_4 = 6
++ If n = 10 pcc and V = 20 km/s
+  + => R_* = 0.856 pc
+  + => \tau_* = 0.035 if \kappa = 600 cm^2 / g
++ This means that x = 0.12
+  + WBS: x = sqrt(\eta) which would need \eta = 0.0144
+  + RBW: x = 2 \tau_* which requires \tau_* = 0.06 or \kappa = 1000 cm^2/g (\kappa_{600} = 1.67)
+    + or \sigma = \kappa m = 2e-21 cm^2 / H
++ Note \tau = 2 x \tau_* = 0.0084 \kappa_{600}
+  + Which means that L_{IR} / L_{*} \approx 0.5 \tau \approx 4.2e-3 \kappa_{600}
+  + Or L_{IR} \approx 421 L_{\odot} if we are in RBW regime
+  + Could be smaller if \kappa_{600} < 1.67, in which case we need the wind with \eta = 0.0144
++ What if the speed were higher, say 40 km/s?
+  + Both R_* and \tau_* scale as 1/v, so they would be 0.428 pc and 0.0175 \kappa_{600} respectively
+  + So x = 0.24, which would require a stronger wind in the WBS regime
+  + But \tau is unaffected
+
+
+**** Infrared SED of inner shell
++ Ochsendorf:2015a Fig 4e shows the SED
+  + But it is I_\nu in MJy/sr, whereas we want to convert it to L_\odot
++ Half power contour is roughly 60 x 180 arcsec (diameters)
+  + Area of pi 60 180 / 4 = 8480 square arcsec = 200 nsr (nanosteradian) = 0.2 msr (millisteradian)
++ So multiply I_\nu in MJy/sr by \Omega in msr to get F_\nu in Jy
++ To get SED in erg/cm^2/s, it is 2.9979e-9 F_\nu(Jy) / \lambda(micron)
++ For luminosity, multiply by 4 \pi D^2 = 2.011e43 @ 410 pc
+  + Or 5.2652e9 to give L_\odot
++ So, to get \nu L_\nu SED in L_\odot it is 15.78 I_\nu \Omega / \lambda 
++ Now include the measured SEDs, subtracting the region 4 values
+  |    wav | IDW Fnu   | BG Fnu      | nuLnu         |
+  | micron | MJy/sr    | MJy/sr      | Lsun          |
+  |--------+-----------+-------------+---------------|
+  |     12 | 12 +/- 8  | 0 +/- 1     | 3.2 +/- 2.1   |
+  |     14 | 20 +/- 4  | 0 +/- 1     | 4.5 +/- 0.9   |
+  |     20 | 30 +/- 3  | 2 +/- 1     | 4.4 +/- 0.5   |
+  |  23.68 | 55 +/- 5  | 2.0 +/- 0.3 | 7.1 +/- 0.7   |
+  |     70 | 90 +/- 20 | 25 +/- 5    | 2.9 +/- 0.9   |
+  |    160 | 40 +/- 10 | 28 +/- 5    | 0.2 +/- 0.2   |
+  |    250 | 26 +/- 4  | 25 +/- 8    | 1e-2 +/- 0.1  |
+  |    350 | 15 +/- 3  | 10 +/- 2    | 5e-2 +/- 3e-2 |
+  |    500 | 6 +/- 1   | 4.5 +/- 0.5 | 9e-3 +/- 7e-3 |
+#+TBLFM: $4=15.78 0.2 ($2 - $3) / $1 ;f1
++ Note that 12, 14, 20 points are from the region 7 spectra but multiplied by 4
+  + Since we have no mid-IR spectra for the IDW aperture
++ So, not looking good for RBW!
+  + We need 400 Lsun, looks like we get about 15 Lsun
++ Do my own measurements from the MIPS and IRAC maps (already in MJy/sr)
+  + MIPS 23.68 micron
+    + Median zodiacal light is 23.31573
+    + Lowest level is about 30, so zodiacal dominates there, but it doesn't matter since we are always subtracting the BG anyway
+    + Peak brightness method
+      + Peak is 120, mean BG is 32, so 120 - 32 = 88
+      + So half power contour at 32 + 44 = 76
+      + This makes almost no difference to the measured size, so still 0.2 msr
+      + But with the higher peak we now get 15.78 0.2 88 / 23.68 = 11.7 Lsun
+    + Flux method, using various boxes
+      | Box       |     Sum |  npix |   Mean |  nuLnu |
+      |-----------+---------+-------+--------+--------|
+      | Arc       | 3071157 | 76715 |  40.03 | 288.54 |
+      | BG        | 2597091 | 77050 |  33.71 | 244.05 |
+      | Star      |  102076 |   600 | 170.13 |   9.59 |
+      | Arc tight |  647089 | 10354 |  62.50 |  60.80 |
+      | BG tight  |  369916 | 10584 |  34.95 |  34.76 |
+      #+TBLFM: $4=$2/$3;f2::$5=15.78  $4 1.41e-4 $3 / 23.68 ;f2
+      - Each pixel is 2.45 arcsec => 1.41e-4 msr
+      - So this gives a shell luminosity of 288.54 - 244.05 - 9.59 = 34.9 Lsun
+      - Three times bigger than the peak brightness method, but is including dust that has not been decelerated yet
+      - Taking tighter boxes gives 60.80 - 34.76 - 9.59 = 16.45 which is much closer
+      - Tight box is 1.46 msr (4 arcmin) and wide box is 10.8 msr (11 arcmin)
+**** \sigma Ori proplyd
++ \sigma Ori IRS1 B
++ See Hodapp:2009a and van-Loon:2003a
++ This is very close to the Aa/Ab/B triple
+  + 3.5 arcsec in projection => 2e16 cm = 0.007 pc (20 times smaller than inner radius of inner arc)
++ I-front radius is about 40 mas = 2.45e14 cm = 16 AU
++ And there is another!
+  + SO587 Rigliaco:2009a
+  + This is also inside the arc, but it is 160 arcsec W of Aa/Ab/B
+  + Mdot only 1e-9 Msun/yr so probably not a contender
+**** Radio observations of IC434
++ Abramenkov:1992a
+  : Observations of the extended HII regions Barnard Loop and IC 434 were carried out with the radio telescope UTR-2 at five frequencies between 12.6 and 25 MHz. The resolution of the telescope was 28 x 45 arcmin at 25 MHz. The maps of brightness distribution at the direction of the HII regions are presented. The physical parameters of the nebulae have been obtained. The electron temperature of Barnard Loop is 5900 K, the optical depth is 0.4 at 25 MHz, emission measure is 200 pc cm exp -6. The parameters are 6000 K, 2.7 and 1300 pc cm exp -6, respectively, for IC 434.
+  + This is from radio observations at 12 to 20 m
+  + The HII regions are seen in absorption against the non-thermal Galactic BG
+  + Finds the following:
+    + T = 6000 +/- 2700 K in center of IC 434 (with possible increase towards outside)
+    + EM \approx 1000 pc cm^{-6}
+    + n \approx 8 pcc (this implies thickness of 16 pc)
+    + \tau \approx 3 at 25 MHz
+  + These seem to be roughly consistent with other measurements
 
 **** \sigma Ori as a weak-wind star
 + Najarro et al 2011
