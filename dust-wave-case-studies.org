@@ -2997,8 +2997,112 @@ Now try the same, but normalized to infrared
 + See Hodapp:2009a and van-Loon:2003a
 + This is very close to the Aa/Ab/B triple
   + 3.5 arcsec in projection => 2e16 cm = 0.007 pc (20 times smaller than inner radius of inner arc)
-+ I-front radius is about 40 mas = 2.45e14 cm = 16 AU
-+ And there is another!
++ I-front radius is about 40 mas = 2.45e14 cm = 16 AU *very small*
++ Ha emission
+  - Hodapp:2009a measure it as 4.7 e−15 W/m^2 = 4.7e-12 erg/cm^2/s
+    - Ha energy is 13.6 (1/4 - 1/9) eV = 3.026e-12 erg
+    - F = 1.55 phot/cm^2/s
+  - We can convert this into an VEM, n^2 h R^2, assuming no extinction
+    - Assuming F = pi \alpha_eff \omega R^3 n^2 / 4 pi D^2
+    - With \omega = 0.1 and \alpha_eff = 1e-13
+    - => n = 2 D sqrt(F / \alpha_eff \omega R^3) = 8.2e6 pcc
+  - Or compare with Odell:1998a values for Orion proplyds
+    - The distance is the same 410 pc within the errors, so no correction there
+    - I /think/ that the fluxes in Bob's Table 1 are extinction corrected, but I am not entirely sure
+      - *Update* Now, I think they are not - so should be multiplied by about 2.6 to 3.6, for C(Hb) in range 0.6 to 0.8
+    - These are very comparable
+    - Proplyds with separations 7 to 30 arcsec have fluxes of 0.5 to 3 phot/cm^2/s
+      - *Extinction correction* gives 1.5 to 12 phot/cm^2/s
+  - Best match might be for LV4 (161-324)
+    - from [[id:4F6EA6F7-1F1D-4EF6-BEAC-13D83C905301][NUV observations of LV4]] in [[file:~/Work/Bowshocks/Jorge/bowshock-shape/new-HST-shapes/new-hst-shapes.org][new-hst-shapes.org]] we find a radius of 0.02 arcsec or 8.6 AU, based on the FOC F235M observations in Bally:1998a Fig 8 (mislabeled as 161-322)
+    - This is exceedingly small - in Henney:1998b we gave 3.5e14 cm = 23 au as the size
+    - projected separation of LV 4 is 6 arcsec, so F is down by a factor of 4 compared with IRS1B, *but* ionizing flux is larger
++ Radio observations Drake:1990a
+  + At the time, they thought it was from the star and was non-thermal
+  + But part or all might be thermal
+  + about 1 to 2 mJy at both 2 and 6 cm, falling to about 1 mJy at 20 cm
+  + They also find 3 additional 6 cm sources, with fluxes of 3 to 9 mJy
+  + Equivalent values for some Orion proplyds (Henney:2001b):
+    - 161-324: 5 mJy and F(Ha) = 3 (Bob says 1.1)
+    - 167-317: 30 mJy, but this has F(Ha) = 13 phot/cm^2/s apparently, even though Bob says only 3 - strange, but maybe Bob's values are not extinction corrected 
++ Theoretical scalings of flux, brightness, mass loss rate as functions of ionizing flux F and ionization front size r
+  + For recombination dominated flow: S(Ha) \propto F \propto n^2 r
+  + Ha flux has additional scaling with area: F(Ha) \propto r^2 F \propto n^2 r^3 
+  + Mass loss rate Mdot \propto n r^2 \propto sqrt(F(Ha) r)
+  + If r is fixed, then Mdot \propto n \propto sqrt(F) \propto 1/D where D is separation
+    + But that only applies if EUV-controlled
+    + If FUV controlled, then r n(PDR) = constant and Mdot \propto sqrt(T(PDR))
++ Deduced Mdot for IRS1B
+  + Highest values for proplyds is 1e-6 Msun/yr with scaling as sqrt(FHa r)
+  + Or theoretical scaling as (n r^2)
+    + 161-324 has r15^2 n6 = 0.54
+    + 167-317 has r15^2 n6 = 2.56
+    + 177-341 has r15^2 n6 = 2.48
+    + 182-413 has r15^2 n6 = 2.08
+  + So 161-324 is 4 to 5 times smaller Mdot probably
+  + Extra sqrt(2) for smaller flux means that IRS1B should be 5.65 times smaller
+    + => about 2e-7 Msun/year
+  + Alternatively, use the density of 8.2e6 derived above
+    + Use 2 pi instead of 4 pi to account for anisotropy
+    + Mdot = 2 pi m n r^2 c = 1.17e-7 Msun/yr
+    + So that is only half as big
++ Isotropy of flow
+  + Henney:1999a find roughly equal mass loss contributions from head and tail for 177-341
+  + Also expected on theoretical grounds if neutral wind from disk is relatively insensitive to FUV flux
+  + [ ] Need to work out how the anisotropy gets smoothed out with radius
++ Terminal velocity
+  + For a strictly isothermal flow, the asymptotic behavior is v \propto sqrt(ln r)
+  + I-front radius 2.45e14 cm expands out to bow radius of 0.1 pc = 3.085677582e17, which is factor of 1000!
+    + More exactly, from Dyson:1968a we have
+      r / r0 = M^-1/2 exp[ 1/4 (M^2 - 1)]
+      |     M |   r/r0 | t_h/t_d |    |
+      |-------+--------+---------+----|
+      |     1 |    1.0 |     1.0 |    |
+      |     2 |    1.5 |     6.0 |    |
+      |     3 |    4.3 |    38.7 |    |
+      |  3.46 |    8.4 |   100.6 |    |
+      |     4 |   21.3 |   340.8 |    |
+      |   4.3 |   38.2 |   706.3 | ** |
+      |   4.5 |   58.0 |  1174.5 |    |
+      |  4.75 |  100.6 |  2269.8 |    |
+      |     5 |  180.4 |  4510.0 |    |
+      |   5.5 |  639.1 | 19332.8 |    |
+      | 5.666 | 1000.9 | 32132.4 | ** |
+      |     6 | 2576.3 | 92746.8 |    |
+      #+TBLFM: $2=exp(0.25 ($1**2 - 1)) / sqrt($1);f1::$3=$1**2 $2 ;f1
+    + In other words, we can get up to M = 5.7, or v = 65 km/s if c = 11.5 km/s
+  + However, more likely we reach a terminal velocity when expansion cooling starts to compete with photoionization heating
+    + Photoionization heating per unit volume G = \Gamma n^2
+    + Heating coefficient \Gamma \approx 2e-24 erg cm^3 / s
+    + Expansion cooling term is \nabla\cdot[v (E + p)]
+      + where E = \rho e + 0.5 \rho v^2 and where \rho e = p / (\gamma - 1)
+      + so p + \rho e = (\gamma/\gamma-1) p = (5/2) p = (5/2) \rho c^2
+      + hence [v (E + p)] = 0.5 \rho v (v^2 + 5 c^2)
+    + Frank:1992a writes the expansion cooling term as
+      * W = (p u / \rho^2) d\rho/dr = u c^2 d ln \rho / d r
+      * This is clearly energy loss per unit mass
+      * \rho = \rho_0 (r/r0)^-2 if constant velocity
+        + => d\rho/dr = -2 \rho / r
+        + => d ln \rho / d r = -2 / r
+      * W = - 2 u c^2 / r
+      * Timescale is c^2 / |W| = 0.5 r/u
+    + Heating per unit mass = G/\rho
+      + Heating timescale is \rho c^2 / G
+      + t = m c^2 / \Gamma n \propto u r^2
+    + So dynamic timescale increases linearly with radius (or slightly sub-linear since v increases), but heating timescale increases quadratically (or slightly faster) with radius
+      + Ratio heating/dynamic \propto u^2 r
+      + Added as column to table above
+    + Values at ionization front 
+      + assume n \approx 8.10^6, r = 2.45e14
+      + t(heat) = 0.005 years
+      + t(dynam) = 3.52 years
+      + Ratio is 704
+      + Implies that terminal velocity is Mach number of about 4.3, reached at about r = 40 r_0
++ Putting it all together
+  + Assume Mdot e 2e-7 and V = 4.3 11.5 = 50 km/s
+  + Assume L_4 = 6
+  + Then \eta = 0.008 => this is about half the required value, so not good but not terrible (still 40 times higher than for star!)
++ And there is another proplyd!
   + SO587 Rigliaco:2009a
   + This is also inside the arc, but it is 160 arcsec W of Aa/Ab/B
   + Mdot only 1e-9 Msun/yr so probably not a contender
