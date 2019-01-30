@@ -1,0 +1,425 @@
+#!/bin/csh -f
+#++++++++++++++++
+#.IDENTIFICATION whichcat
+#.LANGUAGE       C-shell
+#.AUTHOR         Francois Ochsenbein [CDS]
+#.ENVIRONMENT    CDS Catalogues
+#.KEYWORDS       Catalogue Command
+#.VERSION  1.0   11-Jan-1992
+#.VERSION  1.1   06-Mar-1992: Defaut Format = Long for a catalogue
+#.VERSION  1.2   23-Jul-1992: Option -obsolete to keep Obsolete cat's
+#.VERSION  1.3   05-Jan-1993: Added J catalogues
+#.VERSION  1.4   11-Dec-1993: Just ignore short words
+#.VERSION  1.5   30-May-1994: Use parfile -g
+#.VERSION  1.6   25-Oct-1994: Option -s (Server)
+#.VERSION  1.7   23-Jan-1995: Redefined file structures
+#.VERSION  1.8   25-Apr-1995: Option -a for Andernach's catalogue
+#.VERSION  1.9   04-May-1995: -a option may have no word
+#.VERSION  2.0   15-Jun-1995: allow case-insensitive search
+#.VERSION  2.1   04-Jul-1995: Option -0 for raw edition
+#.VERSION  2.2   29-Jan-1996: u/III/135 is also possible
+#.VERSION  2.2   09-Feb-1996: u/ ... gives immediately the result.
+#.VERSION  2.3   03-Apr-1996: -0r option (recursive)
+#.VERSION  2.4   18-Mar-2003: Adapted fopr Mirrors
+#.VERSION  2.5   21-Jun-2003: Accept numbers e.g. ngc 6822
+#.VERSION  2.6   09-Mar-2006: Linux port
+#.VERSION  2.7   14-Nov-2006: -J option (list the journals)
+#.VERSION  2.8   18-Feb-2009: '.' for all
+#.VERSION  2.9   30-Sep-2009: Accept catid's
+#.VERSION  3.0   19-Nov-2009: If nothing found ==> try to remove obsolete
+#.VERSION  3.1   01-Jun-2011: -i option (get identifier)
+#.VERSION  3.2   12-May-2015: acecpt yCat
+#.VERSION  3.3   13-May-2015: -t option 
+#.VERSION  3.4   26-Jul-2016: use cgiparm only when no arguments AND HTTP_POST 
+#.PURPOSE        Find out a catalogue from number / name / author etc ...
+#.COMMENTS       Use gawk scripts
+#----------------
+#
+
+# If Apache call:
+if ( $#argv < 1) then
+    if ($?HTTP_HOST) then
+        eval "`cgiparm -csh`" 	# Get the arguments
+        echo "Content-type: text/plain"; echo ""
+    endif
+endif
+#
+#	Definition of some variables
+#
+#set verbop = 1
+setenv LC_ALL "C"
+set pgm = `basename $0`
+
+if ($?Vroot) then
+    setenv PATH $Vroot/bin:/usr/local/bin:/usr/bin:/bin
+    set BDIR = $Vroot/bibcat
+    set Heinz = $Vroot/lib/Andernach
+    if (! $?CATS) setenv CATS $Vroot
+else	############# at CDS
+    if (! $?CATS) setenv CATS ~cats
+    if (! $?MACHINE) setenv MACHINE `uname -m`
+    #setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/ucb
+    setenv PATH /usr/local/bin:/usr/bin:/bin
+    set BDIR  = /home/bibcat
+    set Heinz = ~cats/lib/Andernach 
+    set Vroot = /home/cds/httpd/
+endif
+set BIB   = $BDIR/bibcat
+set usage = \
+    "Usage: $pgm [-r] [-obsol] [-a] [-l|-0[r]|-s] [%x] [catno|bibcode|key...]"
+
+#
+#	Definition of used programs
+#
+set AWK   = gawk
+#
+#	Look for options
+#
+set verbop = 1
+#set verbose
+set versop = 1			# Show version
+set errors = 0			# Error state
+set listed = 0			# Number of listed catalogues
+set rev = "cat"			# Reverse order
+set fmt = ""
+set defmt = "edb0.gawk"		# Default format
+#set obsol = (pargrep -p1 -v '%D.*OBSOL')		# -obsolete option
+set obsol = (gawk -f $BDIR/obsol.awk)
+set prefix = ""			# How to query
+set words  = ""			# Words to look for
+set catid  = ""			# For query by catalogue
+set bibcod = ""			# For query by BibCode
+set help   = 0			# Execute Help
+set metasearch = 0              # metacol/metatab search (option -c/-t)
+set abstract = 0                # add abstract (use preadme)
+
+if ( $#argv < 1 ) set help = 1
+#set verbose
+while ( $#argv >= 1 )
+    if ($verbop == 1)	echo2 -n " $1" 
+    switch ("$1")
+    case "-a":		# Look in Andernach's list
+	shift
+	echo -n "From $Heinz dated: "
+	gawk '/[ 	]Version/ {print $NF; exit}' $Heinz
+	#ls -l $Heinz | gawk '{print $5 "-" $6 "-" $7 }'
+	echo ""
+	if ("$1" == "") then	# NO EXPRESSION --- list whole file
+	    cat $Heinz
+	    exit 0
+	endif
+	if ($verbop) echo " $1"
+	grep -n -i "$1:q" $Heinz | parfile $Heinz
+	breaksw
+    case "-v":		# Verbose mode
+    	set verbop = 1
+    	echo2 -n "... ${pgm}: examine argument " 
+    	breaksw
+    case "-r":
+        set rev = "gawk -f $BDIR/rev.awk"
+	breaksw
+    case "-old":
+    case "-obso*":	# List obsolete Catalogues
+    	set obsol = "cat"
+    	breaksw
+    case "-s":		# Server mode --- just title
+	#set verbose
+    	set versop = 0
+    	set fmt = "edbs.gawk"
+    	breaksw
+    case "-i":		# List only catid's
+    case "-id":		# List only catid's
+    case "-y*":		# List only catid's
+	set versop = 0
+	set  fmt = "edbid.gawk"
+    	breaksw
+    case "-c":
+        set metasearch = 2
+        breaksw
+    case "-t":
+        set metasearch = 1
+    	breaksw
+    case "-0r":
+	set fmt = catr.gawk
+	breaksw
+    case "-0":
+	set fmt = cat.gawk
+	breaksw
+    case "-1":
+    case "-l":
+    set fmt = "edbl.gawk"
+	breaksw
+    case "-help":
+	set help = 1
+	break
+    case "-J":		# List of journals
+	if ($verbop) then
+	    echo ""
+	    echo "# List of journals known in $BIB"
+	endif
+        grep '^%I J/[A-Z]' $BIB | acut -d/ -f2 | uniq | sort -u
+	exit $status
+    case "B": 
+    case "I": 
+    case "II": 
+    case "III": 
+    case "IV": 
+    case "V":
+    case "VI": 
+    case "VII": 
+    case "VIII": 
+    case "IX": 
+    case "J":
+    case "b": 
+    case "i": 
+    case "ii": 
+    case "iii": 
+    case "iv": 
+    case "v":
+    case "vi": 
+    case "vii": 
+    case "viii": 
+    case "ix": 
+    case "j":
+    case "":
+	set c = `echo $1 | tr '[a-z]' '[A-Z]'`
+    case_pargrep_c:
+	if ("$fmt" == "") set fmt = $defmt
+	#echo "#gawk -v cat=$1/ -f $BDIR/$fmt $BIB"
+        if ($versop) then
+            echo -n "Catalogues available at CDS, Version " 
+            head -1 $BIB | awk '{print $2}'
+	    set versop = 0
+        endif
+	if ("$c" == "") then
+	    if ($verbop) echo "#...$obsol:q $BIB  | $rev | gawk -f $BDIR/$fmt"
+            $obsol:q $BIB  | $rev | gawk -f $BDIR/$fmt
+	else
+	    if ($c !~ */) set c = $c/
+	    if ($verbop) echo \
+	      "#...pargrep -p1 -F "%I $c/" $BIB|$obsol|$rev| gawk -f $BDIR/$fmt"
+	    pargrep -p1 -F "%I $c" $BIB | $obsol:q | $rev | gawk -f $BDIR/$fmt
+	endif
+	shift
+	continue
+    case ".":		# All values
+	if ("$fmt" == "") set fmt = $defmt
+        if ($versop) then
+            echo -n "Catalogues available at CDS, Version " 
+            head -1 $BIB | awk '{print $2}'
+	    set versop = 0
+        endif
+	$rev $BIB | gawk  -f $BDIR/$fmt
+        #set argv = (B/ I/ II/ III/ IV/ V/ VI/ VII/ VIII/ IX/ J/ )
+	#ls -l $BDIR/$fmt
+	shift
+	continue
+    case "[12][890][0-9][0-9]yCat.[1-9][0-9][0-9][0-9].*":
+        set Cat = `echo  $1 | acut -c10-13`	# catid in main categories
+	goto case_catid
+    case "[12][890][0-9][0-9]yCat.[1-9.][0-9][0-9][0-9][0-9]*":
+        set Cat = `echo  $1 | acut -c10-18|tr -d .` 	# catid 
+	goto case_catid
+    case "[12][890][0-9][0-9]yCatp[0-9][0-9][0-9][0-9]*":
+        set Cat = 1`echo  $1 | acut -c10-18`		# catid 
+	goto case_catid
+    case "[12][890][0-9][0-9][A-Za-z]?*":		# Bibcode
+	set bibcod = `echo $1:q | tr '&[a-z]' '+[A-Z]'`
+	breaksw
+    case "[uU]/[1-9][0-9][0-9][0-9]":
+    case "[uU]/[IJVB]/*":
+    case "[uU]/[IJV][IV]/*":
+    case "[uU]/[IJV]II/*":
+    case "[uU]/[IJV]III/*":
+	if ("$prefix" != "") goto default
+	set ncat = `echo $1 | cut -d/ -f2-`
+	set Cat = `trcat -N $ncat:q`
+	goto case_catid
+    case "u/*":
+    case "U/*":			# foreach can't be used ...
+	set Ucat = `echo "$1" | tr '[a-z]' '[A-Z]'`	# Uppercase
+	if ("$prefix" != "") goto default
+	if ("$fmt" == "")    set fmt = $defmt
+  	if ($verbop == 1) then
+	    echo ""
+	    echo look "$Ucat/" $BIB.iI "| cut -d: -f2 | parfile $BIB ..."
+	    echo "... | $obsol:q | $AWK -f $BDIR/$fmt"
+	endif
+  	#grep -n "^%I.${c}" $BIB | parfile $BIB \
+        if ($versop) then
+            echo -n "Catalogues available at CDS, Version " 
+            head -1 $BIB | awk '{print $2}'
+	    set versop = 0
+        endif
+	look "$Ucat/" $BIB.iI | cut -d: -f2 | sort -n | parfile $BIB \
+	| $obsol:q | $rev | $AWK -f $BDIR/$fmt
+	@ listed += 1
+	shift
+	continue
+    # A single catalog
+    case "[Jj]/other/*/[1-9]*":
+    case "[Jj]/*/[1-9]*/*":
+    case "[Bb]/*":
+    case "[123456789][0-9][0-9][0-9]":
+    case "[123456789][0-9][0-9][0-9][A-Za-z]":
+	if ("$words" != "") goto default
+    case "[IVXivx]*/*"
+	if ("$prefix" != "") goto default
+	set Cat = `trcat -N $1:q`
+    case_catid:
+	set defmt = "edbl.gawk"
+    	set obsol = "cat"
+	if ("$Cat" !~ */) set Cat = "$Cat/"
+	if ($verbop == 1) echo2 -n "[$Cat]"
+	set catid = "$catid $Cat"
+	breaksw
+    case "[123456789][0-9][0-9][0-9][0-9]*":	# catid
+        set Cat = "$1"
+	goto case_catid
+    # Several catalogues
+    #case "[Jj]/*/*":
+    #	if ("$words" != "") goto default
+    #	if ("$prefix" != "") goto default
+    #	set c = `echo $1 | tr '[a-z]' '[A-Z]'`
+    #   goto case_pargrep_c
+    #	breaksw
+    case "[Jj]/*":	# e.g. J/A+A
+        set c = `trcat -r "$1"`
+	if ("$c" == "") set c = "$1"
+	goto case_pargrep_c
+    case "%*":	# Look for a Prefix
+	if ("$prefix" != "") then
+	    echo2 "***${pgm}: Only one % is allowed ***"
+	    exit 1
+	endif
+	set prefix = "^$1"
+	breaksw
+    case "-abs": # add abstract using preadme
+	set abstract = 1
+	breaksw
+    default:
+	#set nc = `echo "$1" | wc -c`
+	#if (("$prefix" == "") && ($nc <= 3)) then
+	#    echo "++++Too short words ($1) are ignored"
+	#else
+	if ("$words" == "") then
+	    set words = "$1"
+	else
+	    set words = "$words $1"
+	endif
+	#endif
+	breaksw
+    endsw
+    shift
+end
+if ($verbop == 1)	echo2 " ."
+if ($help == 1) then
+    echo "$usage" 
+    echo "  -a exp: look in Andernach's list"
+    echo "  -obsol: List also the Obsolete Catalogues"
+    echo "      -r: List in reverse order (last first)"
+    echo "      -0: list in native (%) format"
+    echo "      -s: list only the catalogue designations"
+    echo "      -i: list only the catalogue identifiers (yCat number)"
+    echo "      -l: Use a long format (detailed informations)"
+    echo "      -J: List all the journals known in the J/.... directories"
+    echo "   catno: catalogue designation, e.g. 1002 VI/77 J/A+AS/111/495"
+    echo " bibcode: 19-byte BibCode (& cam be replaced by +)"
+    echo "     key: word(s) to look for, e.g. RADIO Author ..."
+    echo "      %x: Choose the fields where you are looking for words, as:"
+    echo "      -c: search in table+column" 
+    echo "      -t: search in table"
+    #set ans=$<
+    tail -n +2 $BIB | $AWK '/^$/{exit}{print "   " $0}' 
+    exit 0
+endif
+#
+#	Write Out Version
+#
+#set verbose
+if ($versop) then
+    echo -n "Catalogues available at CDS, Version " 
+    head -1 $BIB | awk '{print $2}'
+    set versop = 0
+endif
+
+if ($listed) exit 0
+#
+if ("$fmt" == "")	set fmt = $defmt
+#echo "obsol = $obsol"
+#
+#	Check for BibCodes
+#
+if ("$bibcod" != "") then
+    if ($verbop == 1) echo2 "#(qcat) from bibcode: bibcod=$bibcod"
+    if ("$words" != "") echo2 "+++${pgm} ignored parameters: $words"
+    if ($verbop == 1) then
+	#set verbose
+	echo look "$bibcod" $BIB.iR "| cut -d: -f2 | parfile $BIB ..."
+	echo "| $obsol:q | $AWK -f $BDIR/$fmt"
+    endif
+    look "$bibcod" $BIB.iR | cut -d: -f2 | parfile $BIB \
+    | $obsol:q | $rev | $AWK -f $BDIR/$fmt
+    exit 0
+endif
+#
+#	Check for Catalogues
+#
+if ("$catid" != "") then
+    if ("$words" != "") echo2 "+++${pgm} ignored parameters: $words"
+    foreach c(`echo $catid:q | tr '[a-z]' '[A-Z]'`)
+  	if ($verbop == 1) then
+	    echo look "$c" $BIB.iI " ... | $obsol:q | $AWK -f $BDIR/$fmt"
+  	endif
+	set filtre = "cat"
+	if ($abstract == 1) then
+	    set filtre = 'egrep -v ''^$'''
+	endif
+	look "$c" $BIB.iI | cut -d: -f2 | parfile $BIB \
+	| $obsol:q | $rev | $AWK -f $BDIR/$fmt | $filtre
+
+	if ($abstract == 1) then
+	    (cd $CATS; preadme -par=B $catid/ReadMe)|egrep -v '^$'
+	endif
+    end
+    exit 0
+endif
+#
+#	Check everything OK
+#	Existence of file, normal or compressed
+#
+if ("$prefix" == "")	then	# Look Anywhere
+    if ($verbop == 1) echo \
+    "#echo '$words' | parfile -p1 -gs $BIB|$rev|gawk -f $BDIR/$fmt ..."
+    #echo $path
+    #ls -l `which gawk`
+    #ls -l `which parfile`
+    switch ($metasearch)
+        case 1:
+	     (echo "$words" | parfile -p1 -gs $BIB \
+            | $obsol:q | $rev | gawk -f $BDIR/$fmt ;\
+            echo "$words"| grep -v '/' | parfile -p1 -gs $Vroot/Pages/cats/metatab.tsv\
+            | $obsol:q | $rev | gawk -f $Vroot/Pages/cats/metatab.awk )\
+            |egrep -v '^ *$'
+            breaksw
+        case 2:
+            (echo "$words" | parfile -p1 -gs $BIB \
+            | $obsol:q | $rev | gawk -f $BDIR/$fmt ;\
+            echo "$words"| grep -v '/' | parfile -p1 -gs $Vroot/Pages/cats/metatab.tsv\
+            | $obsol:q | $rev | gawk -f $Vroot/Pages/cats/metatab.awk;\
+            echo "$words"| grep -v '/' | parfile -p1 -gs $Vroot/Pages/cats/metacol.tsv\
+            | $obsol:q | $rev | gawk -f $Vroot/Pages/cats/metacol.awk )\
+            |egrep -v '^ *$'
+            breaksw
+        default:
+            echo "$words" | parfile -p1 -gs $BIB \
+            | $obsol:q | $rev | gawk -f $BDIR/$fmt
+    endsw
+    # (echo ""; echo "$words") | sh2null lookbib $BIB \
+else
+      if ($verbop == 1) \
+      echo grep -n -i "${prefix}.*$words" $BIB "... |$obsol|$AWK -f $BDIR/$fmt"
+      grep -n -i "${prefix}.*$words" $BIB | parfile $BIB \
+    | $obsol:q | $rev | $AWK -f $BDIR/$fmt
+endif
+exit 0

@@ -1,0 +1,97 @@
+J/A+A/566/A45    Orion optical-depth and column-density maps (Lombardi+, 2014)
+================================================================================
+Herschel-Planck dust optical-depth and column-density maps.
+I. Method description and results for Orion.
+    Lombardi M., Bouy H., Alves J., Lada C.J.
+   <Astron. Astrophys., 566, A45 (2014)>
+   =2014A&A...566A..45L
+================================================================================
+ADC_Keywords: Molecular clouds ; Extinction
+Keywords: ISM: clouds - dust, extinction - ISM: structure -
+          ISM: individual: Orion molecular cloud
+
+Abstract:
+    We present high-resolution, high dynamic range column-density and
+    color-temperature maps of the Orion complex using a combination of
+    Planck dust-emission maps, Herschel dust-emission maps, and 2MASS NIR
+    dust-extinction maps. The column-density maps combine the robustness
+    of the 2MASS NIR extinction maps with the resolution and coverage of
+    the Herschel and Planck dust-emission maps and constitute the highest
+    dynamic range column-density maps ever constructed for the entire
+    Orion complex, covering 0.01mag<A_K_<30mag, or
+    2x10^20^cm^-2^<N<5x10^23^cm^-2^. We determined the ratio of the
+    2.2{mu}m extinction coefficient to the 850{mu}m opacity and found that
+    the values obtained for both Orion A and B are significantly lower
+    than the predictions of standard dust models, but agree with newer
+    models that incorporate icy silicate-graphite conglomerates for the
+    grain population. We show that the cloud projected probability
+    distribution function, over a large range of column densities, can be
+    well fitted by a simple power law. Moreover, we considered the local
+    Schmidt-law for star formation, and confirm earlier results, showing
+    that the protostar surface density {Sigma}_*_ follows a simple law
+    {Sigma}_*_{prop.to}{Sigma}_gas_^{beta}^, with {beta}~2.
+
+Description:
+    Combination of Herschel and Planck optical depth and color-temperature
+    maps for the entire Orion complex. The resolution is 36" for the areas
+    covered by Herschel, and 5' for the remaning areas where the Planck
+    dust model has been used (Planck Collaboration, 2014A&A...571A..11P).
+
+    The results are combined in a multi-plane FITS file, with the
+    following structure:
+
+    PLANE1  = 'Opacity map at 353 GHz'
+    PLANE2  = 'Error on opacity map at 353 GHz'
+    PLANE3  = 'Color temperature [K]'
+    PLANE4  = 'Error on color temperature [K]'
+    PLANE5  = 'Modified black-body exponent (Planck)'
+    PLANE6  = 'Error on modified black-body exponent'
+    PLANE7  = 'Total chi-square'
+
+Objects:
+    --------------------------------------------------------
+       RA   (2000)   DE     Designation(s)
+    --------------------------------------------------------
+    05 35 17.3   -05 23 28  Orion A = M42
+    05 41 42.7   -01 54 44  Orion B = NAME Flame Nebula
+    --------------------------------------------------------
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName  Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe        80        .   This file
+list.dat     193        1   Description of FITS file
+maps.fits   2880    83442   FITS file with 7 images (planck_herschel.fit)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: list.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+       1  A1    ---     ---       [G]
+   2- 10  F9.5  deg     GLON      Galactic longitude
+  11- 19  F9.5  deg     GLAT      Galactic latitude
+  21- 22  I2 arcsec/pix Scale     [15] Scale of the image
+  24- 27  I4    ---     Nx        [3444] Number of pixels along X-axis
+  29- 32  I4    ---     Ny        [2492] Number of pixels along Y-axis
+      34  I1    ---     Nz        [7] Number of images (1)
+  36- 41  I6    Kibyte  size      [234683] Size of the FITS file
+  43- 62  A20   ---     FileName  Name of the FITS file
+  64-193  A130  ---     Title     Title of the images of the FITS file
+--------------------------------------------------------------------------------
+Note (1): the 7 planes correspond to 
+    PLANE#1  = Opacity map at 353 GHz
+    PLANE#2  = Error on opacity map at 353 GHz
+    PLANE#3  = Color temperature [K]
+    PLANE#4  = Error on color temperature [K]
+    PLANE#5  = Modified black-body exponent (Planck)
+    PLANE#6  = Error on modified black-body exponent
+    PLANE#7  = Total chi-square
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+    Marco Lombardi, marco.lombardi(at)unimi.it
+
+================================================================================
+(End)                                      Patricia Vannier [CDS]    17-Apr-2015

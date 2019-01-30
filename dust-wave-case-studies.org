@@ -2925,8 +2925,8 @@ Now try the same, but normalized to infrared
 + Inner radius of shell is 60 arcsec => 0.12 pc
 + Luminosity is about L_4 = 6
 + If n = 10 pcc and V = 20 km/s
-  + => R_* = 0.856 pc
-  + => \tau_* = 0.035 if \kappa = 600 cm^2 / g
+  + => R_* = 2.21 sqrt(L_4/n) / v_10 = *0.856 pc*
+  + => \tau_* = 0.0089 \kappa_600 sqrt(L_4 n) / v_10 = *0.035* if \kappa = 600 cm^2 / g
 + This means that x = 0.12
   + WBS: x = sqrt(\eta) which would need \eta = 0.0144
   + RBW: x = 2 \tau_* which requires \tau_* = 0.06 or \kappa = 1000 cm^2/g (\kappa_{600} = 1.67)
@@ -2992,6 +2992,23 @@ Now try the same, but normalized to infrared
       - Three times bigger than the peak brightness method, but is including dust that has not been decelerated yet
       - Taking tighter boxes gives 60.80 - 34.76 - 9.59 = 16.45 which is much closer
       - Tight box is 1.46 msr (4 arcmin) and wide box is 10.8 msr (11 arcmin)
+  + IRAC 8 micron (actually 7.872)
+    + Peak brightness method
+      + Peak is 8 (excluding apparent jet)
+        + This is actually hard to measure - may be overestimated - more like 7.4 immediately to E of star
+      + Mean BG is 6.4 => half power contour = 7.2
+      + Net peak is 8 - 6.4 = 1.6
+      + SED is 15.78 0.2 1.6 / 7.872 = 0.64 Lsun
+      + So far below the 24 micron value
+    + No point to flux method here, since it will be too hard to subtract out the stars and jets and the like
+  + Other IRAC bands are negligible
++ Do my own measurements with the WISE 
+    
+
+**** TODO [#A] More SEDS
++ [2019-01-29 Tue] *Still to do*
+  + Measure SED of inner arc in more wavelengths: IRAC, WISE, Herschel, Akari, MSX (unique in providing 14 micron, but noisy)
+  + Measure SED of outer arc too, and of NS filament, and of general background
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
 + See Hodapp:2009a and van-Loon:2003a
@@ -3106,6 +3123,35 @@ Now try the same, but normalized to infrared
   + SO587 Rigliaco:2009a
   + This is also inside the arc, but it is 160 arcsec W of Aa/Ab/B
   + Mdot only 1e-9 Msun/yr so probably not a contender
+
+**** Multi wavelength observations of the outer arc
++ Outer arc is seen at both FIR (160, 250, 350, 500 microns) and in PAH bands (7.87 micron and 12 micron)
+  + However, the morphology is not the same in each
+  + Shown in right hand panel of sigma-ori-inner-outer.pdf
+  + Green is PAH emission, magenta is FIR
+  + Not very well correlated spatially, except for in a few regions
+  + Show different small-scale morphology
+    + PAH is striated/filamentary
+    + FIR is clumpy
++ There is also a FIR filament that runs NS through position of star
+  + This can be seen on dust tau850 maps from Lombardi:2014a
+  + Has peak tau850 = 4e-5 but background is 2.5e-5, so excess of 1.5e-5
+  + From Lombardi:2014a we have A_K = 3460 tau850, so this is 0.05
+    + Also, A_K = 0.112 A_V => A_V = 0.463
+    + If we take \sigma = 5e-22 cm^2 / H, then this implies N \approx 1e21 cm^-2
+      + Of course, if it is really a limb-brightened sheet, then the perpendicular column may be 10 times less than this, but let's assume not
+      + Compare with critical column for star formation (): 129 Msun/pc^2 \approx 1e22 cm^-2
+      + Also compare with column of HII region: 10 pcc and 10 pc => 3e20 cm^-2
+      + And column of background 1.5e21 cm^-2, so dust in HII region only contributes 20% of column
+    + Width of filament is about 100 arcsec = 6.13e17 cm = 0.2 pc
+    + So density \approx 1631 pcc
+    + This could be in pressure equilibrium with the ionized gas, if the gas temperature were about 100 K
+  + The dust temperature is about 20 K (also Lombardi:2014a)
+    + Some evidence that it is about 1 K cooler than the surrounding diffuse medium
+    + This is consistent with general trend for T to go down with tau
+    + Implies that the filament is a long way from \sigma Ori
+      + The illuminated surface of the Orion B cloud is much hotter - T \approx 25 \to 30 K
+      + If we assume T^6 \propto F, then we get an implied radiation field of 10 times higher.  Ochsendorf say G_0 = 100 there, so maybe it is 10 in the general medium.  On the other hand, they fit lower dust temperatures, but they do assume \beta = 1, whereas Lombardi have 1.5-ish from Planck 
 **** Radio observations of IC434
 + Abramenkov:1992a
   : Observations of the extended HII regions Barnard Loop and IC 434 were carried out with the radio telescope UTR-2 at five frequencies between 12.6 and 25 MHz. The resolution of the telescope was 28 x 45 arcmin at 25 MHz. The maps of brightness distribution at the direction of the HII regions are presented. The physical parameters of the nebulae have been obtained. The electron temperature of Barnard Loop is 5900 K, the optical depth is 0.4 at 25 MHz, emission measure is 200 pc cm exp -6. The parameters are 6000 K, 2.7 and 1300 pc cm exp -6, respectively, for IC 434.
