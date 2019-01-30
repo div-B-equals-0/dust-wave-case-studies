@@ -300,7 +300,18 @@ So, objects like
 ** Other runaway stars
 *** AE Aur
 + Very fast: 150 km/s
-+ Comes from Trapezium
+  + At position angle of -5.4 +/- 0.9 degrees
+  + inclination of -27 degrees to plane of sky
++ Comes from Trapezium, maybe
++ Also known as HD 34078
+  + In IC 405 emission/reflection nebula
++ Stellar type: O9.5V
+**** Images and measurements of AE Aur
++ I have Spitzer and WISE
++ There is no Herschel, unfortunately
++ 
+**** Papers on AE Aur
++ Hoogerwerf:2001a has the basic data and suggests origin in Trapezium region
 *** \zeta Oph
 ** Galactic center bow shocks
 + Zajacek:2016a model these as winds with Mdot = 1e-8 and V = 200 km/s
