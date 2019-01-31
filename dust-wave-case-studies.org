@@ -302,16 +302,80 @@ So, objects like
 + Very fast: 150 km/s
   + At position angle of -5.4 +/- 0.9 degrees
   + inclination of -27 degrees to plane of sky
+    + Vrad = +55 km/s, but is this heliocentric or LSR? must be heliocentric
+    + Proper motion: 43.4 mas/yr => 1.2 degrees in 0.1 Myr
 + Comes from Trapezium, maybe
++ Distance measurements vary from 380 \to 630 pc
+  + Kreowski:2017a
+  + If ejected from Orion 2.5 Myr ago at Vrad = (+55 km/s - 25 km/s) = 30 km/s it should now be 75 pc further away than Orion - so 485 pc
+  + Take 500 +/- 100 pc as an average
 + Also known as HD 34078
   + In IC 405 emission/reflection nebula
+    + IC 405 is the bright part - there is also the fainter S 126 to the east
+    + [ ] Need to find a way to estimate ionized density 
 + Stellar type: O9.5V
-**** Images and measurements of AE Aur
++ R0 on axis is only about 12 arcsec = 0.03 pc @ 500 pc
+**** Images and measurements of AE Aur and IC 405 / S 126
 + I have Spitzer and WISE
 + There is no Herschel, unfortunately
-+ 
+  + Only field is to NE, includes some 
++ There is optical in Heggie:2008a and linked from wikipedia page
+  + these show that some molecular filaments are in front of the nebula and some are behind
++ Wide FOV deep H alpha image from Shawn Nielsen
+  + https://visibledark.ca/ic405-and-ic410-nebulae-in-auriga/
+  + [[file:data/AE-Aur-photos/ic405-410-Ha_100min.jpg]]
+  + This shows fainter nebulosity on much wider scale, which may or may not be related
+  + You also see IC 410, which is at a much larger distance (3700 pc)
+  + [X] Convert it to FITS, so we can line it up
+    + Also made an approximate WCS file
+  + [X] I should write to him to see if he has better versions of the images 
++ There is also a colour version of a narrower FOV around AE Aur also by Shawn Nielsen
+  + [[file:data/AE-Aur-photos/IC405.jpg]]
+  + https://visibledark.ca/ic-405/
+
 **** Papers on AE Aur
 + Hoogerwerf:2001a has the basic data and suggests origin in Trapezium region
++ France:2007a Spitzer observations of bow shock and environs
+  + Some profile cuts through the bow
+  + I can use their photometry to save doing it myself
+    + Except that I don't trust the 60 micron value because I think it comes from the PAH filament that crosses the bow, not the bow itself
++ Boisse:2009
+  + 
++ Krelowski:2017a find that DIB absorption is constant over 1997-2016 period
++ Gaze:1953a First to notice that emission nebula and reflection nebula have very different morphologies
++ Herbig:1958a
+  + Spectroscopy of IC 405 nebula
+  + Radial velocity of star is +59 while nebula is +22
+***** Unobtainable paper by V. F. Gaze
++ V. F. Gaze, Pub. Crimean Astrophysical Obs., 10, 213, 1953
+  + abstracted in Astr. News Letter No. 77, 48, 1955.
+  + cited in Herbig:1958a but neither PCAO nor ANL are on ADS
+  + It may be "Bulletin" instead of "Publications" of the CAO, which is now published by Springer, but nobody has anything earlier than the 1970s
+  + Only place I have found the journal that abstracted it is in holdings of [[https://aa.usno.navy.mil/library/libsource/JOURNAL_FILE.HTML][USNO]]
+    : QB  1.A278
+    : Astronomical News Letter
+    : No.1 (1942) - No.109 (1961)//
++ [[https://en.wikipedia.org/wiki/Vera_Fedorovna_Gaze][Wikipedia article on Vera Fedorovna Gaze]]
+  + She was imprisoned for several years in Soviet purges in fallout from Voronov scandal
+  + See also [[http://vestishki.ru/content/%25D0%25B8%25D0%25B7-%25D0%25B8%25D1%2581%25D1%2582%25D0%25BE%25D1%2580%25D0%25B8%25D0%25B8-%25D0%25BD%25D0%25B0%25D1%2583%25D0%25BA%25D0%25B8-%25D0%25BD%25D0%25B8%25D0%25BA%25D0%25BE%25D0%25BB%25D0%25B0%25D0%25B9-%25D0%25B2%25D0%25BE%25D1%2580%25D0%25BE%25D0%25BD%25D0%25BE%25D0%25B2-%25D0%25B0%25D0%25B2%25D1%2582%25D0%25BE%25D1%2580-%25D0%25BA-%25D1%2584-%25D0%25BC-%25D0%25BD-%25D0%25B2-%25D0%25B0-%25D0%25B1%25D1%2580%25D0%25BE%25D0%25BD%25D1%2588%25D1%2582%25D1%258D%25D0%25BD][this page in russian]]
+**** My theory for formation of IC 405
++ It is ploughing into the galactic plane
++ Recently started illuminating dense filaments
++ These photoevaporate, producing IC 405
++ Elephant trunks lag behind, point to where star used to be
++ Wind interacts with ionized gas
++ S 126 is a recombining zone that was left behind 100,000 years ago
+**** Analysis of type of bow around AE Aur
++ Assume n  = 10 pcc, V = 150 km/s and L4 = 4.8
++ Then, R_* = 2.21 sqrt(L_4/n) / v_10 = 0.01 pc
+
+ 
+**** Properties of the H II regions IC 405 and S 106
++ Radius of IC 405 in upstream direction is about 5 pc
++ If it is O9.5V, then L4 = 4.8, S49 = 0.076 according to Smith:2006a (erratum)
++ So RMS density in upstream direction should be
+  + n = sqrt( 3 S / 4 pi R**3 alpha) = 13 pcc
+  + Could be higher near star since Ha is brighter there
 *** \zeta Oph
 ** Galactic center bow shocks
 + Zajacek:2016a model these as winds with Mdot = 1e-8 and V = 200 km/s
