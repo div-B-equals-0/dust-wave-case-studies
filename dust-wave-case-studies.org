@@ -426,6 +426,8 @@ So, objects like
 + log g = 4.05
 + Mdot = 3.2e-10 Msun/yr
 + V = 800 km/s
+***** TODO X-rays from wind
++ Jesús is working on the observations
 **** My theory for formation of IC 405
 + It is ploughing into the galactic plane
 + Recently started illuminating dense filaments
@@ -448,6 +450,21 @@ So, objects like
   + Taking Mdot = 2e-9 and V = 1000 gives \eta = 0.002
   + Taking Mdot = 8e-9 and V = 2500 gives \eta = 0.02 - nearly there!
  
+**** Geometry of the clumpy neutral filaments
++ Compare brightness between B band and PAH MIR bands, to try and diagnose position along line of sight
+
+**** TODO The nature of the cirrus filaments
++ Mainly seen to NE of star, in cavity inside the neutral filaments
++ In the Spitzer R/G/B=24/8/4.5 image they show up with two different colours: red and lilac, which seem to alternate
+  + Might this be an indication of scattering at 4.5 micron?
+    + Lilac ones are in front, with forward scattering enhancing 4.5 band
+    + Red ones are behind, so scattering is suppressed and dominated by thermal in 24 band
+  + If so, the grains would have to be really large
+    + [ ] Look up papers on core-shine/cloud-shine
+      + Ysard:2016a fig 7 looks promising
+        - shows significant scattering, although this is for dark clouds
+        - also, fig 3 implies that g is small at 4.5 micron
+
 **** Properties of the H II regions IC 405 and S 106
 + Radius of IC 405 in upstream direction is about 5 pc
 + If it is O9.5V, then L4 = 4.8, S49 = 0.076 according to Smith:2006a (erratum)
