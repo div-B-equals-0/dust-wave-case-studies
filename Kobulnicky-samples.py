@@ -243,35 +243,45 @@ ttt['n_shell'] = np.round(ttt['P_k_shell']/u.Kelvin/(2 * 1.0e4), decimals=1)
 ttt['P_k_rad'] = (1e4*const.L_sun*ttt['L4'] / (4*np.pi * (ttt['R0']*u.pc)**2 * const.c * const.k_B)).cgs
 ttt['eta_obs'] = np.round(ttt['P_k_shell'].data/ttt['P_k_rad'].data, decimals=5)
 ttt
-# -
 
+# +
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = ttt['tau'], ttt['eta_obs']
 c = ax.scatter(xx, yy, 
                c=4.0 + np.log10(tt['L4']),
 #               c=np.log10(tt['Teff']), 
-               cmap='magma', 
-               edgecolors='k', alpha=1.0)
+               cmap='magma', vmin=4.0, vmax=6.0,
+               edgecolors='k', alpha=1.0, s=300)
 fig.colorbar(c, ax=ax).set_label(
     r'$\log_{10}\ \left[L_* / L_\odot \right]$'
 #    r'$\log_{10}\ \left[T_\mathrm{eff} \right]$'
 )
 for id_, x, y in zip(tt['ID'], xx, yy):
     ax.annotate(
-        str(id_), (x, y), fontsize='xx-small',
-        xytext=(4,4), textcoords='offset points',
-               )
-fmin, fmax = 2e-4, 5e-1
+        str(id_), (x, y), fontsize=10, color='k', 
+        fontweight='black', fontstretch='condensed',
+        xytext=(0,0), textcoords='offset points', ha='center', va='center',
+    )
+    ax.annotate(
+        str(id_), (x, y), fontsize=10, color='w',
+        xytext=(0,0), textcoords='offset points', ha='center', va='center',
+    )
+
+
+
+fmin, fmax = 8e-5, 8.0
 ax.plot([fmin, fmax], [fmin, fmax], ls='--')
-ax.fill_between([fmin, fmax], [20*fmin, 20*fmax], [2*fmin, 2*fmax], color='k', alpha=0.05)
+ax.fill_between([fmin, fmax], [25*fmin, 25*fmax], [1.5*fmin, 1.5*fmax], color='k', alpha=0.05)
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
     xlabel=r'UV optical depth of shell: $\tau$',
-    ylabel=r'Shell momentum efficiency: $\eta_\mathrm{obs}$',
+    ylabel=r'Shell momentum efficiency: $\eta_\mathrm{shell}$',
 )
 ax.set_aspect('equal')
+fig.savefig('K18-eta-tau.pdf')
 None
+# -
 
 # Now, before proceeding to the mass loss rates, let's do a factor plot of some selected parameters:
 
@@ -363,11 +373,11 @@ with sns.plotting_context('talk', font_scale=1.0):
 #     2. $\tau$–$L_\mathrm{IR}$ is very well correlated with $m \approx -1$.  **However**, this is exactly what you would get if the dispersion about the linear $L_\mathrm{IR}$–$L_*$ trend were entirely due to measurement errors in $L_\mathrm{IR}$.  Hopefully, that is not the case, but it needs checking.  The std dev of log $\tau$ is about 0.5 dex (the same is true of nearly all the parameters, except for $T_\mathrm{eff}$).
 #
 
+# +
 df.describe()
 
 # As an aside, we will compare my $G$ with their $U$
-
-    ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
+ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
 ddf = ttt['ID', 'U', 'G'].to_pandas()
 fig, ax = plt.subplots(figsize=(10, 10))
 vmin, vmax = 150, 4e5
@@ -383,6 +393,7 @@ ax.set(xscale='log', yscale='log',
        xlabel='U 2017', ylabel='U 2018',
       )
 ax.set_aspect('equal')
+# -
 
 ddf['log U/U'] = np.log10(ddf.U/ddf.G)
 ddf.describe()

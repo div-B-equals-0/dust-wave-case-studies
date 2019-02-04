@@ -4295,6 +4295,57 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
     |    70 |           1 |
     |   160 |        0.44 |
     #+TBLFM: $2=70/$1;f2
+*** Compare momentum efficiency with optical depth for bow shell
++ This is done in the notebook
+  + [[file:Kobulnicky-samples.ipynb]]
++ Figure is written to
+  + [[file:K18-eta-tau.pdf]]
++ \tau is calculated as 2 L_IR / L_*
++ \eta is calculated as P_shell / P_rad
+  + Note that this is really \Xi^-1 for the shell
+  + If we assume v = 30 km/s, like K18, then the ambient density is (30/11)**2 = 7.4 times lower, so that \Xi = 1000 outside shell is lowered to \Xi = 135 inside shell, so \eta = 7.4e-3
+  + We have one source that is clearly in the dust-wave candidate region
+    + Source 380 - HD 53367 - Herbig Be star
+  + And several other sources that are marginal
+    + 13 - \zeta Ophiuchus - O9.2 IV
+    + 368 - KM Cassiopeia - O9.5V
+    + 339 - CPR2002A37 - O5V((f)) - /probably not since \Xi_\dag = 3000 for O star/
+    + 409 - HD93027 - O9.5IV
++ How does \eta relate to observed properties?
+  1. Shell surface density \Sigma = \tau/\kappa
+  2. Shell pressure P_{shell} = \rho a^2 = \Sigma a^2 / H = \tau a^2 / \kappa H
+  3. Assume H = 0.25 R_0
+  4. So \eta_{shall} = P_{shell} / P_{rad} = \Xi^{-1} = \tau a^{2} 4\pi R^{2} c / \kappa H L_{*}
+  5. In fiducial terms: \eta_{shell} = 245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
+     - From the pairplot figure, there *is* a linear relation between R and L, which is approximately R_{pc} = 0.02 L_{4}, which implies \eta_{shell} = 5 \tau T_{4} / \kappa_{600} h_{1/4}
++ [ ] But why is there a linear relation between \eta_{shell} and \tau if the shells are not radiation-supported?
+  - To make it so that the lower envelope coincided with \eta = \tau, then the \eta's would need to be brought down by a factor of 1.5
+  - This could be by either
+    1. Increasing \kappa - currently we have 600 cm^2/g = 1.3e-21 cm^2/H
+       - In principal this will be higher for diffuse cloud dust than for dense cloud dust - see Bertoldi:1996a
+       - We need to work out whether we mean absorption or extinction or radpress version of opacity
+         + actually *absorption*, so hard to make it larger than 600 
+       - Also, whether it is more important the FUV or the EUV
+       - *But* the \eta = \tau line should be the radpress \tau, which is higher by a factor of Q_{P}/Q_{abs} = [(1 - \omega) + (1 - g) \omega]/(1 - \omega) = 1 + (1 - g)\omega/(1 - \omega) = 1.5 if \omega = g = 0.5
+    2. Reducing sound speed (currently assume 1e4 K) 
+       - down to 6700 K would do it (probably too cool though)
+       - Cloudy models give 1.1e4 K for 40 Msun model, but 7000 K for 10 Msun model
+    3. Increasing H/R, but 0.25 is probably about right for most sources
+  - There is also the slight worry that as \eta is derived, it is proportional to \tau
++ Doing the same for our other objects
+  + th1D, LP Ori, \sigma Ori, AE Aur
+  + th1D has L_* = 2.95e4, R = 0.003 pc, L_IR = 616.6 Lsun
+    + \tau = 2 L_IR/L_* = 0.042
+    + \eta = 0.010 /unless/ we reduce \kappa_{600} h_{1/4}
+      + There is evidence that \kappa is actually 100
+      + And h could be smaller too
+      + But if we move this, why not all the others?
+  + LP Ori has L_* = 1600, R = 0.01 pc, L_IR = 238.9 Lsun
+    + \tau = 2 L_IR/L_* = 0.30
+    + \eta = 4.6 if T = 1e4 K
+  + \sigma Ori has L_* = 6e4, R = 0.12 pc, L_IR = 15 Lsun
+    + \tau = 2 L_IR/L_* = 5e-4
+    + \eta = 245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4} = 2.45e-3
 
 *** Compare KE flux with radiation
 + /actually all this is not necessary/
