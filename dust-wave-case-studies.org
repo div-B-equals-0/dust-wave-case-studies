@@ -4346,6 +4346,28 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
   + \sigma Ori has L_* = 6e4, R = 0.12 pc, L_IR = 15 Lsun
     + \tau = 2 L_IR/L_* = 5e-4
     + \eta = 245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4} = 2.45e-3
++ Value of \Xi just outside shell
+  + By definition \tau = 2 \rho_{0} \kappa R_{0} and \tau = \rho_{sh} \kappa H
+  + => \rho_{sh} / \rho_{0} = 2 R_{0} / H
+  + So H / R_{0} = 0.25 => \rho_sh = 8 \rho_0 => \Xi = 8 \eta_{sh}^{-1} or \eta_{sh} =  8 \Xi^{-1}
+    |    \Xi |   \eta_{sh} |
+    |------+-------|
+    | 1000 | 0.008 |
+    | 3000 | 0.003 |
+#+TBLFM: $2=8 / $1 ;f3
+  + Although we need to also note two things:
+    1. The \Xi where DW forms may be \Xi_{\ddag}, which is less than \Xi_{\dag}
+    2. If we /do/ have a DW, then gas density cannot be diagnosed from \tau
+  + Sensitivity to parameters
+    + \tau = 2 L_IR/L_* and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
+    + So calculate [a, b] = [d ln \tau / d ln X, d ln \eta / d ln X]
+    + \tau : [+1, +1]
+    + F_IR : [+1, +1]
+    + L_* : [-1, -2]
+    + D : [-2, -1]
+    + T : [0, 1]
+    + \kappa : [0, -1]
+    + H/R : [0, -1]
 
 *** Compare KE flux with radiation
 + /actually all this is not necessary/

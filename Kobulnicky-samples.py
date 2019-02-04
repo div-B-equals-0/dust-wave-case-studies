@@ -283,6 +283,49 @@ fig.savefig('K18-eta-tau.pdf')
 None
 # -
 
+# Now do the same, but plot $\eta/\tau$ against $\tau$ to remove the linear trend. 
+
+# +
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = ttt['tau'], ttt['eta_obs']/ttt['tau']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']),
+#               c=np.log10(tt['Teff']), 
+               cmap='magma', vmin=4.0, vmax=6.0,
+               edgecolors='k', alpha=1.0, s=300)
+fig.colorbar(c, ax=ax).set_label(
+    r'$\log_{10}\ \left[L_* / L_\odot \right]$'
+#    r'$\log_{10}\ \left[T_\mathrm{eff} \right]$'
+)
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize=10, color='k', 
+        fontweight='black', fontstretch='condensed',
+        xytext=(0,0), textcoords='offset points', ha='center', va='center',
+    )
+    ax.annotate(
+        str(id_), (x, y), fontsize=10, color='w',
+        xytext=(0,0), textcoords='offset points', ha='center', va='center',
+    )
+
+
+
+fmin, fmax = 8e-5, 8.0
+
+ax.axhline(1.5, ls='--')
+#ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+#ax.fill_between([fmin, fmax], [25*fmin, 25*fmax], [1.5*fmin, 1.5*fmax], color='k', alpha=0.05)
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[0.3, 50.0],
+    xlabel=r'UV optical depth of shell: $\tau$',
+    ylabel=r'Shell pressure boost: $P_\mathrm{shell} / \tau P_\mathrm{rad}$',
+)
+#ax.set_aspect('equal')
+fig.savefig('K18-eta-tau-compensated.pdf')
+None
+# -
+
 # Now, before proceeding to the mass loss rates, let's do a factor plot of some selected parameters:
 
 from scipy import stats
@@ -373,7 +416,6 @@ with sns.plotting_context('talk', font_scale=1.0):
 #     2. $\tau$–$L_\mathrm{IR}$ is very well correlated with $m \approx -1$.  **However**, this is exactly what you would get if the dispersion about the linear $L_\mathrm{IR}$–$L_*$ trend were entirely due to measurement errors in $L_\mathrm{IR}$.  Hopefully, that is not the case, but it needs checking.  The std dev of log $\tau$ is about 0.5 dex (the same is true of nearly all the parameters, except for $T_\mathrm{eff}$).
 #
 
-# +
 df.describe()
 
 # As an aside, we will compare my $G$ with their $U$
@@ -393,7 +435,6 @@ ax.set(xscale='log', yscale='log',
        xlabel='U 2017', ylabel='U 2018',
       )
 ax.set_aspect('equal')
-# -
 
 ddf['log U/U'] = np.log10(ddf.U/ddf.G)
 ddf.describe()
