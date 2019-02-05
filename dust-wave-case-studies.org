@@ -4362,10 +4362,11 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
     + \tau = 2 L_IR/L_* and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
     + So calculate [a, b] = [d ln \tau / d ln X, d ln \eta / d ln X]
     + \tau : [+1, +1]
+    + \theta : [0, +1]
     + F_IR : [+1, +1]
     + L_* : [-1, -2]
     + D : [-2, -1]
-    + T : [0, 1]
+    + T : [0, +1]
     + \kappa : [0, -1]
     + H/R : [0, -1]
 

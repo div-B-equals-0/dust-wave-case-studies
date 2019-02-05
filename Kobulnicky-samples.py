@@ -142,7 +142,7 @@ sns.set_context("poster")
 
 fig, ax = plt.subplots(figsize=(10, 8))
 c = ax.scatter(t['FIR'], t['FIR_will'], 
-               c=t['Dist'], cmap='magma_r', 
+               c=t['Dist'], cmap='viridis_r', vmin=0.0, vmax=2.5,
                edgecolors='k', alpha=1.0)
 fig.colorbar(c, ax=ax).set_label('Distance, kpc')
 for id_, x, y in zip(t['ID'], t['FIR'], t['FIR_will']):
@@ -155,10 +155,11 @@ ax.plot([fmin, fmax], [fmin, fmax], ls='--')
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
-    xlabel=r'Kobulnicky: $F_\mathrm{IR}$',
-    ylabel=r'Will: $F_\mathrm{IR}$',
+    xlabel=r'Kobulnicky+ (2018): $F_\mathrm{IR}$, mW/m$^2$',
+    ylabel=r'This paper: $F_\mathrm{IR}$, mW/m$^2$',
 )
 ax.set_aspect('equal')
+fig.savefig('K18-flux-comparison.pdf')
 None
 
 # So everything looks OK, except:
@@ -179,7 +180,7 @@ tt
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = 2.0/tt['L*/LIR_1'], 2*tt['LIR/L* will']
 c = ax.scatter(xx, yy, 
-               c=4.0 + np.log10(tt['L4']), cmap='viridis_r', 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
                edgecolors='k', alpha=1.0)
 fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
 for id_, x, y in zip(tt['ID'], xx, yy):
@@ -196,6 +197,7 @@ ax.set(
     ylabel=r'This paper: $\tau = 2 L_\mathrm{IR}/L_*$',
 )
 ax.set_aspect('equal')
+fig.savefig('K17-tau-comparison.pdf')
 None
 
 # In this graph we compare the original luminosity ratio taken directly from the Kobulnicky (2017) table (x axis) with the ratio calculated using my new total IR fluxes, combined with the new luminosities in the Kobulnicky (2018) table (y axis).   Most of the points show reasonable agreement between the two methods, with a few exceptions:
@@ -225,6 +227,8 @@ None
 # If we expand out the $\tau$, we se that $\eta_\mathrm{obs} \propto L_*^{-2}$, which is quite a steep sensitivity (especially since $L_*$ may be just a guess). 
 
 # Make a new table that just has the columns that we want.  We take the $R_0$ from K18 Table 1.  The thickness $H$ could be taken from K17: "Height" in Tables 1 and 2. *But* I don't trust those values.  For instance, zeta Oph clearly has $H < 60''$ from its image, but the table gives $404''$, which is ridiculous given that $R_0 = 299''$. In fact, when I use these columns and calculate $H/R$, then I get a range from 0.5 to 3, which does not make any sense.
+#
+# _But maybe "height" is not what I think it is._ What is really wanted is the FWHM of the brightness profile, but H is measured at a low contour (small fraction of the peak brightness), so it is too large. 
 
 # It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.  Assume $\kappa = 600$ and $a = 11.4$ km/s
 
