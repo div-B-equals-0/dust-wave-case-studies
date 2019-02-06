@@ -2916,6 +2916,7 @@ Now try the same, but normalized to infrared
   ax.plot(wav, total, '-', color='k')
   axx.plot(wav, tot_sca/total, '-', color='k', label=r"$\omega$")
   axx.plot(wav, tot_scg/total, '--', color='k', label=r"$(1 - g)\ \omega$")
+  axx.plot(wav, (tot_abs + tot_scg)/tot_abs, ':', color='k', label=r"$Q_{P}/Q_\mathrm{abs}$")
   axx.legend()
 
   ax.set(
@@ -2930,7 +2931,7 @@ Now try the same, but normalized to infrared
   axx.set(
       xscale='log',
       yscale='linear',
-      ylim=[0.0, 1.1],
+      ylim=[0.0, 3.1],
       ylabel="Albedo",
   )
   sns.despine()
@@ -2977,6 +2978,89 @@ Now try the same, but normalized to infrared
 
 #+RESULTS:
 [[file:xsec-dust-grey_ism_10.pdf]]
+
+
+#+name: xsec-dust-both
+#+header: :var GRAINTYPE="ism_10"
+#+BEGIN_SRC python :return figfile :results file
+  import numpy as np
+  from astropy.table import Table
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+  import sys
+  import os
+
+  CDC = "../cloudy-dust-charging"
+
+  figfile = f"xsec-dust-both-{GRAINTYPE}.pdf"
+
+  sns.set_color_codes()
+  fig, [axx, ax] = plt.subplots(2, 1, sharex=True, figsize=(8, 8))
+
+  total = None
+
+  for composition, ls in ["silicate", "-"], ["graphite", "--"]:
+      xsecfile = os.path.join(CDC, "dust-opacity", f"{composition}_{GRAINTYPE}.abs")
+      t = Table.read(xsecfile, format="ascii.no_header")
+      ts = Table.read(xsecfile.replace(".abs", ".sca"), format="ascii.no_header")
+      tg = Table.read(xsecfile.replace(".abs", ".ggg"), format="ascii.no_header")
+
+      rwav = t['col1']/0.0912
+      wav = 1.0/rwav
+
+      if total is None:
+          total = np.zeros_like(wav)
+          tot_abs = np.zeros_like(wav)
+          tot_sca = np.zeros_like(wav)
+          tot_scg = np.zeros_like(wav)
+        
+      for name in t.colnames[1:]:
+          ax.plot(wav, t[name] + ts[name], ls=ls, lw=1, label=f"{composition} {name}")
+          total += t[name] + ts[name]
+          tot_abs += t[name]
+          tot_sca += ts[name]
+          tot_scg += ts[name]*tg[name]
+
+  ax.plot(wav, total, '-', color='k', label='_none_')
+  axx.plot(wav, tot_sca/total, '-', color='k', label=r"$\varpi$")
+  axx.plot(wav, (tot_sca - tot_scg)/tot_sca, '--', color='k', label=r"$g$")
+  axx.plot(wav, (tot_abs + tot_scg)/tot_abs, ':', color='k', label=r"$Q_{P}/Q_\mathrm{abs}$")
+  axx.legend()
+  ax.legend(ncol=2, fontsize=6)
+
+  ax.set(
+      xscale='log',
+      yscale='log',
+      xlim=[0.01, 1000.0],
+      ylim=[1e-27, 1e-20],
+      xlabel=r"Wavelength, $\mu$m",
+      ylabel=r"Cross section, $\mathrm{cm}^2\ / \ \mathrm{H}^{-1}$",
+  )
+
+  axx.set(
+      xscale='log',
+      yscale='linear',
+      ylim=[0.0, 2.1],
+      ylabel="",
+  )
+  sns.despine()
+  fig.suptitle("Graphite+Silicate: " + GRAINTYPE)
+  fig.savefig(figfile)
+
+#+END_SRC
+
+#+RESULTS: xsec-dust-both
+[[file:xsec-dust-both-ism_10.pdf]]
+
+#+call: xsec-dust-both(GRAINTYPE="orion_10")
+
+#+RESULTS:
+[[file:xsec-dust-both-orion_10.pdf]]
+
+#+call: xsec-dust-both(GRAINTYPE="1m000")
+
+#+RESULTS:
+[[file:xsec-dust-both-1m000.pdf]]
 
 #+name: xsec-dust-triple
 #+BEGIN_SRC python :return figfile :results file
@@ -3030,6 +3114,7 @@ Now try the same, but normalized to infrared
   ax.plot(wav, total, '-', color='k', label="Total")
   axx.plot(wav, tot_sca/total, '-', color='k', label=r"$\omega$")
   axx.plot(wav, tot_scg/total, '--', color='k', label=r"$(1 - g)\ \omega$")
+  axx.plot(wav, (tot_abs + tot_scg)/tot_abs, ':', color='k', label=r"$Q_{P}/Q_\mathrm{abs}$")
   ax.legend()
   axx.legend()
 
@@ -3045,7 +3130,7 @@ Now try the same, but normalized to infrared
   axx.set(
       xscale='log',
       yscale='linear',
-      ylim=[0.0, 1.1],
+      ylim=[0.0, 2.1],
       ylabel="Albedo",
   )
   sns.despine()
@@ -4354,21 +4439,29 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR
     |------+-------|
     | 1000 | 0.008 |
     | 3000 | 0.003 |
-#+TBLFM: $2=8 / $1 ;f3
+    #+TBLFM: $2=8 / $1 ;f3
   + Although we need to also note two things:
     1. The \Xi where DW forms may be \Xi_{\ddag}, which is less than \Xi_{\dag}
     2. If we /do/ have a DW, then gas density cannot be diagnosed from \tau
-  + Sensitivity to parameters
-    + \tau = 2 L_IR/L_* and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
-    + So calculate [a, b] = [d ln \tau / d ln X, d ln \eta / d ln X]
-    + \tau : [+1, +1]
-    + \theta : [0, +1]
-    + F_IR : [+1, +1]
-    + L_* : [-1, -2]
-    + D : [-2, -1]
-    + T : [0, +1]
-    + \kappa : [0, -1]
-    + H/R : [0, -1]
++ Not sure I did the shell compression right - try again:
+  - n_sh / n_0 = 3/4 R_0 / h from eq (22)
+  - How is this consistent with eq (8)?
+  - Answer: it isn't
+    - But I think that is to be expected, since they are in different limits: bow wave versus bow shock
++ Sensitivity to parameters
+  + \tau = 2 L_IR/L_* and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
+  + So calculate [a, b] = [d ln \tau / d ln X, d ln \eta / d ln X]
+  + \tau : [+1, +1]
+  + \theta : [0, +1]
+  + F_IR : [+1, +1]
+  + L_* : [-1, -2]
+  + D : [-2, -1]
+  + T : [0, +1]
+  + \kappa : [0, -1]
+  + H/R : [0, -1]
++ Conversion to mass-loss rate
+  + Mdot_-7 = 2.02 \eta_w L_4 / V_3
+  + Mdot_-7 = 495 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3}
 
 *** Compare KE flux with radiation
 + /actually all this is not necessary/
