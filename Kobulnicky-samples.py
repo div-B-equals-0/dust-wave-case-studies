@@ -233,7 +233,7 @@ None
 # It would be better to simply assume $H/R = 3 / (4 M^2)$, which is $\approx 0.1$ if $V = 30$ km/s, but more likely the velocities are lower.  Let's assume 0.25 for now.  Assume $\kappa = 600$ and $a = 11.4$ km/s
 
 # +
-colnames = tt.colnames[0:5] + ['L4', 'LIR_will', 'R0', 'D_kpc', 'U']
+colnames = tt.colnames[0:5] + ['L4', 'LIR_will', 'R0', 'D_kpc', 'U', 'Md_-8', 'V3']
 ttt = tt[colnames]
 ttt['tau'] = np.round(2*tt['LIR/L* will'], decimals=5)
 ttt['H/R'] =np.round(tt['Height'] / tt['R0_as'], decimals=2)
@@ -422,7 +422,133 @@ with sns.plotting_context('talk', font_scale=1.0):
 
 df.describe()
 
-# As an aside, we will compare my $G$ with their $U$
+# ## Finally the mass loss rates
+
+# In my approach, $\dot M$ comes from balancing the shell pressure with the ram pressure: $\eta_{\mathrm{sh}} = \eta_{\mathrm{w}}$.  So 
+# $$
+# \dot M_{-7} = 2.02 L_4 \eta / V_3
+# $$
+
+ttt['Md'] = 2.02e-7*ttt['L4']*ttt['eta_obs'] / ttt['V3']
+ttt['Md_K18'] = 1e-8*ttt['Md_-8']
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = ttt['Md_K18'], ttt['Md']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 3e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'Kobulnicky+ (2018): $\dot M$, M$_\odot$/yr',
+    ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-comparison.pdf')
+None
+
+# Why do we have such a lack of correlation?  Is it my fault or theirs?  Theirs, I hope.
+
+ttt['LIR_K18'] = tt['L4']/tt['L*/LIR_2']
+ttt['LIR_K17'] = tt['L4']/tt['L*/LIR_1']
+ttt['R/L'] = tt['R0']/tt['L4']
+ttt['LIR/V'] = tt['LIR_will']/tt['V3']
+ttt['RL/LV'] = tt['R0']*tt['LIR_will']/(tt['L4']*tt['V3'])
+ttt['MdMd'] = ttt['Md_K18']/ttt['Md']
+columns = ['D_kpc', 'Teff', 'R0', 'L4', 'R/L', 'LIR/V', 'LIR_will', 'LIR_K18', 'LIR_K17', 
+           'U', 'tau', 'n_shell', 'eta_obs', 'V3', 'RL/LV', 'Md', 'Md_K18', 'MdMd']
+mdf = ttt[columns].to_pandas()
+mdf = mdf.assign(**{col: np.log10(mdf[col]) for col in mdf.columns})
+mdf.corr()
+
+# So, $r = 0.7 \therefore r^2 = 0.477$ between the two $\dot M$ estimates, meaning only half the variance in one is explained by the other. 
+#
+
+# My $\dot M$ comes explicitly from $L_* \eta / V$.  The respective $r^2$ are 0.23, 0.74, 0.06, which sum to 1.03, not 1, due to mutual covariance between $L_*$ and $V$ ($\eta$ is totally uncorrelated with either, interestingly).  So my $\dot M$ is _mostly_ determined by $\eta$, but $\eta$ itself comes from $R \tau /L_*$ and $\tau$ comes from $L_\mathrm{IR} / L_*$, so expanding everything: $\eta$ comes from  $R L_\mathrm{IR}/ L_*^2$ and $\dot M$ from $R L_\mathrm{IR}/ L_* V$.
+
+# *Note* we made a column `RL/LV` to check that it is the same as $\dot M$ -- thankfully _it is!_  
+
+# Rather than the `.corr()`, we will use `.cov()` to get the raw covariance matrix.  This is more useful in some respects, since it more clearly shows how much variance there is in the individual parameters.  For instance, stellar wind velocity has very low dispersion.  Since we have taken log of all quantities, there is no problem with disparate numerical scales. 
+
+mdf[['LIR_will', 'L4', 'R0', 'R/L', 'V3', 'Md']].cov()
+
+# So, from that it is clear that _operationally_ the principal determinant of my $\dot M$ is the infrared luminosity.  Also look at correlation matrix for good measure.
+
+mdf[['LIR_will', 'L4', 'R0', 'R/L', 'V3', 'Md']].corr()
+
+# So, infrared luminosity determines 75% of $\dot M$ variance, while $V$ clearly has no influence on anything (< 6% level). Interestingly neither does $R/L_*$ even though that is part of the operational determinant of $\dot M$ and $R$ and $L$ do individually contribute to $\dot M$ variance at 25% level.  Part of the reason must be simply that $R/L_*$ does not vary much, having a rms dispersion of 0.3 dex (about factor 2). 
+
+# So, where does the extra 25% variance in $\dot M$ come from?  There is a weak negative correlation of $L_{\mathrm{IR}}$ with $R/L_*$ that might have something to do with it.  This means that mass loss rate shows less dispersion (0.55 dex) than the IR luminosity (0.62 dex).  Whatever, it doesn't really matter.
+#
+# Note that the diagonal elements of the covariance array are the variances, so std is sqrt of that.
+
+# ### Now, look at their Mdots
+
+# What do they really depend on?  
+#
+# 1. They use the LOS column density, instead of the radial column density, which they estimate from the 70 micron surface brightness, together with an estimate of the 70 micron emissivity, $j_\nu$, which depends on the radiation field $U$.  They claim that $j_\nu \propto U^{1/2}$ ($j_\nu$ is emissivity 
+#
+# 2. They skip out the middle man of the shell and directly balance the ram pressure of the wind with the ram pressure of the ambient stream. _Except that not really, since they use the density of the shell and then say that it is factor of 4 times the ambient density._
+#
+# 3. They just assume a stream velocity of 30 km/s, so they don't depend on the gas temperature in the shell (although, in reality it should effect the compression ratio). 
+#
+# $$
+# \frac{\dot M V}{4 \pi R^2} = (\rho_s / \delta) v_a^2  
+# $$
+# Also, apparently 
+# $$
+# \rho_s = m I_\nu / \ell j_\nu
+# $$
+# From their equation (8) this gives the following dependency for $\dot M$:
+# $$
+# \dot M = 4 \pi \left[ \frac{R^2 I_\nu}{\ell V_w}  \right] \left[ \frac{V_a^2 m }{j_\nu(U) \delta } \right]  
+# $$
+# where first term in square brackets is measured (or at least estimated per star) quantities, while second term is in square brackets is assumed parameters, except that $j_\nu (U)$ is the dust emissivity (Jy.cm2/sr/nucleon = 1e-23 erg/s/sr/nucleon) as a function of radiation field where $U F_0 = L / 4 \pi R^2$ with $F_0 = 0.0217$ erg/cm2/s being the ISRF flux, but integrated across the whole SED. 
+
+
+
+
+
+# ##  As an aside, we will compare my $G$ with their $U$
+
+# _Revisiting this, now that I have established that the DL07 emissivities are too low for OB stars if one uses bolometric flux for the U (because the ISRF has only a small fraction at UV wavelengths)._
+
+
+# What is the `U` column in the table?  It comes from Table 5 of K17 and supposedly comes from the $T_{\mathrm{eff}}$, $R_*$ and $R_0$ from the same table.   We have this table, so we can check this.
+
+tab05['UU'] = 0.01329*(tab05['Teff']/1e4)**4 * tab05['R*']**2 / tab05['Dist2']**2
+tab05
+
+ddf = tab05['ID', 'U', 'UU'].to_pandas()
+fig, ax = plt.subplots(figsize=(10, 10))
+vmin, vmax = 150, 4e5
+ax.scatter(x='U', y='UU', data=ddf)
+ax.plot([vmin, vmax], [vmin, vmax])
+for id_, x, y in zip(tab05['ID'], tab05['U'], tab05['UU']):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(4,4), textcoords='offset points',
+               )
+ax.set(xscale='log', yscale='log', 
+       xlim=[vmin, vmax], ylim=[vmin, vmax],
+       xlabel='U 2017', ylabel='UU 2017',
+      )
+ax.set_aspect('equal')
+
+# So the previous plot shows the `U` column from K17 Tab 5 on the x axis, and the $U$ that I calculate from the `Teff`, `R*`, and `Dist2` (equals radius) columns of the same table on the y axis. 
+#
+# It is strange that there is any scatter at all, but this shows that there isn't a serious problem with the way that K17 calculated their $U$. 
+
+# Next we compare with the K18 values, to work out where they got their $U$ from. 
+
 ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
 ddf = ttt['ID', 'U', 'G'].to_pandas()
 fig, ax = plt.subplots(figsize=(10, 10))

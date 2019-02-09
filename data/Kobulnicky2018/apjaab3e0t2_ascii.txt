@@ -1,0 +1,28 @@
+Table 2 
+Derived Parameters for Stars and Their Bow Shock Nebulae
+
+
+ID	Name	Alt. name	Sp.T.	Lum.	U	j_nu	n_a	$\dot{M}$	
+				(10^4 L_sun)		(Jy sr ^-1 cm^2 nuc^-1)	(cm^-3)	(M_sun yr^-1)	
+(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	
+13	zeta Oph	G006.2812+23.5877	O9.2IV	8.1	4.2 x 10^3	8.7 x 10^-12	2.3	5.4 x 10^-8	
+67	NGC 6611 ESL 45	G017.0826+00.9744	O9V	5.1	1.3 x 10^4	1.1 x 10^-11	32	6.2 x 10^-8	
+329	KGK2010 10	G077.0505-00.6094	O8V+?	7.9	2.7 x 10^3	8.4 x 10^-12	1.3	2.5 x 10^-8	
+331	LS II +39 53	G078.2869+00.7780	O7V	12.0	2.2 x 10^3	8.3 x 10^-12	6.6	4.5 x 10^-8	
+338	CPR2002A10	G078.8223+00.0959	O8V:	7.9	4.9 x 10^3	8.9 x 10^-12	72	3.3 x 10^-7	
+339	CPR2002A37	G080.2400+00.1354	O5V((f))	32.0	2.1 x 10^3	8.3 x 10^-12	21	3.1 x 10^-7	
+341	KGK2010 1	G080.8621+00.9749	O9V	5.1	4.2 x 10^3	8.7 x 10^-12	15	1.4 x 10^-8	
+342	KGK2010 2	G080.9020+00.9828	B1V:	1.4	4.7 x 10^3	8.9 x 10^-12	160	1.4 x 10^-7	
+344	BD +43 3654	G082.4100+02.3254	O4If	87.0	7.6 x 10^2	8.0 x 10^-12	19	1.3 x 10^-6	
+368	KM Cas	G134.3552+00.8182	O9.5V((f))	4.1	3.2 x 10^3	8.5 x 10^-12	21	7.7 x 10^-8	
+369	BD +60 586	G137.4203+01.2792	O7.5V	9.7	2.7 x 10^2	7.8 x 10^-12	18	1.9 x 10^-7	
+380	HD 53367	G223.7092-01.9008	B0IVe	2.6	9.9 x 10^4	3.0 x 10^-11	16	2.2 x 10^-9	
+381	HD 54662	G224.1685-00.7784	O7Vzvar?	12.0	3.7 x 10^2	7.9 x 10^-12	1.2	6.4 x 10^-8	
+382	FN CMa	G224.7096-01.7938	B0III	12.0	7.7 x 10^2	8.0 x 10^-12	18	2.9 x 10^-7	
+406	HD 92607	G287.1148-01.0236	O9IVn	8.2	3.3 x 10^3	8.5 x 10^-12	16	1.1 x 10^-7	
+407	HD 93249	G287.4071-00.3593	O9III+O:	14.0	2.5 x 10^4	1.3 x 10^-11	12	3.5 x 10^-8	
+409	HD 93027	G287.6131-01.1302	O9.5IVvar	7.4	1.4 x 10^4	1.1 x 10^-11	9	2.2 x 10^-8	
+410	HD 305536	G287.6736-01.0093	O9.5V+?	4.1	3.1 x 10^4	1.5 x 10^-11	29	2.1 x 10^-8	
+411	HD 305599	G288.1505-00.5059	O9.5V	4.1	2.4 x 10^4	1.3 x 10^-11	6	1.2 x 10^-8	
+413	HD 93683	G288.3138-01.3085	O9V+B0V	5.1	2.4 x 10^3	8.3 x 10^-12	11	5.7 x 10^-8	
+Note. (1) Identifier from Kobulnicky et al. (2016), (2) common name, (3) generic identifier in galactic coordinates, (4) spectral classification, (5) stellar luminosity computed from effective temperature and radius in Table 1, (6) dimensionless ratio of the radiant energy density (in erg cm^-3) from the star to the mean interstellar radiant energy density estimated by Mathis et al. (1983, MMP83), as tabulated by Kobulnicky et al. (2017), (7) dust emission coefficient expressing the energy emitted per second per steradian per hertz per nucleon, (8) ambient interstellar number density, computed from Equation (5), (9) computed mass-loss rate in solar masses per year.

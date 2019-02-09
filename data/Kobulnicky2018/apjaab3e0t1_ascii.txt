@@ -1,0 +1,35 @@
+Table 1 
+Measured and Adopted Parameters for Stars and Their Bow Shock Nebulae
+
+
+ID	Name	Alt. name	Sp.T.	Ref.	T_eff	R_*	Mass	${V}_{\infty }$	D	Ref.	R_0	R_0	Peak_70	ell	
+					(K)	(R_sun)	(${M}_{\odot }$)	(km s^-1)	(kpc)		(arcsec)	(pc)	(10^7 Jy sr^-1)	(arcsec)	
+(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)	(13)	(14)	(15)	
+13	zeta Oph	G006.2812+23.5877	O9.2IV	S1	31000	10	19	1300	0.11	D1	299	0.175	12.3	277	
+67	NGC 6611 ESL 45	G017.0826+00.9744	O9V	S2	31500	7.7	18	1300	1.99	D2	7.5	0.080	64.0	15	
+329	KGK2010 10	G077.0505-00.6094	O8V	S3	33400	8.5	23	2000	4.1	D3^a	10	0.219	15.4	27	
+331	LS II +39 53	G078.2869+00.7780	O7V	S4	35500	9.3	26	2500	1.32	D3^a	42	0.296	12.0	55	
+338	CPR2002A10	G078.8223+00.0959	O8V:	S3	33400	8.5	23	1200	1.32	D3^a	23	0.162	79.8	29	
+339	CPR2002A37	G080.2400+00.1354	O5V((f))	S5	41500	11.1	37	2900	1.32	D3^a	70	0.493	29.9	47	
+341	KGK2010 1	G080.8621+00.9749	O9V	S3	31500	7.7	18	1300	1.32	D3^a	20	0.141	5.0	31	
+342	KGK2010 2	G080.9020+00.9828	B1V:	S3	26000	6	10	800	1.32	D3^a	10	0.070	57.8	14	
+344	BD +43 3654	G082.4100+02.3254	O4If	S6	40700	19	58	3000	1.32	D3^a	193	1.359	58.6	170	
+368	KM Cas	G134.3552+00.8182	O9.5V((f))	S7	30500	7.4	16	1200	1.95	D4^b	14	0.146	24.9	22	
+369	BD +60 586	G137.4203+01.2792	O7.5V/O8III	S8	34400	8.9	24	2500	1.95	D4^b	73	0.759	7.9	39	
+380	HD 53367	G223.7092-01.9008	B0IVe	S9	28000	7	15	1200	0.26	D1	15	0.021	35.7	49	
+381	HD 54662	G224.1685-00.7784	O7Vzvar?^c	S1	35500	9.4	26	2500	0.63	D1	220	0.739	4.6	200	
+382	FN CMa	G224.7096-01.7938	B0III	S9	28000	15	20	1200	0.94	D1	101	0.506	11.2	70	
+406	HD 92607	G287.1148-01.0236	O9IVn	S1	31100	10	20	1300	2.35	D5^d	16	0.201	29.1	26	
+407	HD 93249	G287.4071-00.3593	O9III+O:	S1	30700	13.6	23	1300	2.35	D5^d	7.8	0.098	58.2	25	
+409	HD 93027	G287.6131-01.1302	O9.5IVvar^e	S10	30300	10	16	1200	2.35	D5^d	7.4	0.093	20.8	17	
+410	HD 305536	G287.6736-01.0093	O9.5V+?^f	S1	30500	7.4	15	1200	2.35	D5^d	3.7	0.046	91.4	14	
+411	HD 305599	G288.1505-00.5059	O9.5V	S11	30500	7.4	15	1200	2.35	D5^d	4.2	0.052	41.5	16	
+413	HD 93683	G288.3138-01.3085	O9V+B0V^g	S11	31500	7.7	18	1300	2.35	D5^d	15	0.188	15.4	24	
+Notes. (1) Identifier from Kobulnicky et al. (2016), (2) common name, (3) generic identifier in galactic coordinates, (4) spectral classification, (5) reference for spectral classification, (6) effective temperature based on spectral classification using the theoretical scale of Martins et al. (2005a), (7) stellar radius based on spectral classification using the theoretical scale of Martins et al. (2005a), (8) adopted stellar mass, (9) adopted terminal wind velocity from Mokiem et al. (2007), (10) adopted distance, (11) reference for distance, (12) standoff distance in arcsec, (13) standoff distance in pc using the adopted distance and angular size from Kobulnicky et al. (2017) adjusted by a statistical factor of 1.1 for projection effects, (14) peak 70 mum surface brightness above adjacent background, (15) angular diameter of the nebula in arcsec defined by a chord intersecting the location of peak surface brightness. References for spectral types: S1 - Sota et al. (2014); S2 - Evans et al. (2005); S3 - Chick et al. (2017); S4 - Vijapurkar & Drilling (1993); S5 - Hanson (2003); S6 - Comeron & Pasquali (2007); S7 - Massey et al. (1995); S8 - Hillwig et al. (2006) gives O7.5V but Conti & Leep (1974) lists O8III; S9 - Tjin A Djie et al. (2001); S10 - Sota et al. (2011); S11 - Alexander et al. (2016) References for Distances; D1 - van Leeuwen (2007); D2 - Hillenbrand et al. (1993); D3 - Kiminki et al. (2015); D4 - Xu et al. (2006); D5 - Smith (2006).
+^a Assumed to be at a similar distance as Cygnus OB2 (Kiminki et al. 2015) based on similar magnitude and reddening, but see notes in text on KGK2010 10.
+^b Assumed to be in the Perseus spiral arm as part of the Cas OB6 Association near the W3/W4/W5 star-forming regions having maser parallax measurements by Xu et al. (2006). This is consistent with the open cluster photometric distance of 2.2 +or- 0.2 kpc (Lim et al. 2014).
+^c The possible double-lined nature (O6.5V+O7-9V 2119 d period) of this source was reported by Boyajian et al. (2007) but was not confirmed by Sota et al. (2014).
+^d Understood to be part of the Carina Nebula complex at 2.35 kpc distance (Smith 2006), consistent with other contemporary determinations.
+^e A single-lined eclipsing binary according to Sota et al. (2011), suggesting a significant difference in mass between the primary and secondary star.
+^f A possible single-lined spectroscopic binary according to Levato et al. (1990).
+^g A double-lined spectroscopic binary according to Alexander et al. (2016).
