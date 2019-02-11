@@ -41,6 +41,12 @@ tab01.remove_columns(
 
 tab01[300:310]
 
+tab01[20:30]
+
+
+
+
+
 # Indicate lower limit fluxes by negative values, as in the published table: 
 
 for band in 'F3.6', 'F4.5', 'F5.8', 'F8.0', 'F70', 'F160':
@@ -128,11 +134,12 @@ tab05_01_02['Observatory'] = np.where(m_sst, 'SST', np.where(m_wise, 'WISE', Non
 tab05_01_02
 # -
 
-# Now work out my own IR flux by weighted sum of the 8 to 160 bands
+# Now work out my own IR flux by weighted sum of the 8 to 160 bands.  Originally, here we removed 329 because it lacks the requisite data, being absent from Tables 1 and 2.  However, it is in Table 5 and also in K18, so we have a flux. 
 
 t = tab05_01_02
-t.remove_row(2)
+#t.remove_row(2)
 t['FIR_will'] = 1e-10*(2.4*np.abs(t['F8 or 12']) + 1.6*t['F24 or 22'] + 0.51*t['F70'])
+t[2]['FIR_will'] = t[2]['FIR']
 t['ID', 'FIR', 'FIR_will']
 
 import matplotlib.pyplot as plt
@@ -371,7 +378,7 @@ def corrfunc(x, y, **kws):
 #    r, p = stats.pearsonr(x, y)
     ax = plt.gca()
     if pvalue < 0.05:
-        fontcolor = 'k' if pvalue < 0.003 else 'k'
+        fontcolor = 'purple' if pvalue < 0.003 else 'k'
         fontalpha = 1.0 if pvalue < 0.003 else 0.5
         ax.annotate(f"$r = {rvalue:.2f}$",
                     xy=(.05, .9), xycoords=ax.transAxes, 
@@ -463,7 +470,9 @@ ttt['R/L'] = tt['R0']/tt['L4']
 ttt['LIR/V'] = tt['LIR_will']/tt['V3']
 ttt['RL/LV'] = tt['R0']*tt['LIR_will']/(tt['L4']*tt['V3'])
 ttt['MdMd'] = ttt['Md_K18']/ttt['Md']
-columns = ['D_kpc', 'Teff', 'R0', 'L4', 'R/L', 'LIR/V', 'LIR_will', 'LIR_K18', 'LIR_K17', 
+ttt['theta'] = ttt['R0']/ttt['D_kpc']/206.264
+ttt['FIR'] = tt['FIR_will']
+columns = ['D_kpc', 'Teff', 'theta', 'R0', 'L4', 'R/L', 'LIR/V', 'FIR', 'LIR_will', 'LIR_K18', 'LIR_K17', 
            'U', 'tau', 'n_shell', 'eta_obs', 'V3', 'RL/LV', 'Md', 'Md_K18', 'MdMd']
 mdf = ttt[columns].to_pandas()
 mdf = mdf.assign(**{col: np.log10(mdf[col]) for col in mdf.columns})
@@ -472,7 +481,10 @@ mdf.corr()
 # So, $r = 0.7 \therefore r^2 = 0.477$ between the two $\dot M$ estimates, meaning only half the variance in one is explained by the other. 
 #
 
-# My $\dot M$ comes explicitly from $L_* \eta / V$.  The respective $r^2$ are 0.23, 0.74, 0.06, which sum to 1.03, not 1, due to mutual covariance between $L_*$ and $V$ ($\eta$ is totally uncorrelated with either, interestingly).  So my $\dot M$ is _mostly_ determined by $\eta$, but $\eta$ itself comes from $R \tau /L_*$ and $\tau$ comes from $L_\mathrm{IR} / L_*$, so expanding everything: $\eta$ comes from  $R L_\mathrm{IR}/ L_*^2$ and $\dot M$ from $R L_\mathrm{IR}/ L_* V$.
+# My $\dot M$ comes explicitly from $L_* \eta / V$.  The respective $r^2$ are 0.23, 0.74, 0.06, which sum to 1.03, not 1, due to mutual covariance between $L_*$ and $V$ ($\eta$ is totally uncorrelated with either, interestingly).  So my $\dot M$ is _mostly_ determined by $\eta$, but $\eta$ itself comes from $R \tau /L_*$ and $\tau$ comes from $L_\mathrm{IR} / L_*$, so expanding everything: $\eta$ comes from  $R L_\mathrm{IR}/ L_*^2$ so 
+# $$
+# \dot M \propto \frac{R L_\mathrm{IR}}{L_* V} \ .
+# $$
 
 # *Note* we made a column `RL/LV` to check that it is the same as $\dot M$ -- thankfully _it is!_  
 
@@ -489,6 +501,15 @@ mdf[['LIR_will', 'L4', 'R0', 'R/L', 'V3', 'Md']].corr()
 # So, where does the extra 25% variance in $\dot M$ come from?  There is a weak negative correlation of $L_{\mathrm{IR}}$ with $R/L_*$ that might have something to do with it.  This means that mass loss rate shows less dispersion (0.55 dex) than the IR luminosity (0.62 dex).  Whatever, it doesn't really matter.
 #
 # Note that the diagonal elements of the covariance array are the variances, so std is sqrt of that.
+
+# _Alternatively ..._ we can put it in exclusively empirical terms: $F_{\mathrm{IR}}$, $D$, $\theta$.
+# $$
+# \dot M \propto \frac{\theta D^3 F_{\mathrm{IR}}}{L_* V}  
+# $$
+
+mdf[['D_kpc', 'theta', 'FIR', 'L4', 'V3', 'Md']].corr()
+
+# But, as can be seen, $\dot M$ is correlated with none of these very well. So, best stick with $L$ and $R$. 
 
 # ### Now, look at their Mdots
 
@@ -513,11 +534,17 @@ mdf[['LIR_will', 'L4', 'R0', 'R/L', 'V3', 'Md']].corr()
 # $$
 # where first term in square brackets is measured (or at least estimated per star) quantities, while second term is in square brackets is assumed parameters, except that $j_\nu (U)$ is the dust emissivity (Jy.cm2/sr/nucleon = 1e-23 erg/s/sr/nucleon) as a function of radiation field where $U F_0 = L / 4 \pi R^2$ with $F_0 = 0.0217$ erg/cm2/s being the ISRF flux, but integrated across the whole SED. 
 
+# We show below in the next section that (1) they are not using the $j_\nu(U)$ that they claim to be using, and (2) they should be using a somewhat different one anyway (because of SED shape).  However, we have corrected that, so we can proceed with the analysis.  As in K18, approximate the $U$ dependence as $U^{1/2} = L_*^{1/2} R^{-1}$. So, the $\dot M$ breakdown becomes:
+# $$
+# \dot M \propto \left[ \frac{R^3 I_\nu}{\ell L_*^{1/2} V_w}  \right] \left[ \frac{V_a^2 m }{j_0 \delta } \right]
+# $$
 
+# Or
+# $$
+# \dot M \propto \left[ \frac{R I_\nu}{(\ell/R) U^{1/2} V_w}  \right] \left[ \frac{V_a^2 m }{j_0 \delta } \right]
+# $$
 
-
-
-# ##  As an aside, we will compare my $G$ with their $U$
+# ##  An investigation of radiation field, $U$, dust emissivity, $j_\nu$, and mass loss rate for K17 and K18
 
 # _Revisiting this, now that I have established that the DL07 emissivities are too low for OB stars if one uses bolometric flux for the U (because the ISRF has only a small fraction at UV wavelengths)._
 
@@ -547,7 +574,419 @@ ax.set_aspect('equal')
 #
 # It is strange that there is any scatter at all, but this shows that there isn't a serious problem with the way that K17 calculated their $U$. 
 
-# Next we compare with the K18 values, to work out where they got their $U$ from. 
+# Next we compare with the K18 values, to work out where they got their $U$ from.  We have got the original tables from the ApJ website and exported them to FITS (see `dust-wave-case-studies.org`).
+#
+# _Note that we have to explicitly change some columns from string to float._
+
+k18tab1 = Table.read('data/Kobulnicky2018/k18tab1.fits')
+k18tab2 = Table.read('data/Kobulnicky2018/k18tab2.fits')
+k18tab = join(k18tab1, k18tab2, keys=('ID', 'Name', 'Alt. name'), join_type='left')
+for col in 'U', 'j_nu', 'Mdot':
+    k18tab[col] = k18tab[col].astype('float')
+k18tab
+
+# First, check the U values against what they should be: $U = 14.7 L_4 R_{\mathrm{pc}}^{-2}$. 
+
+k18tab['UU'] = 14.7*k18tab['Lum.']/k18tab['R_0']**2
+ddf = k18tab['ID', 'U', 'UU'].to_pandas()
+fig, ax = plt.subplots(figsize=(10, 10))
+vmin, vmax = 150, 4e5
+ax.scatter(x='U', y='UU', data=ddf)
+ax.plot([vmin, vmax], [vmin, vmax])
+for id_, x, y in zip(k18tab['ID'], k18tab['U'], k18tab['UU']):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(4,4), textcoords='offset points',
+               )
+ax.set(xscale='log', yscale='log', 
+       xlim=[vmin, vmax], ylim=[vmin, vmax],
+       xlabel='U 2018', ylabel='UU 2018',
+      )
+ax.set_aspect('equal')
+(ddf['U']/ddf['UU']).describe()
+
+# So, it looks like they are using a factor of about 16.3 instead of 14.7, which is odd.  This makes their values about 1.1 times higher than mine.  But apart from that, the U values look fine.
+
+# Now, look at the emissivity as a function of $U$, and compare it with the DL07 values.
+
+DL07tab = Table.read('../cloudy-dust-charging/DL07-data/emissivities.fits')
+
+ddf = k18tab['ID', 'U', 'j_nu'].to_pandas()
+fig, ax = plt.subplots(figsize=(10, 10))
+umin, umax = 150, 5e5
+jmin, jmax = 5e-13, 5e-11
+ax.plot(k18tab['U'], k18tab['j_nu'], 'o', alpha=0.5, label='K18 sources')
+ax.plot(DL07tab['U'], DL07tab['70'], '-', color='k', alpha=0.3, lw=10, label='DL07 models')
+ax.plot(DL07tab['U']/8.0, DL07tab['70'], ':', color='k', alpha=0.3, lw=10, label=r'DL07($U \times 8$)')
+for i, [id_, x, y] in enumerate(zip(k18tab['ID'], k18tab['U'], k18tab['j_nu'])):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(np.random.randint(-10, 10), 35 - 10*(5*i % 7) + np.random.randint(0, 15)), 
+        textcoords='offset points', 
+        fontsize=10, ha='center', alpha=0.8,
+               )
+ax.legend()
+ax.set(xscale='log', yscale='log', 
+       xlim=[umin, umax], 
+       ylim=[jmin, jmax],
+       xlabel=r'K18 radiation field: $U$', 
+       ylabel=r'70 micron emissivity: $j_\nu$',
+      )
+None
+
+# So, they are not even using the emissivities that they say they are using.  But we need to check if it is just a problem with the table, or if they are actuslly using these values to calculate the $\dot M$.  _Yes, they are – see below._
+
+# So, we will calculate the $\dot M$ from their table quantities, using their equation (8). 
+
+k18tab['Va'] = 30.0
+k18tab['Va'][0] = 26.5
+k18tab['Mdot2'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 * 1e7*k18tab['Peak_70'] / (k18tab['V_inf_{}'] * k18tab['ell'] * k18tab['j_nu'])
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = k18tab['Mdot'], k18tab['Mdot2']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(k18tab['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-9, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'From K18 table, $\dot M$',
+    ylabel=r'From K18 eq. (8), $\dot M$',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-internal-comparison.pdf')
+None
+
+k18tab['Md/Md'] = k18tab['Mdot2']/k18tab['Mdot']
+print(f"Ratio of Mdot = {k18tab['Md/Md'].mean():.4f} +/- {k18tab['Md/Md'].std():.4f}")
+
+
+# So, they do seem to be using the emissivity values from their Table.  Although there is a strange factor of 0.83 appearing from somwhere.
+
+# ### What the mass loss rates _should_ have been in K18
+
+# First, we will use the $j_\nu$ values directly from DL07, which is what they claim they were doing (although they were not, see above).  
+
+k18tab['jnu_dl07'] = np.interp(k18tab['U'], DL07tab['U'], DL07tab['70'])
+
+# Check that that worked:
+
+fig, ax = plt.subplots(figsize=(10, 10))
+umin, umax = 150, 5e5
+jmin, jmax = 5e-13, 5e-11
+ax.plot(k18tab['U'], k18tab['jnu_dl07'], 'o', alpha=0.5, label='K18 sources')
+ax.plot(DL07tab['U'], DL07tab['70'], '-', color='k', alpha=0.3, lw=10, label='DL07 models')
+ax.plot(DL07tab['U']/8.0, DL07tab['70'], ':', color='k', alpha=0.3, lw=10, label=r'DL07($U \times 8$)')
+for i, [id_, x, y] in enumerate(zip(k18tab['ID'], k18tab['U'], k18tab['jnu_dl07'])):
+    ax.annotate(
+        str(id_), (x, y),
+        xytext=(np.random.randint(-10, 10), 35 - 10*(5*i % 7) + np.random.randint(0, 15)), 
+        textcoords='offset points', 
+        fontsize=10, ha='center', alpha=0.8,
+               )
+ax.legend()
+ax.set(xscale='log', yscale='log', 
+       xlim=[umin, umax], 
+       ylim=[jmin, jmax],
+       xlabel=r'K18 radiation field: $U$', 
+       ylabel=r'70 micron emissivity: $j_\nu$',
+      )
+None
+
+k18tab['Mdot3'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 * 1e7*k18tab['Peak_70'] / (k18tab['V_inf_{}'] * k18tab['ell'] * k18tab['jnu_dl07'])
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = k18tab['Mdot'], k18tab['Mdot3']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(k18tab['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-9, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'From K18 table, $\dot M$',
+    ylabel=r'Corrected to DL07, $\dot M$',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-DL07-comparison.pdf')
+None
+
+# Next, we will correct the emissivities to account for the different SED between O stars and ISRF.  We do this by multiplying $U$ by eight.
+
+k18tab['jnu_Ux8'] = np.interp(8*k18tab['U'], DL07tab['U'], DL07tab['70'])
+k18tab['Mdot4'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 * 1e7*k18tab['Peak_70'] / (k18tab['V_inf_{}'] * k18tab['ell'] * k18tab['jnu_Ux8'])
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = k18tab['Mdot'], k18tab['Mdot4']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(k18tab['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-9, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'From K18 table, $\dot M$',
+    ylabel=r'Corrected to DL07 with $U \times 8$, $\dot M$',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-Ux8-comparison.pdf')
+None
+
+# ### Comparison between my mass loss and the K18 corrected values
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = k18tab['Mdot4'], ttt['Md']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 3e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'Kobulnicky+ (2018) corrected: $\dot M$, M$_\odot$/yr',
+    ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-corrected-comparison.pdf')
+None
+
+k18tab['Mdot_will'] = ttt['Md']
+k18tab['Md_Md'] = k18tab['Mdot_will'] / k18tab['Mdot4']
+k18tab['LIR'] = ttt['LIR_will']
+
+k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'R_0', 'U', 'Peak_70', 'LIR'].to_pandas().applymap(np.log10).corr()
+
+k18tab['Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
+
+['Sub-Giant' if 'IV' in s else 'Dwarf' if 'V' in s else 'Giant' for s in k18tab['Sp.T._1']]
+
+k18tab['Lum Class'] = ['Sub-Giant' if 'IV' in s else 'Dwarf' if 'V' in s else 'Giant' for s in k18tab['Sp.T._1']]
+
+k18tab['ell,pc'] = k18tab['ell']*k18tab['R_0']/k18tab['R_0,as']
+k18tab['ell/R0'] = k18tab['ell']/k18tab['R_0,as']
+
+ldf = k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'T_eff', 'V_inf_{}',
+             'D', 'R_0,as', 'R_0', 'ell,pc', 'ell/R0', 
+             'U', 'Peak_70', 'LIR'].to_pandas().applymap(np.log10)
+ldf['Lum Class'] = k18tab['Lum Class']
+sns.pairplot(ldf, hue='Lum Class', hue_order=['Dwarf', 'Sub-Giant', 'Giant'], 
+             palette='husl', markers=["o", "s", "D"],
+             diag_kind='kde', diag_kws=dict(bw='silverman'))
+
+ldf.corr()
+
+sns.pairplot(ldf, hue='Lum Class', hue_order=['Dwarf', 'Sub-Giant', 'Giant'], 
+             palette='husl', markers=["o", "s", "D"],
+             x_vars=['Lum.', 'T_eff', 'D', 'V_inf_{}', 'R_0', 'ell,pc', 'ell/R0', 'U', 'Peak_70', 'LIR'],
+             y_vars=['Mdot4', 'Mdot_will', 'Md_Md'],
+             plot_kws=dict(alpha=0.7))
+
+# This shows that 
+#
+# 1. The K18 (corrected) mass loss rates are very well correlated with the bow physical size $R_0$ ($r = 0.86$) and negatively correlated with radiation field $U$ ($r = -0.83$).  It is not clear which of these is the driving factor, since they are very well correlated between themselves ($r = -0.93$).  It would be good if they were correlated with $U$, since there is the prospect of estimating $U$ in a distance-independant manner, using 70/24 flux ratio. They are also equally well negatively correlated with the relative path length $\ell/R_0$ ($r = -0.84$), even though they are weakly positively correlated with $\ell$ itself. 
+#
+# 2. My mass loss rates are very well correlated with the shell luminosity $L_{\mathrm{IR}}$ ($r = 0.88$), as we already knew.
+#
+# 3. The ratio Me/K18 is best correlated with angular size of bow ($r = -0.70$), so for poorly resolved objects, I get a higher $\dot M$ than K18, whereas for best resolved objects I get a lower $\dot M$ than K18.  This is probably not due to underestimating the peak brightness for small objects, as one might think, since `Peak_70` has a slight tendency to _fall_ with `R_0,as` ($r = -0.51$). 
+
+# ## Mass loss versus luminosity
+
+# Finally, we do the plots for my values and the corrected K18 ones.
+
+# O star models from Krticka & Kubat (2017)
+
+def Mdot_Krticka18(L):
+    return 10**(-5.69 + 1.63*np.log10(L/1e6))
+
+# B star models from Krticka (2014)
+
+Lum_Krt14 = 10**np.array([4.39, 4.20, 3.99, 3.77, 3.54, 3.30, 3.03, 2.75, 2.43])
+Mdot_Krt14 = 1.e-11*np.array([210, 160, 96, 39, 7.9, 3.4, 0.91, 0.072, 0.0])
+
+# Weak wind observations from Marcolino (2009)
+
+Lum_M09 = 10**np.array([4.73, 4.74, 4.96, 4.86, 4.79])
+Mdot_M09 = 10**np.array([-9.35, -9.22, -8.92, -8.80, -9.22])
+
+MarVink_I = Table.read('data/Mdot_tables/martins-vink-O-I.fits')
+MarVink_III = Table.read('data/Mdot_tables/martins-vink-O-III.fits')
+MarVink_V = Table.read('data/Mdot_tables/martins-vink-O-V.fits')
+
+# +
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = 1e4*k18tab['Lum.'], k18tab['Mdot_will']
+c = ax.scatter(xx, yy, 
+               c=1.e-3*k18tab['T_eff'], cmap='viridis', #vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0, label='_nolabel_')
+fig.colorbar(c, ax=ax).set_label(r'$T_{\mathrm{eff}}$, kK')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+xmin, xmax = 8e3, 2e6
+ymin, ymax = 3e-10, 3e-6
+xgrid = np.logspace(4.3, np.log10(xmax))
+ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.2, lw=5.0, label='Krtička & Kubat (2018)')
+ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.2, lw=5.0, label='Krtička (2014)')
+
+ax.plot(10**MarVink_V['log L'], 10**MarVink_V['Mdot'], ls='-', color='r', label='Vink (2000)')
+ax.plot(10**MarVink_III['log L'], 10**MarVink_III['Mdot'], ls='--', color='r', label='_nolabel_')
+ax.plot(10**MarVink_I['log L'], 10**MarVink_I['Mdot'], ls=':', color='r', label='_nolabel_')
+
+ax.plot(Lum_M09, Mdot_M09, '+', alpha=0.5, label='Marcolino (2009)')
+
+ax.legend(fontsize='xx-small')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[xmin, xmax], ylim=[ymin, ymax],
+    xlabel=r'$\log_{10}\ \left[L_* / L_\odot \right]$',
+    ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+fig.savefig('Mdot-from-eta-vs-luminosity.pdf')
+None
+
+# +
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = 1e4*k18tab['Lum.'], k18tab['Mdot4']
+c = ax.scatter(xx, yy, 
+               c=1.e-3*k18tab['T_eff'], cmap='viridis', #vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0, label='_nolabel_')
+fig.colorbar(c, ax=ax).set_label(r'$T_{\mathrm{eff}}$, kK')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+xmin, xmax = 8e3, 2e6
+ymin, ymax = 3e-10, 3e-6
+xgrid = np.logspace(4.3, np.log10(xmax))
+ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.2, lw=5.0, label='Krtička & Kubat (2018)')
+ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.2, lw=5.0, label='Krtička (2014)')
+
+ax.plot(10**MarVink_V['log L'], 10**MarVink_V['Mdot'], ls='-', color='r', label='Vink (2000)')
+ax.plot(10**MarVink_III['log L'], 10**MarVink_III['Mdot'], ls='--', color='r', label='_nolabel_')
+ax.plot(10**MarVink_I['log L'], 10**MarVink_I['Mdot'], ls=':', color='r', label='_nolabel_')
+
+ax.plot(Lum_M09, Mdot_M09, '+', alpha=0.5, label='Marcolino (2009)')
+
+ax.legend(fontsize='xx-small', loc='lower right')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[xmin, xmax], ylim=[ymin, ymax],
+    xlabel=r'$\log_{10}\ \left[L_* / L_\odot \right]$',
+    ylabel=r'K18 (corrected): $\dot M$, M$_\odot$/yr',
+)
+fig.savefig('Mdot-K18-corrected-vs-luminosity.pdf')
+None
+# -
+
+
+
+# ### More details on K18 table
+
+# Next, get a general overview of their tables.
+
+pd.options.display.max_columns = None
+k18df = k18tab.to_pandas()
+k18df.describe()
+
+k18df.corr()
+
+# A few intersting nuggets from the correlation matrix:
+#
+# 1. `ell` and `R_0,as` are very well correlated ($r = 0.982$).  See correlation plot below.  This can maybe be used to estimate H/R
+# 2. But we should have logged the quantities first, which I have now done - see plot.  *Anyway, leave this for later*
+
+(k18df['ell']/k18df['R_0,as']).describe()
+
+ldf = k18df[['R_0,as', 'ell']].applymap(np.log10)
+sns.pairplot(ldf, kind='reg')
+
+g = sns.regplot('R_0,as', 'ell', data=ldf)
+g.set(xlim=[0.0, 3.0], ylim=[0.0, 3.0])
+g.set_aspect('equal')
+
+# ## Looking at 24/70 ratio
+
+tab05_01_02['F70/F2x'] = tab05_01_02['F70']/tab05_01_02['F24 or 22']
+tab05_01_02['U18'] = k18tab['U']
+
+def loggify(x):
+    try:
+        return np.log10(x)
+    except:
+        return x
+
+
+df050102 = tab05_01_02['U', 'U18', 
+                       'F8 or 12', 'F24 or 22', 'F70', 'F160', 
+                       'F70/F2x', 'T2x/70', 'FIR', 'FIR_will',
+                       'Observatory'
+                      ].to_pandas().applymap(loggify)
+
+df050102
+
+df050102.corr()
+
+g = sns.pairplot(df050102.drop(2).drop('F160', axis=1).fillna(-1.5))
+g.map_offdiag(corrfunc)
+
+g = sns.pairplot(df050102.drop(2).fillna(-1.5), 
+                 x_vars=['F24 or 22', 'F70/F2x'],
+                 y_vars=['U18', 'FIR_will'],
+                 hue='Observatory',
+                 kind='reg'
+                )
+plt.gcf().set_size_inches(10, 10)
+
+g = sns.pairplot(df050102.drop(2).fillna(-1.5), 
+                 x_vars=['F24 or 22', 'F70/F2x'],
+                 y_vars=['U18', 'FIR_will'],
+                )
+g.map_offdiag(corrfunc)
+plt.gcf().set_size_inches(10, 10)
+
+# **Conclusions**: 
+#
+# 1. The radiation field $U$ is not as well correlated with `F70/F2x` as we might wish. We have $r = -0.54$, meaning only 30% of the variance in $U$ can be predicted by knowing the flux ratio.  On the other hand, the mean relation is exactly what we expect from the Cloudy models - see `grain-jratios-vs-U.pdf`.  Strangely, the correlation is much better for just the WISE sources, but there are too few points to draw any conclusions.
+#
+# 2. The total FIR flux is very well correlated with the 24 micron value ($r = 0.97$), better than at 70 ($r = 0.87$) or 8 micron ($r = 0.61$ from pairplot, but this is affected by missing values - really should be $0.86$, see `.corr()` matrix above).
+
+
+
+
+
+# ### Earlier stuff
 
 ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2
 ddf = ttt['ID', 'U', 'G'].to_pandas()
@@ -594,4 +1033,7 @@ ax.set_aspect('equal')
 
 # Not the same!  But doesn't fully explain the $U$ scatter.  Must be different radii too
 
-
+a = np.linspace(0.0, 1.0, 11)
+b = a**2
+np.savetxt("test4jane.dat", np.stack((a, b), axis=1), fmt='%.4e')
+!cat test4jane.dat

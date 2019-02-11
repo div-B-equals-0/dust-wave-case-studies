@@ -4386,6 +4386,86 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR Md_-8
     |    70 |           1 |
     |   160 |        0.44 |
     #+TBLFM: $2=70/$1;f2
+*** DONE Obtaining the K18 tables directly from the ApJ ascii files
+CLOSED: [2019-02-10 Sun 22:16]
++ They are not available on CDS, so we do the following:
+  + [X] download ascii file for each table from ApJ
+  + [X] put them in [[file:data/Kobulnicky2018/apjaab3e0t1_ascii.txt]]
+  + [X] convert the ascii files to org tables
+  + [X] tidy up the tables
+    + Convert ~A.A x 10^BB~ \to ~A.AeBB~
+    + Remove unit and notes rows
+    + Remove latex markup from header rows
+    + Remove superscript footnote markers
+    + Disambiguate repeated column names
+  + [X] use python snippet to read in table with ~astropy.table~ and write out to FITS format
+  + [X] Read into jupyter notebook
+    + See [[file:Kobulnicky-samples.py]]
+
+
+
+**** K18 Table 1
+#+name: k18-table-1
+|  ID | Name            | Alt. name         | Sp.T.       | Ref.01 | T_eff |  R_* | Mass | V_inf_{} |    D | Ref.02 | R_0,as |   R_0 | Peak_70 | ell |
+|-----+-----------------+-------------------+-------------+--------+-------+------+------+-------+------+--------+--------+-------+---------+-----|
+|  13 | zeta Oph        | G006.2812+23.5877 | O9.2IV      | S1     | 31000 |   10 |   19 |  1300 | 0.11 | D1     |    299 | 0.175 |    12.3 | 277 |
+|  67 | NGC 6611 ESL 45 | G017.0826+00.9744 | O9V         | S2     | 31500 |  7.7 |   18 |  1300 | 1.99 | D2     |    7.5 | 0.080 |    64.0 |  15 |
+| 329 | KGK2010 10      | G077.0505-00.6094 | O8V         | S3     | 33400 |  8.5 |   23 |  2000 |  4.1 | D3     |     10 | 0.219 |    15.4 |  27 |
+| 331 | LS II +39 53    | G078.2869+00.7780 | O7V         | S4     | 35500 |  9.3 |   26 |  2500 | 1.32 | D3     |     42 | 0.296 |    12.0 |  55 |
+| 338 | CPR2002A10      | G078.8223+00.0959 | O8V:        | S3     | 33400 |  8.5 |   23 |  1200 | 1.32 | D3     |     23 | 0.162 |    79.8 |  29 |
+| 339 | CPR2002A37      | G080.2400+00.1354 | O5V((f))    | S5     | 41500 | 11.1 |   37 |  2900 | 1.32 | D3     |     70 | 0.493 |    29.9 |  47 |
+| 341 | KGK2010 1       | G080.8621+00.9749 | O9V         | S3     | 31500 |  7.7 |   18 |  1300 | 1.32 | D3     |     20 | 0.141 |     5.0 |  31 |
+| 342 | KGK2010 2       | G080.9020+00.9828 | B1V:        | S3     | 26000 |    6 |   10 |   800 | 1.32 | D3     |     10 | 0.070 |    57.8 |  14 |
+| 344 | BD +43 3654     | G082.4100+02.3254 | O4If        | S6     | 40700 |   19 |   58 |  3000 | 1.32 | D3     |    193 | 1.359 |    58.6 | 170 |
+| 368 | KM Cas          | G134.3552+00.8182 | O9.5V((f))  | S7     | 30500 |  7.4 |   16 |  1200 | 1.95 | D4     |     14 | 0.146 |    24.9 |  22 |
+| 369 | BD +60 586      | G137.4203+01.2792 | O7.5V/O8III | S8     | 34400 |  8.9 |   24 |  2500 | 1.95 | D4     |     73 | 0.759 |     7.9 |  39 |
+| 380 | HD 53367        | G223.7092-01.9008 | B0IVe       | S9     | 28000 |    7 |   15 |  1200 | 0.26 | D1     |     15 | 0.021 |    35.7 |  49 |
+| 381 | HD 54662        | G224.1685-00.7784 | O7Vzvar?    | S1     | 35500 |  9.4 |   26 |  2500 | 0.63 | D1     |    220 | 0.739 |     4.6 | 200 |
+| 382 | FN CMa          | G224.7096-01.7938 | B0III       | S9     | 28000 |   15 |   20 |  1200 | 0.94 | D1     |    101 | 0.506 |    11.2 |  70 |
+| 406 | HD 92607        | G287.1148-01.0236 | O9IVn       | S1     | 31100 |   10 |   20 |  1300 | 2.35 | D5     |     16 | 0.201 |    29.1 |  26 |
+| 407 | HD 93249        | G287.4071-00.3593 | O9III+O:    | S1     | 30700 | 13.6 |   23 |  1300 | 2.35 | D5     |    7.8 | 0.098 |    58.2 |  25 |
+| 409 | HD 93027        | G287.6131-01.1302 | O9.5IVvar   | S10    | 30300 |   10 |   16 |  1200 | 2.35 | D5     |    7.4 | 0.093 |    20.8 |  17 |
+| 410 | HD 305536       | G287.6736-01.0093 | O9.5V+?     | S1     | 30500 |  7.4 |   15 |  1200 | 2.35 | D5     |    3.7 | 0.046 |    91.4 |  14 |
+| 411 | HD 305599       | G288.1505-00.5059 | O9.5V       | S11    | 30500 |  7.4 |   15 |  1200 | 2.35 | D5     |    4.2 | 0.052 |    41.5 |  16 |
+| 413 | HD 93683        | G288.3138-01.3085 | O9V+B0V     | S11    | 31500 |  7.7 |   18 |  1300 | 2.35 | D5     |     15 | 0.188 |    15.4 |  24 |
+
+**** K18 Table 2
+#+name: k18-table-2
+|  ID | Name            | Alt. name         | Sp.T.      | Lum. |     U |    j_nu | n_a |   Mdot |
+|-----+-----------------+-------------------+------------+------+-------+---------+-----+--------|
+|  13 | zeta Oph        | G006.2812+23.5877 | O9.2IV     |  8.1 | 4.2e3 | 8.7e-12 | 2.3 | 5.4e-8 |
+|  67 | NGC 6611 ESL 45 | G017.0826+00.9744 | O9V        |  5.1 | 1.3e4 | 1.1e-11 |  32 | 6.2e-8 |
+| 329 | KGK2010 10      | G077.0505-00.6094 | O8V+?      |  7.9 | 2.7e3 | 8.4e-12 | 1.3 | 2.5e-8 |
+| 331 | LS II +39 53    | G078.2869+00.7780 | O7V        | 12.0 | 2.2e3 | 8.3e-12 | 6.6 | 4.5e-8 |
+| 338 | CPR2002A10      | G078.8223+00.0959 | O8V:       |  7.9 | 4.9e3 | 8.9e-12 |  72 | 3.3e-7 |
+| 339 | CPR2002A37      | G080.2400+00.1354 | O5V((f))   | 32.0 | 2.1e3 | 8.3e-12 |  21 | 3.1e-7 |
+| 341 | KGK2010 1       | G080.8621+00.9749 | O9V        |  5.1 | 4.2e3 | 8.7e-12 |  15 | 1.4e-8 |
+| 342 | KGK2010 2       | G080.9020+00.9828 | B1V:       |  1.4 | 4.7e3 | 8.9e-12 | 160 | 1.4e-7 |
+| 344 | BD +43 3654     | G082.4100+02.3254 | O4If       | 87.0 | 7.6e2 | 8.0e-12 |  19 | 1.3e-6 |
+| 368 | KM Cas          | G134.3552+00.8182 | O9.5V((f)) |  4.1 | 3.2e3 | 8.5e-12 |  21 | 7.7e-8 |
+| 369 | BD +60 586      | G137.4203+01.2792 | O7.5V      |  9.7 | 2.7e2 | 7.8e-12 |  18 | 1.9e-7 |
+| 380 | HD 53367        | G223.7092-01.9008 | B0IVe      |  2.6 | 9.9e4 | 3.0e-11 |  16 | 2.2e-9 |
+| 381 | HD 54662        | G224.1685-00.7784 | O7Vzvar?   | 12.0 | 3.7e2 | 7.9e-12 | 1.2 | 6.4e-8 |
+| 382 | FN CMa          | G224.7096-01.7938 | B0III      | 12.0 | 7.7e2 | 8.0e-12 |  18 | 2.9e-7 |
+| 406 | HD 92607        | G287.1148-01.0236 | O9IVn      |  8.2 | 3.3e3 | 8.5e-12 |  16 | 1.1e-7 |
+| 407 | HD 93249        | G287.4071-00.3593 | O9III+O:   | 14.0 | 2.5e4 | 1.3e-11 |  12 | 3.5e-8 |
+| 409 | HD 93027        | G287.6131-01.1302 | O9.5IVvar  |  7.4 | 1.4e4 | 1.1e-11 |   9 | 2.2e-8 |
+| 410 | HD 305536       | G287.6736-01.0093 | O9.5V+?    |  4.1 | 3.1e4 | 1.5e-11 |  29 | 2.1e-8 |
+| 411 | HD 305599       | G288.1505-00.5059 | O9.5V      |  4.1 | 2.4e4 | 1.3e-11 |   6 | 1.2e-8 |
+| 413 | HD 93683        | G288.3138-01.3085 | O9V+B0V    |  5.1 | 2.4e3 | 8.3e-12 |  11 | 5.7e-8 |
+
+**** Save K18 tables as FITS format
+#+BEGIN_SRC python :var TAB1=k18-table-1 TAB2=k18-table-2 :colnames no :result file :return path
+  from astropy.table import Table
+  path = 'data/Kobulnicky2018'
+  for itab, tab in [1, TAB1], [2, TAB2]:
+      Table(rows=tab[1:], names=tab[0]).write(
+          f'{path}/k18tab{itab}.fits', overwrite=True)
+#+END_SRC
+
+#+RESULTS:
+: data/Kobulnicky2018
+
 *** Compare momentum efficiency with optical depth for bow shell
 + This is done in the notebook
   + [[file:Kobulnicky-samples.ipynb]]
@@ -4536,6 +4616,24 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR Md_-8
   + U = 14.7 L_{4} R_{pc}^{-2}
 
 
+
+*** Relation between shell thickness and chord length
++ Assuming the shell is a sphere of radius \Pi R_0
+  + Where \Pi is the planitude
+  + and R_0 is the apex distance
++ Then if \ell is the chord length and H is the shell thickness we have
+  + H/R_0 = \Pi (1 - (1 - (\ell/2 \Pi R_0)^2)^(1/2))
++ Table given below for various values of \Pi
+  + The K18 data have values 0.5 \to 4
+| \ell/R_0 |           \Pi = 1 |  H/R_0, \Pi = 1.5 | \Pi = 2 | \Pi = 3 |
+|-------+-----------------+-----------------+-------+-------|
+|   0.5 |           0.032 |           0.021 | 0.016 | 0.010 |
+|   1.0 |           0.134 |           0.086 | 0.064 | 0.042 |
+|   1.5 |           0.339 |           0.201 | 0.146 | 0.095 |
+|   2.0 |           1.000 |           0.382 | 0.268 | 0.172 |
+|   3.0 | (1.000, -1.118) |           1.500 | 0.677 | 0.402 |
+|   4.0 | (1.000, -1.732) | (1.500, -1.323) | 2.000 | 0.764 |
+#+TBLFM: $2=1 (1 - sqrt(1 - ($1/ 2 1)**2)) ;f3::$3=1.5 (1 - sqrt(1 - ($1/ 2 1.5)**2)) ;f3::$4=2 (1 - sqrt(1 - ($1/ 2 2)**2)) ;f3::$5=3 (1 - sqrt(1 - ($1/ 2 3)**2)) ;f3
 
 ** Povich:2008a bows in M17 and RCW 49
 + They had 3 objects in each region
