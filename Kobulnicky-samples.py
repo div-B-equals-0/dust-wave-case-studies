@@ -612,26 +612,22 @@ ax.set_aspect('equal')
 DL07tab = Table.read('../cloudy-dust-charging/DL07-data/emissivities.fits')
 
 ddf = k18tab['ID', 'U', 'j_nu'].to_pandas()
-fig, ax = plt.subplots(figsize=(10, 10))
-umin, umax = 150, 5e5
-jmin, jmax = 5e-13, 5e-11
-ax.plot(k18tab['U'], k18tab['j_nu'], 'o', alpha=0.5, label='K18 sources')
+fig, ax = plt.subplots(figsize=(8, 7))
+umin, umax = 110, 5e5
+jmin, jmax = 2e-13, 5e-11
+ax.plot(k18tab['U'], k18tab['j_nu'], 'x', alpha=1.0, markeredgewidth=2, color='r', label='K18 sources')
 ax.plot(DL07tab['U'], DL07tab['70'], '-', color='k', alpha=0.3, lw=10, label='DL07 models')
 ax.plot(DL07tab['U']/8.0, DL07tab['70'], ':', color='k', alpha=0.3, lw=10, label=r'DL07($U \times 8$)')
-for i, [id_, x, y] in enumerate(zip(k18tab['ID'], k18tab['U'], k18tab['j_nu'])):
-    ax.annotate(
-        str(id_), (x, y),
-        xytext=(np.random.randint(-10, 10), 35 - 10*(5*i % 7) + np.random.randint(0, 15)), 
-        textcoords='offset points', 
-        fontsize=10, ha='center', alpha=0.8,
-               )
-ax.legend()
+ax.legend(loc='lower right')
 ax.set(xscale='log', yscale='log', 
        xlim=[umin, umax], 
        ylim=[jmin, jmax],
-       xlabel=r'K18 radiation field: $U$', 
-       ylabel=r'70 micron emissivity: $j_\nu$',
+       xlabel=r'Radiation field: $U = F / F_{\mathrm{MMP83}}$', 
+       ylabel=r'70 $\mu$m emissivity: $j_\nu$, Jy cm$^{2}$ sr$^{-1}$ H$^{-1}$',
       )
+sns.despine()
+fig.tight_layout()
+fig.savefig('K18-emissivity-vs-U.pdf')
 None
 
 # So, they are not even using the emissivities that they say they are using.  But we need to check if it is just a problem with the table, or if they are actuslly using these values to calculate the $\dot M$.  _Yes, they are – see below._
@@ -658,7 +654,7 @@ ax.plot([fmin, fmax], [fmin, fmax], ls='--')
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
-    xlabel=r'From K18 table, $\dot M$',
+    xlabel=r'From K18 Table 2, $\dot M$',
     ylabel=r'From K18 eq. (8), $\dot M$',
 )
 ax.set_aspect('equal')
@@ -747,8 +743,8 @@ ax.plot([fmin, fmax], [fmin, fmax], ls='--')
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
-    xlabel=r'From K18 table, $\dot M$',
-    ylabel=r'Corrected to DL07 with $U \times 8$, $\dot M$',
+    xlabel=r'K18 published $\dot M$',
+    ylabel=r'K18 corrected to DL07 with $U \times 8$, $\dot M$',
 )
 ax.set_aspect('equal')
 fig.savefig('K18-mdot-Ux8-comparison.pdf')
@@ -776,6 +772,7 @@ ax.set(
     ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
 )
 ax.set_aspect('equal')
+fig.tight_layout()
 fig.savefig('K18-mdot-corrected-comparison.pdf')
 None
 
@@ -872,6 +869,7 @@ ax.set(
     xlabel=r'$\log_{10}\ \left[L_* / L_\odot \right]$',
     ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
 )
+fig.tight_layout()
 fig.savefig('Mdot-from-eta-vs-luminosity.pdf')
 None
 

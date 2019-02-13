@@ -4578,6 +4578,7 @@ CLOSED: [2019-02-10 Sun 22:16]
 :PROPERTIES:
 :ID:       33290714-FA0D-44D4-9541-2D54DD74E4D2
 :END:
++ [2019-02-13 Wed] Return to this issue now that I have a better understanding of the U values and what they mean
 + K18 calculate U = u/u(Mathis)
   + This is different from the G = F_{FUV}/F(Habing)
     + First, they are working in terms of energy density, u, not flux
@@ -4600,13 +4601,37 @@ CLOSED: [2019-02-10 Sun 22:16]
   + F(Habing) = 1.6e-3 erg/s/cm^2
   + They find G values from 300 to 3e4
   + Using F = L / 4 \pi R^2, we get G = 200 L_{4} R_{pc}^{-2}
-  + [ ] Need to compare this with their U to see how they are normalizing
+  + [X] Need to compare this with their U to see how they are normalizing
 + Mathis full SED version
   + F(Mathis) = 2.17e-2 erg/cm^2/s
   + Using F = L / 4 \pi R^2, we get U = 14.7 L_{4} R_{pc}^{-2}
 
 
+**** Equivalent U for Ly-\alpha
++ Is it possible that the deviation from the DL07 line seen in [[file:K18-emissivity-vs-U.pdf]] might be due to Lyman \alpha heating?
++ Lyman line intensity is (following Henney:1998a)
+  + 4\pi J = \alpha_B n h\nu / \sigma for fully ionized dust-limited case [erg/s/cm^2]
+  + h\nu = 0.75 13.6 eV = 1.63e-11 erg assuming just Ly-\alpha
+    + In reality it will be slightly larger because of the fractions of \beta, \gamma, etc
+    + Maximum value is 2.18e-11
+  + Normalizing to F = 2.17e-2 and supposing \alpha_B = 2.6e-13, \sigma = 1.3e-21 (\kappa = 600 cm^2/g)
+    + we get U = 2.6e-13 1.63e-11 / 1.3e-21 2.17e-2 = 0.15 n / \kappa_{600}
+    + which is really small unless n is large
+    + Compare with stellar radiation: 
+      + U_{lines} / U_{star} = 0.010 n R_{pc}^{2} / L_{4} \kappa_{600}
+      + From our eq (14) we have R_{*,pc}^{2} = 4.88 L_{4} / n v_{10}^{2}
+      + n / L_{4} = 4.88 / v_{10}^{2} R_{*,pc}^{2} 
+      + So U_{lines} / U_{star} = 0.049 (R/R_{*})^2 / v_{10}^{2}  = 0.049 x^{2} / v_{10}^{2} \kappa_{600}
+      + where x <= 1 unless we have WR star with \eta_{w} > 1
+      + *Conclusion:* U_{lines} / U_{star}  is always negligible, even if dust opacity is anomalously low
+        + For example, pushing all the parameters to be as favorable as possible for Lyman lines
+        + \kappa_{600} = 0.1, v = 20 km/s, x^{2} = 1 (slow stream, strong wind, low dust opacity)
+        + \therefore U_{lines} / U_{star} = 0.12
+  + Taking P_rad = 4\pi J / 3c, we can calculate \Xi for Lyman lines:
+    + \Xi = P_rad / P_gas = \alpha_B h\nu / 6 \sigma k T c = 0.013 T_{4}^{-1.7} \kappa_{600}^{-1}^{}
+
 **** What Kobulnicky are doing with their model fitting
++ [2019-02-13 Wed] /This seems to be a rehash of what I say above, but at least it is consistent/
 + They claim to be calculating U from their stellar parameters:
   + U = \sigma T^{4} (R_{*}^{2} / R_{0}^{2}) / U_{0}
   + where U_{0} = 2.17e-2 erg/cm^2/s
