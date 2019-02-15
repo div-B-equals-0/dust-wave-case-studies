@@ -247,7 +247,7 @@ So, objects like
 + Salgado plots surface brightness SEDs as \nu I_\nu in erg/s/cm^2/sr
   + 1 Jy = 1e-23 erg/s/cm^2/Hz
   + \nu = c / \lambda = 2.99792458e14  / \lambda(micron)
-  + So, 1 MJy/sr means that \nu I_\nu = (0.003 / \lambda_\mu) erg/s/cm^2/sr
+  + So, 1 MJy/sr means that \nu I_\nu = (0.003 / \lambda_\micro) erg/s/cm^2/sr
 + Herschel maps are in Jy/pixel, where pixel is 3.2 arcsec
   + 1 Jy/pixel = 4155 MJy/sr
   + 1 Jy/pixel @ 70 micron = 0.178 erg/s/cm^2/sr
@@ -504,7 +504,7 @@ So, objects like
       + Ysard:2016a fig 7 looks promising
         - shows significant scattering, although this is for dark clouds
         - also, fig 3 implies that g is small at 4.5 micron
-      + Better: Ysard:2018a Fig 13 shows that high albedo and high g @ 4.5 \mu{}m are achieved for grains > 1 \mu{}m size for various different compositions
+      + Better: Ysard:2018a Fig 13 shows that high albedo and high g @ 4.5 \micro{}m are achieved for grains > 1 \micro{}m size for various different compositions
         - but why would we have such large grains in the H II region?
         - And where is the illumination coming from at 4.5 micron?
 
@@ -964,7 +964,7 @@ CLOSED: [2018-10-31 Wed 22:39]
     + F_{\nu} = d\lambda/d\nu F_{\lambda} = F_{\lambda} / (d\nu/d\lambda)
     + d\nu/d\lambda = d/d\lambda (c/\lambda) = c/\lambda^{2}
     + => F_{\nu} = (\lambda^{2}/c) F_{\lambda}
-    + 1 erg/s/cm^2/\AA = 1e8 erg/s/cm^2/cm = 3.3356e-11 \lambda_{\mu}^{2 } erg/s/cm^2/Hz = 3.3356e12 \lambda_{\mu}^{2 } Jy
+    + 1 erg/s/cm^2/\AA = 1e8 erg/s/cm^2/cm = 3.3356e-11 \lambda_{\micro}^{2 } erg/s/cm^2/Hz = 3.3356e12 \lambda_{\micro}^{2 } Jy
 ****** DONE Audit of HST photometry
 CLOSED: [2018-11-26 Mon 10:29]
 + [2018-11-21 Wed] There is a clear problem with the visual points in the observed SED
@@ -1487,7 +1487,7 @@ CLOSED: [2018-10-31 Wed 12:15]
 + Filter band widths from http://ulisse.pd.astro.it/Astro/ADPS/ADPS2/FileHtml/index_f033.html
 
 | Band |   \lambda_{0} |   d\lambda |   F_{0} |    Mag |   dMag | F               |
-|      |   \mu{}m |   \mu{}m |   Jy |        |        | Jy              |
+|      |   \micro{}m |   \micro{}m |   Jy |        |        | Jy              |
 |------+------+------+------+--------+--------+-----------------|
 | U    | 0.36 | 0.06 | 1810 |   8.00 |   0.05 | 1.14 +/- 0.05   |
 | B    | 0.44 | 0.09 | 4260 |   8.58 |   0.05 | 1.58 +/- 0.07   |
@@ -1533,7 +1533,7 @@ Version suitable for reading with python
 :ID:       E0F46F48-97C4-4E3F-9C4C-0813A6EB034D
 :END:
 + Flux is in erg/s/cm^2/\AA
-  + From what I had before, multiply by 3.3356e12 \lambda_{\mu}^{2 }to get Jy
+  + From what I had before, multiply by 3.3356e12 \lambda_{\micro}^{2 }to get Jy
   + F_{\nu} = (\lambda/\nu) F_{\lambda} = (\lambda^{2} / c) F_{\lambda}
 
 |    Wav | log F_\lambda             | F_\nu             |
@@ -1744,9 +1744,9 @@ That didn't work very well
   + erg /cm^2 /s /micron /arcsec^2
   + In CGS I_\nu = I_\lambda d\lambda/d\nu
   + d\lambda/d\nu = c / \nu^2 = \lambda^2 / c
-  + I_\nu (erg /cm^2 /s /Hz /arcsec^2) = 3.336e-19n (\lambda_\mu)^2 I_\lambda (erg /cm^2 /s /cm /arcsec^2) = 3.336e-15 (\lambda_\mu)^2 I_\lambda (erg /cm^2 /s /micron /arcsec^2)
-  + I_\nu (Jy/arcsec^2) = 3.336e8 (\lambda_\mu)^2 I_\lambda
-  + I_\nu (GJy/sr) = 42.54 3.336e8  (\lambda_\mu)^2 I_\lambda = 1.419e10 (\lambda_\mu)^2 I_\lambda
+  + I_\nu (erg /cm^2 /s /Hz /arcsec^2) = 3.336e-19n (\lambda_\micro)^2 I_\lambda (erg /cm^2 /s /cm /arcsec^2) = 3.336e-15 (\lambda_\micro)^2 I_\lambda (erg /cm^2 /s /micron /arcsec^2)
+  + I_\nu (Jy/arcsec^2) = 3.336e8 (\lambda_\micro)^2 I_\lambda
+  + I_\nu (GJy/sr) = 42.54 3.336e8  (\lambda_\micro)^2 I_\lambda = 1.419e10 (\lambda_\micro)^2 I_\lambda
 + Take the 10.48 micron point from Fig 4:
   + I_\lambda = 1e-10 erg /cm^2 /s /micron /arcsec^2
   + => I_\nu = 1.419 10.48**2 = 155.85 GJy/sr
@@ -1817,7 +1817,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       + Given as 101 in Table 4 - again close enough
   + So we just multiply all ~20_hdr.fits~ by 1000 to get them in mJy/pix
 + Filter widths
-  : For an A0 V star, the N-band filter has an effective wavelength \lambda_{10} =  10.1 \mu{}m and \Delta\lambda = 3.13 \mu{}m, whereas the Q-band filter has \lambda_{20} = 19.7 \mu{}m and \Delta\lambda = 2.44 \mu{}m.
+  : For an A0 V star, the N-band filter has an effective wavelength \lambda_{10} =  10.1 \micro{}m and \Delta\lambda = 3.13 \micro{}m, whereas the Q-band filter has \lambda_{20} = 19.7 \micro{}m and \Delta\lambda = 2.44 \micro{}m.
 |  Wav | peak, mJy/pix | BG         | GJy/sr         | BG GJy/sr      |
 |------+---------------+------------+----------------+----------------|
 | 10.1 |           300 | 110 +/- 30 | 131.5 +/- 20.8 | 76.1 +/- 20.8  |
@@ -2111,7 +2111,7 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
 + HD 37023 is th1D
 
 | Reference         | Band   |   \lambda_{0} |    d\lambda |    F_{0} |   Mag |  dMag | F             |
-|                   |        |   \mu{}m |    \mu{}m |    Jy |       |       | Jy            |
+|                   |        |   \micro{}m |    \micro{}m |    Jy |       |       | Jy            |
 |-------------------+--------+------+-------+-------+-------+-------+---------------|
 | Morell:1978a      | U      | 0.36 |  0.06 |  1810 |  5.96 |  0.05 | 7.48 +/- 0.34 |
 | Morell:1978a      | B      | 0.44 |  0.09 |  4260 |  6.78 |  0.05 | 8.27 +/- 0.38 |
@@ -2369,7 +2369,7 @@ These are now suspect
     + A_V = 2
 
 ***** Possible line contamination 
-+ Br\alpha at 4.5 \mu
++ Br\alpha at 4.5 \micro
 
 ***** Modeling the SED
 + [X] Need to run some Cloudy models
@@ -2409,7 +2409,7 @@ These are now suspect
 + General properties of the Orion curves
   + All are similar in that they have high R_V and almost completely flat FUV curves
   + Most have very weak 2000 \AA bump, but LP Ori's is more normal
-  + The graphs are all normalized by E(B - V), but if we normalize by A(1\mu{}m), as in lower panel of Fig 8, then things are clearer
+  + The graphs are all normalized by E(B - V), but if we normalize by A(1\micro{}m), as in lower panel of Fig 8, then things are clearer
     + Extinction hardly varies from 5000 down to 1200 \AA, and is about 2 to 3 times the 1 micron value
     + This is very different from general ISM, where extinction at 1200 \AA is 10 to 20 times the 1 micron value 
 + The Carina stars
@@ -4164,7 +4164,7 @@ We have up to 8 micron
   + Pixel Widths: 11 x 25
   + Total flux: 8.46e-6 11 25 (1800 - 250) = 3.61 Jy
 + Measure some more
-  | Source | Band       |    \mu{}m |  Peak | BG             |    Bunit | Size  | Sunit | Flux                 | BG in MJy/sr    |
+  | Source | Band       |    \micro{}m |  Peak | BG             |    Bunit | Size  | Sunit | Flux                 | BG in MJy/sr    |
   |--------+------------+-------+-------+----------------+----------+-------+-------+----------------------+-----------------|
   |        | IRAC 2     | 4.493 |     7 | 5 +/- 1.5      |  2.35e-5 | 7*21  |   0.6 | 0.0025 +/- 0.0019    | 5. +/- 2.       |
   |        | IRAC 3     | 5.731 |    30 | 17 +/- 4       |  2.35e-5 | 7*21  |   0.6 | 0.0162 +/- 0.0050    | 17. +/- 4.      |
@@ -4340,7 +4340,7 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR Md_-8
   + 1 Jy = 1e-23 erg/s/cm^2/Hz
   + So we can find the total flux in erg/s/cm^2 by summing the
     spectral fluxes in Jy times bandwidths \Delta\nu in each band
-    |          |  \mu{}m |   \Delta\nu Hz |
+    |          |  \micro{}m |   \Delta\nu Hz |
     |----------+-----+---------|
     | IRAC     |   8 | 1.45e13 |
     | MIPS     |  24 |  4.6e12 |
@@ -4351,7 +4351,7 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR Md_-8
   + So, estimate for total flux in units of 1e-10 erg/cm^2/s
     + 1.45 S_8 + 0.46 S_24 + 0.0648 S_70 + 0.0354 S_160
   + But that leaves gaps in between the bands, so best to use the difference between bands as the \delta\nu:
-    | \lambda, \mu{}m |  \nu, Hz |     \delta\nu | \langle \delta\nu \rangle |
+    | \lambda, \micro{}m |  \nu, Hz |     \delta\nu | \langle \delta\nu \rangle |
     |-------+--------+--------+--------|
     |     5 | 6.0e13 | 2.3e13 | #ERROR |
     |     8 | 3.7e13 | 2.5e13 | 2.4e13 |
@@ -4574,7 +4574,87 @@ CLOSED: [2019-02-10 Sun 22:16]
   + rad case: x = 2 \tau_{\star} or \approx 1
 
 
-*** TODO Compare Ly\alpha heating with stellar heating
+*** Compare stochastic heating with thermal equilibrium
++ For the smallest grains, cooling time can be smaller than time between absorptions
+  + First paper on this seems to be Duley:1973a
++ See Draine:2001a
+  + Fig 11 shows that for U = 1e4, this is only for grains with < 2000 carbon atoms
+  + For U = 1, it is 1e6 carbon atoms
+  + Corresponding radius from their equation (47):
+    + a \approx 100 \AA U^{-0.2} = 0.01 \micro{}m U^{-0.2}
+      |   U |      a |
+      |-----+--------|
+      |   1 | 0.0100 |
+      |  10 | 0.0063 |
+      | 100 | 0.0040 |
+      | 1e3 | 0.0025 |
+      | 1e4 | 0.0016 |
+      | 1e5 | 0.0010 |
+      #+TBLFM: $2=0.01 / $1**0.2 ; f4
+  + Our Cloudy models only go down to 0.005 micron, so they should all be in equilibrium if \(U > 10\).
+  + Desert:1990a propose that mid-IR emission and 2175 \AA bump are both caused by a carbon VSG population with a = 1.2 \to 15 nm, which is 0.0012 \to 0.015 \micro{}m
+    + Average size is about 0.01 \micro{}m 
+    + So the bottom 3 size bins of the Cloudy model are in fact VSG by the Désert definition
+  + The nm-sized grains are not included in the Cloudy model
+    + These are the "ultrasmall" grains that Xie:2018a say are responsible for mid-ir continuum at \lambda < 10 \micro{}m (at galaxy scales)
+    + Even these would be in TE for U \ge 1e5
++ [ ] Is stochastic heating important in any of our Cloudy models?
+  + We could check this by running models with ~no qheat~ option
+  + In principle, we might see it when U < 10
+    + But there is certainly no evidence in the T vs U plot, which we should mention
+  + Law:2011a have models for young stellar population where non-equilibrium heating dominates for both carbon and silicate grains below about 20 microns, although this does depend on parameters
++ Stochastic heating means that the grain temperature no longer depends on radius
++ Witt:2000a has a different way of dividing things up:
+  - typical :: 100 \to 1000 nm or 0.1 \to 1 \micro{}m (this is big!)
+    - these are the only ones that penetrate the heliopause and can be found in the solar system
+  - small :: 5 \to 100 nm or 0.005 \to 0.1 \micro{}m
+  - very small :: 0.3 \to 5 nm or 0.0003 \to 0.005 \micro{}m
++ Maximum temperature of grains absorbing a single photon of 20 eV
+  + T \approx 80000 K / N
+  + So if we sublime at about 1000 K, then smallest grains have N = 80 or so
+  + This corresponds to a \approx 5.5 \AA, which would set the lower limit on the VSG/USG size
+*** Radiative Torque Disruption
++ Hoang:2018a
++ *Conclusions*
+  1. Effect should be important if their theory is right
+  2. Means that we may be missing larger grains
+     - UV opacity goes up
+     - IR opacity goes down
+     - Change in IR emissivity unclear (T increase may compensate for \kappa decrease)
+  3. But in low-\Xi (high-\eta_{sh}) cases, gas damping may mitigate this
+  4. And for high stream velocities, there may be a timescale issue
++ Grains larger than certain size a_max are destroyed by spin-up from radiative torques
++ For U = 1e4, this gives a_{max} = 0.03 micron
+  + Hoang:2018a Fig 1, assuming only radiation damping
+  + Effectively removes upper 5 size bins in Cloudy model
++ But need to check effects of pressure that might cause extra damping
+  + Gas damping time \tau \propto a / (n T^{1/2})
+  + Gas damping only important when F_IR < 1
+    + their eq (16)
+    + \therefore n_{30} T_{100}^{1/2} > 0.4 U^{2/3} / a_{0.1}
+    + So with T = 1e4, U = 1e4,  a = 0.03 we have n > 133
+    + Or we can re-write in terms of \Xi
+      + n T_{4}^{1/2} > 1.2 U / U^{1/3} a_{0.1}
+      + T_{4}^{1/2} > 4.58 T_{4} \Xi / U^{1/3} a_{0.1}
+      + \therefore \Xi < 4.7 T_{4}^{-1/2} (U/1e4)^{1/3} a_{0.1}
+      + So this is only an issue 
++ Fig 2 shows dependence on L and R
+  + With L4 = 1, a = 0.05 micron @ 0.1 pc or 0.1 micron @ 1 pc
++ Spin-up times are generally shortish
+  + 400 years for L4 = 1, R = 0.1 pc
+  + Compare dynamical time at 30 km/s : R0/v = 3260 years
+  + So not amazingly shorter
++ Also, disruption only occurs for U larger than certain value
+  + U > 3 for n = 30 pcc, T = 100 K
+  + U > 2e4 for n = 1e5, T = 1000 K
+*** Relationship between \Xi and U/n
++ U/n = L / 4 \pi R^2 F_0 n
++ \Xi = L / 4 \pi R^2 c 2 n k T
++ \therefore \Xi = (U/n) F_0 / (2 c k T) = (0.262 / T_{4}) U/n
++ \therefore U = 3.82 n T_{4} \Xi
+
+*** DONE Compare Ly\alpha heating with stellar heating
+CLOSED: [2019-02-14 Thu 09:42]
 :PROPERTIES:
 :ID:       33290714-FA0D-44D4-9541-2D54DD74E4D2
 :END:
@@ -4587,9 +4667,9 @@ CLOSED: [2019-02-10 Sun 22:16]
     + Problem is that this Mathis field includes multiple cool stellar components that emit at longer wavelengths.  
     + I integrate the radiation field of Mezger:1982a Table C1
       + Take FUV range from 912 to 2000 Angstrom
-        + \Delta\lambda = 0.11 \mu{}m
+        + \Delta\lambda = 0.11 \micro{}m
       + The average field there is about 15 in the table units
-      + Units are 4 \pi J_\lambda / 1e-3 erg/cm^2/s/\mu{}m
+      + Units are 4 \pi J_\lambda / 1e-3 erg/cm^2/s/\micro{}m
       + So I get 4 \pi J_FUV = 15 0.11 0.001 = 1.6e-3 => *exactly the Habing value*
     + But the optical peak around 0.55 micron has 16.4, so adds another roughly
       + 16.4 0.55 0.001 = 9e-3 in same units
@@ -4597,6 +4677,7 @@ CLOSED: [2019-02-10 Sun 22:16]
     + Plus, they have another peak in the FIR
     + The total flux is 2.17e-2 erg/cm^2/s from Mathis:1983a
       + This means that the FUV flux is 0.074 times the total
+      + 1/0.074 = 13.5
 + Habing FUV version
   + F(Habing) = 1.6e-3 erg/s/cm^2
   + They find G values from 300 to 3e4
