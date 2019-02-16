@@ -337,6 +337,31 @@ So, objects like
     + So we are way into the region of "no effect"
 
 * Particular objects
+
+** TODO Hypervelocity stars
+Interaction with black hole
+
+** High-mass x-ray binaries
++ Have low fraction of bow shocks
+  + Huthoff:2002a
+  + Priesgen:2019a
+  + Gvaramadze:2018b
++ But there are some nice ones
+  + Vela X1 is the best-known
+  + HD 34921 has a complicated barrel structure with two apparent bows
+  + Could be complicated magnetic dust wave?
+  + GX 304-01 is suggested to be bow wave
+** Sources in Westerhout 5 (Soul Nebula) and Heart Nebula
++ See https://en.wikipedia.org/wiki/Westerhout_5
++ Distance: about 2 kpc
++ Several bow shocks
++ And interesting distribution of 24 micron emission in the nebula
+** TODO Algol stars
++ Mayer:2016a
++ 3 stars have bow shocks
++ They estimate Mdot and find it not too large
++ But they have to assume n and v
++ In principle can be done with my \tau-\eta method if we could get decent photometry
 ** Other runaway stars
 *** AE Aur
 + Very fast: 113 km/s
@@ -4550,7 +4575,12 @@ CLOSED: [2019-02-10 Sun 22:16]
   + Mdot_-7 = 495 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3}
 
 *** Compare KE flux with radiation
-+ /actually all this is not necessary/
++ In summary ::
+  1. We need V > 200 km/s
+  2. We need V > 300,000 \tau/\eta
+     - But \eta/\tau is typically < 10 and certainly < 100
+     - That means that V > 3000 km/s is required
++ Condition 1 :: shock energy radiated by dust
   + Draine:1981a shows that we need V > 200 km/s before a substantial fraction of the shock energy is radiated by dust
   + This is because grain cooling of the gas only becomes competitive above 1e6 K
   + For V = 100 km/s, the fraction is only 1%
@@ -4558,20 +4588,23 @@ CLOSED: [2019-02-10 Sun 22:16]
   + Note that the same shock velocities (> 200 km/s) are also those required to produce significant dust sputtering
     + V < 150 km/s, then grains of 0.01 micron can survive
     + V < 270 km/s, then grains of 0.1 micron can survive
-+ KE flux passing through = P v / 2
-  + P is ram pressure, v is stream velocity
-+ Absorbed radiant flux = F (1 - e^{-\tau}) \approx F \tau
-  + F = incident radiation flux
-  + \tau = optical depth of shell
-+ Also, we have
-  + wind case (\eta > \tau): P = \eta F / c
-  + radiation case (\eta < \tau): P = F (1 - e^{-\tau}) / c
-+ So, we have shock heating / radiation heating:
-  + wind case: 0.5 (\eta/\tau) (v/c)
-  + radiation case: 0.5 (v/c)
-+ Note that \tau = 2 x \tau_{\star}
-  + wind case: x = \eta^{1/2}
-  + rad case: x = 2 \tau_{\star} or \approx 1
++ Condition 2 :: shock heating > radiant heating
+  + KE flux passing through = P v / 2
+    + P is ram pressure, v is stream velocity
+  + Absorbed radiant flux = F (1 - e^{-\tau}) \approx F \tau
+    + F = incident radiation flux
+    + \tau = optical depth of shell
+  + Also, we have
+    + wind case (\eta > \tau): P = \eta F / c
+    + radiation case (\eta < \tau): P = F (1 - e^{-\tau}) / c
+  + So, we have shock heating / radiation heating:
+    + wind case: 0.5 (\eta/\tau) (v/c)
+    + radiation case: 0.5 (v/c)
+  + Note that \tau = 2 x \tau_{\star}
+    + wind case: x = \eta^{1/2}
+    + rad case: x = 2 \tau_{\star} or \approx 1
++ Condition 3 :: cooling length < bow size
+  + satisfied for n > 0.1 pcc mainly
 
 
 *** Compare stochastic heating with thermal equilibrium
@@ -4652,6 +4685,15 @@ CLOSED: [2019-02-10 Sun 22:16]
 + \Xi = L / 4 \pi R^2 c 2 n k T
 + \therefore \Xi = (U/n) F_0 / (2 c k T) = (0.262 / T_{4}) U/n
 + \therefore U = 3.82 n T_{4} \Xi
+*** Relationship between U and \chi or G
++ Difference is that
+  + U is 0 \to 8 \micro{}m energy density over MMP83 solar neighborhood value
+    + Equivalent flux is 2.17e-2 erg/cm^2/s
+    + For an O star, this range represents 100% of bolometric luminosity 
+  + G or \chi is 0.0912 \to 0.2 \micro{}m flux divided by Habing solar neighborhood value
+    + Habing flux is 1.6e-3, which is only 7.4% of MMP value
+    + For 10, 20, 40 Msun models, the FUV range is 72%, 64%, and 43% of bolometric luminosity
+  + So, this means that G/U = [72, 64, 43]/7.4 = [9.7, 8.6, 5.8]
 
 *** DONE Compare Ly\alpha heating with stellar heating
 CLOSED: [2019-02-14 Thu 09:42]
