@@ -540,6 +540,29 @@ Interaction with black hole
   + n = sqrt( 3 S / 4 pi R**3 alpha) = 13 pcc
   + Could be higher near star since Ha is brighter there
 *** \zeta Oph
+** IRS 8 and other sources in IRS 16 Northern Arm cluster
++ Geballe:2004a for IRS8 
+  - bow shock visible in K band
+  - R = 0.009 pc
+  - Maybe O9 star
+  - So, U = 1e6
+  - Moving away from galactic center
+  - *What is the relation with GC sources?*
++ Tanner:2005a find a whole lot more
+  - Supposedly, these are in the mini-spiral region
+  - Not the same as modelled by Zajacek:2016a
+  - But are same as studied by Sanchez-Bermudez:2014a
+  - Thinks they are WR stars /why?/
++ Geballe:2006a
+  - Find that IRS 8 is O5 to O6 giant or supergiant
++ Fisher:2007a
+  - Present spectrum from 8 to 13 micron
+  - Deep silicate absorption
+    - This would have to be corrected for in finding SED
+  - Promise more data but it has never been published
++ Sanchez-Bermudez:2014a
+  - H, K, L observations
+  - Some are even smaller: 500 AU = 0.0024 pc
 ** Galactic center bow shocks
 + Zajacek:2016a model these as winds with Mdot = 1e-8 and V = 200 km/s
   + They are supposedly T Tauri stars, which seems weird
@@ -4607,6 +4630,17 @@ CLOSED: [2019-02-10 Sun 22:16]
   + satisfied for n > 0.1 pcc mainly
 
 
+**** KE flux through inner shock
++ This is higher by a factor of V_w/v, which is quite a lot
++ But there is no dust in the inner wind, so must somehow transfer energy across CD
+  1. Conduction - possible but suppressed by magnetic fields
+  2. Direct penetration - will also be suppressed by B, but can calculate things
+     - proton Larmor radius
+     - collisional mean free path
++ Protons carry most of wind kinetic energy.  1000 km/s means E = 10.4 keV
++ Proton Larmor radius
+  + r_L = v m c / e B = 1.04e10 (B/\micro{}G)^{-1} cm - much less than size of bow.
+  + Dust grain mass for a = 0.01 micron: 1.26e-17 g or 7e6 times proton mass, so that will have a much larger Larmor radius
 *** Compare stochastic heating with thermal equilibrium
 + For the smallest grains, cooling time can be smaller than time between absorptions
   + First paper on this seems to be Duley:1973a
@@ -4615,15 +4649,15 @@ CLOSED: [2019-02-10 Sun 22:16]
   + For U = 1, it is 1e6 carbon atoms
   + Corresponding radius from their equation (47):
     + a \approx 100 \AA U^{-0.2} = 0.01 \micro{}m U^{-0.2}
-      |   U |      a |
-      |-----+--------|
-      |   1 | 0.0100 |
-      |  10 | 0.0063 |
-      | 100 | 0.0040 |
-      | 1e3 | 0.0025 |
-      | 1e4 | 0.0016 |
-      | 1e5 | 0.0010 |
-      #+TBLFM: $2=0.01 / $1**0.2 ; f4
+      |   U |  a, \micro{}m | a, nm |
+      |-----+--------+-------|
+      |   1 | 0.0100 |   10. |
+      |  10 | 0.0063 |   6.3 |
+      | 100 | 0.0040 |    4. |
+      | 1e3 | 0.0025 |   2.5 |
+      | 1e4 | 0.0016 |   1.6 |
+      | 1e5 | 0.0010 |    1. |
+      #+TBLFM: $2=0.01 / $1**0.2 ; f4::$3=1000 $-1
   + Our Cloudy models only go down to 0.005 micron, so they should all be in equilibrium if \(U > 10\).
   + Desert:1990a propose that mid-IR emission and 2175 \AA bump are both caused by a carbon VSG population with a = 1.2 \to 15 nm, which is 0.0012 \to 0.015 \micro{}m
     + Average size is about 0.01 \micro{}m 
@@ -4694,7 +4728,9 @@ CLOSED: [2019-02-10 Sun 22:16]
     + Habing flux is 1.6e-3, which is only 7.4% of MMP value
     + For 10, 20, 40 Msun models, the FUV range is 72%, 64%, and 43% of bolometric luminosity
   + So, this means that G/U = [72, 64, 43]/7.4 = [9.7, 8.6, 5.8]
-
+*** Relationship between U and eV/cm^{3}
++ This is used by Desert:1990a who suggest that PAH start to disappear when radiation field is > 30 eV/cm^3 for O stars
++ 30 eV/cm^3 => c u = 1.44 erg/s/cm^2 => U = 66
 *** DONE Compare Ly\alpha heating with stellar heating
 CLOSED: [2019-02-14 Thu 09:42]
 :PROPERTIES:
