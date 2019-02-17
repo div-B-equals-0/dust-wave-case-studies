@@ -187,7 +187,7 @@ tt
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = 2.0/tt['L*/LIR_1'], 2*tt['LIR/L* will']
 c = ax.scatter(xx, yy, 
-               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=3.5, vmax=6.0, 
                edgecolors='k', alpha=1.0)
 fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
 for id_, x, y in zip(tt['ID'], xx, yy):
@@ -196,7 +196,7 @@ for id_, x, y in zip(tt['ID'], xx, yy):
         xytext=(4,4), textcoords='offset points',
                )
 fmin, fmax = 2e-4, 5e-1
-ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.plot([fmin, fmax], [fmin, fmax], ls='--', zorder=-1)
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
@@ -204,6 +204,7 @@ ax.set(
     ylabel=r'This paper: $\tau = 2 L_\mathrm{IR}/L_*$',
 )
 ax.set_aspect('equal')
+fig.tight_layout()
 fig.savefig('K17-tau-comparison.pdf')
 None
 
@@ -462,6 +463,34 @@ ax.set_aspect('equal')
 fig.savefig('K18-mdot-comparison.pdf')
 None
 
+# Correct for radiation pressure on shell
+
+ttt['Md_t'] = 2.02e-7*ttt['L4']*(ttt['eta_obs'] - 1.25*ttt['tau'])/ ttt['V3']
+ttt['err Md'] = 0.3*ttt['Md']
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = ttt['Md_K18'], ttt['Md_t']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'Kobulnicky+ (2018): $\dot M$, M$_\odot$/yr',
+    ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+ax.set_aspect('equal')
+fig.savefig('K18-mdot-tau-corrected-comparison.pdf')
+None
+
 # Why do we have such a lack of correlation?  Is it my fault or theirs?  Theirs, I hope.
 
 ttt['LIR_K18'] = tt['L4']/tt['L*/LIR_2']
@@ -710,7 +739,7 @@ for id_, x, y in zip(k18tab['ID'], xx, yy):
         str(id_), (x, y), fontsize='xx-small',
         xytext=(4,4), textcoords='offset points',
                )
-fmin, fmax = 1e-9, 3e-6
+fmin, fmax = 1e-10, 3e-6
 ax.plot([fmin, fmax], [fmin, fmax], ls='--')
 ax.set(
     xscale='log', yscale='log', 
@@ -730,7 +759,7 @@ k18tab['Mdot4'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 *
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = k18tab['Mdot'], k18tab['Mdot4']
 c = ax.scatter(xx, yy, 
-               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=4.0, vmax=6.0, 
+               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=3.5, vmax=6.0, 
                edgecolors='k', alpha=1.0)
 fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
 for id_, x, y in zip(k18tab['ID'], xx, yy):
@@ -738,8 +767,8 @@ for id_, x, y in zip(k18tab['ID'], xx, yy):
         str(id_), (x, y), fontsize='xx-small',
         xytext=(4,4), textcoords='offset points',
                )
-fmin, fmax = 1e-9, 3e-6
-ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+fmin, fmax = 1e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--', zorder=-1)
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
@@ -747,13 +776,15 @@ ax.set(
     ylabel=r'K18 corrected to DL07 with $U \times 8$, $\dot M$',
 )
 ax.set_aspect('equal')
+fig.tight_layout()
 fig.savefig('K18-mdot-Ux8-comparison.pdf')
 None
 
 # ### Comparison between my mass loss and the K18 corrected values
 
 fig, ax = plt.subplots(figsize=(10, 8))
-xx, yy = k18tab['Mdot4'], ttt['Md']
+xx, yy, ye = k18tab['Mdot4'], ttt['Md_t'], ttt['err Md']
+ax.errorbar(xx, yy, yerr=ye, fmt='none')
 c = ax.scatter(xx, yy, 
                c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
                edgecolors='k', alpha=1.0)
@@ -763,7 +794,7 @@ for id_, x, y in zip(tt['ID'], xx, yy):
         str(id_), (x, y), fontsize='xx-small',
         xytext=(4,4), textcoords='offset points',
                )
-fmin, fmax = 3e-10, 3e-6
+fmin, fmax = 1e-10, 3e-6
 ax.plot([fmin, fmax], [fmin, fmax], ls='--')
 ax.set(
     xscale='log', yscale='log', 
@@ -776,7 +807,32 @@ fig.tight_layout()
 fig.savefig('K18-mdot-corrected-comparison.pdf')
 None
 
-k18tab['Mdot_will'] = ttt['Md']
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy, ye = k18tab['Mdot4'], ttt['Md_t'], ttt['err Md']
+ax.errorbar(xx, yy, yerr=1.5*ye, fmt='none', zorder=-1)
+c = ax.scatter(xx, yy, 
+               c=np.log10(tt['R0']), cmap='YlOrRd_r', vmin=-1.5, vmax=0.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[R_0 / \mathrm{pc} \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    xlabel=r'Kobulnicky+ (2018) corrected: $\dot M$, M$_\odot$/yr',
+    ylabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+ax.set_aspect('equal')
+fig.tight_layout()
+fig.savefig('K18-mdot-corrected-comparison-R0.pdf')
+None
+
+k18tab['Mdot_will'] = ttt['Md_t']
 k18tab['Md_Md'] = k18tab['Mdot_will'] / k18tab['Mdot4']
 k18tab['LIR'] = ttt['LIR_will']
 
@@ -843,7 +899,7 @@ fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = 1e4*k18tab['Lum.'], k18tab['Mdot_will']
 c = ax.scatter(xx, yy, 
                c=1.e-3*k18tab['T_eff'], cmap='viridis', #vmin=4.0, vmax=6.0, 
-               edgecolors='k', alpha=1.0, label='_nolabel_')
+               edgecolors='k', alpha=1.0, label='_nolabel_', zorder=100)
 fig.colorbar(c, ax=ax).set_label(r'$T_{\mathrm{eff}}$, kK')
 for id_, x, y in zip(tt['ID'], xx, yy):
     ax.annotate(
@@ -851,16 +907,16 @@ for id_, x, y in zip(tt['ID'], xx, yy):
         xytext=(4,4), textcoords='offset points',
                )
 xmin, xmax = 8e3, 2e6
-ymin, ymax = 3e-10, 3e-6
+ymin, ymax = 1e-10, 3e-6
 xgrid = np.logspace(4.3, np.log10(xmax))
-ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.2, lw=5.0, label='Krtička & Kubat (2018)')
-ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.2, lw=5.0, label='Krtička (2014)')
+ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.5, lw=5.0, label='Krtička & Kubat (2018)')
+ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.5, lw=5.0, label='Krtička (2014)')
 
 ax.plot(10**MarVink_V['log L'], 10**MarVink_V['Mdot'], ls='-', color='r', label='Vink (2000)')
 ax.plot(10**MarVink_III['log L'], 10**MarVink_III['Mdot'], ls='--', color='r', label='_nolabel_')
 ax.plot(10**MarVink_I['log L'], 10**MarVink_I['Mdot'], ls=':', color='r', label='_nolabel_')
 
-ax.plot(Lum_M09, Mdot_M09, '+', alpha=0.5, label='Marcolino (2009)')
+ax.plot(Lum_M09, Mdot_M09, '+', alpha=1.0, label='Marcolino (2009)')
 
 ax.legend(fontsize='xx-small')
 ax.set(
@@ -878,7 +934,7 @@ fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = 1e4*k18tab['Lum.'], k18tab['Mdot4']
 c = ax.scatter(xx, yy, 
                c=1.e-3*k18tab['T_eff'], cmap='viridis', #vmin=4.0, vmax=6.0, 
-               edgecolors='k', alpha=1.0, label='_nolabel_')
+               edgecolors='k', alpha=1.0, label='_nolabel_', zorder=100)
 fig.colorbar(c, ax=ax).set_label(r'$T_{\mathrm{eff}}$, kK')
 for id_, x, y in zip(tt['ID'], xx, yy):
     ax.annotate(
@@ -886,16 +942,16 @@ for id_, x, y in zip(tt['ID'], xx, yy):
         xytext=(4,4), textcoords='offset points',
                )
 xmin, xmax = 8e3, 2e6
-ymin, ymax = 3e-10, 3e-6
+ymin, ymax = 1e-10, 3e-6
 xgrid = np.logspace(4.3, np.log10(xmax))
-ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.2, lw=5.0, label='Krtička & Kubat (2018)')
-ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.2, lw=5.0, label='Krtička (2014)')
+ax.plot(xgrid, Mdot_Krticka18(xgrid), ls='-', color='k', alpha=0.5, lw=5.0, label='Krtička & Kubat (2018)')
+ax.plot(Lum_Krt14, Mdot_Krt14, ls=':', color='k', alpha=0.5, lw=5.0, label='Krtička (2014)')
 
 ax.plot(10**MarVink_V['log L'], 10**MarVink_V['Mdot'], ls='-', color='r', label='Vink (2000)')
 ax.plot(10**MarVink_III['log L'], 10**MarVink_III['Mdot'], ls='--', color='r', label='_nolabel_')
 ax.plot(10**MarVink_I['log L'], 10**MarVink_I['Mdot'], ls=':', color='r', label='_nolabel_')
 
-ax.plot(Lum_M09, Mdot_M09, '+', alpha=0.5, label='Marcolino (2009)')
+ax.plot(Lum_M09, Mdot_M09, '+', alpha=1.0, label='Marcolino (2009)')
 
 ax.legend(fontsize='xx-small', loc='lower right')
 ax.set(
@@ -904,6 +960,7 @@ ax.set(
     xlabel=r'$\log_{10}\ \left[L_* / L_\odot \right]$',
     ylabel=r'K18 (corrected): $\dot M$, M$_\odot$/yr',
 )
+fig.tight_layout()
 fig.savefig('Mdot-K18-corrected-vs-luminosity.pdf')
 None
 # -
