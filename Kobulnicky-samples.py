@@ -464,10 +464,12 @@ ax.set_aspect('equal')
 fig.savefig('K18-mdot-comparison.pdf')
 None
 
-# Correct for radiation pressure on shell
+# Correct for radiation pressure on shell. And calculate errors, assuming a factor 3 uncertainty either way in $\eta$
 
 ttt['Md_t'] = 2.02e-7*ttt['L4']*(ttt['eta_obs'] - 1.25*ttt['tau'])/ ttt['V3']
-ttt['err Md'] = 0.3*ttt['Md']
+efactor = 3.0
+ttt['err Md+'] = ttt['Md']*(efactor - 1.0)
+ttt['err Md-'] = ttt['Md']*(1 - 1/efactor)
 
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = ttt['Md_K18'], ttt['Md_t']
@@ -491,6 +493,37 @@ ax.set(
 ax.set_aspect('equal')
 fig.savefig('K18-mdot-tau-corrected-comparison.pdf')
 None
+
+fig, ax = plt.subplots(figsize=(10, 8))
+xx, yy = ttt['Md_t'], ttt['Md_t'] - ttt['err Md-']
+c = ax.scatter(xx, yy, 
+               c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
+               edgecolors='k', alpha=1.0)
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+for id_, x, y in zip(tt['ID'], xx, yy):
+    ax.annotate(
+        str(id_), (x, y), fontsize='xx-small',
+        xytext=(4,4), textcoords='offset points',
+               )
+fmin, fmax = 1e-10, 3e-6
+ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.set(
+    xscale='log', yscale='log', 
+    xlim=[fmin, fmax], ylim=[fmin, fmax],
+    ylabel=r'$\dot M - \epsilon$',
+    xlabel=r'This paper: $\dot M$, M$_\odot$/yr',
+)
+ax.set_aspect('equal')
+fig.savefig('mdot-vs-negative-error.pdf')
+None
+
+mask_upper_limits = ttt['Md_t'] - ttt['err Md-'] < 0.0
+ttt['rel err'] = ttt['err Md-']/ttt['Md_t']
+ttt[mask_upper_limits]['ID', 'Md_t', 'err Md-', 'rel err']
+
+# Those are the sources where Mdot becomes an upper limit if we use a factor 3 uncertainty in $\eta$.   So, they don't appear on the above graph since Mdot - epsilon is negative. 
+
+ttt['ID', 'Md_t', 'Md_K18']
 
 # Why do we have such a lack of correlation?  Is it my fault or theirs?  Theirs, I hope.
 
@@ -808,20 +841,29 @@ fig.tight_layout()
 fig.savefig('K18-mdot-corrected-comparison.pdf')
 None
 
+# +
 fig, ax = plt.subplots(figsize=(10, 8))
-xx, yy, ye = k18tab['Mdot4'], ttt['Md_t'], ttt['err Md']
-ax.errorbar(xx, yy, yerr=1.5*ye, fmt='none', zorder=-1)
-c = ax.scatter(xx, yy, 
-               c=np.log10(tt['R0']), cmap='YlOrRd_r', vmin=-1.5, vmax=0.0, 
-               edgecolors='k', alpha=1.0)
-fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[R_0 / \mathrm{pc} \right]$')
-for id_, x, y in zip(tt['ID'], xx, yy):
-    ax.annotate(
-        str(id_), (x, y), fontsize='xx-small',
-        xytext=(4,4), textcoords='offset points',
-               )
+
+
+for m, alpha in [mask_upper_limits, 0.3], [~mask_upper_limits, 1.0]:
+    xx, yy, ye = (k18tab[m]['Mdot4'], ttt[m]['Md_t'], 
+                  np.stack((ttt[m]['err Md-'], ttt[m]['err Md+'])))
+    ax.errorbar(xx, yy, yerr=1.0*ye, alpha=alpha,
+                fmt='none', zorder=-1, color='b')
+    c = ax.scatter(xx, yy, 
+                   c=np.log10(tt[m]['R0']), cmap='YlOrRd_r', 
+                   vmin=-1.5, vmax=0.0, 
+                   edgecolors='k', alpha=alpha)
+    for id_, x, y in zip(tt[m]['ID'], xx, yy):
+        ax.annotate(
+            str(id_), (x, y), fontsize='xx-small', 
+            xytext=(4,4), textcoords='offset points', alpha=alpha)
+        
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[R_0 / \mathrm{pc} \right]$')    
+    
 fmin, fmax = 1e-10, 3e-6
-ax.plot([fmin, fmax], [fmin, fmax], ls='--')
+ax.plot([fmin, fmax], [fmin, fmax], 
+        ls='--', zorder=-1, color=(0.9, 0.6, 0.1))
 ax.set(
     xscale='log', yscale='log', 
     xlim=[fmin, fmax], ylim=[fmin, fmax],
@@ -832,6 +874,7 @@ ax.set_aspect('equal')
 fig.tight_layout()
 fig.savefig('K18-mdot-corrected-comparison-R0.pdf')
 None
+# -
 
 k18tab['Mdot_will'] = ttt['Md_t']
 k18tab['Md_Md'] = k18tab['Mdot_will'] / k18tab['Mdot4']
@@ -840,6 +883,10 @@ k18tab['LIR'] = ttt['LIR_will']
 k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'R_0', 'U', 'Peak_70', 'LIR'].to_pandas().applymap(np.log10).corr()
 
 k18tab['Mdot', 'Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
+
+k18tab['ID''Mdot4', 'Mdot_will', 'Md_Md']
+
+k18tab[mask_upper_limits]
 
 ['Sub-Giant' if 'IV' in s else 'Dwarf' if 'V' in s else 'Giant' for s in k18tab['Sp.T._1']]
 
