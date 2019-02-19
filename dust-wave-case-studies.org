@@ -560,6 +560,8 @@ Interaction with black hole
   - Deep silicate absorption
     - This would have to be corrected for in finding SED
   - Promise more data but it has never been published
+  - If we are going to analyze this, look at Shao:2018a for the IR extinction law
+    - Extinction at 10 \micro{}m is same as a 2 \micro{}m
 + Sanchez-Bermudez:2014a
   - H, K, L observations
   - Some are even smaller: 500 AU = 0.0024 pc
@@ -4641,6 +4643,8 @@ CLOSED: [2019-02-10 Sun 22:16]
 + Proton Larmor radius
   + r_L = v m c / e B = 1.04e10 (B/\micro{}G)^{-1} cm - much less than size of bow.
   + Dust grain mass for a = 0.01 micron: 1.26e-17 g or 7e6 times proton mass, so that will have a much larger Larmor radius
++ Proton collisional mean free path
++ 
 *** Compare stochastic heating with thermal equilibrium
 + For the smallest grains, cooling time can be smaller than time between absorptions
   + First paper on this seems to be Duley:1973a

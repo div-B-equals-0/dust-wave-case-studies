@@ -196,6 +196,7 @@ for id_, x, y in zip(tt['ID'], xx, yy):
         xytext=(4,4), textcoords='offset points',
                )
 fmin, fmax = 2e-4, 5e-1
+ax.fill_between([fmin, fmax], [fmin/2, fmax/2], [fmin*2, fmax*2], color='k', alpha=0.2, zorder=-1)
 ax.plot([fmin, fmax], [fmin, fmax], ls='--', zorder=-1)
 ax.set(
     xscale='log', yscale='log', 
@@ -759,9 +760,9 @@ k18tab['Mdot4'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 *
 fig, ax = plt.subplots(figsize=(10, 8))
 xx, yy = k18tab['Mdot'], k18tab['Mdot4']
 c = ax.scatter(xx, yy, 
-               c=4.0 + np.log10(k18tab['Lum.']), cmap='magma', vmin=3.5, vmax=6.0, 
+               c=np.log10(k18tab['U']), cmap='Blues_r', vmin=2.3, vmax=5.3, 
                edgecolors='k', alpha=1.0)
-fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ U$')
 for id_, x, y in zip(k18tab['ID'], xx, yy):
     ax.annotate(
         str(id_), (x, y), fontsize='xx-small',
@@ -838,7 +839,7 @@ k18tab['LIR'] = ttt['LIR_will']
 
 k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'R_0', 'U', 'Peak_70', 'LIR'].to_pandas().applymap(np.log10).corr()
 
-k18tab['Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
+k18tab['Mdot', 'Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
 
 ['Sub-Giant' if 'IV' in s else 'Dwarf' if 'V' in s else 'Giant' for s in k18tab['Sp.T._1']]
 
