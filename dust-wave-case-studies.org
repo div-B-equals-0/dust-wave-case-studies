@@ -4595,6 +4595,17 @@ CLOSED: [2019-02-10 Sun 22:16]
   + T : [0, +1]
   + \kappa : [0, -1]
   + H/R : [0, -1]
++ Error ellipse:
+  | observable | dex \sigma | d\tau | d\eta |  \sigma(\tau) |  \sigma(\eta) | squared | squared |  abs |  abs |
+  |------------+-------+----+----+-------+-------+---------+---------+------+------|
+  | D          |  0.08 | -2 | -1 | -0.16 | -0.08 |  0.0256 |  6.4e-3 | 0.16 | 0.08 |
+  | L_*        |  0.18 | -1 | -2 | -0.18 | -0.36 |  0.0324 |  0.1296 | 0.18 | 0.36 |
+  | F_IR       |  0.07 |  1 |  1 |  0.07 |  0.07 |  4.9e-3 |  4.9e-3 | 0.07 | 0.07 |
+  | \theta          |  0.11 |  0 |  1 |    0. |  0.11 |      0. |  0.0121 |   0. | 0.11 |
+  |------------+-------+----+----+-------+-------+---------+---------+------+------|
+  |            |       |    |    |     0 |     0 |    0.25 |    0.39 | 0.41 | 0.62 |
+  #+TBLFM: $5=$2 $3::$6=$2 $4::$7=$-2**2::$8=$-2**2::$9=abs($-4)::$10=abs($-4)::@6$7..@6$8=sqrt(vsum(@I..@II));f2::@6$9..@6$10=vsum(@I..@II);f2
+  + So, ellipse should be in box 0.25x0.39 and should have major axis at (0.41, 0.62)
 + Conversion to mass-loss rate
   + Mdot_-7 = 2.02 \eta_w L_4 / V_3
   + Mdot_-7 = 495 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3}
@@ -4831,6 +4842,17 @@ CLOSED: [2019-02-14 Thu 09:42]
 |   4.0 | (1.000, -1.732) | (1.500, -1.323) | 2.000 | 0.764 |
 #+TBLFM: $2=1 (1 - sqrt(1 - ($1/ 2 1)**2)) ;f3::$3=1.5 (1 - sqrt(1 - ($1/ 2 1.5)**2)) ;f3::$4=2 (1 - sqrt(1 - ($1/ 2 2)**2)) ;f3::$5=3 (1 - sqrt(1 - ($1/ 2 3)**2)) ;f3
 
+*** Equivalence between K18 observational quantities and mine
++ First step is determining column densities
+  + Although mine is radial, theirs is LOS
+  + I use \Sigma = \tau / \kappa = LIR / L_* \kappa = FIR D^2 / L_* \kappa
+  + They use \Sigma = S70/j = FIR / \theta^2 j
++ Although we also need to think about the \theta in S70 = F70/\theta^2
+  + Is this proportional to the bow size
++ Then there are geometric factors concerning H and \ell
+*** Accuracy of photometry
++ MIPS has stated precision of 4\% for point sources
++ Ratio between mine and K17 fluxes gives std of 0.07
 ** Povich:2008a bows in M17 and RCW 49
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands

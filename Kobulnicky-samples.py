@@ -175,6 +175,10 @@ None
 #
 # So, I will use my fluxes instead.  
 
+# Now, compare the F70 and I70 to get an equivalent size: compare that with bow shock size
+
+
+
 # Now add in the table that I transcribed from the 2018 paper:
 
 tab18 = Table.read('kob18.fits')
@@ -216,6 +220,26 @@ None
 # * 411: The luminosity class has changed from Ib (K17) to V (K18), so $L_*$ has been greatly reduced, which increases the estimated $\tau$
 #
 # And there doesn't seem to be any significant correlation with stellar luminosity.
+
+tt['FIR_FIR'] = tt['FIR_will']/tt['FIR']
+
+fdf = tt['FIR_will', 'FIR', 'FIR_FIR', 'T2x/70'].to_pandas()
+
+fdf.drop(1)
+
+fdf = fdf.drop(1).applymap(np.log10)
+
+fdf.describe()
+
+fdf.corr()
+
+fdf.cov()
+
+# _Now corrected for bad source 67 that had wrong flux in K17_
+#
+# So the two fluxes are very well correlated: \(r = 0.9996\) in log space.  S.d. of 0.7 for each log F, whereas the log ratio has s.d. of 0.07.  
+
+fdf.sort_values('T2x/70')
 
 # Next job is to estimate the shell pressure from the $\tau$:
 #
@@ -574,6 +598,8 @@ mdf[['D_kpc', 'theta', 'FIR', 'L4', 'V3', 'Md']].corr()
 
 # But, as can be seen, $\dot M$ is correlated with none of these very well. So, best stick with $L$ and $R$. 
 
+ttt
+
 # ### Now, look at their Mdots
 
 # What do they really depend on?  
@@ -817,8 +843,8 @@ None
 # ### Comparison between my mass loss and the K18 corrected values
 
 fig, ax = plt.subplots(figsize=(10, 8))
-xx, yy, ye = k18tab['Mdot4'], ttt['Md_t'], ttt['err Md']
-ax.errorbar(xx, yy, yerr=ye, fmt='none')
+xx, yy, ye = 1.0*k18tab['Mdot4'], 1.0*ttt['Md_t'], np.stack((1.0*ttt['err Md-'], 1.0*ttt['err Md+']))
+#ax.errorbar(xx, yy, yerr=ye, fmt='none')
 c = ax.scatter(xx, yy, 
                c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=4.0, vmax=6.0, 
                edgecolors='k', alpha=1.0)
@@ -884,7 +910,7 @@ k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'R_0', 'U', 'Peak_70', 'LIR'].to_p
 
 k18tab['Mdot', 'Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
 
-k18tab['ID''Mdot4', 'Mdot_will', 'Md_Md']
+k18tab['ID', 'Mdot4', 'Mdot_will', 'Md_Md']
 
 k18tab[mask_upper_limits]
 
@@ -1085,9 +1111,10 @@ plt.gcf().set_size_inches(10, 10)
 #
 # 2. The total FIR flux is very well correlated with the 24 micron value ($r = 0.97$), better than at 70 ($r = 0.87$) or 8 micron ($r = 0.61$ from pairplot, but this is affected by missing values - really should be $0.86$, see `.corr()` matrix above).
 
+# ### Look at relation between peak and flux at 70 micron
 
-
-
+tab05_01_02['Peak_70'] = k18tab['Peak_70']
+tab05_01_02['F70']/k18tab['Peak_70']
 
 # ### Earlier stuff
 
@@ -1135,8 +1162,3 @@ ax.set(xscale='log', yscale='log',
 ax.set_aspect('equal')
 
 # Not the same!  But doesn't fully explain the $U$ scatter.  Must be different radii too
-
-a = np.linspace(0.0, 1.0, 11)
-b = a**2
-np.savetxt("test4jane.dat", np.stack((a, b), axis=1), fmt='%.4e')
-!cat test4jane.dat
