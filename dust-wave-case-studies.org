@@ -4585,30 +4585,42 @@ CLOSED: [2019-02-10 Sun 22:16]
   - Answer: it isn't
     - But I think that is to be expected, since they are in different limits: bow wave versus bow shock
 + Sensitivity to parameters
-  + \tau = 2 L_IR/L_* and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
+  + \tau = 2 L_IR/L_\star
+    + F_IR = 1e-10 F_-10 erg/s/cm^2
+    + L_IR = 1.20e34 D_kpc^2 F_-10 erg/s = 3.132 F_-10 D_kpc^2 Lsun
+    + \tau = 6.264e-4 F_-10 D_kpc^2 / L_4
+  + and \eta =  245 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} L_{4}
+    + R_pc = 0.00485 \theta_as D_kpc
+    + \eta =  7.443e-4 F_-10 D_kpc^3 \theta_as T_{4} / \kappa_{600} h_{1/4} L_{4}^2
   + So calculate [a, b] = [d ln \tau / d ln X, d ln \eta / d ln X]
   + \tau : [+1, +1]
   + \theta : [0, +1]
   + F_IR : [+1, +1]
   + L_* : [-1, -2]
-  + D : [-2, -1]
+  + D : [+2, +3]
   + T : [0, +1]
   + \kappa : [0, -1]
   + H/R : [0, -1]
 + Error ellipse:
   | observable | dex \sigma | d\tau | d\eta |  \sigma(\tau) |  \sigma(\eta) | squared | squared |  abs |  abs |
   |------------+-------+----+----+-------+-------+---------+---------+------+------|
-  | D          |  0.08 | -2 | -1 | -0.16 | -0.08 |  0.0256 |  6.4e-3 | 0.16 | 0.08 |
-  | L_*        |  0.18 | -1 | -2 | -0.18 | -0.36 |  0.0324 |  0.1296 | 0.18 | 0.36 |
+  | D          |  0.08 |  2 |  3 |  0.16 |  0.24 |  0.0256 |  0.0576 | 0.16 | 0.24 |
+  | L_\star        |  0.18 | -1 | -2 | -0.18 | -0.36 |  0.0324 |  0.1296 | 0.18 | 0.36 |
   | F_IR       |  0.07 |  1 |  1 |  0.07 |  0.07 |  4.9e-3 |  4.9e-3 | 0.07 | 0.07 |
   | \theta          |  0.11 |  0 |  1 |    0. |  0.11 |      0. |  0.0121 |   0. | 0.11 |
   |------------+-------+----+----+-------+-------+---------+---------+------+------|
-  |            |       |    |    |     0 |     0 |    0.25 |    0.39 | 0.41 | 0.62 |
+  |            |       |    |    |     0 |     0 |    0.25 |    0.45 | 0.41 | 0.78 |
   #+TBLFM: $5=$2 $3::$6=$2 $4::$7=$-2**2::$8=$-2**2::$9=abs($-4)::$10=abs($-4)::@6$7..@6$8=sqrt(vsum(@I..@II));f2::@6$9..@6$10=vsum(@I..@II);f2
   + So, ellipse should be in box 0.25x0.39 and should have major axis at (0.41, 0.62)
 + Conversion to mass-loss rate
   + Mdot_-7 = 2.02 \eta_w L_4 / V_3
-  + Mdot_-7 = 495 \tau R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3}
+    + \eta_w = \eta_sh - 1.25 \tau
+  + Mdot_-7 = \tau [495 R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3 }- 1.25]
+    + At least this removes one power of the L_\star
+    + Mdot_-7 = 2 (F_IR D^2 / L_4) [2.4 \theta_as D_kpc T_{4} / \kappa_{600} h_{1/4} V_{3 }- 1.25]
+  + So, if we are in the limit \eta_w \gg 1.25 \tau, then we can find d ln Mdot / d ln X
+    + \tau : 
+
 
 *** Compare KE flux with radiation
 + In summary ::
