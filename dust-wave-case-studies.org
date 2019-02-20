@@ -4614,12 +4614,51 @@ CLOSED: [2019-02-10 Sun 22:16]
   + So, ellipse should be in box 0.25x0.39 and should have major axis at (0.41, 0.62)
 + Conversion to mass-loss rate
   + Mdot_-7 = 2.02 \eta_w L_4 / V_3
-    + \eta_w = \eta_sh - 1.25 \tau
-  + Mdot_-7 = \tau [495 R_{pc} T_{4} / \kappa_{600} h_{1/4} V_{3 }- 1.25]
-    + At least this removes one power of the L_\star
-    + Mdot_-7 = 2 (F_IR D^2 / L_4) [2.4 \theta_as D_kpc T_{4} / \kappa_{600} h_{1/4} V_{3 }- 1.25]
+    + \eta_w = \eta_sh - 1.25 Q \tau
+    + where Q = (Q_P/Q_abs) / 1.25
+  + Mdot_-7 = (2.02 L_4 / V_3) [7.443e-4 (F_-10 D_kpc^3 \theta_as T_{4} / \kappa_{600} h_{1/4} L_{4}^2) - 7.83e-4 Q F_-10 D_kpc^2 / L_4 ]
+    + = 1.503e-3 (F_-10 D_kpc^2 / V_3) [(D_kpc  \theta_as T_{4} / \kappa_{600} h_{1/4} L_{4}) - 1.05 Q]
   + So, if we are in the limit \eta_w \gg 1.25 \tau, then we can find d ln Mdot / d ln X
-    + \tau : 
+    + F_-10 : +1
+    + D_kpc : +3
+    + \theta_as : +1
+    + L_4 : -1
+    + V_3 : -1 (this has 50% uncertainty according to K18 => 0.18 dex)
+    + Assumed parameters: T_{4} / \kappa_{600} h_{1/4}
++ Do the same with K18 mass-loss method
+  + They give Mdot \propto \theta D v^2 I_70 / V_3 (\ell/R) j_70
+  + Where j_70 \propto sqrt(U) \propto L_4^1/2 / \theta D
+  + So we finally get Mdot \propto \theta^2 D^2 v^2 I_70 / V_3 (\ell/R) L_4^1/2 j_70
+    + We still left a j_70 in there to account for changes in dust abundance or size
+  + Hence for d ln Mdot / d ln X we get:
+    + I_70 : +1
+    + D_kpc : +2
+    + \theta_as : +2
+    + L_4 : -0.5
+    + (\ell/R) : -1 (this is an observed quantity - assign 20% uncertainty)
+    + V_3 : -1 (this is assigned per object based on spectral type)
+    + Assumed parameters: v^2 \delta / j_70
++ So we can do the same error ellipse MH is us, MK is K18
+  |      | dex \sigma | dMH |  dMK | dH/K | \sigma(MH) | Squared | \sigma(MK) | Squared | \sigma(H/K) | Squared |
+  |------+-------+-----+------+------+-------+---------+-------+---------+--------+---------|
+  | D    |  0.08 |   3 |    2 |    1 |  0.24 |  0.0576 |  0.16 |  0.0256 |   0.08 |  0.0064 |
+  | L_*  |  0.18 |  -1 | -0.5 | -0.5 | -0.18 |  0.0324 | -0.09 |  8.1e-3 |  -0.09 |  0.0081 |
+  | F_IR |  0.07 |   1 |    0 |    1 |  0.07 |  4.9e-3 |    0. |      0. |   0.07 |  0.0049 |
+  | I_70 |  0.07 |   0 |    1 |   -1 |    0. |      0. |  0.07 |  4.9e-3 |  -0.07 |  0.0049 |
+  | \theta    |  0.11 |   1 |    2 |   -1 |  0.11 |  0.0121 |  0.22 |  0.0484 |  -0.11 |  0.0121 |
+  | \ell/R  |  0.08 |   0 |   -1 |    1 |    0. |      0. | -0.08 |  6.4e-3 |   0.08 |  0.0064 |
+  | V_3  |  0.18 |  -1 |   -1 |    0 | -0.18 |  0.0324 | -0.18 |  0.0324 |     0. |  0.0000 |
+  |------+-------+-----+------+------+-------+---------+-------+---------+--------+---------|
+  |      |       |     |      |    0 |     0 |    0.37 |     0 |    0.35 |      0 |    0.21 |
+  #+TBLFM: $5=$3 - $4::$6=$2 $3::$7=$-1**2::$8=$2 $4::$9=$-1**2::$10=$2 $5::$11=$-1**2;f4::@9$7=sqrt(vsum(@I..@II));f2::@9$9=sqrt(vsum(@I..@II));f2::@9$11=sqrt(vsum(@I..@II));f2
+  + Bottom row gives dex \sigma for:
+    + Our Mdot : 0.37 dex or factor of 2.34
+      + Most important D (42% of variance), then L_* and V_3 (24% each)
+    + K18 Mdot : 0.35 dex or factor of 2.24
+      + Most important \theta (40%) then V_3 (26%) then D (21%)
+    + Mdot ratio : 0.21 dex or factor 1.62
+      + Most important \theta (27%) then L_* (18%)
+      + I eventually decided I shouldn't divide by sqrt(2)
 
 
 *** Compare KE flux with radiation
