@@ -429,6 +429,18 @@ Interaction with black hole
     + [ ] Need to find a way to estimate ionized density 
 + Stellar type: O9.5V
 + R0 on axis is only about 12 arcsec = 0.03 pc @ 500 pc
+**** X-rays from AE Aur
++ Jesús is looking into this
+  + I asked for
+    1. Emission measure - find mass loss rate in hot component
+    2. Line widths - wind velocity?
+    3. f/i ratio for triplets - inner radius of hot gas
+  + He has found possible variability
++ Previous work
+  + Oskinova:2016a says the following:
+    : X-ray observations of O-dwarfs seem to support this scenario. High-resolution X-ray spectra of ζ Oph (O9.2IV), μ Col (O9.5V), AE Aur (O9.5V), and σ Ori AB (O9.5V+B0.5V) show similar morphology (Oskinova et al., 2006; Skinner et al., 2008; Huenemoerder et al., 2012). The X-ray lu- minosity of O dwarfs is a significant frac- tion of the cool wind’s mechanical luminos- ity. For instance, the ratio between LX and Lwind = 0.5M ̇ v∞2 amounts to 0.1 in μ Col and 0.7 in AE Aur. There is only limited evi- dence for an absorption of X-rays by the cool wind component, consistent with the above picture. Analyses of line ratios of He-like ions (see Section 3) indicate that the hot matter is present already in inner wind regions where the wind velocity is low. The X-ray emission lines are broadened up to v∞, and can be well described as originating from a plasma ex- panding with a β-velocity law, i.e. the hot plasma occupies a large span of velocities.
+  + *but* I have checked through those references, and none of them mention AE Aur
+  + It has no detectable UV variability or magnetic field (Schnerr:2008a)
 **** Images and measurements of AE Aur and IC 405 / S 126
 + I have Spitzer and WISE
 + There is no Herschel, unfortunately
@@ -4639,12 +4651,28 @@ CLOSED: [2019-02-10 Sun 22:16]
   |------------+-------+----+----+-------+-------+---------+---------+------+------|
   | D          |  0.08 |  2 |  3 |  0.16 |  0.24 |  0.0256 |  0.0576 | 0.16 | 0.24 |
   | L_\star        |  0.18 | -1 | -2 | -0.18 | -0.36 |  0.0324 |  0.1296 | 0.18 | 0.36 |
-  | F_IR       |  0.07 |  1 |  1 |  0.07 |  0.07 |  4.9e-3 |  4.9e-3 | 0.07 | 0.07 |
+  | F_IR       |  0.12 |  1 |  1 |  0.12 |  0.12 |  0.0144 |  0.0144 | 0.12 | 0.12 |
   | \theta          |  0.11 |  0 |  1 |    0. |  0.11 |      0. |  0.0121 |   0. | 0.11 |
   |------------+-------+----+----+-------+-------+---------+---------+------+------|
-  |            |       |    |    |     0 |     0 |    0.25 |    0.45 | 0.41 | 0.78 |
+  |            |       |    |    |     0 |     0 |    0.27 |    0.46 | 0.46 | 0.83 |
   #+TBLFM: $5=$2 $3::$6=$2 $4::$7=$-2**2::$8=$-2**2::$9=abs($-4)::$10=abs($-4)::@6$7..@6$8=sqrt(vsum(@I..@II));f2::@6$9..@6$10=vsum(@I..@II);f2
   + So, ellipse should be in box 0.25x0.39 and should have major axis at (0.41, 0.62)
++ Do the same but along \eta\tau and \eta/\tau axes
+  | observable | dex \sigma | d\tau | d\eta | \sigma(\eta \tau) | \sigma(\eta/\tau) | squared | squared |  abs |  abs |
+  |------------+-------+----+----+--------+--------+---------+---------+------+------|
+  | D          |  0.08 |  2 |  3 |    0.4 |   0.08 |    0.16 |  6.4e-3 |  0.4 | 0.08 |
+  | L_\star        |  0.18 | -1 | -2 |  -0.54 |  -0.18 |  0.2916 |  0.0324 | 0.54 | 0.18 |
+  | F_IR       |  0.12 |  1 |  1 |   0.24 |     0. |  0.0576 |      0. | 0.24 |   0. |
+  | \theta          |  0.11 |  0 |  1 |   0.11 |   0.11 |  0.0121 |  0.0121 | 0.11 | 0.11 |
+  |------------+-------+----+----+--------+--------+---------+---------+------+------|
+  |            |       |    |    |      0 |      0 |    0.72 |    0.23 | 1.29 | 0.37 |
+  #+TBLFM: $5=$2 ($3 + $4)::$6=$2 ($4 - $3)::$7=$-2**2::$8=$-2**2::$9=abs($-4)::$10=abs($-4)::@6$7..@6$8=sqrt(vsum(@I..@II));f2::@6$9..@6$10=vsum(@I..@II);f2
+  + This confirms that error ellipse should have axis ratio of at least 3:1
+  + If we divide by sqrt(2), then we get a sigma of
+    + 0.51 dex along sqrt(\eta \tau) or 0.72 dex of \eta\tau
+    + 0.16 dex along sqrt(\eta/\tau) or 0.23 dex of \eta/\tau
+  + Both are dominated by luminosity uncertainty
+
 + Conversion to mass-loss rate
   + Mdot_-7 = 2.02 \eta_w L_4 / V_3
     + \eta_w = \eta_sh - 1.25 Q \tau
@@ -4676,13 +4704,13 @@ CLOSED: [2019-02-10 Sun 22:16]
   |------+-------+-----+------+------+-------+---------+-------+---------+--------+---------|
   | D    |  0.08 |   3 |    2 |    1 |  0.24 |  0.0576 |  0.16 |  0.0256 |   0.08 |  0.0064 |
   | L_*  |  0.18 |  -1 | -0.5 | -0.5 | -0.18 |  0.0324 | -0.09 |  8.1e-3 |  -0.09 |  0.0081 |
-  | F_IR |  0.07 |   1 |    0 |    1 |  0.07 |  4.9e-3 |    0. |      0. |   0.07 |  0.0049 |
-  | I_70 |  0.07 |   0 |    1 |   -1 |    0. |      0. |  0.07 |  4.9e-3 |  -0.07 |  0.0049 |
+  | F_IR |  0.12 |   1 |    0 |    1 |  0.12 |  0.0144 |    0. |      0. |   0.12 |  0.0144 |
+  | I_70 |  0.12 |   0 |    1 |   -1 |    0. |      0. |  0.12 |  0.0144 |  -0.12 |  0.0144 |
   | \theta    |  0.11 |   1 |    2 |   -1 |  0.11 |  0.0121 |  0.22 |  0.0484 |  -0.11 |  0.0121 |
   | \ell/R  |  0.08 |   0 |   -1 |    1 |    0. |      0. | -0.08 |  6.4e-3 |   0.08 |  0.0064 |
   | V_3  |  0.18 |  -1 |   -1 |    0 | -0.18 |  0.0324 | -0.18 |  0.0324 |     0. |  0.0000 |
   |------+-------+-----+------+------+-------+---------+-------+---------+--------+---------|
-  |      |       |     |      |    0 |     0 |    0.37 |     0 |    0.35 |      0 |    0.21 |
+  |      |       |     |      |    0 |     0 |    0.39 |     0 |    0.37 |      0 |    0.25 |
   #+TBLFM: $5=$3 - $4::$6=$2 $3::$7=$-1**2::$8=$2 $4::$9=$-1**2::$10=$2 $5::$11=$-1**2;f4::@9$7=sqrt(vsum(@I..@II));f2::@9$9=sqrt(vsum(@I..@II));f2::@9$11=sqrt(vsum(@I..@II));f2
   + Bottom row gives dex \sigma for:
     + Our Mdot : 0.37 dex or factor of 2.34
@@ -4692,7 +4720,193 @@ CLOSED: [2019-02-10 Sun 22:16]
     + Mdot ratio : 0.21 dex or factor 1.62
       + Most important \theta (27%) then L_* (18%)
       + I eventually decided I shouldn't divide by sqrt(2)
++ Do the same for diagonal lines Mdot L and Mdot/L
+  |      | dex \sigma | dMH | dL |     \sigma(MH L) |      Squared |   \sigma(MH / L) |      Squared |
+  |------+-------+-----+----+-------------+--------------+-------------+--------------|
+  | D    |  0.08 |   3 |  0 |  0.16970563 |  0.028800001 |  0.16970563 |  0.028800001 |
+  | L_*  |  0.18 |  -1 |  1 |          0. |           0. | -0.25455844 |  0.064799999 |
+  | F_IR |  0.12 |   1 |  0 | 0.084852814 | 7.2000000e-3 | 0.084852814 | 7.2000000e-3 |
+  | I_70 |  0.12 |   0 |  0 |          0. |           0. |          0. |           0. |
+  | \theta    |  0.11 |   1 |  0 | 0.077781746 | 6.0500000e-3 | 0.077781746 | 6.0500000e-3 |
+  | \ell/R  |  0.08 |   0 |  0 |          0. |           0. |          0. |           0. |
+  | V_3  |  0.18 |  -1 |  0 | -0.12727922 |  0.016200000 | -0.12727922 |  0.016200000 |
+  |------+-------+-----+----+-------------+--------------+-------------+--------------|
+  |      |       |     |    |          0. |         0.24 |          0. |         0.35 |
+  #+TBLFM: $5=$2 ($3 + $4) / sqrt(2)::$6=$-1**2::$7=$2 ($3 - $4) / sqrt(2)::$8=$-1**2::@9$6=sqrt(vsum(@I..@II));f2::@9$8=sqrt(vsum(@I..@II));f2
+  + That does not help at all!
+  + We should really take eigenvectors of covariance matrix
+**** Covariance matrix for error ellipse
++ Wikipedia page https://en.wikipedia.org/wiki/Propagation_of_uncertainty
++ Consider set of functions f_k(x_1, x_2, ....)
+  + e.g., f_1 = log \tau, f_2 = log \eta
+  + x_1 = log D, x_2 = log L_*, etc
++ f_{k} = \sum_{i=1,n} A_{ki} x_{i}
+  + so the A_{ki} are d f_{k} / d x_{i}
++ Consider errors in x_{i} to be independent
++ Cov(f)_{k\ell} = \sum_{i=1,n} A_{ki} A_{\ell{}i} \sigma^{2}(x_{i})
+***** \tau-\eta covariance
++ write \Delta_{x}\tau = A_{\tau{}i} = d ln \tau / d ln x_{i} and \Delta_{x}\eta = A_{\eta{}i}
++ covariance array C = [ [C\tau\tau, C\tau\eta], [C\eta\tau, C\eta\eta]]
+| x   | dex \sigma | \Delta_{x}\tau | \Delta_{x}\eta |    C\tau\tau |    C\tau\eta |    C\eta\tau |    C\eta\eta |
+|-----+-------+-----+-----+--------+--------+--------+--------|
+| D   |  0.08 |   2 |   3 | 0.0256 | 0.0384 | 0.0384 | 0.0576 |
+| L_{\star}  |  0.18 |  -1 |  -2 | 0.0324 | 0.0648 | 0.0648 | 0.1296 |
+| F_{IR} |  0.12 |   1 |   1 | 0.0144 | 0.0144 | 0.0144 | 0.0144 |
+| \theta   |  0.11 |   0 |   1 |     0. |     0. |     0. | 0.0121 |
+|-----+-------+-----+-----+--------+--------+--------+--------|
+|     |       |     |     | 0.0724 | 0.1176 | 0.1176 | 0.2137 |
+#+TBLFM: $5=$2**2 $3 $3::$6=$2**2 $3 $4::$7=$2**2 $4 $3::$8=$2**2 $4 $4::@6$5..@6$8=vsum(@I..@II)
 
+#+BEGIN_SRC python :results output
+  import numpy as np
+  cov = np.array([[0.0724, 0.1176], [0.1176, 0.2137]])
+  eigvals, eigvecs = np.linalg.eigh(cov)
+  for i, eigval in enumerate(eigvals):
+      x, y = eigvecs[:, i]
+      print(
+          f'sig = {np.sqrt(eigval):.3f}'
+          f' in direction [{x:.3f}, {y:.3f}]'
+          f' angle = {np.rad2deg(np.arctan2(y, x)):.1f} deg'
+      )
+  theta = 0.5*np.arctan2(2*cov[0, 1], cov[0, 0] - cov[1, 1])
+  print(f'alt angle = {np.rad2deg(theta):.1f}')
+#+END_SRC
+
+#+RESULTS:
+: sig = 0.077 in direction [-0.870, 0.492] angle = 150.5 deg
+: sig = 0.529 in direction [0.492, 0.870] angle = 60.5 deg
+: alt angle = 60.5
+
++ 1 dex = 3.068 cm
++ ellipse (+/- 1 \sigma)= [3.246, 0.472] @ 60.5 deg
+***** Mdot-L covariance - our method
+| x   | dex \sigma | \Delta_{x}L | \Delta_{x}Md |    CLL |    CLMd |    CMdL |  CMdMd |
+|-----+-------+-----+------+--------+---------+---------+--------|
+| D   |  0.08 |   0 |    3 |     0. |      0. |      0. | 0.0576 |
+| L_{\star}  |  0.18 |   1 |   -1 | 0.0324 | -0.0324 | -0.0324 | 0.0324 |
+| F_{IR} |  0.12 |   0 |    1 |     0. |      0. |      0. | 0.0144 |
+| \theta   |  0.11 |   0 |    1 |     0. |      0. |      0. | 0.0121 |
+| V_3 |  0.18 |   0 |   -1 |     0. |      0. |      0. | 0.0324 |
+|-----+-------+-----+------+--------+---------+---------+--------|
+|     |       |     |      | 0.0324 | -0.0324 | -0.0324 | 0.1489 |
+#+TBLFM: $5=$2**2 $3 $3::$6=$2**2 $3 $4::$7=$2**2 $4 $3::$8=$2**2 $4 $4::@7$5..@7$8=vsum(@I..@II)
+
+#+BEGIN_SRC python :results output
+  import numpy as np
+  cov = np.array([[0.0324, -0.0324], [-0.0324, 0.1489]])
+  #cov = np.array([[0.0841, 0.0], [0.0, 0.0324]])
+  eigvals, eigvecs = np.linalg.eigh(cov)
+  for i, eigval in enumerate(eigvals):
+      x, y = eigvecs[:, i]
+      print(
+          f'sig = {np.sqrt(eigval):.3f}'
+          f' in direction [{x:.3f}, {y:.3f}]'
+          f' angle = {np.rad2deg(np.arctan2(y, x)):.1f} deg'
+      )
+  theta = 0.5*np.arctan2(2*cov[0, 1], cov[0, 0] - cov[1, 1])
+  print(f'alt angle = {np.rad2deg(theta):.1f}')
+#+END_SRC
+
+#+RESULTS:
+: sig = 0.155 in direction [-0.968, -0.251] angle = -165.5 deg
+: sig = 0.397 in direction [-0.251, 0.968] angle = 104.5 deg
+: alt angle = -75.5
+***** Mdot-L K18 method
+Take the C array from down below
+#+BEGIN_SRC python :results output
+  import numpy as np
+  cov = np.array([[0.0324, -0.0162], [-0.0162, 0.1353]])
+  #cov = np.array([[0.0841, 0.0], [0.0, 0.0324]])
+  eigvals, eigvecs = np.linalg.eigh(cov)
+  for i, eigval in enumerate(eigvals):
+      x, y = eigvecs[:, i]
+      print(
+          f'sig = {np.sqrt(eigval):.3f}'
+          f' in direction [{x:.3f}, {y:.3f}]'
+          f' angle = {np.rad2deg(np.arctan2(y, x)):.1f} deg'
+      )
+  [a, b], [c, d] = cov
+  theta = 0.5*np.arctan2(2*b, a - d)
+  print(f'alt angle = {np.rad2deg(theta):.1f}')
+  D = (a + d)**2 - 4*(a*d - b*c)
+  lam1 = 0.5*((a + d) + np.sqrt(D))
+  lam2 = 0.5*((a + d) - np.sqrt(D))
+  print(f'alt sigs = {np.sqrt(lam1):.3f} and {np.sqrt(lam2):.3f}')
+#+END_SRC
+
+#+RESULTS:
+: sig = 0.173 in direction [-0.988, -0.152] angle = -171.3 deg
+: sig = 0.371 in direction [-0.152, 0.988] angle = 98.7 deg
+: alt angle = -81.3
+: alt sigs = 0.371 and 0.173
+
+***** Mdot-Mdot covariance
+| x   | dex \sigma | \Delta_{x}MdK | \Delta_{x}Md |    C11 |    C12 |    C21 |    C22 |
+|-----+-------+-------+------+--------+--------+--------+--------|
+| D   |  0.08 |     2 |    3 | 0.0256 | 0.0384 | 0.0384 | 0.0576 |
+| L_{\star}  |  0.18 |  -0.5 |   -1 | 8.1e-3 | 0.0162 | 0.0162 | 0.0324 |
+| F_{IR} |  0.12 |     0 |    1 |     0. |     0. |     0. | 0.0144 |
+| I_{70} |  0.12 |     1 |    0 | 0.0144 |     0. |     0. |     0. |
+| \theta   |  0.11 |     2 |    1 | 0.0484 | 0.0242 | 0.0242 | 0.0121 |
+| \ell/R |  0.08 |    -1 |    0 | 6.4e-3 |     0. |     0. |     0. |
+| V_{3}  |  0.18 |    -1 |   -1 | 0.0324 | 0.0324 | 0.0324 | 0.0324 |
+|-----+-------+-------+------+--------+--------+--------+--------|
+|     |       |       |      | 0.1353 | 0.1112 | 0.1112 | 0.1489 |
+#+TBLFM: $5=$2**2 $3 $3::$6=$2**2 $3 $4::$7=$2**2 $4 $3::$8=$2**2 $4 $4::@9$5..@9$8=vsum(@I..@II)
+
+#+BEGIN_SRC python :results output
+  import numpy as np
+  cov = np.array([[0.1353, 0.1112], [0.1112, 0.1489]])
+  #cov = np.array([[0.0841, 0.0], [0.0, 0.0324]])
+  eigvals, eigvecs = np.linalg.eigh(cov)
+  for i, eigval in enumerate(eigvals):
+      x, y = eigvecs[:, i]
+      print(
+          f'sig = {np.sqrt(eigval):.3f}'
+          f' in direction [{x:.3f}, {y:.3f}]'
+          f' angle = {np.rad2deg(np.arctan2(y, x)):.1f} deg'
+      )
+  [a, b], [c, d] = cov
+  theta = 0.5*np.arctan2(2*b, a - d)
+  print(f'alt angle = {np.rad2deg(theta):.1f}')
+  D = (a + d)**2 - 4*(a*d - b*c)
+  lam1 = 0.5*((a + d) + np.sqrt(D))
+  lam2 = 0.5*((a + d) - np.sqrt(D))
+  print(f'alt sigs = {np.sqrt(lam1):.3f} and {np.sqrt(lam2):.3f}')
+#+END_SRC
+
+#+RESULTS:
+: sig = 0.175 in direction [-0.728, 0.685] angle = 136.7 deg
+: sig = 0.503 in direction [0.685, 0.728] angle = 46.7 deg
+: alt angle = 46.7
+: 0.1353 0.1112 0.1112 0.1489
+: 0.04964672
+: alt sigs = 0.503 and 0.175
+***** Covariance for all
+#+BEGIN_SRC python :return C 
+  import numpy as np
+  sig_x = np.diag([0.08, 0.18, 0.12, 0.12, 0.11, 0.08, 0.18])
+  Df_x = np.array([
+      [2, -1, 1, 0, 0, 0, 0],
+      [3, -2, 1, 0, 1, 0, 0],
+      [3, -1, 1, 0, 1, 0, -1],
+      [2, -0.5, 0, 1, 2, -1, -1],
+      [0, 1, 0, 0, 0, 0, 0]
+  ])
+  C = Df_x @ sig_x**2 @ Df_x.T
+#+END_SRC
+
+#+RESULTS:
+|  0.0724 |  0.1176 |  0.0852 |  0.0418 | -0.0324 |
+|  0.1176 |  0.2137 |  0.1489 |   0.095 | -0.0648 |
+|  0.0852 |  0.1489 |  0.1489 |  0.1112 | -0.0324 |
+|  0.0418 |   0.095 |  0.1112 |  0.1353 | -0.0162 |
+| -0.0324 | -0.0648 | -0.0324 | -0.0162 |  0.0324 |
+***** General expressions for eigenvalues and angle
++ Angle is \theta = 0.5 atan(2 C_{k,k'} / (C_{kk} - C_{k'k'}))
++ Eigenvalues are roots of \lambda^2 - (a + d) \lambda + (a d - b c) = 0
+  + a = C_{kk} ; b = c = C_{k,k'} ; d = C_{k'k'}
+  + \lambda = (a + d) +/- sqrt( (a + d)^2 - 4 (a d - b c))
 
 *** Compare KE flux with radiation
 + In summary ::
