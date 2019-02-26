@@ -4905,7 +4905,143 @@ Take the C array from down below
 + Eigenvalues are roots of \lambda^2 - (a + d) \lambda + (a d - b c) = 0
   + a = C_{kk} ; b = c = C_{k,k'} ; d = C_{k'k'}
   + \lambda = (a + d) +/- sqrt( (a + d)^2 - 4 (a d - b c))
-
+*** Candidates for radiation support
+**** Source 380 - HD 53367 - Herbig Be star
++ Also known as V750 Mon
++ Pogodin:2006a
+  + Variable B0 V \to B0 III
+    + Alternation of two states
+    + Disappearance and re-appearance of CS envelope
+  + 183.7 d period
+    + Semi-amplitude K = 19 km/s
+    + Eccentric binary with 5 Msun PMS companion
++ Associated with Reflection Nebula IC 2177
+  + Name also used for H II region
+  + Optical spectrophotometry Hawley:1978a, Hawley:2011a
+    + Ne = 100 or 800 pcc (two different positions)
+      + Pos 1 is 154 arcsec S of HD 53367
+      + Pos 2 is 35 arcsec E of Pos 1
+    + Te = 7000 K, but from model
+  + Quireza:2006b
+    + In radio they call HII region G223.70-1.90
+      + So outside the solar circle
+    + D = 1600 pc - much further!
+      + Based on LSR velocity from Quireza:2006a
+      + H lines give V(LSR) = +16 +/- 2 km/s
+      + But quality flag is "E" and He and C lines not observed
+      + Rotation curve of Brand:1993a
+    + n_e = 34.2
+    + T_e = 9.91 +/- 1.77 kK
+  + Radio brightness
+    + Quireza:2006b have diameter 14.8 arcmin
+      + I measure 19 arcmin NS and a bit less EW, which is close enough
+      + So it is definitely only the region around our star that they are measuring
+    + Total flux is 6 Jy
+      + Same for Orion A is 260 Jy
+      + In theory, this should go as S = VEM/D^2 => VEM = D^2 S
+      + So VEM = (140 / 410)**2 (6/260) = 2.7e-3 Orion
+      + Assuming VEM \propto Q(H) and Q(H) = 1e49 for Orion
+        + => Q(H) = 2.7e46 /s
+      + Compare this with stellar atmosphere predictions for 29,500 K
+        + From Sternberg:2003a Fig 4a, we have
+          + log q(H) = 22.5 for T = 29.5, if we extrapolate to log g = 4.2
+          + Uncertainty from +/- 1 kK is 0.3 dex
+          + Uncertainty from 0.2 dex on log g is about 0.2 dex
+          + R = sqrt(Q(H) / 4 pi q(h)) = 3.75 +/- 1.29 Rsun
+          + L = 9623.2466355 +/- 6620.79368521
++ Tijn-A-Djie:2001a
+  + Suggest that it is part of CMa R1 young association
+  + But they put it at 1 kpc, which is wildly inconsistent with parallax
+  + Also part of CMa R1 is FN CMa (HD 53974), which is K18 source 382
+    + This is put at 940 pc by K18
+    + L4 = 12 so much brighter (is B0III)
++ Gaia
+  + Parallax = 7.7682 +/- 0.7854 mas
+  + Naive
+    + D = 129 +/- 13 pc
+    + PM
+      + RA = 7.19 +/- 1.38 mas/yr
+      + Dec = -7.04 +/- 1.26 mas/yr
+      + => V about [+5, -5] km/s
+      + In the direction /away/ from the bow shock!
+        + But presumably it has a photoevaporation flow running in to it
+  + Properly with prior:
+    + 140 +/- 30 pc 90% confidence limits
+  + FN CMa has no parallax
+  + HD 54662 (K18 source 381): parallax = 0.8546 +/- 0.0799 => D = 1200 +/- 100
+    + But K18 put it at 630 pc - why? (Hipparcos it seems, but Gaia should be better)
+    + This star excites the larger scale H II region in CMa
+    + Le-Bouquin:2017a and Mossoux:2018a study the binary nature
+      + Mossoux:2018a claim mass < 10 Msun for each component - unlikely!
+      + But it is hard to reconcile the astrometric binary orbit and the RV curve if the masses are bigger
++ K18
+  + B0 IVe
+  + Teff = 28 kK
+  + L_* = 2.6e4
+  + R_* = 7 Rsun
+  + M = 15 Msun
+  + D = 260 pc
+  + R0 = 15 arcsec
+    + I agree with this, based on GLIMPSE image
+    + R0 = 0.019 pc @ 260 pc
+    + or 0.0091 \to 0.025 @ 130 \to 340 pc
+  + \ell = 49 arcsec
++ Fairlamb:2015a
+  + Teff = 29.5 +/- 1 kK
+  + Log L = 4.11 +/- 0.37 => L4 = 1.29 +/- 1.1
+  + M = 12.3 +/- 4.2 Msun
+  + R* = 4.3 +/- 0.7 Rsun
+  + Age = 0.08 +/- 0.08 Myr
+  + D = 340 +/- 53 pc
+  + A_V = 1.88 +/- 0.02 
++ Quireza:2006b
+  + In HII region G223.70-1.90
+    + So outside the solar circle
+  + D = 160 pc
+  + n_e = 34.2
+  + T_e = 9.91 +/- 1.77 kK
++ Predicted magnitudes
+  + L = 1.29e4
+  + Mbol = 4.75 - 2.5 log10(L/Lsun) = -5.526
+  + BC = 21.00 - 5.3 log10(T_eff) +/- 0.01 = -2.69
+  + MV = Mbol - BC = -5.526 + 2.69 = -2.836
+  + Predicted V = MV + 5 log10(D/10) + AV
+  + Using D = 140 gives V = 4.77
+    + With RV = 5.5 we have AV = 3.34, so V = 6.23
+    + With D = 170 (Gaia 95%) gives 6.7
+    + So we almost get into agreement
+  + Observed is V = 6.9 to 7.2
+    + So, either the AV is actually 4 (unlikely)
+    + or it is 2 mags less luminous => L_4 = 0.2
+    + or 2.5 times further away => D = 325
++ Chen:2016a IR photometry, source 106
+  + W1: 5.046; W2: 4.538; W3: 4.188; W4: 1.051
+    + Wise colors: [W2-W3, W3-W4] = [0.35, 3.137]
+    + But how big is aperture - does it include bow?
+  + J, H, K = 6.332, 6.220, 6.117
+  + No Akari observations - why?
+**** Source 407 - HD 93249- ERO 5
++ Hanes:2018a
+  + T = 26.8 +/- 0.25 kK
+  + log g = 3.26 +/- 0.1
+  + M = 23.5 +/- 5.9
+  + R = 18.8 +/- 4.6
+  + L4 = 16.4 +/- 8
+  + Photometric distance of 3.0 +/- 0.7 kpc
++ K17
+  + T = 33.4 kK
+  + R = 13.6 Rsun 
+  + D = 2.3 kpc
+  + R0 = 7.8 arcsec = 0.09 pc
++ K18 
+  + T = 30.7 kK
+  + R = 13.6 Rsun
+  + M = 23 Msun
+  + D = 2.35 kpc
+  + R0 = 7.8 arcsec = 0.098 pc
+  + \ell = 25 arcsec
+  + S_70 = 58.2
+  + L_4 = 14.0
 *** Compare KE flux with radiation
 + In summary ::
   1. We need V > 200 km/s
@@ -5153,6 +5289,31 @@ CLOSED: [2019-02-14 Thu 09:42]
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands
 + It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+** TODO Other interesting regions I found on Akari/WISE/Spitzer maps
++ Using Aladin Lite
+*** Region around 08:51, -43:50
++ Big bow seen in WISE 4
+  + 20 arcmin point to point, so say R = 600 arcsec = 3 pc @ 1 kpc
++ Other small bows to NW of there, seen in 24/12/8
+*** HD 76534
++ Strange reflection nebula around Herbig Be star
+  + Gaia gives D = 920 +/- 30 pc
++ Might be a diffuse bow shock
+  + R0 \approx 60 arcsec = 0.27 pc
++ Very green in WISE - no W4 emission hardly - strong in W2 
++ Also green in GLIMPSE 360 - immediately jumps out in 2 deg field
++ Might just be PAH emission, but doesn't look quite right
+*** TYC 9025-1369-1 
++ Nice isolated bow shock
++ In Circinus?
++ RA, Dec = 15 18 22.4752509883, -62 49 13.458389373
++ Gaia has parallax = 0.3125 +/- 0.035 => D = 3200 +/- 360 pc
++ R0 = 30 arcsec = 0.465 pc
++ High proper motion: 100 km/s or so
++ But not in any catalogs that I can see
+
+
+
 * Density versus velocity in photoevaporation flow
 + Assume isothermal:
   + 1/2 M^2 + ln n = 1/2 M_0^2 + ln n_0
@@ -5322,3 +5483,4 @@ Do the bootstrap resampling
 cd arc-fits
 python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits 75 0.5 bootstrap-th1d-75-05.pdf
 #+END_SRC
+
