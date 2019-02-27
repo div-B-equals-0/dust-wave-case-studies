@@ -3952,6 +3952,13 @@ Same for 4734 and 4735
 + These are a bit of a mess - the Ha is not obviously correlated with the 24 micron emission, but I'm not sure that this proves anything
   + The Ha emission from any bow shock or bow wave is probably weak
 
+
+**** Marsh:2019a
++ Interesting paper on RCW 120
++ Applies PPMAP Bayesian procedure to find column density as function of T and \beta
+  + See also Marsh:2015a and Marsh:2017a
+  + And also Galliano:2018a for applying similar techniques to more complicated dust models
+
 ** Carina bow shocks
 + Smith:2010 Sexton:2015a, Kiminki:2017a
 + Ambient density about 1000 pcc
@@ -5311,7 +5318,77 @@ CLOSED: [2019-02-14 Thu 09:42]
 + R0 = 30 arcsec = 0.465 pc
 + High proper motion: 100 km/s or so
 + But not in any catalogs that I can see
+*** Region around l, b = 173.58, -1.66
++ Cluster has parallaxes indicating 3 to 4 kpc
+  + NGC 1893
++ HD 242926 O7Vz
+  + Nice little bow shock
+  + 
++ HD 242935A O6.5((f))z 
++ HD 242908 O4.5(n)((fc))z
+*** Strange filaments
++ Look like ones near AE Aur
++ HD 34078 O9.5V
++ Actually, it is AE Aur!
+*** Region around l, b = 160.4, -17.75
++ In Perseus
++ Looks very much M43/M42 in Akari maps
++ But nearly invisible in optical
++ [ABG2011] CPS6
++ HD 278942 O9.5-B0 has 24 micron around
+  + 500 pc away
+  + Not really a bow shock, as such
++ Tiny amount of Ha but maybe extinguished
++ See 2000AJ....119.1325A
++ Supposedly drives a dust shell
+*** Ksi Per
++ Menkhib
++ 03:44:51 +32:19:10
++ D = 400 pc or so
++ O7.5III(n)((f))
++ Very diffuse "bow"
+  + R = 6 arcmin = 0.7 pc
 
+*** TODO [#A] A0 star with bow
++ V* V927 Per
++ D = 300 pc
++ Located at N edge of IC348 open cluster
+  + 9 arcmin away = 0.8 pc
+  + Has similar proper motion to cluster:
+    + [+6, -6] mas/yr versus [+6, -9]
+    + So may be moving N in cluster frame at 5 km/s
+    + Could have got to present position in 0.2 Myr
++ Green in WISE - bright at W2  - 4.538 micron
+  + [ ] There are all sorts of Spitzer data we could look at
+    + It is observed by MIPS and IRAC (Currie:2009a)
+    + But their figures are so saturated, you can't see anything
++ R = 27 arcsec = 0.04 pc
++ Reflection nebula in optical
++ It is candidate source for one of the COMPLETE shells
+  + CPS 11
+  + Arce:2011a Table 1
+  + Radius = 2.3 arcmin in CO (0.2 pc), 1.5 arcmin in IR
+  + So this is the larger shell seen in W4 22 micron
+  + Source is called IC348 LRL 3
+  + Also seen in CO, with slightly larger radius still
+    + Mass = 6 Msun
+    + V = 2 km/s
+    + Momentum 11 Msun km/s
+  + We could work out stellar momentum over a certain time span
+    + In 1 My, with 1 Lsun we get L t / c = 4.0e36 g cm/s = 0.02 Msun km/s
+    + So we would need 550 Lsun to accelerate observed shell in 1 Myr
+    + An A0 star has a luminosity of 24 Lsun, so this would need 20 Myr, which might be too long (500 Lsun is a B5 star)
+      + Unless it is larger than MS
+      + Currie:2009a measure R = 4 Rsun
+      + => L = 145 Lsun, so this is closer
+      + Luminosity would have been larger in the past, presumably
+      + Age is 2.5 Myr according to Currie:2009a
+      + So, we are now at 2.5 145 = 362.5, which is nearly up to the 550 Lsun required, given that luminosity is dropping with time (although on Henyey track this isn't necessarily true)
+    + Also, this assumes that shell traps all light
+      + so N > 2e21 cm^-2
+      + M / 4 pi R^2 mp = 1.49e21, so just about optically thick
+      + \tau = M \kappa / 4 pi R^2 = 1.5 if \kappa = 600 cm^2/g
+    + So, argument is that we need \eta = 20 to drive the shell with momentum
 
 
 * Density versus velocity in photoevaporation flow
