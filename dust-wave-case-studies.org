@@ -552,6 +552,36 @@ Interaction with black hole
   + n = sqrt( 3 S / 4 pi R**3 alpha) = 13 pcc
   + Could be higher near star since Ha is brighter there
 *** \zeta Oph
++ Distance
+  + Early works used 112 pc from Hipparcos
+  + But Gaia has 172 +/- 30
++ Proper motion
+  + This is also different between Hipparcos and Gaia
+  + Gaia implies tangential V = 37 km/s
+  + Hipparcos implies V = 15 km/s
+  + For some reason, Gvaramadze:2012a have 26 km/s
++ Gvaramadze:2012a measures mass loss rate
+  + 2.2e-8 from bow/hii region comparison
+  + 1.58e-9 from UV analysis
+  + 1.3e-7 from Vink
+  + 1.4e-7 from Ha
++ Mackey:2013a do MHD simulations of H II region
+  + Find that for 26.5 km/s motion, the H II region dynamics only change the density and velocity near the star at the 10% level
++ Clumps and filaments
+  + There are two filaments visible in IRAF and in Akari
+  + The one below (in b) looks denser, but is clearly foreground
+    + Seen in extinction in H alpha
+    + No bright rim
+    + FIR colors look cool
+    + Although 60 micron is clearly affected by illumination
+  + The one above must be protruding into H II region
+    + Bright in Ha - looks like photoevaporation flow from globule
+    + Presumably i-front is d-type
+      + Unlike r-type for the diffuse medium
+    + But probably not enough time for photoevaporation flow to inflate a cavity
+  + This is very similar to case of AE Aur, except the speed is lower
+  + Looking at Henney:2009a, it takes about 2.5 crossing times (r_0/c_s) in order to compress the globule in an initial RDI
+  + Similar time to develop a proper shock interaction with the diffuse medium
 ** IRS 8 and other sources in IRS 16 Northern Arm cluster
 + Geballe:2004a for IRS8 
   - bow shock visible in K band
@@ -3949,6 +3979,9 @@ Same for 4734 and 4735
 *** RCW 120, RCW 92
 + Ochsendorf:2014a
 + See also Mackey:2016a who say that RCW 120 is stellar wind bubble
+  + Their model has no bow shock!
+  + The enhanced 24 micron emission is just from the inner wall of the cavity blown by the stellar wind
+  + There is no shocked shell in the ionized gas since all motions in the H II region are subsonic
 + These are a bit of a mess - the Ha is not obviously correlated with the 24 micron emission, but I'm not sure that this proves anything
   + The Ha emission from any bow shock or bow wave is probably weak
 
@@ -5296,6 +5329,9 @@ CLOSED: [2019-02-14 Thu 09:42]
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands
 + It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+** SBW1 from Smith:2017b - a SN1987A analogue
++ No bow shock but has weak wind
++ Suggested that radiation pressure may be important in nebula
 ** TODO Other interesting regions I found on Akari/WISE/Spitzer maps
 + Using Aladin Lite
 *** Region around 08:51, -43:50
@@ -5374,6 +5410,8 @@ CLOSED: [2019-02-14 Thu 09:42]
     + Mass = 6 Msun
     + V = 2 km/s
     + Momentum 11 Msun km/s
+    + They claim these are wind-driven, but that seems very unlikely to me
+    + Especially if the winds are trapped at smaller radii
   + We could work out stellar momentum over a certain time span
     + In 1 My, with 1 Lsun we get L t / c = 4.0e36 g cm/s = 0.02 Msun km/s
     + So we would need 550 Lsun to accelerate observed shell in 1 Myr
@@ -5561,3 +5599,18 @@ cd arc-fits
 python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dropbox/JorgeBowshocks/MIR/SmithBally/wcs.mos11jy.fits 75 0.5 bootstrap-th1d-75-05.pdf
 #+END_SRC
 
+
+
+
+* Expected velocities
++ Velocity dispersions
+  + Increase as \sigma \propto L^{1/4}
+  + Relationship between L_Ha and Q_H
+    + assume fraction 0.4 of recombs lead to H\alpha
+    + Then L_Ha = 0.4 Q_H E_Ha
+    + E_Ha = 3.026e-12 erg
+    + L_Ha = 1.2e37 Q_49
+  + Bordalo:2011a have L_Ha = 1e39 to 1e42
+    + So Q = 1e51 to 1e54
+    + For comparison, Carina has only 1e51
+      + So expect 3 times higher velocity dispersion than in Orion
