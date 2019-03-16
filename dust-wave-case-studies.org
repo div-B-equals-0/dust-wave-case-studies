@@ -11,7 +11,7 @@
 #+EXCLUDE_TAGS: noexport
 
 
-Case studies of interesting objects for inclusion in bow paper II
+Case studies of interesting objects for inclusion in bow paper X
 
 * Selection criteria
 + High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
@@ -335,6 +335,12 @@ So, objects like
     + Our stars are right down the bottom: L_X of a few e30 erg/s
     + We are also far off to left, since t_X \approx 0.05 for Mdot = 5e-9 and R = 9 R_\odot, D = 1.5 R
     + So we are way into the region of "no effect"
+  + Comments on Nebot-Gomez-Moran:2018a
+    + Finds correlations between everything
+    + But it makes little sense, since the strong L_x-L_bol relation swamps everything else
+    + For instance they find an L_x-Mdot relation for dwarfs, but this is actually very flat
+      + Which is purely a result of the L_x-L_bol being linear, but the Mdot-L_bol being steep for the dwarfs due to the weak-wind phenomenon
+      + So they really need to correct for the L_x-L_bol relation before comparing with Mdot
 
 * Particular objects
 
@@ -5329,6 +5335,95 @@ CLOSED: [2019-02-14 Thu 09:42]
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands
 + It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+** \kappa Cas from Katushkina:2018a
+:PROPERTIES:
+:ID:       BD6436D2-E9A0-4F85-BC6E-5730459F1275
+:END:
++ Note that they *do* find an outer dust wave for the small grains
+  #+BEGIN_QUOTE
+  Stellar radiation force is especially important for small dust grains with radii rd ≤ 0.1 μm. These dust grains are swept out far away by the stellar radiation and do not cross the BS. Therefore, in our calculations we consider the dust grains with rd>0.2μm.
+  #+END_QUOTE
++ But, they aren't interested in it, so they don't study it further!
++ Details of MHD simulation
+  + They have a very thick outer shell
+  + Because the have a perpendicular magnetic field and alfven Mach number of 1.77
+    + Although they say they tried other values
+  + The dust density is concentrated towards the outer shock
+  + But the 24 micron emissivity is very concentrated towards the contact discontinuity (astropause)
+  + [ ] I would have thought that at longer wavelengths the dust emissivity is less T-sensitive and so you should be able to see the outer shock
++ They find that their 1 micron grains are not warm enough to explain the observations
+  + But that if they reduce the grain size, then they must also reduce B strength to maintain filament spacing
+  + And they don't want to do that because it would collapse their shell
+  + *BUT*, if we actually have an outer dust wave, then the shell is irrelevant
+    + Although would the radius work out?
+    + They are ignoring increases in grain potential, so they won't get the dust wave right anyway
+    + In their discussion and Fig 13 they say that drag forces are unimportant, but this is because they are U = 0.75 to 1.6 V
+      + U = Z e / a in statV = 300 Z e / a in V
+      + \phi = e U /k T = 1.16 T_4^-1 U(V)
+      + So they have maximum \phi = 1.86, but it should really get to \phi \sim 8, or U = 7 V
+      + So they underestimate f_max by a factor of (8/1.86)**2 = 18.5
++ Let's work out all the parameters for this star
+  + L_4 = 30.2
+  + V_3 = 1.0
+  + Mdot_-7 = 20
+  + T_eff = 23.5
+  + n = 3 to 11 pcc (typical 5 pcc)
+  + B = 18 to 35 \micro{}G
+  + v_10 = 2.81
++ So
+  + R_* = 2.21 sqrt(L_4/n) / v_10 = 1.93 pc
+  + \tau_* = 0.0089 \kappa_600 sqrt(L_4 n) / v_10 = 0.039
+  + \eta_w = 0.495 Mdot_-7 V_3 / 30.2 = 0.33
++ Therefore \tau_*^2 < \eta_w and we are well into WBS regime
+  + And from Paper I Fig 4, we have not trapped the i-front
+  + So R_0 = sqrt(\eta_w) R_* = 1.11 pc
+  + Observed is 0.75 pc, so we may need to adjust density
+  + Except that they ascribe this difference to magnetic effects
+    + To explain the R_0 = 0.75 pc with pure ram pressure, we would need a density higher by a factor (1.11/0.75)**2 = 2.19
+    + So, we try n = 10, which gives
+      + R_* = 1.36 pc
+      + \tau_* = 0.055
+      + R_0 = sqrt(\eta_w) R_* = 0.78 pc (which is close enough)
++ Radiative turnaround radii
+  + Rstarstar = \kappa_d L / 2 \pi c v_\infty^2
+  + In pc, this is Rss = 0.4912 (L_4 / v_10^2) (Q / \rho_d a_\micro)
+  + For \kappa Cas (L_4 / v_10^2) = 3.8
+  + So, with \rho_d = 3 and Q = 1, I get Rss = 0.622 / a_\micro
+    + a = 0.2 micron => Rss = 3.11 pc
+    + a = 0.02 micron => Rss = 31 pc
+    + a = 1 micron => 0.622 
+  + Ka18 has
+    + R_0 = 0.75 pc
+    + R_BS = 5 R_0 = 3.75 pc
++ For BSG Cloudy models:
+  + \Xi_\dag = 300 \to 500 for silicate grains
+  + \Xi_\dag = 1000 for graphite grains
++ Also, U = 14.7 L_4 / R_pc^2
+  + For 0.75 pc we have U = 790
+  + And U = 3.82 n T_4 \Xi
+  + \Xi = U / 3.82 n = 41, assuming n = 5
+  + That is very low!
+    + With \phi = 1.5 (2.3 + ln \Xi) it gives \phi = 9
+  + But, density goes up in shell although only by a factor of 2
++ So, for the 3 dust wave criteria (use \Xi_\dag = 300):
+  - v_10,min = sqrt(\Xi_\dag \eta_w) = 9.94
+    - So, no way is that satisfied: need 100 km/s
+    - Other way of putting it: R_\dag = v_10 R_* / sqrt(\Xi_\dag) = 0.162 R_* = 0.31 pc
+  - No point calculating the others, but might as well
+  - \tau_*,max = 0.5 v_10 / sqrt(\Xi_\dag) = 0.081, so we have \tau_* < \tau_*,max
+  - \kappa/\kappa_d \tau_*,max = 8.1e-4, so we would be in drag-confined regime
+  - \tau_*,min = 0.0028, so we have \tau_* > \tau_*,min  
++ This means that collisional coupling is strong
+  + With \Xi = 40, drift velocity should be < 1 km/s, at least for up to 0.25 micron
+  + f_rad = 40 f_*
++ RATD
+  + Dynamic time is 0.75 pc / 28.1 km/s = 2.61e4 y
+  + Destruction time for 2 micron grain is about 1 year!
+    + Dynamic time scales as R
+    + Destruction time scales as 1/U or R^2
+    + Evolution time scale is about 1e6 years
+  + Max grain size is about 0.04 microns
+
 ** SBW1 from Smith:2017b - a SN1987A analogue
 + No bow shock but has weak wind
 + Suggested that radiation pressure may be important in nebula
