@@ -5718,3 +5718,8 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
     + So Q = 1e51 to 1e54
     + For comparison, Carina has only 1e51
       + So expect 3 times higher velocity dispersion than in Orion
+
+
+* TODO [#A] The 2019 Kobulnicky paper
+
++ [[file:kobulnicky-ms-2019-03-14.pdf]]
