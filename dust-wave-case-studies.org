@@ -5074,6 +5074,9 @@ Take the C array from down below
   + R = 18.8 +/- 4.6
   + L4 = 16.4 +/- 8
   + Photometric distance of 3.0 +/- 0.7 kpc
+    + So this is consistent with 2.3 kpc to 1 \sigma
+  + Radial velocity = +3.32 +/- 1.77 km/s
+    + This is different from the -10 km/s of the H II region centroid, but not greatly so
 + K17
   + T = 33.4 kK
   + R = 13.6 Rsun 
@@ -5088,6 +5091,12 @@ Take the C array from down below
   + \ell = 25 arcsec
   + S_70 = 58.2
   + L_4 = 14.0
++ Gaia
+  + parallax = 0.2935885114185771 +/- 0.034125875454279385
+    + D = 3406 +/- 400
+  + So could well be more distant than most of Carina
++ Conclusions
+  + If we accept the larger distance (factor 1.45), then this would move it very slightly away from the RBw line, but not significantly
 *** Compare KE flux with radiation
 + In summary ::
   1. We need V > 200 km/s
