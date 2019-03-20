@@ -5112,8 +5112,17 @@ Take the C array from down below
     - \ell/R = -1 (0 vs 1)
     - V_3 = 0 (-1 both)
 + Looking at the correlations in the jupyter notebook, I suspect that the issue may be due to \ell/R
-  + We see a positive correlation of Mdot/MdotK18 with \ell/R (r = 0.63)
+  + We see a positive correlation of Mdot/MdotK18 with \ell/R (r = 0.70)
   + When K18's \ell/R is small, we under-predict the Mdot wrt them
+  + We can get H/R from \ell/R
+    + This depends on the planitude, see [[id:98B7CFD9-1F8E-4D7C-8469-30E37D5C047F][Relation between shell thickness and chord length]]
+    + They are positively correlated for fixed planitude, so smaller \ell/R means smaller H/R, which would make my Mdot go up - *yes !*
+    + On the other hand, for a fixed H/R, \ell/R goes up with planitude, but this is probably less important
+    + From Paper IV, we get \Pi = 1.8 \pm 0.9 for all the sources
+    + Looking at the sources that most deviate from the 1-to-1 line in Fig 9 (344, 369, 382, 339, 381), they all have \ell/R < 1, which implies H/R = 0.05 \to 0.13
+      + This would put mass loss rates up by factor of 3 \to 10
+
+
 **** Source 342 - KGK2010 2 in Cygnus OB2
 + *Idea* - maybe this is a neutral shell
   + That would bring the \eta_shell down, as with LP Ori
@@ -5363,6 +5372,9 @@ CLOSED: [2019-02-14 Thu 09:42]
 
 
 *** Relation between shell thickness and chord length
+:PROPERTIES:
+:ID:       98B7CFD9-1F8E-4D7C-8469-30E37D5C047F
+:END:
 + Assuming the shell is a sphere of radius \Pi R_0
   + Where \Pi is the planitude
   + and R_0 is the apex distance
@@ -5379,6 +5391,51 @@ CLOSED: [2019-02-14 Thu 09:42]
 |   3.0 | (1.000, -1.118) |           1.500 | 0.677 | 0.402 |
 |   4.0 | (1.000, -1.732) | (1.500, -1.323) | 2.000 | 0.764 |
 #+TBLFM: $2=1 (1 - sqrt(1 - ($1/ 2 1)**2)) ;f3::$3=1.5 (1 - sqrt(1 - ($1/ 2 1.5)**2)) ;f3::$4=2 (1 - sqrt(1 - ($1/ 2 2)**2)) ;f3::$5=3 (1 - sqrt(1 - ($1/ 2 3)**2)) ;f3
+
+Plot of H/R versus \ell/R
+
+#+BEGIN_SRC python :return figfile :results file
+  import numpy as np
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+
+  figfile = "H_versus_ell.pdf"
+
+  def Hfunc(ell, Pi=2.0):
+      return Pi * (1.0 - np.sqrt(1.0 - (0.5*ell/Pi)**2))
+
+  def ellfunc(H, Pi=2.0):
+      return 2*Pi*np.sqrt(1.0 - (1.0 - H/Pi)**2)
+
+
+  sns.set_color_codes()
+
+  ell = np.linspace(0.0, 4.0, 200)
+  H = np.linspace(0.0, 0.5, 200)
+
+  fig, ax = plt.subplots(figsize=(6, 4))
+
+  Pi, dPi = 1.8, 0.9
+  ax.fill_betweenx(H, ellfunc(H, Pi - dPi), ellfunc(H, Pi + dPi),
+                   color="k", alpha=0.2, linewidth=0)
+  ax.axhline(0.3333, ls="--", lw=0.5, color="k")
+  ax.plot(ellfunc(H, Pi), H, color="k")
+
+  
+  ax.set(
+      xlim = [0.0, 3.9],
+      ylim = [0.0, 0.65],
+      ylabel = "Shell relative thickness: $H / R_0$",
+      xlabel = "Shell relative chord length: $\ell / R_0$",
+  )
+  sns.despine()
+  fig.tight_layout()
+  fig.savefig(figfile)
+
+#+END_SRC
+
+#+RESULTS:
+[[file:H_versus_ell.pdf]]
 
 *** Equivalence between K18 observational quantities and mine
 + First step is determining column densities

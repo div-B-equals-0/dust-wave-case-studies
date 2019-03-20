@@ -103,9 +103,11 @@ tab05_01 = join(tab05, tab01, keys=('ID'), join_type='left')
 tab05_01.remove_columns(['F3.6', 'F4.5', 'F5.8',])
 tab05_01
 
+# + {"scrolled": true}
 tab05_01_02 = join(tab05_01, tab02, keys=('ID'), join_type='left')
 tab05_01_02.remove_columns(['F3.4', 'F4.6',])
 tab05_01_02
+# -
 
 # Now merge the WISE and Spitzer photometry, taking (8, 12) and (22, 24) as equivalent.
 
@@ -910,7 +912,7 @@ k18tab['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'R_0', 'U', 'Peak_70', 'LIR'].to_p
 
 k18tab['Mdot', 'Mdot4', 'Mdot_will'].to_pandas().applymap(np.log10).describe()
 
-k18tab['ID', 'Mdot4', 'Mdot_will', 'Md_Md']
+k18tab['ID', 'Mdot4', 'Mdot_will', 'Md_Md', 'ell']
 
 k18tab[mask_upper_limits]
 
@@ -965,7 +967,11 @@ sns.pairplot(ldf, hue='Lum Class', hue_order=['Dwarf', 'Sub-Giant', 'Giant'],
              plot_kws=dict(alpha=0.7))
 plt.gcf().savefig("mdot_correlations.pdf")
 
+k18tab['ID', 'Md_Md', 'ell/R0']
 
+k18tab['ID', 'Md_Md', 'ell/R0'].to_pandas().describe()
+
+np.percentile(k18tab['ell/R0'], [10, 90])
 
 # ## Mass loss versus luminosity
 
