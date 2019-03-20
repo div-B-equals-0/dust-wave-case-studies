@@ -945,6 +945,28 @@ sns.pairplot(ldf, hue='Lum Class', hue_order=['Dwarf', 'Sub-Giant', 'Giant'],
 #
 # 3. The ratio Me/K18 is best correlated with angular size of bow ($r = -0.70$), so for poorly resolved objects, I get a higher $\dot M$ than K18, whereas for best resolved objects I get a lower $\dot M$ than K18.  This is probably not due to underestimating the peak brightness for small objects, as one might think, since `Peak_70` has a slight tendency to _fall_ with `R_0,as` ($r = -0.51$). 
 
+# Do this again, but removing the 2 objects that are just upper limits by my method (380 and 407)
+
+m = ttt['rel err'] < 1.5
+ldf = k18tab[m]['Mdot4', 'Mdot_will', 'Md_Md', 'Lum.', 'T_eff', 'V_inf_{}',
+             'D', 'R_0,as', 'R_0', 'ell,pc', 'ell/R0', 
+             'U', 'Peak_70', 'LIR'].to_pandas().applymap(np.log10)
+ldf['Lum Class'] = k18tab[m]['Lum Class']
+ldf.corr()
+
+# So the numbers change very slightly, but still basically the same.  We still have my Mdot varying principally with LIR
+#
+# And the K18 Mdot varies with $R_0$, and negatively with $\ell/R_0$ and $U$. 
+
+sns.pairplot(ldf, hue='Lum Class', hue_order=['Dwarf', 'Sub-Giant', 'Giant'], 
+             palette='Purples_d', markers=["o", "s", "D"],
+             x_vars=['Lum.', 'T_eff', 'D', 'V_inf_{}', 'R_0', 'ell,pc', 'ell/R0', 'U', 'Peak_70', 'LIR'],
+             y_vars=['Mdot_will', 'Mdot4', 'Md_Md'],
+             plot_kws=dict(alpha=0.7))
+plt.gcf().savefig("mdot_correlations.pdf")
+
+
+
 # ## Mass loss versus luminosity
 
 # Finally, we do the plots for my values and the corrected K18 ones.
