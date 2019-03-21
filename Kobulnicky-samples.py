@@ -973,6 +973,36 @@ k18tab['ID', 'Md_Md', 'ell/R0'].to_pandas().describe()
 
 np.percentile(k18tab['ell/R0'], [10, 90])
 
+# Same but with slopes marked
+
+def corrfunc(x, y, **kws):
+    slope, intercept, rvalue, pvalue, stderr = stats.linregress(x, y)
+#    r, p = stats.pearsonr(x, y)
+    ax = plt.gca()
+    if True:
+        fontcolor = 'purple' if pvalue < 0.003 else 'k'
+        fontalpha = 1.0 if pvalue < 0.003 else 0.5
+        ax.annotate(f"$r = {rvalue:.2f}$",
+                    xy=(.05, .9), xycoords=ax.transAxes, 
+                    fontsize='xx-small', color=fontcolor, alpha=fontalpha)
+        ax.annotate(rf"$m = {slope:.1f} \pm {stderr:.1f}$",
+                    xy=(.95, .05), ha='right', xycoords=ax.transAxes, 
+                    fontsize='xx-small', color=fontcolor, alpha=fontalpha)
+   
+
+# +
+g = sns.pairplot(ldf, kind='reg', 
+                 plot_kws=dict(scatter_kws=dict(edgecolor='w')),
+                 x_vars=['Lum.', 'R_0', 'ell,pc', 'ell/R0', 'U', 'Peak_70', 'LIR'],
+                 y_vars=['Mdot_will', 'Mdot4', 'Md_Md'],
+                )
+g.map(corrfunc)
+
+
+# -
+
+
+
 # ## Mass loss versus luminosity
 
 # Finally, we do the plots for my values and the corrected K18 ones.
