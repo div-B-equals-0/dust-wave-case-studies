@@ -1174,6 +1174,62 @@ plt.gcf().set_size_inches(10, 10)
 tab05_01_02['Peak_70'] = k18tab['Peak_70']
 tab05_01_02['F70']/k18tab['Peak_70']
 
+# # Different sizes: Rad, Height, R0
+
+tt["ID", "Rad", "Height", "R0_as", "l_as"]
+
+rdf = tt["Rad", "Height", "R0_as", "l_as"].to_pandas().drop(2).applymap(np.log10)
+sns.pairplot(rdf)
+
+rtt = tt["ID", "R0_as"]
+rtt["ell"] = tt["l_as"]/tt["R0_as"]
+rtt["H"] = tt["Height"]/tt["R0_as"]
+rtt["R"] = tt["Rad"]/tt["R0_as"]
+rtt
+
+
+rrdf = rtt["ell", "H", "R"].to_pandas().drop(2)
+sns.pairplot(rrdf)
+
+g = sns.regplot('ell', 'H', data=rrdf)
+g.set(xlim=[0.0, 4.0], ylim=[0.0, 4.0])
+g.set_aspect('equal')
+
+# +
+def ellfunc(H, Pi=2.0):
+    return 2*Pi*np.sqrt(1.0 - (1.0 - H/Pi)**2)
+
+def Hfunc(ell, Pi=2.0):
+    return ell**2 / (8.0*Pi)
+
+
+ell = np.linspace(0.0, 4.0, 200)
+
+
+fig, ax = plt.subplots(figsize=(10, 10))
+Pi, dPi = 1.8, 0.9
+
+#ax.axvline(1.8, lw=0.5)
+#ax.axhline(Hfunc(1.8, 1.8), lw=0.5)
+ax.axhline(0.25, lw=0.5, color='k')
+ax.plot([0, 100], [0, 100], '--', lw=0.5, color='k')
+
+ax.fill_between(ell, Hfunc(ell, Pi - dPi), Hfunc(ell, Pi + dPi),
+                 color="k", alpha=0.2, linewidth=0)
+ax.plot(ell, Hfunc(ell, Pi), color="k")
+
+ax.scatter('ell', 'H', data=rrdf)
+#ax.scatter('ell', 'R', s=20, data=rrdf)
+ax.set(
+    xlim = [0.0, 3.9],
+    ylim = [0.0, 3.1],
+    ylabel = "K17 relative height: $H / R_0$",
+    xlabel = "K18 relative chord length: $\ell / R_0$",
+)
+ax.set_aspect('equal')
+sns.despine()
+# -
+
 # ### Earlier stuff
 
 ttt['G'] = 0.074*200*ttt['L4']/ttt['R0']**2

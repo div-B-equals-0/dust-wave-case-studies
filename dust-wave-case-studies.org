@@ -5401,11 +5401,11 @@ Plot of H/R versus \ell/R
 
   figfile = "H_versus_ell.pdf"
 
-  def Hfunc(ell, Pi=2.0):
-      return Pi * (1.0 - np.sqrt(1.0 - (0.5*ell/Pi)**2))
-
   def ellfunc(H, Pi=2.0):
-      return 2*Pi*np.sqrt(1.0 - (1.0 - H/Pi)**2)
+      return np.sqrt(8.0*H*Pi)
+
+  def Hfunc(ell, Pi=2.0):
+      return ell**2 / (8.0*Pi)
 
 
   sns.set_color_codes()
@@ -5418,10 +5418,11 @@ Plot of H/R versus \ell/R
   Pi, dPi = 1.8, 0.9
   ax.fill_betweenx(H, ellfunc(H, Pi - dPi), ellfunc(H, Pi + dPi),
                    color="k", alpha=0.2, linewidth=0)
-  ax.axhline(0.3333, ls="--", lw=0.5, color="k")
+  ax.axhline(0.25, ls="--", lw=0.5, color="k")
+  ax.axvline(1.8, ls="--", lw=0.5, color="k")
   ax.plot(ellfunc(H, Pi), H, color="k")
 
-  
+
   ax.set(
       xlim = [0.0, 3.9],
       ylim = [0.0, 0.65],
