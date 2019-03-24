@@ -3306,7 +3306,7 @@ Now try the same, but normalized to infrared
       xlim=[0.01, 100.0],
       ylim=[0.0, None],
       xlabel=r"Wavelength $\lambda$, $\mu$m",
-      ylabel=r"Opacity $\kappa_{\mathrm{abs}}$, $\mathrm{cm}^2\ / \ \mathrm{g}^{-1}$",
+      ylabel=r"Opacity $\kappa_{\mathrm{abs}}$, $\mathrm{cm}^2\ \ \mathrm{g}^{-1}$",
   )
 
   sns.despine()
@@ -3323,6 +3323,77 @@ Now try the same, but normalized to infrared
 
 #+RESULTS:
 [[file:xsec-dust-ratd-orion_10.pdf]]
+
++ Now do the same, but say that all the fragments end up in size bins 1 and 2
+  + This would increase abundance there by
+    + Bin 1: (1 + 8/0.87) = 10.2
+    + Bin 2: (1 + 8/1.06) = 8.55
+
+#+name: xsec-dust-ratd-tiny
+#+header: :var GRAINTYPE="ism_10"
+#+BEGIN_SRC python :return figfile :results file
+  import numpy as np
+  from astropy.table import Table
+  from matplotlib import pyplot as plt
+  import seaborn as sns
+  import sys
+  import os
+
+  CDC = "../cloudy-dust-charging"
+
+  figfile = f"xsec-dust-ratd-tiny-{GRAINTYPE}.pdf"
+
+  sns.set_color_codes()
+  fig, ax = plt.subplots(1, 1, figsize=(5, 3))
+
+  total = None
+
+  mass_per_H = 1.3*1.67262158e-24
+
+  # Reassign mass from bins 7-10 into bins 5 and 6
+  ratd_weights = [10.2, 8.55, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]
+
+  for composition, ls in ["silicate", "-"], ["graphite", "--"]:
+      xsecfile = os.path.join(CDC, "dust-opacity", f"{composition}_{GRAINTYPE}.abs")
+      t = Table.read(xsecfile, format="ascii.no_header")
+      ts = Table.read(xsecfile.replace(".abs", ".sca"), format="ascii.no_header")
+      tg = Table.read(xsecfile.replace(".abs", ".ggg"), format="ascii.no_header")
+
+      rwav = t['col1']/0.0912
+      wav = 1.0/rwav
+
+      if total is None:
+          total = np.zeros_like(wav)
+          tot_ratd = np.zeros_like(wav)
+
+      for i, name in enumerate(t.colnames[1:]):
+          # total += t[name] + ts[name]
+          # tot_ratd += (t[name] + ts[name])*ratd_weights[i]
+          total += t[name]
+          tot_ratd += (t[name])*ratd_weights[i]
+
+  ax.plot(wav, total/mass_per_H, '-', color='k', label='Standard mixture')
+  ax.plot(wav, tot_ratd/mass_per_H, '-', color='r', label='RATD mixture')
+  ax.legend()
+
+  ax.set(
+      xscale='log',
+      yscale='linear',
+      xlim=[0.01, 100.0],
+      ylim=[0.0, None],
+      xlabel=r"Wavelength $\lambda$, $\mu$m",
+      ylabel=r"Opacity $\kappa_{\mathrm{abs}}$, $\mathrm{cm}^2\ \ \mathrm{g}^{-1}$",
+  )
+
+  sns.despine()
+  #fig.suptitle("Graphite+Silicate: " + GRAINTYPE)
+  fig.tight_layout()
+  fig.savefig(figfile)
+
+#+END_SRC
+
+#+RESULTS: xsec-dust-ratd-tiny
+[[file:xsec-dust-ratd-tiny-ism_10.pdf]]
 
 
 
@@ -5326,6 +5397,14 @@ Take the C array from down below
   + T \approx 80000 K / N
   + So if we sublime at about 1000 K, then smallest grains have N = 80 or so
   + This corresponds to a \approx 5.5 \AA, which would set the lower limit on the VSG/USG size
+
+*** PAH destruction
++ Lebouteiller:2011a say that they are destroyed for [Ne III]/[Ne II] > 3
+  + This may be due to U, to hardness, or to metallicity
+  + Probably mostly due to T_eff of star
++ Lebouteiller:2007a suggest photons more energetic than 40 eV mostly responsible
++ Desert:1990a on other hand suggest that it is more a threshold on radiation intensity
+  + U > 70 more or less
 *** Radiative Torque Disruption
 + Hoang:2018a
 + *Conclusions*
