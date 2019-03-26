@@ -5764,6 +5764,23 @@ Plot of H/R versus \ell/R
     + Evolution time scale is about 1e6 years
   + Max grain size is about 0.04 microns
 
+** The Bubble Nebula NGC 7635
++ Jesús has kinematics
++ Green:2019a has simulation of bow shock
+  + They seem to ignore the close-in knots
++ Similar to AE Aur in a way
+  + in sense that it is possibly runaway coming upon molecular cloud
+  + but moving slower
++ There is a lot of infrared data that could be analysed
++ There is a big molecular clump right next to the star
++ It shows extended red emission, Sivan:1993a
++ Moore:2002b has HST imagery
+  + [O III]/Ha enhanced on outer rim of shell
++ Moore:2002a do modelling of the photoevaporating knots
+  + Claim O9 III fits best
+  + S_49 about 1
+
+
 ** SBW1 from Smith:2017b - a SN1987A analogue
 + No bow shock but has weak wind
 + Suggested that radiation pressure may be important in nebula
