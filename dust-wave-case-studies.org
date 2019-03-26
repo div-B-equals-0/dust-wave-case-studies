@@ -4627,6 +4627,7 @@ ID  L4   V3   R0   S7  R0_as l_as l/R0 j_-12 D_kpc FIR_-9  L*/LIR Md_-8
   + So this would give a better total flux of
     + 2.4 S_8 + 1.6 S_24 + 0.51 S_70
     + Note that we are only using 3 bands
+      + We could add 0.20 S_150 for particularly cold sources
     + /Old version/:
       + 2.3 S_5 + 2.5 S_8 + 0.77 S_24 + 0.24 S_70 + 0.16 S_160
   + E.g., source 13 (subbing S_12 for S_8):
@@ -5287,6 +5288,11 @@ Take the C array from down below
 + Original paper for this is Kobulnicky:2010a
 + Gaia parallax: 0.6212464179320593 +/- 0.04046298818558485
   + D = 1609 +/- 104
+  + Jane says
+    + 1646 median
+    + [1486, 1828] is 90% confidence limits
+    + 1646 [-160, +182]
+    + Systematic errors of 0.1 mas give extra +/- 0.25
 + So K18 distance of D = 1.3 kpc is correct-ish 
 + 2MASS 20343455+4158295 in Simbad
 + Looks very green in GLIMPSE survey and also in WISE - strong W2 band
@@ -5307,6 +5313,93 @@ Take the C array from down below
   + This is /only/ seen at 12, 22, 24 micron
   + Perhaps a hint that it is there at 8 micron, but hard to say
   + Invisible at 70 micron, despite K18 giving a surface brightness
++ At 1.3 kpc, 0.1 pc = 15.86 arcsec, 1 pc = 158.6 arcsec = 2.643 arcmin
+  + Bow has R_0 = 9.4 arcsec = 0.06 pc
+    + K18 have U = 4700 there
+  + Outer arc is at R = 33.7 arcsec = 0.2 pc
+    + So, by scaling the above we have U = 360
+    + This would be G0 = 3600 or so
++ Note that Kramer:2008a propose a way of measuring the incident FUV flux on cloud surfaces, which is similar in a way to our way of estimating \tau
+  + Except that they assume \tau \to \infty so that the emitted FIR radiation is equal to the incident FUV
++ Estimating \tau_trap to trap the ionization front
+  + This uses eq (24) of Paper I
+  + Based on [[https://www.icloud.com/notes/03kkVVYry1JiBZRoFk7RIqxaw#Trapped_ionization_front][note in Apple Notes]]
+  + x^3 \tau_* > A
+  + RBW version
+    + x = 2 \tau_*
+    + \tau = 2 \tau_*^2
+    + \tau_trap = 7.1 sqrt(S_49 \kappa_600 / L_4)
+    + Gives about 0.1 for a B1.5V star
+  + WBS version
+    + x = \sqrt(\eta)
+    + \tau = \eta^0.5 \tau_*
+    + \eta^1.5 \tau_* > A
+    + => \tau > A / \eta
+    + Use T_4 = 0.8
+    + \tau > 101.5 S_49 \kappa_600 / L_4 \eta
+    + Use S_49/L_4 = 2e-4 and \kappa_600 = 1
+    + \tau > 0.0203 / \eta
+    + But we also need \eta > \tau to be in the WBS regime at all
+    + These two conditions combine to give a minimum \eta
+      + \eta > sqrt(0.0203) > 0.142
+      + This is already 2 x bigger than the observed \eta = 0.07 even assuming 1e4 K
+      + Perhaps we have flexibility to move it up a bit since shell is maybe thinner than 0.25, but not much
+  + 160 micron contribution to F_IR
+    + If we included this, the weight would be 0.2
+    + This would increase F_IR by 20%
++ Observed parameters:
+  + \tau, \eta = 0.005, 0.07
+  + L_4 = 1.4
+  + V_3 = 0.8
+  + D = 1.3 kpc assumed, following Kiminki:2015a
+    + [X] Get this paper
+      + Seems convincing for 1.3 kpc distance
+      + But not consistent with Gaia
+    + But Schneider:2006a say 1.7 kpc for Cyg OB2
+    + And Berlanas:2019a resolve the conundrum
+      + Two subgroups at 1.3 and 1.7 kpc
+  + Mdot = 2.4e-8
++ Increasing the star's luminosity
+  1. Increase L_* but at constant D
+     + This implies that extinction is larger than the A_V = 4.5 assumed by KGK2010
+     + This would reduce \tau, which won't help with i-front trapping
+     + But it would reduce \eta more, since \tau ~ 1/L but \eta ~ 1/L^2
+     + a x2 increase in L would make
+       + additional A_V of 0.75 mag
+       + \tau, \eta = 0.0025, 0.0175
+       + \eta_w = 0.0175 - (1 - exp(-1.25 0.0025)) = 0.0144
+       + Mdot_-7 = 2.02 (L_4/V_3) \eta_w = 2.02 (2 1.4/0.8) 0.0175 = 0.123725
+     + So this would more or less fix the problem, but prosaicly
+     + Check against Table A1
+       + J(\tau) = -1
+       + J(\eta) = -2
+       + J(Mdot) = -1
+       + J(Mdot_K18) = -0.5
+  2. Increase D and L_* simultaneously so that L_*/D^2 is constant
+     + This does not change \tau since L_IR increases
+     + \eta_sh goes down as L^-1/2
+     + Check against Table A1
+       + Take vector [+1, +0.5] in [L_*, D]
+       + J(\tau) = -1 + 0.5 2 = 0
+       + J(\eta_sh) = -2 + 0.5 3 = -0.5
+       + J(Mdot) = -1 + 0.5 3 = +0.5
+       + J(Mdot_K18) = -0.5 + 0.5 2 = +0.5
++ We could have a combination of them both
+  + Luminosity class III is 4 times higher L
+  + Increasing D from 1.3 to 1.65 would give factor (1.65/1.3)**2 = 1.61
+    + This is median value from GAIA posterior
+  + Then 1 mag in A_V would give pure L change of 2.5
+  + These combine to give (10**0.4) (1.65/1.3)**2 = 4.046
+    + Which is close enough to 4
+  + So the change in observed quantities is 
+    + log10(4) = +0.602 dex in L
+    + log10(1.65/1.3) = +0.104 dex in D
+  + Derived quantities:
+    + \tau = -1 0.602 + 2 0.104 = -0.394
+    + \eta = -2 0.602 + 3 0.104 = -0.892
+    + Mdot = -1 0.602 + 3 0.104 = -0.290
+    + Mdot_K18 = -0.5 0.602 + 2 0.104 = -0.093
+
 **** IRAS03063+5735
 + Is this in K18?
 + It has a double bow

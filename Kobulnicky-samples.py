@@ -39,7 +39,7 @@ tab01.remove_columns(
    ]
 )
 
-tab01[300:310]
+tab01[310:320]
 
 tab01[20:30]
 
