@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# To run as an executable on a unix platform, do the following:
+# chmod 775 wget_data.bat
+# ./wget_data.bat
+#
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I2_cygnus_2.4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/M1_cygnus_1.2.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I2_cygnus_0.8.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/M1_cygnus_2.4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I3_cygnus_2.4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I3_cygnus_0.8.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I1_cygnus_0.8.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I1_cygnus_2.4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I4_cygnus_2.4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/mosaics/I4_cygnus_0.8.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/M1_cygnus_1.2_1_4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I3_cygnus_0.8_1_4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I2_cygnus_0.8_1_3.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I4_cygnus_0.8_1_4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I1_cygnus_0.8_1_3.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I3_cygnus_0.8_1_3.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I4_cygnus_0.8_1_3.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I2_cygnus_0.8_1_4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/M1_cygnus_1.2_1_3.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/tiles/I1_cygnus_0.8_1_4.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I3_tile8048_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I1_tile8048_mos.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I2_tile9584_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I4_tile8048_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I2_tile8048_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I4_tile9584_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I4_tile9584_mos.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I2_tile8048_mos.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I4_tile8048_mos.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I1_tile8048_msk.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I2_tile9584_mos.fits"
+wget -x "https://irsa.ipac.caltech.edu:443/data/SPITZER/Cygnus-X/images/phot_mosaics/I3_tile8048_mos.fits"

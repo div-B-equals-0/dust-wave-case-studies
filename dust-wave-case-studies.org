@@ -628,12 +628,33 @@ Interaction with black hole
 *** Galactic center "proplyds"
 + Yusef-Zadeh:2015a detect these in radio
   + They look more like bow shocks than proplyds, although there is also some resemblance to the further out Helix knots
+
+*** Further out GC regions
++ HII region H1
+  + Central star P114
+  + Bow shock with R_0 = 5 arcsec = 0.2 pc
+  + 
 ** TODO UCHII regions from Mac-Low:1991a
 + These have
   + R = 0.001 to 0.005 pc
   + n = 1e5 to 1e6
   + v \approx 5 km/s
   + Hard to reconcile all these with the claimed O4 to O6 spectral types, but \tau \gg 1 whatever
+*** Other studies of UC cometary H II regions
++ Klaasen:2018a
+  + ALMA observations of 256 GHz (1.17 mm) continuum and lines
+    + H29\alpha for ionized gas
+    + CS J = 5-4 for molecular gas
+    + About D = 4 kpc and about R = 5 arcsec => 0.1 pc size
+    + Two objects show cometary morphologies
++ Immer:2014a
+  + Cometary H II regions in DR 21
+  + This is in the isolated filament
+  + The filament looks very much like the Orion one
+  + Size is about 20 arcsec or 0.15 pc
+  + 60 micron brightness is 1000 times greater than source 342
+
+
 ** OB bowshocks in Orion Nebula
 *** LP Ori
 **** Info about star
@@ -759,6 +780,8 @@ stars.update(
       + \eta = Mdot V / (L/c)
       + = 3e-7 1.989e33 40 1.0e5 2.99792458e10 / 2000 3.82e33 3.15576e7 
       + = 0.298
+    + In general, we will get:
+      + \eta = 1.98 sqrt(M_{10} S_{49}) / L_{4}
   + *Conclusion: wind and radiation contribute equally!*
 
 
@@ -5277,6 +5300,9 @@ Take the C array from down below
     + From Paper IV, we get \Pi = 1.8 \pm 0.9 for all the sources
     + Looking at the sources that most deviate from the 1-to-1 line in Fig 9 (344, 369, 382, 339, 381), they all have \ell/R < 1, which implies H/R = 0.05 \to 0.13
       + This would put mass loss rates up by factor of 3 \to 10
++ Note this is also the source where non-thermal radio emission is claimed by Benaglia:2010a
+  + But it is one of the most powerful winds of any bow shock
+  + KGK2010 derived Mdot = 1.6e-4 Msun/yr, but K18 have XXX
 
 
 **** Source 342 - KGK2010 2 in Cygnus OB2
@@ -5293,6 +5319,7 @@ Take the C array from down below
     + [1486, 1828] is 90% confidence limits
     + 1646 [-160, +182]
     + Systematic errors of 0.1 mas give extra +/- 0.25
+    + Stassun:2018a zero point correction of 80 \micro{}as would give change of 13% which is large
 + So K18 distance of D = 1.3 kpc is correct-ish 
 + 2MASS 20343455+4158295 in Simbad
 + Looks very green in GLIMPSE survey and also in WISE - strong W2 band
@@ -5399,6 +5426,64 @@ Take the C array from down below
     + \eta = -2 0.602 + 3 0.104 = -0.892
     + Mdot = -1 0.602 + 3 0.104 = -0.290
     + Mdot_K18 = -0.5 0.602 + 2 0.104 = -0.093
++ *Revisited* [2019-03-28 Thu 09:50]
+  + K19 now say that it is B4V with L = 930 Lsun
+  + This will make a big difference
+  + The luminosity is even lower than LP Ori
+  + T_eff = 16,700 K means that there are essentially zero ionizing photons
+    + For some reason K19 say 15,000 K but this is not consistent with Pecaut:2013a
+    + Ionizing flux from B4 star
+      + Cloudy model for a 16000 K star
+        + [[file:~/Work/OrionNI/git-paper/models/individual/P1774.out][file:~/Work/OrionNI/git-paper/models/individual/P1774.out]]
+        + This gives L = 500 Lsun and Q(H) = 1.8e42
+        + So S_49 / L_4 = 3.6e-6 => \tau_trap = 0.014
+      + Or, use Tab 4 of Lanz:2007a shows ionizing flux
+        | T, kK | log_10 q_0 | log g = 3 | S_49 / L_4 g4 | S_49 / L_4 g3 |
+        |-------+------------+-----------+---------------+---------------|
+        |    55 |      25.01 |           |        7.5e-2 |       7.4e-27 |
+        |    50 |      24.82 |           |        7.1e-2 |       1.1e-26 |
+        |    45 |      24.58 |           |        6.2e-2 |       1.6e-26 |
+        |    40 |      24.28 |           |        5.0e-2 |       2.6e-26 |
+        |    35 |      23.84 |           |        3.1e-2 |       4.5e-26 |
+        |    30 |      22.90 |     23.62 |        6.6e-3 |        3.5e-2 |
+        |    29 |      22.63 |     23.45 |        4.1e-3 |        2.7e-2 |
+        |    28 |      22.35 |     23.25 |        2.5e-3 |        1.9e-2 |
+        |    27 |      22.06 |     22.99 |        1.5e-3 |        1.2e-2 |
+        |    26 |      21.76 |     22.66 |        8.5e-4 |        6.7e-3 |
+        |    25 |      21.44 |     22.25 |        4.8e-4 |        3.1e-3 |
+        |    24 |      21.12 |     21.82 |        2.7e-4 |        1.3e-3 |
+        |    23 |      20.81 |     21.40 |        1.6e-4 |        6.0e-4 |
+        |    22 |      20.51 |     20.95 |        9.3e-5 |        2.6e-4 |
+        |    21 |      20.21 |     20.54 |        5.6e-5 |        1.2e-4 |
+        |    20 |      19.90 |     20.16 |        3.3e-5 |        6.1e-5 |
+        |    19 |      19.59 |     19.82 |        2.0e-5 |        3.4e-5 |
+        |    18 |      19.26 |     19.47 |        1.2e-5 |        1.9e-5 |
+        |    17 |      18.92 |     19.11 |        6.7e-6 |        1.0e-5 |
+        |    16 |      18.57 |     18.74 |        3.8e-6 |        5.6e-6 |
+        |    15 |      18.20 |     18.35 |        2.1e-6 |        3.0e-6 |
+        #+TBLFM: $4=10**$2 1e4 $Lsun / 1e49 $sigma (1000 $1)**4;s2::$5=10**$3 1e4 $Lsun / 1e49 $sigma (1000 $1)**4;s2
+      + Interpolating on table gives 5.83e-6 => \tau_trap = 0.017, which is almost the same
+      + Or q_0 = 6.936e18 /s/cm^2
+      + So, the ionizing luminosity of 342 should be
+        + 4 pi (4.3 Rsun)**2 6.936e18 = 7.8e42 /s
+      + So flux at shell (R_0 = 0.082 pc at new distance) is 9.7e6 /s/cm^2 
+    + At same time, luminosity goes from 1.4e4 (K18) to 0.093e4 (K19)
+      + That is a factor of 15
+      + B1 was 26,000 K, and R = 6 Rsun
+      + B4 is 16,700 K and R = 4.3 Rsun
+      + so factor should be (26/16.7)**4 (6/4.3)**2 = 11
+      + difference is that they are using 15kK => (26/15)**4 (6/4.3)**2 = 17.
+    + This means that \tau goes up by 10, from 0.005 \to 0.05
++ Ionization by cluster
+  + We are about 17 pc from center of cluster
+  + Wright:2015a
+    + 3 WR stars, 2 O3 I supergiants, and a sprinkling of O5/O6 supergiants
+  + Smith:2006a has the biggest Carina stars being about Q(H) = 1e50
+  + So we would expect at least 5e50 for Cygnus OB2
+  + So this would give photon flux of 1.4e10, or less, depending on the line of sight distance
+  + On the other hand, we can calculate the ionized density required to give a Stromgren sphere < 19 pc
+    + n = sqrt(5e50 / (4 pi/3) (17 pc)**3 2.6e-13) = 56 pcc
+    + So it is quite possible that it is outside H II region
 
 **** IRAS03063+5735
 + Is this in K18?
@@ -5768,6 +5853,11 @@ Plot of H/R versus \ell/R
 + They had 3 objects in each region
 + Only RCW 49 S1 has measurements in the long wavelength bands
 + It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+** Bows in Cygnus X
++ There are loads if them - show up beautifully in 24 micron map
++ I would like to compare with radio continuum, but there doesn't seem anything too useful
+  + Tung:2017a present the CGPS galactic plane survey at 408 MHz = 73 cm
+    + But this is low resolution (3 arcmin)
 ** \kappa Cas from Katushkina:2018a
 :PROPERTIES:
 :ID:       BD6436D2-E9A0-4F85-BC6E-5730459F1275
@@ -5974,6 +6064,17 @@ Plot of H/R versus \ell/R
     + So, argument is that we need \eta = 20 to drive the shell with momentum
 
 
+
+
+* Non-thermal emission
++ Benaglia:2010a claim synchrotron emission based on 6cm and 20cm radio
+  + This is for source 344 - BD +43 3654
+  + The radio emission is roughly coincident with the mid-IR
+  + Nobody has worked out what EM it would correspond to if thermal
+  + The claimed -0.5 spectral index is not what their image says, which looks more like -0.2
++ Simulations by del-Valle:2018a seem to show that the synchrotron emission should come mainly from the wind shock, which is clearly not the case in the observatins
++ Toala:2016a find thermal x-rays from zeta Oph but nothing non-thermal from anything
++ Binder:2019a stacked up lots of x-ray images, but still doesn't find any
 * Density versus velocity in photoevaporation flow
 + Assume isothermal:
   + 1/2 M^2 + ln n = 1/2 M_0^2 + ln n_0
@@ -6164,3 +6265,74 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
 * TODO [#A] The 2019 Kobulnicky paper
 
 + [[file:kobulnicky-ms-2019-03-14.pdf]]
+
+** Comments on draft
++ p. 7 - The Cygnus OB2 distance discrepancy is resolved by Berlanas:2019a who find two sub-groups at 1.35 and 1.7 kpc
++ Should calculate \eta_w for sample - far too high for the B stars
+
+** Looking at the new sample 
+
+*** A small part of the tables for interesting sources
++ Also includes info from K17 fluxes
+| Source |     D |   F_8 |  F_24 | F_70 | F_160 | Sp     |   R_0 |   L_4 |  v | F_-10 |      \tau |   \eta_sh |    Mdot | Mdot_K19 | V_3 |  \eta_K19 |
+|--------+-------+-------+-------+------+-------+--------+-------+-------+----+-------+--------+--------+---------+----------+-----+--------|
+|      3 | 1.527 |  0.71 |  13.3 | 39.0 |       | B5 III |  0.05 |  0.28 | 75 |  42.9 | 1.1e-1 |  4.8e0 |  5.2844 |    79.36 | 0.5 |  7.0e1 |
+|      7 | 1.313 |   1.3 |  0.83 | 21.7 |  10.6 | B2 V   |  0.06 |  0.46 | 12 |  15.5 | 1.8e-2 | 5.8e-1 |  0.7404 |     1.35 | 0.7 |  1.0e0 |
+|    163 | 4.438 |       | 2.337 | 4.17 |       | B3 II  | 0.367 |  0.88 | 18 |   5.9 | 4.1e-2 |  4.2e0 | 12.2952 |     45.2 | 0.6 |  1.5e1 |
+|    342 | 1.538 |  0.38 |  0.77 | 8.99 |  5.25 | B4 V   |  0.08 | 0.093 | 12 |   6.7 | 5.3e-2 |  1.1e1 |  2.5680 |     12.4 | 0.8 |  5.3e1 |
+|    361 | 3.896 |       | 0.251 | 1.28 |       | B1 Ia  | 1.905 |   8.7 | 19 |   1.1 | 6.0e-4 | 3.2e-2 |  0.6865 |    350.4 | 0.8 |  1.6e1 |
+|    362 | 5.295 | 0.024 | 0.427 | 0.61 |       | B2 I   | 0.415 |    13 | 22 |   1.1 | 7.4e-4 | 5.8e-3 |  0.1829 |      3.6 | 0.7 | 9.6e-2 |
+|    405 | 2.328 |  0.54 |  6.42 | 6.92 |       | B3 III | 0.261 |  0.88 |  8 |  15.1 | 2.9e-2 |  2.1e0 |  6.1161 |     5.16 | 0.6 |  1.7e0 |
+#+TBLFM: $11=2.4 $3 + 1.6 $4 + 0.51 $5;f1::$12=3.132 $-1 $2**2 / 1e4 $-3 ; s2::$13=245 $8 $-1/$9;s2::$14=2.02 $9 ($-1 - (1 - exp(-1.25 $-2))) / $16;f4::$17=0.495 $-2 $-1 / $9 ;s2
++ L_IR = 1.20e34 D_kpc^2 F_-10 erg/s = 3.132 F_-10 D_kpc^2 Lsun
++ Looking at the \eta_K19 column, none of them look remotely plausible, except for 362, which is a supergiant
++ Names
+  + Source 3 : G001.0563−00.1499
+    + Close to IR dark clouds
+    + Projected onto GC region, but much closer
+    + Pretty small bow inside larger arc that might be HII region
+    + Except that S_49 will be very low from B5 III star
+    + Only one of these that is high velocity
+    + Largest \tau of any of them
+    + If neutral shell should have very high compression (if it cools)
+      + And 75 km/s puts it right at the peak of the cooling curve
+    + They say U = 1800 so they use j = 3.4e-12
+    + I get 1646 so the same, but I predict 1.5e-11, which is 5 times higher
+    + A B5 star has almost zero ionizing photons!
+  + Source 7 : G003.8417−01.0440
+    + Optical reflection nebula
+    + Next to another mid-ir dark cloud
+    + Has a bow-like inner rim
+    + Almost certainly neutral shell
+  + Source 163 : G031.9308+00.2676
+    + Can't actually see any bow in GLIMPSE or WISE
+  + Source 342 : KGK2010 2
+    + We have already done a lot on this source
+    + B4 V classification allows it to be trapped i-front
+  + Source 361 : G108.9891+01.5606 : TYC4278-522-1
+    + Big bow seen in 22 micron
+    + Clearly not trapped i-front
+    + Enormous disparity in Mdot between mine and their method - why?
+      + They get 511 times my Mdot
+      + They say U/100 = 0 !
+      + I get 35.24, so they must mean 0.35
+      + So I would predict j = 1.5e-12 whereas they use 1e-13
+        + Which is odd, since even DL07 would give 1.5e-13
+      + This explains one factor of 15
+      + They do give a very large error
+  + Source 362 : G109.1157+00.6799
+    + Nice fat arc at 24 micron
+    + Looks certainly WBS, maybe even no outer shock a la Mackey
+    + But we still disagree by factor of 20 on Mdot
+    + Quite far away at 5 kpc
+    + R_0 = 0.415 pc
+    + I get U = 1110 but they say 1200 which is fine
+      + The use j = 3e-12, which is correctly using DL07
+      + This is about 3 times too low - should be 1e-11
+    + Inner bit of arc seen at 8 micron
+    + \ell/R \approx 2 so shell is not super thin
+  + Source 405 : HD303197 : G286.4644−00.3478
+    + In N part of Carina but not one of the EROs in Sexton:2015a
+    + Very fat bow at 24 micron
+    + Doesn't loo like it is neutral
+

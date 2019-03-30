@@ -74,7 +74,9 @@ for band in 'F3.4', 'F4.6', 'F12', 'F70', 'F160':
     tab02[band][m] = -tab02[band][m]
     tab02.remove_column(lband)
 
-tab02[20:30]
+tab02[70:90]
+
+tab01[310:330]
 
 # There is something wrong with Table 5.  There is an integer column that contains `'---'` strings, which need dealing with or the reader will crash. This doesn't seem to be possible with the FITS table reader, so we resort to ascii, where we can fix it with the `fill_values` parameter.
 
