@@ -192,12 +192,12 @@ tt['LIR_will'] = tt['FIR_will']*(u.erg/u.cm**2/u.s)*4*np.pi*(tt['Dist']*1e3*u.pa
 tt['LIR/L* will'] = tt['LIR_will']/(1e4*tt['L4'])
 tt
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(8, 10))
 xx, yy = 2.0/tt['L*/LIR_1'], 2*tt['LIR/L* will']
 c = ax.scatter(xx, yy, 
                c=4.0 + np.log10(tt['L4']), cmap='magma', vmin=3.5, vmax=6.0, 
                edgecolors='k', alpha=1.0)
-fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
+fig.colorbar(c, ax=ax, orientation="horizontal").set_label(r'$\log_{10}\ \left[L_* / L_\odot \right]$')
 for id_, x, y in zip(tt['ID'], xx, yy):
     ax.annotate(
         str(id_), (x, y), fontsize='xx-small',
@@ -820,12 +820,12 @@ None
 k18tab['jnu_Ux8'] = np.interp(8*k18tab['U'], DL07tab['U'], DL07tab['70'])
 k18tab['Mdot4'] = 1.67e-28*k18tab['R_0,as']**2 * k18tab['D'] * k18tab['Va']**2 * 1e7*k18tab['Peak_70'] / (k18tab['V_inf_{}'] * k18tab['ell'] * k18tab['jnu_Ux8'])
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(8, 10))
 xx, yy = k18tab['Mdot'], k18tab['Mdot4']
 c = ax.scatter(xx, yy, 
                c=np.log10(k18tab['U']), cmap='Blues_r', vmin=2.3, vmax=5.3, 
                edgecolors='k', alpha=1.0)
-fig.colorbar(c, ax=ax).set_label(r'$\log_{10}\ U$')
+fig.colorbar(c, ax=ax, orientation="horizontal").set_label(r'$\log_{10}\ U$')
 for id_, x, y in zip(k18tab['ID'], xx, yy):
     ax.annotate(
         str(id_), (x, y), fontsize='xx-small',
@@ -990,18 +990,14 @@ def corrfunc(x, y, **kws):
         ax.annotate(rf"$m = {slope:.1f} \pm {stderr:.1f}$",
                     xy=(.95, .05), ha='right', xycoords=ax.transAxes, 
                     fontsize='xx-small', color=fontcolor, alpha=fontalpha)
-   
 
-# +
+
 g = sns.pairplot(ldf, kind='reg', 
                  plot_kws=dict(scatter_kws=dict(edgecolor='w')),
                  x_vars=['Lum.', 'R_0', 'ell,pc', 'ell/R0', 'U', 'Peak_70', 'LIR'],
                  y_vars=['Mdot_will', 'Mdot4', 'Md_Md'],
                 )
 g.map(corrfunc)
-
-
-# -
 
 
 
