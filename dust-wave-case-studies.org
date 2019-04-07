@@ -4206,7 +4206,12 @@ Same for 4734 and 4735
 + Applies PPMAP Bayesian procedure to find column density as function of T and \beta
   + See also Marsh:2015a and Marsh:2017a
   + And also Galliano:2018a for applying similar techniques to more complicated dust models
-
++ From just the Herschel map alone you can get the different kinds of dust
+  + H II region : T > 36 K
+  + PDR : T = 25 \to 35 K
+  + Molecular clumps : T = 16 \to 22 K
++ Where the H II region dust has morpholgy of 24 micron emission
++ And PDR dust has morphology of 8 or 11 micron
 ** Carina bow shocks
 + Smith:2010 Sexton:2015a, Kiminki:2017a
 + Ambient density about 1000 pcc
@@ -5620,6 +5625,9 @@ Take the C array from down below
 + Lebouteiller:2007a suggest photons more energetic than 40 eV mostly responsible
 + Desert:1990a on other hand suggest that it is more a threshold on radiation intensity
   + U > 70 more or less
++ Binder:2018a find that PAH fraction required to fit *total* SED falls with the luminosity of the region, from 4% for small H II regions to 2% fir giant H II regions
+  + But this doesn't really say anything about the fate of PAH inside H II regions, rather the destruction of the neutral PDRs around the region
+
 *** Radiative Torque Disruption
 + Hoang:2018a
 + *Conclusions*
@@ -5654,6 +5662,9 @@ Take the C array from down below
 + Also, disruption only occurs for U larger than certain value
   + U > 3 for n = 30 pcc, T = 100 K
   + U > 2e4 for n = 1e5, T = 1000 K
+
+
+
 *** Evolution of grain size
 + This could be caused by RATD for instance, see previous section
 **** What size fragments are to be expected?
@@ -5888,8 +5899,18 @@ Plot of H/R versus \ell/R
 + Ratio between mine and K17 fluxes gives std of 0.07
 ** Povich:2008a bows in M17 and RCW 49
 + They had 3 objects in each region
++ M17 is Omega nebula
 + Only RCW 49 S1 has measurements in the long wavelength bands
 + It is still rising at 24 micron, but the high IRAS fluxes must be coming from a more extended region
+*** SOFIA observations of M17
++ These are at 24 and 37 microns
+** Bows in W51A
++ This is a Giant H II region
+  + There is a survey at 6 cm + MSX by Conti:2004a
+  + W51A should not be confused with W51, which is bigger
++ There is a nice bow nested in H II region in ~G49.5-0.4 h~
+  + See Fig. 7 of Lim:2019a
+
 ** Bows in Cygnus X
 + There are loads if them - show up beautifully in 24 micron map
 + I would like to compare with radio continuum, but there doesn't seem anything too useful
@@ -6103,6 +6124,15 @@ Plot of H/R versus \ell/R
 
 
 
+** TODO Sources from Brown:2005a
++ These are from H\alpha survey
++ On average they find n ~ 1 pcc, so they seem to be in the diffuse medium
++ They have velocities of 10 to 50 km/s, so a lot will be runaways
++ Standoff distances are very large: 0.45 to 7.5 pc
++ They do density in several ways, and it makes little sense
+
+** Sources from Bodensteiner:2018a 
++ See [[file:~/Dropbox/bsc-bows/]]
 * Non-thermal emission
 + Benaglia:2010a claim synchrotron emission based on 6cm and 20cm radio
   + This is for source 344 - BD +43 3654
