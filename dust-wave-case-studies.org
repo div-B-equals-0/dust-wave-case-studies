@@ -6020,8 +6020,34 @@ Plot of H/R versus \ell/R
 + Moore:2002a do modelling of the photoevaporating knots
   + Claim O9 III fits best
   + S_49 about 1
-
-
+** WR stars
+*** WR 16
++ Listed as runaway Moffat:1998a
+*** WR 128
++ this is the one that looks most like a bow shock
++ Fig A20 Of Toala:2015b
++ Radius is 5 arcmin at distance of 3 kpc
+  + 4.36 pc, so big
+*** NGC 3199 around WR 18
++ Looks a bit like a bow shock
+  + Dyson:1989a model it as such
++ But Toala:2017c say that it isn't
+  + Although I am not sure I am convinced by their reasons
+** Other sources from Moffat:1998a
++ Say that only 30% of the runaway candidates have bow shocks
+  + HD 189957 says it has bright knot of 60 micron
+    + Bow is clearly seen at 20 micron
+  + HD 210839 is \lambda Cep
+    + blue supergiant
+    + This has beautiful multi-stranded bow
+  + WR 6, 16, 40, 23, 55, 133, 134, 136
+    + Most of these are more like distorted bubbles than bow shocks
+    + Could be time-dependent effects
+      + Shell would have expansion speed in uniform medium
+      + V_{sh} \propto t^{-2/5} in energy-driven case
+      + Only when this falls to ~ V_{*} would we get distorsion
+  + WR 128 in particular (as already noted)
+    + But PM vector is not aligned with symmetry axis
 ** SBW1 from Smith:2017b - a SN1987A analogue
 + No bow shock but has weak wind
 + Suggested that radiation pressure may be important in nebula
@@ -6124,13 +6150,23 @@ Plot of H/R versus \ell/R
 
 
 
+
+** Source from Peri:2015a
++ This has many that are not in Kobulnicky
 ** TODO Sources from Brown:2005a
 + These are from H\alpha survey
 + On average they find n ~ 1 pcc, so they seem to be in the diffuse medium
 + They have velocities of 10 to 50 km/s, so a lot will be runaways
 + Standoff distances are very large: 0.45 to 7.5 pc
 + They do density in several ways, and it makes little sense
-
++ But some sources are misclassified
+  + HD 92206 is in middle of an H II region - no bow shock
+  + HD 17505 is also H II region - but does have a 24 micron rim, which we could classify as a bow if we were being generous
+    + But it has a scalloped inner edge that looks like several stars are contributing
++ First author: Daniel Brown 
+  + https://www.ntu.ac.uk/staff-profiles/science-technology/daniel-brown
+  + Mainly does undergraduate teaching and outreach
+  + Nottingham Trent University
 ** Sources from Bodensteiner:2018a 
 + See [[file:~/Dropbox/bsc-bows/]]
 * Non-thermal emission
