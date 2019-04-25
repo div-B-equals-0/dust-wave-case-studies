@@ -6032,7 +6032,8 @@ Plot of H/R versus \ell/R
 + Looks a bit like a bow shock
   + Dyson:1989a model it as such
 + But Toala:2017c say that it isn't
-  + Although I am not sure I am convinced by their reasons
+  + Proper motion is similar to other nearby stars
+  + So maybe more likely asymmetrical bubble caused by density gradient
 ** Other sources from Moffat:1998a
 + Say that only 30% of the runaway candidates have bow shocks
   + HD 189957 says it has bright knot of 60 micron
@@ -6439,3 +6440,52 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
     + Very fat bow at 24 micron
     + Doesn't loo like it is neutral
 
+
+
+* The Large Magellanic Cloud 
++ Not many bow shocks reported that I am aware of
++ Angular scales:
+  + 1 pc = 4.125 arcsec
+  + 0.1 pc = 0.4 arcsec
++ So only the biggest are resolvable with Spitzer
++ Amazing amateur image
+  + See [[https://www.syfy.com/syfywire/amateur-astronomers-create-an-incredible-1000-hour-image-of-a-galactic-neighbor][Bad Astronomy post about it]]
+  + Images
+    + [[file:data/LMC/photo95f.jpg]]
+    + [[file:data/LMC/photo95fb.jpg]]
+** Objects of interest in the LMC image
++ Brey 51 - WR star: WN3(h)
+  + (\alpha, \delta) = (83.6561686239, -66.2438866518)
+  + Has a clear bow shock - visible on DSS 2 images
+    + Also mentioned in Dopita:1994a
+      + They say "almost looks like a bow shock"
+      + They give diameter = 45 arcsec, but that is a larger region I think
+    + First discovered by Pakull:1991a
+  + Star-apex radius = 10 arcsec = 2.5 pc
+  + Stellar parameters from Hainich:2014a
+    + V = 1600 km/s
+    + Mdot = 6.61e-6 Msun/yr
+    + T_eff = 89 kK
+    + L = 2e5 Lsun
+    + \eta_w = 2.6 so moderate multiple scattering
+  + Spitzer observations
+    + Clearly seen in 24 micron
+    + Just visible in 8 micron
+  + DSS2 observations
+    + Seen well in blue, just about in red
+  + Herschel observations
+    + Something seen at 100 micron, but it seems bigger than the bow seen at 24 micron
++ Also Br 10 looks a bit bow-shocky
++ Bow near "[L72] LH43-10"
+  + This is an O8V star in a small H II region to north of N 43
+  + Looks like a jet from star MACHO 63.6646.1
+    + 2MASS 05211654-6527100
+    + GAIA 4660631573136843008
+    + But that has parallax of 3.93 so @ 250 pc - in our Galaxy!
+  + The object itself is cataloged as 2MASS6X J05210966-6527049
+    + Listed as YSO
+    + So maybe it is a reflection nebula
+    + Especially since it is also just about visible in continuum
+  + Size about 10 arcsec diameter = 2 pc
+  + Embedded in H II region of size 7 arcmin = 100 pc diamter
+  + Bright part of H II region is 52 arcsec = 12 pc diameter
