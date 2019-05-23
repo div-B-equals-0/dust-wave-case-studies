@@ -11,7 +11,7 @@
 #+EXCLUDE_TAGS: noexport
 
 
-Case studies of interesting objects for inclusion in bow paper X
+Case studies of interesting objects for inclusion in bow paper
 
 * Selection criteria
 + High-ish ambient densities, since that is more likely to give an "interesting" case (e.g., radiation bow wave)
@@ -393,6 +393,8 @@ Interaction with black hole
 + Distance: about 2 kpc
 + Several bow shocks
 + And interesting distribution of 24 micron emission in the nebula
++ Some bow shocks in Heart Nebula do not have optical counterparts
++ Just S of the Soul Nebula there is an interesting object that looks like a bow shock in the H\alpha image, but in the infrared it is clearly a blister-type H II region
 ** TODO Algol stars
 + Mayer:2016a
 + 3 stars have bow shocks
@@ -4136,7 +4138,331 @@ Same for 4734 and 4735
 
 
 
++ Look at the header data for Ha
+#+begin_src python :results output
+  from astropy.io import fits
+  from astropy.time import Time
+  import glob
+  filenames = glob.glob("data/Sigma-Ori/ING/4734/int20081118_*.fits.fz")
+  hdulist = fits.open(filenames[0])
+  hdr = hdulist[0].header
+  time = Time(hdr['MJD-OBS'], format='mjd')
+  print('Observation date:', time.iso)
+  print()
+  print('Full Header:')
+  print(repr(hdr))
+#+end_src
 
+#+RESULTS:
+#+begin_example
+Observation date: 2008-11-19 02:54:15.515
+
+Full Header:
+SIMPLE  =                    T /                                                
+BITPIX  =                    8 /                                                
+NAXIS   =                    0 /                                                
+EXTEND  =                    T / File contains extensions                       
+RUN     =               647188 / Run number                                     
+IRAFNAME= 'r647188           ' / IRAF should use this name                      
+RUNSET  = '1:1:647188        ' / i:n:r => Run i of n runs starting at #r        
+SYSVER  = '/int/s9-1         ' / Version of observing system                    
+ORIGIN  = 'ING La Palma      ' / Name of observatory                            
+OBSERVAT= 'LAPALMA           ' / Name of observatory (IRAF style)               
+OBSERVER= 'BARRENA           ' / Name of principal investigator                 
+PROPOSAL= 'CAT DDT           ' / Code for grant of observing time               
+OBJECT  = 'Sori              ' / Title of observation                           
+OBSTYPE = 'TARGET            ' / Type of observation, e.g. TARGET               
+IMAGETYP= 'object            ' / Type of observation, e.g. object               
+LATITUDE=            28.761997 / Telescope latitude  (degrees), +28:45:43.2     
+LONGITUD=           -17.877624 / Telescope longitude (degrees), -17:52:39.4     
+HEIGHT  =                 2348 / [m] Height above sea level.                    
+SLATEL  = 'LPO2.5  '           / Telescope name known to SLALIB                 
+TELESCOP= 'INT     '           / 2.5m Isaac Newton Telescope                    
+TELSTAT = 'TRACKING'           / Telescope status at end of observation         
+RA      = '  5:38:45.800'      / RA being tracked  (           84.690834 degrees
+DEC     = '-02:35:45.00'       / DEC being tracked (           -2.595834 degrees
+EQUINOX =              2000.00 / Equinox of coordinates                         
+RADECSYS= 'FK5     '           / mean place new (after the 1976 IAU) system     
+UTOBS   = '  2:54:15.5'        / UT at approx start of observation (from TCS)   
+XAPNOM  =        -0.0697222242 / nominal aperture in x (-251.00 arcsec)         
+YAPNOM  =         0.0905555552 / nominal aperture in y (326.00 arcsec)          
+XAPOFF  =        -0.0697222242 / total aperture offset in x (-251.00 arcsec)    
+YAPOFF  =         0.0905555552 / total aperture offset in y (326.00 arcsec)     
+RAOFF   =        15.0000003841 / RA positional offset (arcsec, tangent plane)   
+DECOFF  =        15.0000003841 / Dec positional offset (arcsec, tangent plane)  
+MJD-OBS =        54789.1210129 / Modified Julian Date at start of observation   
+JD      =      2454789.6210129 / Julian Date at start of observation            
+STSTART = '  5:36:48.0'        / Local sidereal time at start of observation    
+ST      = '  5:36:48.0'        / Local sidereal time at start of observation    
+AZSTART =           178.895399 / Azimuth at start of observation (degrees)      
+AZEND   =           181.322179 / Azimuth at end of observation (degrees)        
+ZDSTART =            31.422133 / Zenith distance at start of observation (degs) 
+ZDEND   =            31.424175 / Zenith distance at start of observation (degs) 
+FSTATION= 'PRIME   '           / Focal station of observation                   
+PLATESCA=             6.856013 / [d/m] Platescale ( 24.68arcsec/mm)             
+TELFOCUS=             0.043743 / Telescope focus (metres)                       
+ACTELFOC=             0.044505 / Telescope focus encoder (metres)               
+ROTTRACK=                    T / Rotator tracking sky?                          
+ROTSKYPA=           180.000005 / Sky position angle (degrees)                   
+MNTPASTA=           180.000005 / Mount position angle at start (degrees)        
+MNTPAEND=           180.000005 / Mount position angle at end (degrees)          
+PARANSTA=           359.173448 / Parallactic angle at start of observation      
+PARANEND=             1.305749 / Parallactic angle at end of observation        
+VIGNETTE=                    F / Beam vignetted by dome/shutter/mirror cover?   
+DAZSTART=           177.851979 / Dome azimuth at start of observation           
+DAZEND  =           177.851979 / Dome azimuth at end of observation             
+AIRMASS =             1.170543 / Effective mean airmass                         
+AMSTART =             1.170587 / Airmass at start of observation                
+AMEND   =             1.170596 / Airmass at end of observation                  
+TEMPTUBE=             6.016608 / Truss Temperature (degrees Celsius)            
+FOCUSTMP=            -0.128483 / Focus temperature correction (mm)              
+FOCUSALT=             0.000000 / Focus elevation correction (mm)                
+FOCUSFLT=             0.890000 / Focus correction for filter (mm)               
+AUTOX   =                 0.00 / a/g reference position x-coord (pixel)         
+AUTOY   =                 0.00 / a/g reference position y-coord (pixel)         
+AUTOMODE= 'UNLOCKED     '      / State of guide loop at start of observation    
+CAT-NAME= 'SORI    '           / Target input-catalogue name                    
+CAT-RA  = '  5:38:44.800'      / Target Right Ascension                         
+CAT-DEC = '-02:36:00.00'       / Target Declination                             
+CAT-EQUI= 'J2000.00'           / Equinox of target coordinates                  
+CAT-EPOC=              2000.00 / Target epoch of proper motions                 
+PM-RA   =             0.000000 / Target proper-motion RA (sec time/year)        
+PM-DEC  =             0.000000 / Target proper-motion (sec arc/year)            
+PARALLAX=             0.000000 / Target Parallax (arcsec)                       
+RADVEL  =             0.000000 / Target radial velocity (km/s)                  
+RATRACK =             0.000000 / Differential-tracking rate RA (arcsec/sec)     
+DECTRACK=             0.000000 / Differential-tracking rate Dec (arcsec/sec)    
+INSTRUME= 'WFC               ' / INT wide-field camera is in use.               
+WFFPOS  =                    5 / Position-number of deployed filter             
+WFFBAND = 'Halpha            ' / Waveband of filter                             
+WFFPSYS = 'Narrow-band       ' / Photometric system of filter                   
+WFFID   = '197               ' / Unique identifier of filter                    
+SECPPIX =                0.333 / Arcseconds per pixel                           
+UTSTART = '02:54:17.9        ' / UTC of start of observation                    
+ELAPSED =              299.940 / Length of observation including pauses         
+DARKTIME=              299.940 / Length of observation including pauses         
+EXPOSED =              299.940 / Length of observation excluding pauses         
+EXPTIME =              299.940 / Length of observation excluding pauses         
+DATE-OBS= '2008-11-19        ' / UTC date start of observation                  
+DETECTOR= 'WFC               ' / Formal name of camera                          
+CCDSPEED= 'SLOW              ' / Readout speed                                  
+CCDXBIN =                    1 / Binning factor in x axis                       
+CCDYBIN =                    1 / Binning factor in y axis                       
+CCDSUM  = '1 1               ' / Binning factors (IRAF style)                   
+CCDTEMP =         150.72700000 / [K] Cryostat temperature                       
+CCDTEMP1=           0.00000000 / [K] Monitor pt 1 temperature                   
+CCDTEMP2=           0.00000000 / [K] Monitor pt 2 temperature                   
+NWINDOWS=                    0 / Number of readout windows                      
+WINSEC1 = '[0:0,0:0], disabled             ' / Readout window 1 (d-space)       
+WINSEC2 = '[0:0,0:0], disabled             ' / Readout window 2 (d-space)       
+WINSEC3 = '[0:0,0:0], disabled             ' / Readout window 3 (d-space)       
+WINSEC4 = '[0:0,0:0], disabled             ' / Readout window 4 (d-space)       
+READMODE= 'simple            ' / Readout mode                                   
+STORMODE= 'normal            ' / Store mode                                     
+NUMREADS=                    1 / Number of reads                                
+COAVERAG=                    1 / Number of cycles coaveraged                    
+#+end_example
+
++ Look at the header data for R band
+
+#+begin_src python :results output
+  from astropy.io import fits
+  from astropy.time import Time
+  import glob
+  filenames = glob.glob("data/Sigma-Ori/ING/4734/int20081118_*.fits.fz")
+  for filename in filenames:
+      hdulist = fits.open(filename)
+      hdr = hdulist[0].header
+      if 'r' in hdr['WFFBAND']:
+          time = Time(hdr['MJD-OBS'], format='mjd')
+          print('Observation date:', time.iso)
+          print()
+          print('Full Header:')
+          print(repr(hdr))
+          break
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Observation date: 2008-11-19 03:01:35.515
+
+Full Header:
+SIMPLE  =                    T /                                                
+BITPIX  =                    8 /                                                
+NAXIS   =                    0 /                                                
+EXTEND  =                    T / File contains extensions                       
+RUN     =               647190 / Run number                                     
+IRAFNAME= 'r647190           ' / IRAF should use this name                      
+RUNSET  = '1:1:647190        ' / i:n:r => Run i of n runs starting at #r        
+SYSVER  = '/int/s9-1         ' / Version of observing system                    
+ORIGIN  = 'ING La Palma      ' / Name of observatory                            
+OBSERVAT= 'LAPALMA           ' / Name of observatory (IRAF style)               
+OBSERVER= 'BARRENA           ' / Name of principal investigator                 
+PROPOSAL= 'CAT DDT           ' / Code for grant of observing time               
+OBJECT  = 'Sori              ' / Title of observation                           
+OBSTYPE = 'TARGET            ' / Type of observation, e.g. TARGET               
+IMAGETYP= 'object            ' / Type of observation, e.g. object               
+LATITUDE=            28.761997 / Telescope latitude  (degrees), +28:45:43.2     
+LONGITUD=           -17.877624 / Telescope longitude (degrees), -17:52:39.4     
+HEIGHT  =                 2348 / [m] Height above sea level.                    
+SLATEL  = 'LPO2.5  '           / Telescope name known to SLALIB                 
+TELESCOP= 'INT     '           / 2.5m Isaac Newton Telescope                    
+TELSTAT = 'TRACKING'           / Telescope status at end of observation         
+RA      = '  5:38:45.801'      / RA being tracked  (           84.690838 degrees
+DEC     = '-02:35:45.16'       / DEC being tracked (           -2.595878 degrees
+EQUINOX =              2000.00 / Equinox of coordinates                         
+RADECSYS= 'FK5     '           / mean place new (after the 1976 IAU) system     
+UTOBS   = '  3:01:35.5'        / UT at approx start of observation (from TCS)   
+XAPNOM  =        -0.0697222242 / nominal aperture in x (-251.00 arcsec)         
+YAPNOM  =         0.0905555552 / nominal aperture in y (326.00 arcsec)          
+XAPOFF  =        -0.0697222242 / total aperture offset in x (-251.00 arcsec)    
+YAPOFF  =         0.0905555552 / total aperture offset in y (326.00 arcsec)     
+RAOFF   =        15.0000003841 / RA positional offset (arcsec, tangent plane)   
+DECOFF  =        15.0000003841 / Dec positional offset (arcsec, tangent plane)  
+MJD-OBS =        54789.1261055 / Modified Julian Date at start of observation   
+JD      =      2454789.6261055 / Julian Date at start of observation            
+STSTART = '  5:44:09.2'        / Local sidereal time at start of observation    
+ST      = '  5:44:09.2'        / Local sidereal time at start of observation    
+AZSTART =           182.418725 / Azimuth at start of observation (degrees)      
+AZEND   =           183.154378 / Azimuth at end of observation (degrees)        
+ZDSTART =            31.440458 / Zenith distance at start of observation (degs) 
+ZDEND   =            31.456796 / Zenith distance at start of observation (degs) 
+FSTATION= 'PRIME   '           / Focal station of observation                   
+PLATESCA=             6.856013 / [d/m] Platescale ( 24.68arcsec/mm)             
+TELFOCUS=             0.043757 / Telescope focus (metres)                       
+ACTELFOC=             0.043789 / Telescope focus encoder (metres)               
+ROTTRACK=                    T / Rotator tracking sky?                          
+ROTSKYPA=           180.000005 / Sky position angle (degrees)                   
+MNTPASTA=           180.000005 / Mount position angle at start (degrees)        
+MNTPAEND=           180.000005 / Mount position angle at end (degrees)          
+PARANSTA=             2.268907 / Parallactic angle at start of observation      
+PARANEND=             2.914920 / Parallactic angle at end of observation        
+VIGNETTE=                    F / Beam vignetted by dome/shutter/mirror cover?   
+DAZSTART=           177.851979 / Dome azimuth at start of observation           
+DAZEND  =           177.851979 / Dome azimuth at end of observation             
+AIRMASS =             1.170896 / Effective mean airmass                         
+AMSTART =             1.170793 / Airmass at start of observation                
+AMEND   =             1.170992 / Airmass at end of observation                  
+TEMPTUBE=             6.019260 / Truss Temperature (degrees Celsius)            
+FOCUSTMP=            -0.128483 / Focus temperature correction (mm)              
+FOCUSALT=             0.000000 / Focus elevation correction (mm)                
+FOCUSFLT=             0.160000 / Focus correction for filter (mm)               
+AUTOX   =                 0.00 / a/g reference position x-coord (pixel)         
+AUTOY   =                 0.00 / a/g reference position y-coord (pixel)         
+AUTOMODE= 'UNLOCKED     '      / State of guide loop at start of observation    
+CAT-NAME= 'SORI    '           / Target input-catalogue name                    
+CAT-RA  = '  5:38:44.800'      / Target Right Ascension                         
+CAT-DEC = '-02:36:00.00'       / Target Declination                             
+CAT-EQUI= 'J2000.00'           / Equinox of target coordinates                  
+CAT-EPOC=              2000.00 / Target epoch of proper motions                 
+PM-RA   =             0.000000 / Target proper-motion RA (sec time/year)        
+PM-DEC  =             0.000000 / Target proper-motion (sec arc/year)            
+PARALLAX=             0.000000 / Target Parallax (arcsec)                       
+RADVEL  =             0.000000 / Target radial velocity (km/s)                  
+RATRACK =             0.000000 / Differential-tracking rate RA (arcsec/sec)     
+DECTRACK=             0.000000 / Differential-tracking rate Dec (arcsec/sec)    
+INSTRUME= 'WFC               ' / INT wide-field camera is in use.               
+WFFPOS  =                    2 / Position-number of deployed filter             
+WFFBAND = 'r                 ' / Waveband of filter                             
+WFFPSYS = 'Sloan             ' / Photometric system of filter                   
+WFFID   = '214               ' / Unique identifier of filter                    
+SECPPIX =                0.333 / Arcseconds per pixel                           
+UTSTART = '03:01:37.1        ' / UTC of start of observation                    
+ELAPSED =               89.500 / Length of observation including pauses         
+DARKTIME=               89.500 / Length of observation including pauses         
+EXPOSED =               89.500 / Length of observation excluding pauses         
+EXPTIME =               89.500 / Length of observation excluding pauses         
+DATE-OBS= '2008-11-19        ' / UTC date start of observation                  
+DETECTOR= 'WFC               ' / Formal name of camera                          
+CCDSPEED= 'SLOW              ' / Readout speed                                  
+CCDXBIN =                    1 / Binning factor in x axis                       
+CCDYBIN =                    1 / Binning factor in y axis                       
+CCDSUM  = '1 1               ' / Binning factors (IRAF style)                   
+CCDTEMP =         149.60700000 / [K] Cryostat temperature                       
+CCDTEMP1=           0.00000000 / [K] Monitor pt 1 temperature                   
+CCDTEMP2=           0.00000000 / [K] Monitor pt 2 temperature                   
+NWINDOWS=                    0 / Number of readout windows                      
+WINSEC1 = '[0:0,0:0], disabled             ' / Readout window 1 (d-space)       
+WINSEC2 = '[0:0,0:0], disabled             ' / Readout window 2 (d-space)       
+WINSEC3 = '[0:0,0:0], disabled             ' / Readout window 3 (d-space)       
+WINSEC4 = '[0:0,0:0], disabled             ' / Readout window 4 (d-space)       
+READMODE= 'simple            ' / Readout mode                                   
+STORMODE= 'normal            ' / Store mode                                     
+NUMREADS=                    1 / Number of reads                                
+COAVERAG=                    1 / Number of cycles coaveraged                    
+#+end_example
+****** DONE Getting WCS solutions from nova.astrometry.net
+CLOSED: [2019-05-20 Mon 12:30]
++ Make a tar file with all the Ha and R images
+
+#+begin_src python
+  import tarfile
+
+  file_lists = {
+      'ha': [176, 180, 185, 188, 192, 195, 198, 201, 204, 207, 210,],
+      'r': [177, 183, 186, 190, 193, 196, 199, 202, 205, 208, 211,],
+  }
+
+  path = "data/Sigma-Ori/ING/4734"
+  prefix = "int20081118_00647"
+  for filt, ids in file_lists.items():
+      with tarfile.open(f"{path}/orig-{filt}.tar", "w") as tf:
+          for id_ in ids:
+              tf.add(f"{path}/{prefix}{id_}-4.fits")
+            
+#+end_src
+
+#+RESULTS:
+: None
+
++ Upload to astrometry.net
+  + This takes a long time
+  + I could only get it to work from home by using IRyA as an SSH proxy
++ Fails to find a solution with the web-service version
++ Next to try the command line version
+****** DONE WCS solution from command line astrometry.net tools 
+CLOSED: [2019-05-20 Mon 12:30]
++ There are new index files based on the GAIA data
++ I have installed astr
++ Size of image is 0.2 x 0.4 degrees
+  + 12 x 24 arcmin
+  + So, if we want skymarks on scale of 2.4 to 24 arcmin
+  + That means ~00~ to ~07~
+  + HEALPIX segment 21 of smaller-scale indexes should cover the source, and segment 5 of medium-scale
+  + So ~index-420[01234]-21.fits~ and ~index-420[567]-05.fits~ are what we need from the 2MASS series
+  + Or ~index-500[01234]-21.fits~ and ~index-500[567]-05.fits~ for the GAIA series from http://data.astrometry.net/5000/
++ Configure ~astrometry-net~ in [[file:/usr/local/Cellar/astrometry-net/0.76_2/etc/astrometry.cfg][astrometry-net/0.76_2/etc/astrometry.cfg]]
+  + Add [[file:~/Work/astrometry/data/][file:~/Work/astrometry/data/]] as data path
+  + Copy all the 50 series files there
+  + Turn on the ~inparallel~ option
++ Try it out
+  + Position ~--ra 84.69 --dec -2.60 --radius 0.2~
+  + Plate scale should be 0.333 arcsec/pix: ~--scale-units arcsecperpix --scale-low 0.3 --scale-high 0.4~
+  + Final command
+    #+begin_src sh
+      for f in int20081118_00647*-4.fits; do
+          solve-field --ra 84.69 --dec -2.60 --radius 0.2 --scale-units arcsecperpix --scale-low 0.3 --scale-high 0.4 --new-fits '%s-wcs.fits' $f
+      done
+    #+end_src
+****** TODO Combining frames to get a median image
++ Maybe this will make things better
++ Use montage unless there is a better way to do this now
+***** Looking again at amateur images
++ Looking on astrobin.com
+****** Max Mirot
++ [[file:data/Sigma-Ori/max-mirot-sigma-ori-and-orion.jpg]]
++ H\alpha filter is only 3nm !!!
++ This is much higher s/n than other images
++ Also is good resolution
++ Only problem is that it has a strange PSF 
+****** TODO Xiaoyang Zhang
++ *The winner*
+  + [X] need to write to him
+    + Sent DM on astrobin
++ [[file:data/Sigma-Ori/zhang-sigma-ori.jpg]]
++ 11.3 hr integration
+  + 40680 s, which is 4x longer than Rob Pfile's
+  + Shows the bow nicely
 ***** David Mittelman
 + [[file:data/Sigma-Ori/orion-complex-orig.jpg]]
 + Creative Commons License - [[http://sites.middlebury.edu/mittelmanastrophotography/acknowledgment-and-use/][usage]]
@@ -4156,6 +4482,8 @@ Same for 4734 and 4735
 + Has 5 nm Ha filter
 + 9 x 1200 s = 10800 s with a 9.2 cm telescope
   + so with INT (254 cm), this is equivalent to 14 s, whereas some of the observations I have requested are 300 s
+
+****** Message to Rob Pfile 
 
 ***** starshadows.com
 + [[file:data/Sigma-Ori/Horsehead_Mosaic_master.jpg]]
@@ -6020,6 +6348,14 @@ Plot of H/R versus \ell/R
 + Moore:2002a do modelling of the photoevaporating knots
   + Claim O9 III fits best
   + S_49 about 1
+** HD 227018 in Sh 2-101
++ O6.5 III star at 2 kpc
++ Very clear bow shock
+  + Quite thin
+  + bright in [O III]
+    + see amateur photo at https://www.flickr.com/photos/142611458@N07/44862971564/in/pool-1236791@N22/
+  + *Also detected at 2 micron in K-band from 2MASS*
+
 ** WR stars
 *** WR 16
 + Listed as runaway Moffat:1998a
@@ -6369,6 +6705,7 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
 * TODO [#A] The 2019 Kobulnicky paper
 
 + [[file:kobulnicky-ms-2019-03-14.pdf]]
++ [[file:kobulnicky-ms-2019-04-21.pdf]]
 
 ** Comments on draft
 + p. 7 - The Cygnus OB2 distance discrepancy is resolved by Berlanas:2019a who find two sub-groups at 1.35 and 1.7 kpc
