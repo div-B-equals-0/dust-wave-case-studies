@@ -2068,13 +2068,13 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       | E    |  21.34 |   16.3 |
       #+TBLFM: $3=206265 1.22 $2 $micron / 33;f1
 + So we should really have a 15 arcsec aperture
-  | Band |    Wav |      d\nu | \sum pix source |   \sum pix BG1 |   \sum pix BG2 | F               |
-  |      | micron |      Hz | W.pix/m^2/sr |             |             | Jy              |
-  |------+--------+---------+--------------+-------------+-------------+-----------------|
-  | A    |   8.28 | 1.47e13 |  0.033422338 | 0.021788697 | 0.027468834 | 50.6 +/- 16.3   |
-  | C    |  12.13 | 3.50e12 |  0.021263304 | 0.015472882 | 0.011877256 | 183.4 +/- 43.5  |
-  | D    |  14.65 | 3.11e12 |  0.031793218 | 0.019560823 | 0.027564799 | 223.9 +/- 108.9 |
-  | E    |  21.34 | 4.11e12 |   0.16660307 |  0.12779639 |  0.16597013 | 405.9 +/- 392.9 |
+  | Band |    Wav |    d\nu | \sum pix source | \sum pix BG1 | \sum pix BG2 | F               |
+  |      | micron |      Hz |    W.pix/m^2/sr |              |              | Jy              |
+  |------+--------+---------+-----------------+--------------+--------------+-----------------|
+  | A    |   8.28 | 1.47e13 |     0.033422338 |  0.021788697 |  0.027468834 | 50.6 +/- 16.3   |
+  | C    |  12.13 | 3.50e12 |     0.021263304 |  0.015472882 |  0.011877256 | 183.4 +/- 43.5  |
+  | D    |  14.65 | 3.11e12 |     0.031793218 |  0.019560823 |  0.027564799 | 223.9 +/- 108.9 |
+  | E    |  21.34 | 4.11e12 |      0.16660307 |   0.12779639 |   0.16597013 | 405.9 +/- 392.9 |
   #+TBLFM: $7=($4 - vmeane([$5, $6])) 8.46e16/$3 ;f1
 + *CONCLUSION* Probably not worth including the MSX results, since the low resolution and confusion/crowding combine to make them unreliable
 
@@ -3628,6 +3628,89 @@ Now try the same, but normalized to infrared
 + [2019-01-29 Tue] *Still to do*
   + Measure SED of inner arc in more wavelengths: IRAC, WISE, Herschel, Akari, MSX (unique in providing 14 micron, but noisy)
   + Measure SED of outer arc too, and of NS filament, and of general background
++ [2019-06-29 Sat 18:08] Revisiting this, finally
+  + I think that the SEDs above mainly come from the Ochsendorf paper, so it would be good to re-do them
++ Available bands:
+  + Spitzer
+    + MIPS 70, 156 micron - not as good as Herschel
+    + MIPS 24 micron - strong inner arc and nothing else
+    + IRAC 7.87 micron - inner arc (close-in only) and strands of outer arc (but not the clumpy bits)
+    + IRAC 5.731 micron - mainly stars, faint outer arc, nothing at all from inner arc
+  + Herschel PACS:
+    + B - 70 micron - mainly inner arc, weak flocculent wisps, very weak outer arc, nonexistent filament
+    + R - 160 micron - faint inner arc, strong outer arc, strong filament, strong intermediate clump
+      + Units: Jy/pixel (3.2 arcsec) = 4154.8 MJy/sr
+  + Herschel SPIRE:
+    + 250, 350, 500 micron - strong filament and very strong intermediate clump, pretty strong outer arc.  Inner arc almost invisible, except maybe for the S side
+  + Planck 353 GHz = 850 micron - strong filament and intermediate clump.  Strongish outer arc in parts, but not the S arm that emits 8 micron
+  + Planck-Herschel color temperatures
+    + This is about 20.5 K in the filament, and the same in the dense clumps of the outer arc
+    + About 22 K in the 8 micron wisps of outer arc
+    + This is using \beta = 1.55
+    + Compare 25-30 K in the Horsehead ridge, and > 30 K in the northern tongue
++ Method
+  + Take source and 2xBG apertures for each region:
+    1. OA 1 - clump in outer arc
+  + Save these regions in a file [[file:data/Sigma-Ori/sigma-ori-photom.reg]]
+  + Write a little program to do the photometry using astropy.regions
+    + Updated to version 4
+***** Do aperture photometry for \sigma Ori regions
+#+begin_src python
+  import astropy.coordinates as coord
+  from astropy.wcs import WCS
+  from astropy.io import fits
+  import regions as rg
+
+  regions = rg.read_ds9("data/Sigma-Ori/sigma-ori-photom.reg")
+  # Optimize for directness over efficiency
+  #
+
+  # Unique set of region labels in the file
+  source_labels = set(_.meta["label"] for _ in regions)
+  # Each source may have one or more Source and BG regions
+  source_dict = {label: {"Source": [], "BG": []} for label in source_labels}
+  # Populate the list of Source and BG regions for each source
+  for region in regions:
+      label = region.meta["label"]
+      key = "BG" if "background" in region.meta.get("comment", "") else "Source"
+      source_dict[label][key].append(region)
+
+  fits_images = {
+      "IRAC-3": [0, "Spitzer/SPITZER_I3_3959552_0000_7_E8745182_maic.fits"],
+      "IRAC-4": [0, "Spitzer/SPITZER_I4_3959552_0000_7_E8744649_maic.fits"],
+      "WISE-4": [0, "WISE/0847m031_ac51-w4-int-3.fits"],
+      "WISE-3": [0, "WISE/0847m031_ac51-w3-int-3.fits"],
+      "WISE-2": [0, "WISE/0847m031_ac51-w2-int-3.fits"],
+      "PACS-R": [
+          "IMAGE",
+          "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPR_SPG14.0.fits"
+      ],
+      "PACS-B": [
+          "IMAGE",
+          "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPB_SPG14.0.fits"
+      ],
+      "MIPS-1": [0, "Spitzer/SPITZER_M1_4322304_0000_8_E6448449_maic.fits"],
+      "MIPS-2": [0, "Spitzer/SPITZER_M2_4322304_0000_8_E6448154_maic.fits"],
+      "MIPS-3": [0, "Spitzer/SPITZER_M3_4322304_0000_8_E6447377_maic.fits"],
+      "SPIRE-500": [
+          0,
+          "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP500_SPG14.0.fits"
+      ],
+      "SPIRE-350": [
+          0,
+          "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP350_SPG14.0.fits"
+      ],
+      "SPIRE-250": [
+          0,
+          "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP250_SPG14.0.fits"
+      ],
+  #    "Planck": [0, "Orion-herschel/Lombardi-optical-depth/planck_herschel.fits"],
+  }
+
+  for bandlabel, (ihdu, fitsfile) in fits_images.items():
+      hdu = fits.open("data/Sigma-Ori/" + fitsfile)[ihdu]
+    
+#+end_src
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
 + See Hodapp:2009a and van-Loon:2003a
@@ -4422,6 +4505,9 @@ CLOSED: [2019-05-20 Mon 12:30]
 + Next to try the command line version
 ****** DONE WCS solution from command line astrometry.net tools 
 CLOSED: [2019-05-20 Mon 12:30]
+:PROPERTIES:
+:ID:       B5B60BC7-5392-4245-93D6-8D17A6B56E5E
+:END:
 + There are new index files based on the GAIA data
 + I have installed astr
 + Size of image is 0.2 x 0.4 degrees
