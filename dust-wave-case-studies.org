@@ -3655,6 +3655,7 @@ Now try the same, but normalized to infrared
   + Write a little program to do the photometry using astropy.regions
     + Updated to version 4 of astropy.regions
     + We need to do something to mask out the stars in the shorter wavebands
+      + Use images of IRAC bands 1 and 2
 ***** Do aperture photometry for \sigma Ori regions
 #+begin_src python :return jsonfile :results file
   import json
@@ -3663,6 +3664,7 @@ Now try the same, but normalized to infrared
   from astropy.wcs import WCS
   from astropy.io import fits
   import regions as rg
+  from reproject import reproject_interp
 
   regions = rg.read_ds9("data/Sigma-Ori/sigma-ori-photom.reg")
   # Optimize for directness over efficiency
@@ -3710,6 +3712,10 @@ Now try the same, but normalized to infrared
   #    "Planck": [0, "Orion-herschel/Lombardi-optical-depth/planck_herschel.fits"],
   }
 
+  needs_star_removal = ["IRAC-3", "IRAC-4", "WISE-2", "WISE-3"]
+  star_hdu = fits.open(
+      "data/Sigma-Ori/Spitzer/SPITZER_I2_3959552_0000_7_E8744000_maic.fits")[0]
+
   def aperture_mean(skyregion, image, wcs):
       """
       Find mean value of `image` in an aperture `skyregion` (via `wcs`)
@@ -3727,6 +3733,16 @@ Now try the same, but normalized to infrared
   for bandlabel, (ihdu, fitsfile) in fits_images.items():
       hdu = fits.open("data/Sigma-Ori/" + fitsfile)[ihdu]
       w = WCS(hdu.header)
+
+      # Only the bands with wav < 10 micron have significant star contamination
+      if bandlabel in needs_star_removal:
+          # Mask out with NaN all pixels where the IRAC 2 image indicates a star
+          star_image, _ = reproject_interp(star_hdu, hdu.header)
+          # Level of 0.5 gets brighter ones that might contribute
+          star_mask = star_image > 0.5 
+          hdu.data[star_mask] = np.nan
+
+      # Calculate mean for all BG and Source apertures
       for source, r in source_dict.items():
           photom_data[source][bandlabel] = {
               "Source": [aperture_mean(_, hdu.data, w) for _ in r["Source"]],
@@ -3746,6 +3762,7 @@ Now try the same, but normalized to infrared
 + Earlier version made an array of pixel coordinates, then from that an array of sky coordinates.
 + But it turns out that this is not the best way of doing it, since it is very slow
 + Best way is to convert the Sky Regions to Pixel Regions and then use the mask functionality of ~astropy.regions~
++ So no need for code in this snippet
 #+begin_src python
       # Separate x and y arrays of pixel coordinates for the image
       ypix, xpix = np.indices(hdu.data.shape)
