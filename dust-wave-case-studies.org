@@ -1483,6 +1483,12 @@ CLOSED: [2018-10-31 Wed 12:15]
 |  14.65 | 3.11e12 |     0.001017 |  27.7 | 1.05 | 0.40 | 0.33 | 9.6 +/- 0.9  | 18.1 +/- 0.9  |
 |  21.34 | 4.11e12 |      0.01026 | 211.2 | 10.6 | 2.55 | 2.22 | 47.5 +/- 3.3 | 163.7 +/- 3.3 |
 #+TBLFM: $4=$3 8.46e16/$2 ;f1::$8=($4 / $5) (vmean([$6, $7]) +/- vpsdev([$6, $7])) ;f1::$9=$4 - $8;f1
+***** TODO Sofia
++ [2019-07-04 Thu] Found new maps of Orion with HAWC+ at 53, 89, 154, 214
++ This fills some of the holes in the LP Ori SED
++ Savefile: [[file:data/Orion-sofia/orion-m42-sofia-2019-07-04.bck]]
++ Data [[file:data/Orion-sofia/p5286/]]
+
 ***** Plot total SED for LP Ori
 :PROPERTIES:
 :ID:       16B7695B-DB17-46EE-947F-B833BCFA3451
@@ -2078,6 +2084,16 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
   #+TBLFM: $7=($4 - vmeane([$5, $6])) 8.46e16/$3 ;f1
 + *CONCLUSION* Probably not worth including the MSX results, since the low resolution and confusion/crowding combine to make them unreliable
 
+***** TODO Sofia from original data
++ New observations
+  + 31.5
+    + This seems to include the [S III] 33.5 micron line
+    + Which might explain the strange structure of the nebula, which has resemblance to optical lines
+  + 11.1
+  + 7.7 micron
++ Frame 21 in [[file:data/Orion-sofia/orion-m42-sofia-2019-07-04.bck]]
++ Units are Jy/pix
++ Pixels are 0.768 arcsec
 ***** Converting to F_{\nu}, \nu F_{\nu}, \nu L_{\nu}, and \nu I_{\nu}
 + Radius of peak is about 3 arcsec, so that would give an area of
   + 28.3 arcsec^2
@@ -3669,7 +3685,10 @@ Now try the same, but normalized to infrared
     5. OAB02 - cirrus bit in N of outer arc
     6. IC - intermediate clump
     7. F01 - cool filament to S
-    8. 
+    8. IA01
+    9. IA02
+    10. IA03
+    11. IA04
   + Save these regions in a file [[file:data/Sigma-Ori/sigma-ori-photom.reg]]
   + Write a little program to do the photometry using astropy.regions
     + Updated to version 4 of astropy.regions
