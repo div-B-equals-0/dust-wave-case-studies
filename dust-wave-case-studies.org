@@ -2068,13 +2068,13 @@ Hurray, the 8.0 velue slots right in between 7.58 and 8.21 from Hayward
       | E    |  21.34 |   16.3 |
       #+TBLFM: $3=206265 1.22 $2 $micron / 33;f1
 + So we should really have a 15 arcsec aperture
-  | Band |    Wav |    d\nu | \sum pix source | \sum pix BG1 | \sum pix BG2 | F               |
-  |      | micron |      Hz |    W.pix/m^2/sr |              |              | Jy              |
-  |------+--------+---------+-----------------+--------------+--------------+-----------------|
-  | A    |   8.28 | 1.47e13 |     0.033422338 |  0.021788697 |  0.027468834 | 50.6 +/- 16.3   |
-  | C    |  12.13 | 3.50e12 |     0.021263304 |  0.015472882 |  0.011877256 | 183.4 +/- 43.5  |
-  | D    |  14.65 | 3.11e12 |     0.031793218 |  0.019560823 |  0.027564799 | 223.9 +/- 108.9 |
-  | E    |  21.34 | 4.11e12 |      0.16660307 |   0.12779639 |   0.16597013 | 405.9 +/- 392.9 |
+  | Band |    Wav |      d\nu | \sum pix source |   \sum pix BG1 |   \sum pix BG2 | F               |
+  |      | micron |      Hz | W.pix/m^2/sr |             |             | Jy              |
+  |------+--------+---------+--------------+-------------+-------------+-----------------|
+  | A    |   8.28 | 1.47e13 |  0.033422338 | 0.021788697 | 0.027468834 | 50.6 +/- 16.3   |
+  | C    |  12.13 | 3.50e12 |  0.021263304 | 0.015472882 | 0.011877256 | 183.4 +/- 43.5  |
+  | D    |  14.65 | 3.11e12 |  0.031793218 | 0.019560823 | 0.027564799 | 223.9 +/- 108.9 |
+  | E    |  21.34 | 4.11e12 |   0.16660307 |  0.12779639 |  0.16597013 | 405.9 +/- 392.9 |
   #+TBLFM: $7=($4 - vmeane([$5, $6])) 8.46e16/$3 ;f1
 + *CONCLUSION* Probably not worth including the MSX results, since the low resolution and confusion/crowding combine to make them unreliable
 
@@ -3661,13 +3661,51 @@ Now try the same, but normalized to infrared
     + This is using \beta = 1.55
     + Compare 25-30 K in the Horsehead ridge, and > 30 K in the northern tongue
 + Method
-  + Take source and 2xBG apertures for each region:
-    1. OA 1 - clump in outer arc
+  + Take source and multiple BG apertures for each region:
+    1. OA01 - clump in outer arc
+    2. OA02 - another clump in N of outer arc
+    3. OA03 - clump in S of outer arc
+    4. OAB01 - cirrus bit in S of outer arc
+    5. OAB02 - cirrus bit in N of outer arc
+    6. IC - intermediate clump
+    7. F01 - cool filament to S
+    8. 
   + Save these regions in a file [[file:data/Sigma-Ori/sigma-ori-photom.reg]]
   + Write a little program to do the photometry using astropy.regions
     + Updated to version 4 of astropy.regions
     + We need to do something to mask out the stars in the shorter wavebands
       + Use images of IRAC bands 1 and 2
+
+***** Mask out stars from shorter wavelength images
++ Do this as a separate step, since it is slow and I don't want to keep repeating it
+  + Takes about 2 min to run
+#+begin_src python :results silent
+  import numpy as np
+  from astropy.io import fits
+  from reproject import reproject_interp
+
+  star_hdu = fits.open(
+      "data/Sigma-Ori/Spitzer/SPITZER_I2_3959552_0000_7_E8744000_maic.fits")[0]
+
+  # Only the bands with wav < 10 micron have significant star contamination
+  fits_images = {
+      "IRAC-3": [0, "Spitzer/SPITZER_I3_3959552_0000_7_E8745182_maic.fits"],
+      "IRAC-4": [0, "Spitzer/SPITZER_I4_3959552_0000_7_E8744649_maic.fits"],
+      "WISE-3": [0, "WISE/0847m031_ac51-w3-int-3.fits"],
+      "WISE-2": [0, "WISE/0847m031_ac51-w2-int-3.fits"],
+  }
+
+  for bandlabel, (ihdu, fitsfile) in fits_images.items():
+      hdu = fits.open("data/Sigma-Ori/" + fitsfile)[ihdu]
+      # Mask out with NaN all pixels where the IRAC 2 image indicates a star
+      star_image, _ = reproject_interp(star_hdu, hdu.header)
+      # Level of 0.5 gets brighter ones that might contribute
+      star_mask = star_image > 0.5 
+      hdu.data[star_mask] = np.nan
+      newfile = fitsfile.replace(".fits", "-nostars.fits")
+      hdu.writeto("data/Sigma-Ori/" + newfile, overwrite=True)
+
+#+end_src
 ***** Do aperture photometry for \sigma Ori regions
 #+begin_src python :return jsonfile :results file
   import json
@@ -3676,9 +3714,9 @@ Now try the same, but normalized to infrared
   from astropy.wcs import WCS
   from astropy.io import fits
   import regions as rg
-  from reproject import reproject_interp
 
   regions = rg.read_ds9("data/Sigma-Ori/sigma-ori-photom.reg")
+  eregions = rg.read_ds9("data/Sigma-Ori/sigma-ori-photom-ecliptic.reg")
   # Optimize for directness over efficiency
   #
 
@@ -3686,18 +3724,30 @@ Now try the same, but normalized to infrared
   source_labels = set(_.meta["label"] for _ in regions)
   # Each source may have one or more Source and BG regions
   source_dict = {label: {"Source": [], "BG": []} for label in source_labels}
+  esource_dict = {label: {"Source": [], "BG": []} for label in source_labels}
   # Populate the list of Source and BG regions for each source
   for region in regions:
       label = region.meta["label"]
       key = "BG" if "background" in region.meta.get("comment", "") else "Source"
       source_dict[label][key].append(region)
 
+  for region in eregions:
+      label = region.meta["label"]
+      key = "BG" if "background" in region.meta.get("comment", "") else "Source"
+      esource_dict[label][key].append(region)
+
   fits_images = {
-      "IRAC-3": [0, "Spitzer/SPITZER_I3_3959552_0000_7_E8745182_maic.fits"],
-      "IRAC-4": [0, "Spitzer/SPITZER_I4_3959552_0000_7_E8744649_maic.fits"],
+      "IRAC-3": [
+          0,
+          "Spitzer/SPITZER_I3_3959552_0000_7_E8745182_maic-nostars.fits"
+      ],
+      "IRAC-4": [
+          0,
+          "Spitzer/SPITZER_I4_3959552_0000_7_E8744649_maic-nostars.fits"
+      ],
       "WISE-4": [0, "WISE/0847m031_ac51-w4-int-3.fits"],
-      "WISE-3": [0, "WISE/0847m031_ac51-w3-int-3.fits"],
-      "WISE-2": [0, "WISE/0847m031_ac51-w2-int-3.fits"],
+      "WISE-3": [0, "WISE/0847m031_ac51-w3-int-3-nostars.fits"],
+      "WISE-2": [0, "WISE/0847m031_ac51-w2-int-3-nostars.fits"],
       "PACS-R": [
           "IMAGE",
           "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPR_SPG14.0.fits"
@@ -3721,12 +3771,15 @@ Now try the same, but normalized to infrared
           "IMAGE",
           "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP250_SPG14.0.fits"
       ],
-  #    "Planck": [0, "Orion-herschel/Lombardi-optical-depth/planck_herschel.fits"],
+      "AKARI-N60" : [0, "Akari/l085.51_b-25.00_ecl_6deg_N60_fixstripe.fits"],
+      "AKARI-WideS" : [0, "Akari/l085.51_b-25.00_ecl_6deg_WideS_fixstripe.fits"],
+      # "AKARI-N160" : [0, "Akari/l085.51_b-25.00_ecl_6deg_N160_fixstripe.fits"],
+      "AKARI-WideL" : [0, "Akari/l085.51_b-25.00_ecl_6deg_WideL_fixstripe.fits"],
+      "MSX-A" : [0, "MSX/AORION.FIT"],
+      "MSX-C" : [0, "MSX/CORION.FIT"],
+      "MSX-D" : [0, "MSX/DORION.FIT"],
+      "MSX-E" : [0, "MSX/EORION.FIT"],
   }
-
-  needs_star_removal = ["IRAC-3", "IRAC-4", "WISE-2", "WISE-3"]
-  star_hdu = fits.open(
-      "data/Sigma-Ori/Spitzer/SPITZER_I2_3959552_0000_7_E8744000_maic.fits")[0]
 
   def aperture_mean(skyregion, image, wcs):
       """
@@ -3741,7 +3794,7 @@ Now try the same, but normalized to infrared
       if np.any(mask.data[good]):
           rslt = np.average(data[good], weights=mask.data[good])
       else:
-          rslt = 0.0
+          rslt = np.nan
       return rslt
 
 
@@ -3750,16 +3803,11 @@ Now try the same, but normalized to infrared
       hdu = fits.open("data/Sigma-Ori/" + fitsfile)[ihdu]
       w = WCS(hdu.header)
 
-      # Only the bands with wav < 10 micron have significant star contamination
-      if bandlabel in needs_star_removal:
-          # Mask out with NaN all pixels where the IRAC 2 image indicates a star
-          star_image, _ = reproject_interp(star_hdu, hdu.header)
-          # Level of 0.5 gets brighter ones that might contribute
-          star_mask = star_image > 0.5 
-          hdu.data[star_mask] = np.nan
-
+      aperture_items = (esource_dict.items()
+                        if "AKARI" in bandlabel
+                        else source_dict.items())
       # Calculate mean for all BG and Source apertures
-      for source, r in source_dict.items():
+      for source, r in aperture_items:
           photom_data[source][bandlabel] = {
               "Source": [aperture_mean(_, hdu.data, w) for _ in r["Source"]],
               "BG": [aperture_mean(_, hdu.data, w) for _ in r["BG"]],
@@ -3773,7 +3821,15 @@ Now try the same, but normalized to infrared
 
 #+RESULTS:
 [[file:sigma-ori-photometry.json]]
-
+****** Comments on Akari bands
++ These were difficult to deal with
++ N160 is useless, since it is very noisy with some random bright spots
++ Coordinates are ecliptic, which causes problems
++ ~astropy.wcs~ seems to think they are FK5, which means that all the pixel coordinates of the apertures are way off
++ I worked around the bug as follows:
+  1. With ds9 I saved a separate version of the aperture regions in ecliptic coordinates: [[file:data/Sigma-Ori/sigma-ori-photom-ecliptic.reg]]
+  2. Then I changed the line with "ecliptic" to "fk5" by hand, so as to fool astropy
+  3. Then I have a separate version ~esource_dict~ of the regions, which I use if the band label contains Akari
 ****** Comments on rejected methods [2019-07-01 Mon]
 + Earlier version made an array of pixel coordinates, then from that an array of sky coordinates.
 + But it turns out that this is not the best way of doing it, since it is very slow
@@ -3785,30 +3841,125 @@ Now try the same, but normalized to infrared
       # Convert to single array of celestial coordinates
       c = w.pixel_to_world(xpix, ypix)
 #+end_src
-***** Plot the \sigma Ori aperture photometry
+***** Average spectrum in each \sigma Ori aperture
 #+caption: Band wavelengths and conversion to MJy/sr
 #+name: band-data
-| IRAC-3    |  5.731 |     1.0 |
-| IRAC-4    |      8 |     1.0 |
-| WISE-4    | 22.194 |   1.176 |
-| WISE-3    | 12.082 | 0.04123 |
-| WISE-2    |  4.618 | 0.06087 |
-| PACS-R    |    150 |  4154.8 |
-| PACS-B    |     70 | 16619.2 |
-| MIPS-1    |  23.68 |     1.0 |
-| MIPS-2    |  71.42 |     1.0 |
-| MIPS-3    |  155.9 |     1.0 |
-| SPIRE-500 |    500 | 1804.31 |
-| SPIRE-350 |    350 |  831.27 |
-| SPIRE-250 |    250 |  469.35 |
+| IRAC-3      |  5.731 |     1.0 |
+| IRAC-4      |      8 |     1.0 |
+| WISE-4      | 22.194 |   1.176 |
+| WISE-3      | 12.082 | 0.04123 |
+| WISE-2      |  4.618 | 0.06087 |
+| PACS-R      |    150 |  4154.8 |
+| PACS-B      |     70 | 16619.2 |
+| MIPS-1      |  23.68 |     1.0 |
+| MIPS-2      |  71.42 |     1.0 |
+| MIPS-3      |  155.9 |     1.0 |
+| SPIRE-500   |    500 |   23.58 |
+| SPIRE-350   |    350 |   51.18 |
+| SPIRE-250   |    250 |  90.647 |
+| AKARI-N160  |    160 |     1.0 |
+| AKARI-WideL |    140 |     1.0 |
+| AKARI-WideS |     90 |     1.0 |
+| AKARI-N60   |     65 |     1.0 |
+| MSX-A       |   8.28 | 7.133e6 |
+| MSX-C       |  12.13 | 2.863e7 |
+| MSX-D       |  14.65 | 3.216e7 |
+| MSX-E       |  21.34 | 2.476e7 |
 
-#+begin_src python :var intab=band-data :return output :results verbatim
-wavs = {k: x for k, x, y in intab}
-conv = {k: y for k, x, y in intab}
+#+header: :var intab=band-data 
+#+begin_src python :tangle sigma-ori-photometry-extract.py :return tabnames :results list
+  import json
+  import numpy as np
+  from astropy.table import Table
+
+  plotfile = "sigma-ori-seds.pdf"
+  wav_band = {k: float(x) for k, x, y in intab}
+  conv_band = {k: float(y) for k, x, y in intab}
+
+  data = json.load(open("sigma-ori-photometry.json"))
+
+  tabnames = []
+  for aperture, apdata in data.items():
+      outdata = {
+          "wav": [],
+          "band": [],
+          "I_nu": [],
+          "d I_nu": []
+      }
+      for band, bdata in apdata.items():
+          outdata["wav"].append(wav_band[band])
+          outdata["band"].append(band)
+          sb = np.mean(bdata["Source"])
+          bg = np.mean(bdata["BG"])
+          sig = np.std(bdata["BG"])
+          print(aperture, band, sb-bg, conv_band[band], type(sb - bg))
+          outdata["I_nu"].append(float(sb - bg)*conv_band[band])
+          outdata["d I_nu"].append(sig*conv_band[band])
+
+      tabname = f"sigma-ori-aperture-{aperture}.tab"
+      outtab = Table(outdata)
+      outtab.sort("wav")
+      outtab.write(tabname, format="ascii.tab")
+      tabnames.append(f"[[file:{tabname}]]")
 #+end_src
 
 #+RESULTS:
-: ({'IRAC-3': 5.731, 'IRAC-4': 8, 'WISE-4': 22.194, 'WISE-3': 12.082, 'WISE-2': 4.618, 'PACS-R': 150, 'PACS-B': 70, 'MIPS-1': 23.68, 'MIPS-2': 71.42, 'MIPS-3': 155.9, 'SPIRE-500': 500, 'SPIRE-350': 350, 'SPIRE-250': 250}, {'IRAC-3': 1.0, 'IRAC-4': 1.0, 'WISE-4': 1.176, 'WISE-3': 0.04123, 'WISE-2': 0.06087, 'PACS-R': 4154.8, 'PACS-B': 16619.2, 'MIPS-1': 1.0, 'MIPS-2': 1.0, 'MIPS-3': 1.0, 'SPIRE-500': 1804.31, 'SPIRE-350': 831.27, 'SPIRE-250': 469.35})
+: 
+
+#+begin_src sh 
+  python sigma-ori-photometry-extract.py 
+#+end_src
+
+#+RESULTS:
+***** Plot the \sigma Ori aperture photometry
+#+begin_src python :return figfiles :results list
+  import glob
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  from astropy.table import Table
+
+  tabfiles = glob.glob("sigma-ori-aperture-*.tab")
+  figfiles = []
+  for tabfile in tabfiles:
+      tab = Table.read(tabfile, format="ascii.tab")
+      tab["I_nu"] /= tab["wav"]
+      tab["d I_nu"] /= tab["wav"]
+      # Select points with S/N > 1
+      m = tab["I_nu"] > tab["d I_nu"]
+      tab1 = tab[m]
+      tab2 = tab[~m]
+      fig, ax = plt.subplots()
+      ax.axhspan(-0.01, 0.01, color='k', alpha=0.05, ec='none')
+      ax.errorbar(tab1["wav"], tab1["I_nu"], tab1["d I_nu"], fmt='o')
+      ax.errorbar(tab2["wav"], tab2["I_nu"], tab2["d I_nu"],
+                  fmt='.', color="k", alpha=0.2)
+      ax.axhline(0.0, color='k', lw=1)
+      ax.set_yscale('symlog', linthreshy=0.01, linscaley=0.3)
+      ax.set(
+          xscale='log',
+          ylim=[-0.02, 3.0],
+          xlabel='Wavelength, micron',
+          ylabel=r'SED: $\nu I_\nu$, MJy/sr/micron',
+      )
+      figfile = tabfile.replace(".tab", ".pdf")
+      figfiles.append(f"[[file:{figfile}]]")
+      fig.savefig(figfile)
+
+#+end_src
+
+#+RESULTS:
+- [[file:sigma-ori-aperture-F01.pdf]]
+- [[file:sigma-ori-aperture-IC.pdf]]
+- [[file:sigma-ori-aperture-OAB01.pdf]]
+- [[file:sigma-ori-aperture-IA04.pdf]]
+- [[file:sigma-ori-aperture-OAB02.pdf]]
+- [[file:sigma-ori-aperture-IA03.pdf]]
+- [[file:sigma-ori-aperture-IA02.pdf]]
+- [[file:sigma-ori-aperture-IA01.pdf]]
+- [[file:sigma-ori-aperture-OA01.pdf]]
+- [[file:sigma-ori-aperture-OA02.pdf]]
+- [[file:sigma-ori-aperture-OA03.pdf]]
 
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
