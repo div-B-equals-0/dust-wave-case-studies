@@ -662,11 +662,22 @@ Interaction with black hole
 + Yusef-Zadeh:2015a detect these in radio
   + They look more like bow shocks than proplyds, although there is also some resemblance to the further out Helix knots
 
-*** Further out GC regions
+*** TODO Further out GC regions
 + HII region H1
   + Central star P114
   + Bow shock with R_0 = 5 arcsec = 0.2 pc
-  + 
+  + May or may not be a bow shock
++ New paper on these objects Hankins:2019a with SOFIA FORCAST observations
+  + Known as the Sgr A-H H II Regions
+  + Give map of dust T and 37 micron optical depth
+    + Color T estimated from 19.7/37.1, assuming \beta = 2
+    + Why do people use power law opacity in mid-IR?  /I suppose it is OK once you get past the 20 micron Silicate hump/
+  + Dust T peaks at bow, but optical depth doesn't
+  + This suggests to me that it is more of an illuminated cavity, as in the Jonathan paper
+  + Other bow-shaped dust morphologies: H5E, H5W, H10
+    + Also seen at 1.9 micron from WFC3
+    + Must be reflection nebulae
+  + They all have very large planitude
 ** TODO UCHII regions from Mac-Low:1991a
 + These have
   + R = 0.001 to 0.005 pc
