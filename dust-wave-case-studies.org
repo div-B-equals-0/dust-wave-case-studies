@@ -3651,8 +3651,9 @@ Now try the same, but normalized to infrared
 + Do my own measurements with the WISE 
     
 
-**** TODO [#A] More SEDS
-+ [2019-01-29 Tue] *Still to do*
+**** DONE [#A] More SEDS
+CLOSED: [2019-07-05 Fri 16:30]
++ [2019-01-29 Tue] 
   + Measure SED of inner arc in more wavelengths: IRAC, WISE, Herschel, Akari, MSX (unique in providing 14 micron, but noisy)
   + Measure SED of outer arc too, and of NS filament, and of general background
 + [2019-06-29 Sat 18:08] Revisiting this, finally
@@ -3917,6 +3918,12 @@ Now try the same, but normalized to infrared
           "d I_nu": []
       }
       for band, bdata in apdata.items():
+          # Drop most MSX bands except for inner arc
+          if "MSX" in band and not "IA" in aperture:
+              continue
+          # Akari N60 has a big spurious blob that leaks into this aperture
+          if "N60" in band and aperture == "OA03":
+              continue
           outdata["wav"].append(wav_band[band])
           outdata["band"].append(band)
           sb = np.mean(bdata["Source"])
@@ -3934,7 +3941,17 @@ Now try the same, but normalized to infrared
 #+end_src
 
 #+RESULTS:
-: 
+- [[file:sigma-ori-aperture-F01.tab]]
+- [[file:sigma-ori-aperture-IA03.tab]]
+- [[file:sigma-ori-aperture-IA01.tab]]
+- [[file:sigma-ori-aperture-OA03.tab]]
+- [[file:sigma-ori-aperture-OAB01.tab]]
+- [[file:sigma-ori-aperture-IA04.tab]]
+- [[file:sigma-ori-aperture-OA02.tab]]
+- [[file:sigma-ori-aperture-OAB02.tab]]
+- [[file:sigma-ori-aperture-IA02.tab]]
+- [[file:sigma-ori-aperture-IC.tab]]
+- [[file:sigma-ori-aperture-OA01.tab]]
 
 #+begin_src sh 
   python sigma-ori-photometry-extract.py 
