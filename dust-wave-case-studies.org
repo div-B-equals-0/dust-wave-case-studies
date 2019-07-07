@@ -3880,13 +3880,13 @@ CLOSED: [2019-07-05 Fri 16:30]
 | WISE-4      | 22.194 |   1.176 |
 | WISE-3      | 12.082 | 0.04123 |
 | WISE-2      |  4.618 | 0.06087 |
-| PACS-R      |    150 |  4154.8 |
+| PACS-R      |    160 |  4154.8 |
 | PACS-B      |     70 | 16619.2 |
 | MIPS-1      |  23.68 |     1.0 |
 | MIPS-2      |  71.42 |     1.0 |
 | MIPS-3      |  155.9 |     1.0 |
-| SPIRE-500   |    500 |   23.58 |
-| SPIRE-350   |    350 |   51.18 |
+| SPIRE-500   |    517 |   23.58 |
+| SPIRE-350   |    363 |   51.18 |
 | SPIRE-250   |    250 |  90.647 |
 | AKARI-N160  |    160 |     1.0 |
 | AKARI-WideL |    140 |     1.0 |
@@ -4007,6 +4007,212 @@ CLOSED: [2019-07-05 Fri 16:30]
 - [[file:sigma-ori-aperture-OA01.pdf]]
 - [[file:sigma-ori-aperture-OA02.pdf]]
 - [[file:sigma-ori-aperture-OA03.pdf]]
+**** Ratios and color temperatures
++ We can calculate color T from 24/70, which should trace the inner bow and accompanying stream
++ And we can calculate color T from 150/350, which should trace filament and outer arc
+  + In principle, this should come out similar to the Planck/Herschel results
+  + They give about 20 K
+  + And peak optical depth of about 2e-5 @ 850 micron
+    + Should be 1e4 times larger at 1 micron, so 1e5 times larger in FUV
+    + Implies optical depth about unity in FUV
+    + So these would be translucent clouds
+    + We can work out how far away from O star they must be to have the T that they have
++ We need to fit some sort of smooth BG before doing all this
+  + Maybe do a low-pass filter
+  + But first try simply removing a constant BG
+    + That was enough
+***** Relation between color T and line ratios
++ Assume modified BB: F_\nu = \nu^\beta B_\nu(T)
+  | Band               |   \lambda_0 |   \Delta\lambda |
+  |--------------------+-------+------|
+  | Spitzer M1         | 23.68 |  5.3 |
+  | Herschel PACS B    |    70 | 10.6 |
+  | Herschel PACS R    |   160 | 30.2 |
+  | Herschel SPIRE 350 |   363 |  113 |
+
+#+begin_src python :return rslt :results list
+  import numpy as np
+  import astropy.units as u
+  from astropy.modeling.blackbody import blackbody_nu
+  from astropy.table import Table
+
+  wavs = np.linspace(0.1, 1000.1, 10_001)*u.micron
+  m70 = np.abs(wavs - 70.0*u.micron) < 0.5*10.6*u.micron
+  m24 = np.abs(wavs - 23.68*u.micron) < 0.5*15.3*u.micron
+  m160 = np.abs(wavs - 160*u.micron) < 0.5*30.2*u.micron
+  m350 = np.abs(wavs - 363*u.micron) < 0.5*113*u.micron
+
+  Ts = np.arange(1, 300)*u.K
+  rslt = []
+  for beta in 1.0, 1.5, 2.0:
+      r24_70 = []
+      r160_350 = []
+      for T in Ts:
+          F_nu = blackbody_nu(wavs, T)/wavs**beta
+          r24_70.append(np.mean(F_nu[m24])/np.mean(F_nu[m70]))
+          r160_350.append(np.mean(F_nu[m160])/np.mean(F_nu[m350]))
+
+      tab = Table(data={"T": Ts, "24/70": r24_70, "160/350": r160_350})
+      tabfile = f"F_nu_band_ratios_vs_T_beta{int(10*beta)}.tab"
+      tab.write(tabfile, format="ascii.tab")
+      rslt.append(f"[[file:./{tabfile}]]")
+#+end_src
+
+#+RESULTS:
+- [[file:./F_nu_band_ratios_vs_T_beta10.tab]]
+- [[file:./F_nu_band_ratios_vs_T_beta15.tab]]
+- [[file:./F_nu_band_ratios_vs_T_beta20.tab]]
+***** TODO Use tetrabloks algorithm
++ use some sort of criterion on the noise
++ except we don't have an explicit per-pixel noise image
+
+***** Interpolate 160 micron onto 350 micron and find color T
+#+begin_src python :results silent
+  import numpy as np
+  from astropy.io import fits
+  from astropy.wcs import WCS
+  from astropy.table import Table
+  from reproject import reproject_interp
+  from astropy.modeling.blackbody import blackbody_nu
+  import astropy.units as u
+
+  datadir = "data/Sigma-Ori/"
+  fn160 = "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPR_SPG14.0.fits"
+  fn350 = "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP350_SPG14.0.fits"
+  hdu160 = fits.open(datadir + fn160)["IMAGE"]
+  hdu350 = fits.open(datadir + fn350)["IMAGE"]
+
+
+  # Background measured in boxes
+  bg160 = -0.006
+  bg350 = -0.4	
+
+  # PACS and SPIRE images need conversion to get MJy/sr
+  scale160 = 4154.8
+  scale350 = 51.18
+
+  new350 = scale350*(hdu350.data - bg350)
+  new160, _ = reproject_interp(hdu160, hdu350.header)
+  # The corners with no data are 0.0 in original 160 micron image
+  # Make a mask AFTER REPROJECTION so we can make them all NaN
+  mask = new160 == 0.0
+  new160 -= bg160
+  new160 *= scale160
+
+  new350[mask] = np.nan
+  new160[mask] = np.nan
+  new350[~np.isfinite(new160)] = np.nan
+
+  cutout = slice(452, 740), slice(1137, 1414)
+  new160 = new160[cutout]
+  new350 = new350[cutout]
+  newhdr = WCS(hdu350.header).slice(cutout).to_header()
+
+  ratio = new160/new350
+  tab = Table.read("F_nu_band_ratios_vs_T_beta15.tab", format="ascii.tab")
+  T = np.interp(ratio, tab["160/350"], tab["T"])
+
+  B160 = blackbody_nu(160*u.micron, T*u.K).to(u.MJy/u.sr)
+  I160 = new160*u.MJy/u.sr 
+  tau160 = (I160/B160).value
+
+  B350 = blackbody_nu(363*u.micron, T*u.K).to(u.MJy/u.sr)
+  I350 = new350*u.MJy/u.sr 
+  tau350 = (I350/B350).value
+
+  newfn160 = "sigma-ori-F-nu-MJy-sr-160.fits"
+  newfn350 = "sigma-ori-F-nu-MJy-sr-350.fits"
+  newfnrat = "sigma-ori-F-nu-ratio-160-350.fits"
+  newfnT = "sigma-ori-Tcol-160-350.fits"
+  newfntau160 = "sigma-ori-tau-160.fits"
+  newfntau350 = "sigma-ori-tau-350.fits"
+
+  fits.PrimaryHDU(data=new160, header=newhdr).writeto(
+      datadir + newfn160, overwrite=True)
+  fits.PrimaryHDU(data=new350, header=newhdr).writeto(
+      datadir + newfn350, overwrite=True)
+  fits.PrimaryHDU(data=ratio, header=newhdr).writeto(
+      datadir + newfnrat, overwrite=True)
+  fits.PrimaryHDU(data=T, header=newhdr).writeto(
+      datadir + newfnT, overwrite=True)
+  fits.PrimaryHDU(data=tau160, header=newhdr).writeto(
+      datadir + newfntau160, overwrite=True)
+  fits.PrimaryHDU(data=tau350, header=newhdr).writeto(
+      datadir + newfntau350, overwrite=True)
+
+#+end_src
+
+
+***** Interpolate 24 micron onto 60 micron grid and find color T
+#+begin_src python :results silent
+  import numpy as np
+  from astropy.io import fits
+  from astropy.table import Table
+  from reproject import reproject_interp
+  from astropy.modeling.blackbody import blackbody_nu
+  import astropy.units as u
+
+  datadir = "data/Sigma-Ori/"
+  fn24 = "Spitzer/SPITZER_M1_4322304_0000_8_E6448449_maic.fits"
+  fn70 = "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPB_SPG14.0.fits"
+  hdu24 = fits.open(datadir + fn24)[0]
+  hdu70 = fits.open(datadir + fn70)["IMAGE"]
+
+  # The corners with no data are 0.0 in original 70 micron image
+  # Make a mask so we can make them all NaN
+  mask = hdu70.data == 0.0
+
+  # Background measured in boxes
+  # bg70 = np.mean([-0.000551695, -0.000348946])
+  # bg24 = np.mean([32.2386, 32.2619])	
+
+  # Background measured in W box
+  bg70 = -0.000485564
+  bg24 = 31.7105
+
+  # PACS images need conversion to get MJy/sr
+  scale70 = 16619.2
+
+  new70 = scale70*(hdu70.data - bg70)
+  new24, _ = reproject_interp(hdu24, hdu70.header)
+  new24 -= bg24
+
+  new70[mask] = np.nan
+  new24[mask] = np.nan
+
+  ratio = new24/new70
+  tab = Table.read("F_nu_band_ratios_vs_T_beta15.tab", format="ascii.tab")
+  T = np.interp(ratio, tab["24/70"], tab["T"])
+
+  B70 = blackbody_nu(70*u.micron, T*u.K).to(u.MJy/u.sr)
+  I70 = new70*u.MJy/u.sr 
+  tau70 = (I70/B70).value
+
+  B24 = blackbody_nu(23.68*u.micron, T*u.K).to(u.MJy/u.sr)
+  I24 = new24*u.MJy/u.sr 
+  tau24 = (I24/B24).value
+
+  newfn24 = "sigma-ori-F-nu-MJy-sr-24.fits"
+  newfn70 = "sigma-ori-F-nu-MJy-sr-70.fits"
+  newfnrat = "sigma-ori-F-nu-ratio-24-70.fits"
+  newfnT = "sigma-ori-Tcol-24-70.fits"
+  newfntau24 = "sigma-ori-tau-24.fits"
+  newfntau70 = "sigma-ori-tau-70.fits"
+
+  fits.PrimaryHDU(data=new24, header=hdu70.header).writeto(
+      datadir + newfn24, overwrite=True)
+  fits.PrimaryHDU(data=new70, header=hdu70.header).writeto(
+      datadir + newfn70, overwrite=True)
+  fits.PrimaryHDU(data=ratio, header=hdu70.header).writeto(
+      datadir + newfnrat, overwrite=True)
+  fits.PrimaryHDU(data=T, header=hdu70.header).writeto(
+      datadir + newfnT, overwrite=True)
+  fits.PrimaryHDU(data=tau24, header=hdu70.header).writeto(
+      datadir + newfntau24, overwrite=True)
+  fits.PrimaryHDU(data=tau70, header=hdu70.header).writeto(
+      datadir + newfntau70, overwrite=True)
+
+#+end_src
 
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
