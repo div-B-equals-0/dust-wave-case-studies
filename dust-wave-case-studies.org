@@ -3231,10 +3231,23 @@ Now try the same, but normalized to infrared
   fig.suptitle("Graphite+Silicate: " + GRAINTYPE)
   fig.savefig(figfile)
 
+  # Small addendum to save the total cross sections to a file
+  outtab = Table(data={
+      "Wav, micron": wav,
+      "sigma, cm^2/H": total,
+      "kappa, cm^2/g": total/mass_per_H,
+      "albedo": tot_sca/total,
+      "g": (tot_sca - tot_scg)/tot_sca
+  })
+
+  outtab.write(figfile.replace(".pdf", ".tab"), format="ascii.tab")
+
 #+END_SRC
 
 #+RESULTS: xsec-dust-both
 [[file:xsec-dust-both-ism_10.pdf]]
+
+[2019-07-07 Sun] Now save the data file with the cross sections, such as [[file:xsec-dust-both-ism_10.tab]]
 
 #+call: xsec-dust-both(GRAINTYPE="orion_10")
 
@@ -4108,6 +4121,10 @@ CLOSED: [2019-07-05 Fri 16:30]
   new350 = new350[cutout]
   newhdr = WCS(hdu350.header).slice(cutout).to_header()
 
+  mask = (new160 < 1.0) | (new350 < 1.0)
+  new160[mask] = np.nan
+  new350[mask] = np.nan
+
   ratio = new160/new350
   tab = Table.read("F_nu_band_ratios_vs_T_beta15.tab", format="ascii.tab")
   T = np.interp(ratio, tab["160/350"], tab["T"])
@@ -4180,6 +4197,11 @@ CLOSED: [2019-07-05 Fri 16:30]
   new70[mask] = np.nan
   new24[mask] = np.nan
 
+  # Now blank out regions that are too faint for good statistics
+  mask = (new70 < 2.0) | (new24 < 0.1)
+  new70[mask] = np.nan
+  new24[mask] = np.nan
+
   ratio = new24/new70
   tab = Table.read("F_nu_band_ratios_vs_T_beta15.tab", format="ascii.tab")
   T = np.interp(ratio, tab["24/70"], tab["T"])
@@ -4213,6 +4235,48 @@ CLOSED: [2019-07-05 Fri 16:30]
       datadir + newfntau70, overwrite=True)
 
 #+end_src
+
+
+**** Variations due to uncertainty in \beta
++ I am using \beta = 1.5, but will also check \beta = 1 and 2
++ Cool component
+  |   \beta | \tau(350) clump | \tau(350) bg | T(clump) | T(bg) |
+  |-----+--------------+-----------+----------+-------|
+  | 1.0 |         8e-5 |      3e-5 |       22 |    30 |
+  | 1.5 |       1.4e-4 |      4e-5 |       19 |    23 |
+  | 2.0 |       2.0e-4 |      8e-5 |       17 |  18.5 |
+  + So temperature is negatively correlated with \beta: +/- 2 K on clumps and +/- 5 K on BG
+  + And \tau is positively correlated with \beta: +/- 30% or so
+    + And A_V will vary even more, since higher \beta means more contrast between 350 micron and V-band
+  + Comparison with Planck-Herschel maps
+    + T = 20 K in clump and 23 K in BG, so very similar to our \beta = 1.5 value
+      + With errors of +/- 1 K
+    + They have a map of \beta, which is very low res but has \beta = 1.55 to 1.6 with errors of +/- 0.07
+    + Their \tau is about half what ours, but it is at 850 micron, so that is to be expected - see discussion in [[id:4A6AD871-A2C9-47D6-833B-10596FE15E2C][Multi wavelength observations of the outer arc]] below
++ Warm component 
+  |   \beta | \tau(70) peak | \tau(70) bg | T(peak) | T(bg) |
+  |-----+------------+----------+---------+-------|
+  | 1.0 |     1.1e-5 |     2e-6 |      98 |    70 |
+  | 1.5 |     1.5e-5 |     3e-6 |      86 |    60 |
+  | 2.0 |       2e-5 |     5e-6 |      75 |    55 |
+**** Histograms of color T and column density
++ Find conversion from \tau_\lambda to column density N_H for a certain dust model
++ For instance, using our Cloudy model from paper II
+  + This is now saved in [[file:xsec-dust-both-ism_10.tab]]
+  + Selected entries
+    | \lambda, micron | \sigma, cm^2/H |   A_V/\tau |
+    |-----------+-----------+---------|
+    |       0.5 |  5.57e-22 | 1.086e0 |
+    |        24 |  7.90e-24 | 7.657e1 |
+    |        70 |  1.26e-24 | 4.801e2 |
+    |       160 |  2.34e-25 | 2.585e3 |
+    |       363 |  4.36e-26 | 1.387e4 |
+    #+TBLFM: $3=1.086 5.57e-22/$2 ; s4
+  + Calculate the opacity index \beta
+    + 24 to 70: \beta = log10(7.657e1/4.801e2) / log10(24/70) = 1.715
+    + 160 to 363: \beta = log10(2.585e3/1.387e4) / log10(160/363) = 2.05
+    + These are larger than Planck derived value of 1.55
++ Combine the warm dust traced 
 
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
@@ -4330,6 +4394,9 @@ CLOSED: [2019-07-05 Fri 16:30]
   + Mdot only 1e-9 Msun/yr so probably not a contender
 
 **** Multi wavelength observations of the outer arc
+:PROPERTIES:
+:ID:       4A6AD871-A2C9-47D6-833B-10596FE15E2C
+:END:
 + Outer arc is seen at both FIR (160, 250, 350, 500 microns) and in PAH bands (7.87 micron and 12 micron)
   + However, the morphology is not the same in each
   + Shown in right hand panel of sigma-ori-inner-outer.pdf
