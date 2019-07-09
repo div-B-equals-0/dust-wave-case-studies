@@ -4259,7 +4259,8 @@ CLOSED: [2019-07-05 Fri 16:30]
 #+end_src
 
 
-***** TODO Use tetrabloks algorithm
+***** DONE Use tetrabloks algorithm
+CLOSED: [2019-07-09 Tue 13:37]
 + use some sort of criterion on the noise
 + except we don't have an explicit per-pixel noise image
 + We have various versions of the rebin routines
@@ -4379,9 +4380,13 @@ python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-350.fits
 #+begin_src python :tangle tetrabloks-combine-sigori.py :eval no
   import numpy as np
   from astropy.io import fits
+  from astropy.wcs import WCS
+  import regions as rg
 
   datadir = "data/Sigma-Ori/"
   nlist = [1, 2, 4, 8, 16, 32]
+
+  win = rg.read_ds9("data/Sigma-Ori/sigma-ori-window-70.reg")[0]
 
   for wavA, wavB, minA, minB in [
           ["24", "70", 3.0, 200.0],
@@ -4404,16 +4409,25 @@ python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-350.fits
           outimA[mask] = hduA.data[mask]
           outimB[mask] = hduB.data[mask]
 
+
+      # Cut off the image at the border of the original diamond window
+      winmask = win.to_pixel(WCS(hduA.header)).to_mask()
+      mask = ~winmask.to_image(hduA.data.shape).astype(bool)
+      outimA[mask] = np.nan
+      outimB[mask] = np.nan
+
       out_fnA =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavA}-multibin.fits"
       out_fnB =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavB}-multibin.fits"
       fits.PrimaryHDU(header=hdr, data=outimA).writeto(out_fnA, overwrite=True)
       fits.PrimaryHDU(header=hdr, data=outimB).writeto(out_fnB, overwrite=True)
-      
+
 #+end_src
 
 #+begin_src sh :results verbatim
 python tetrabloks-combine-sigori.py
 #+end_src
+
+#+RESULTS:
 
 
 ****** Recalculate the color T and optical depths for multibin maps
@@ -4477,6 +4491,9 @@ python tetrabloks-combine-sigori.py
   | 1.5 |     1.5e-5 |     3e-6 |      86 |    60 |
   | 2.0 |       2e-5 |     5e-6 |      75 |    55 |
 **** Histograms of color T and column density
+:PROPERTIES:
+:ID:       730968E2-8503-4987-8D16-E73BE0528B58
+:END:
 + Find conversion from \tau_\lambda to column density N_H for a certain dust model
 + For instance, using our Cloudy model from paper II
   + This is now saved in [[file:xsec-dust-both-ism_10.tab]]
@@ -4493,12 +4510,71 @@ python tetrabloks-combine-sigori.py
     + 24 to 70: \beta = log10(7.657e1/4.801e2) / log10(24/70) = 1.715
     + 160 to 363: \beta = log10(2.585e3/1.387e4) / log10(160/363) = 2.05
     + These are larger than Planck derived value of 1.55
+  + Compare this with the empirical calibration given in Lombardi:2014a
+    + They used Planck to find \beta
+      + Typical value for all Orion is 1.8
+      + but our region has 1.57 +/- 0.01
+      + Also T = 20.8 +/- 0.7 from their map
+    + Then they find the 850 micron optical depth
+      + Range is 1.3e-5 \to 7.1e-5 (but the peaks are stars - highest diffuse value is 6e-5)
+      + Mean \pm s.d is 2.9e-05 \pm 0.7e-05
+    + Compare that with our 363 micron optical depth
+      + 5.29e-05 \pm 2.4e-05
+      + Ratio is (5.29/2.9) = 1.82
+      + Expected ratio is (850/363)**1.57 = 3.8
+      + BUT this is probably because we subtracted a constant BG from our maps!
+        + BG of \tau(350) is 1.7e-5 at same point where we measured our BG (-0.4 @ 350 and -0.006 @ 160 micron)
+        + So now we get a ratio of (5.29/(2.9 - 1.7)) = 4.4, which is close enough to 3.8 (within 20%) 
+    + Lombardi:2014a then find an empirical calibration of \tau(850) with near-infrared optical depth A_K
+      + Nicest/2MASS technique Lombardi:2011a
+      + The fit is over the range \tau_{850} = 2.5e-5 \to 1.5e-4 (so our map does cover half of this range)
+      + The slope is found to be \gamma = 3460 mag for Orion B and \gamma = 2640 mag for Orion A
+      + So the peak \tau_{850} = 6e-5 => A_K = 0.21 using the Orion B value
+      + Or subtracting of the BG = 1.7e-5, we get \tau_{850} = 4.3e-5 => A_K = 0.15
+    + They also do a conversion to H and mass columns using
+      + \beta_{K} = 1.67e22 cm^{-2} / mag to convert between A_K and N_H
+      + Or \Sigma/A_{K} = 183 M_{\odot} pc^{-2} / mag to convert to mass column
+    + This gives a peak BG-subbed column of 0.15 1.67e22 = 2.5e21
+      + Which is very similar to what I got before using Cloudy opacities
+    + So we can use this scaling do a table of cross-section per H
+      | \lambda, micron | \sigma, cm^2/H |
+      |-----------+-----------|
+      |         2 |  5.99e-23 |
+      |-----------+-----------|
+      |        24 |  5.72e-24 |
+      |        70 |  1.09e-24 |
+      |       160 |  3.02e-25 |
+      |       363 |  8.49e-26 |
+      |       850 |  2.27e-26 |
+      #+TBLFM: @3$2..@6$2=@7 (@7$1/$1)**1.55;f3::@7$2=5.99e-23/2640;f3
+    + This can be compared with the similar table that I made from the Cloudy model above
+    + Note that the 2 micron value is extinction (abs + scat), while the longer wavelength ones are just absorption
+  + Comments on column densities from Lombardi:2011a and Orkisz:2019a
+    + Distribution of column is approximately log-normal for A_K < 0.2
+    + Peak is at A_K = 0.05 for Orion B
+    + Orkisz:2019a trace filaments in C18O
+      + Typical width = 0.12 pc = 60 arcsec (ours is fatter at 120 arcsec)
+      + Column densities from 2e21 to 2e22 H/cm^2 (So ours is right at the lower end of the range)
+        + Actually not, since they are subtracting 3 off the A_V to account for te less dense gas that does not have C18O 
+      + But these are only in the molecular cloud to E of Horsehead - our filaments are not dense enough to have C18O
+    + We can work out the density of our filaments
+      + Assume LOS depth is same as diameter: 12 arcsec = 0.25 pc
+      + Then, taking peak column density of 2e21 pcmsq, we get n = 2600 pcc
+    + And density of our bow shell
+      + Chord length is about 180 arcsec = 1.1e18 cm
+      + Column density is 1e19 pcmsq => n = 10 pcc - very low!
+      + Thickness is 45 arcsec, so limb-brightening factor of 4
 + Combine the warm dust with cool dust
   #+begin_src python :return pltfile :results file
     import numpy as np
     from astropy.io import fits
+    from astropy.modeling.blackbody import blackbody_nu
+    import astropy.units as u
     from matplotlib import pyplot as plt
     import seaborn as sns
+
+    sns.set_color_codes("dark")
+
     datadir = "data/Sigma-Ori/"
     Twarm = fits.open(datadir + "sigma-ori-Tcol-24-70-multibin.fits")[0].data
     Tcool = fits.open(datadir + "sigma-ori-Tcol-160-350-multibin.fits")[0].data
@@ -4508,24 +4584,27 @@ python tetrabloks-combine-sigori.py
     S24 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-24-multibin.fits")[0].data
     S70 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-70-multibin.fits")[0].data
     S160 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-160-multibin.fits")[0].data
-    logNwarm = np.log10(tau70/1.26e-24)
-    logNcool = np.log10(tau350/4.36e-26)
+    S350 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-350-multibin.fits")[0].data
+    logNwarm = np.log10(tau70/1.09e-24)
+    logNcool = np.log10(tau350/8.49e-26)
 
-    xmin, xmax = 17.0, 22.0
-    ymin, ymax = 0.0, 100.0
+    xmin, xmax = 0.0, 100.0
+    ymin, ymax = 17.5, 22.0
 
     # Mask out NaNs and stars
     m = np.isfinite(tau70) & np.isfinite(Twarm) & (S24 < 120.0)
-    x, y, w = logNwarm[m], Twarm[m], (S24[m]/np.max(S24[m]))
-    Hwarm, xedges, yedges = np.histogram2d(x, y, 101,
+    # x, y, w = logNwarm[m], Twarm[m], (tau70[m]/np.max(tau70[m]))
+    x, y, w = Twarm[m], logNwarm[m], (S24[m]/np.max(S24[m]))
+    Hwarm, xedges, yedges = np.histogram2d(x, y, 201,
                                            [[xmin, xmax], [ymin, ymax]],
                                            weights=w, density=True,
     )
 
 
     m = np.isfinite(tau350) & np.isfinite(Tcool)
-    x, y, w = logNcool[m], Tcool[m], S160[m]/np.max(S160[m])
-    Hcool, xedges, yedges = np.histogram2d(x, y, 101,
+    # x, y, w = logNcool[m], Tcool[m], tau350[m]/np.max(tau350[m])
+    x, y, w = Tcool[m], logNcool[m], S160[m]/np.max(S160[m])
+    Hcool, xedges, yedges = np.histogram2d(x, y, 201,
                                            [[xmin, xmax], [ymin, ymax]],
                                            weights=w, density=True,
     )
@@ -4534,15 +4613,29 @@ python tetrabloks-combine-sigori.py
     #H = Hcool
 
     pltfile = "sigma-ori-N-T-histogram.pdf"
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5, 5))
 
     ax.imshow(H.T, extent=[xmin, xmax, ymin, ymax],
               interpolation="nearest", aspect="auto", origin="lower", cmap="gray_r")
+
+    # Plot lower limits for detection
+    Tgrid = np.linspace(xmin, xmax, 200)
+    for wav, sigma, S, c in [
+              [24.0, 5.72e-24, 1.7, "c"],
+              [70.0, 1.09e-24, 12.0, "g"],
+              [160.0, 3.02e-25, 24.0, "m"],
+              [363.0, 8.49e-26, 8.0, "r"],
+    ]:
+        B = blackbody_nu(wav*u.micron, Tgrid*u.K).to(u.MJy/u.sr).value
+        Ngrid = S /(sigma*B)
+        ax.plot(Tgrid, np.log10(Ngrid), ls=":", alpha=0.4, color=c)
+
+    ax.grid(color="r", lw=0.5, alpha=0.3)
     ax.set(
         xlim=[xmin, xmax],
         ylim=[ymin, ymax],
-        xlabel="Column density, cm$^{-2}$",
-        ylabel="Grain temperature, K",
+        ylabel="log$_{10}$ [Column density, H cm$^{-2}$]",
+        xlabel="Grain temperature, K",
     )
     fig.tight_layout()
     fig.savefig(pltfile)
@@ -4551,6 +4644,44 @@ python tetrabloks-combine-sigori.py
 
   #+RESULTS:
   [[file:sigma-ori-N-T-histogram.pdf]]
+**** Is the phase-space desert really deserted?
++ There is a big gap in the N-T diagram centered on
+  + N = 1e20 cm^{-2}
+  + T = 35 K
++ What would that look like in each of our bands?
+#+begin_src python :results output verbatim
+  import numpy as np
+  from astropy.modeling.blackbody import blackbody_nu
+  import astropy.units as u
+
+
+  for wav, sigma in [
+          [24.0, 7.90e-24],
+          [70.0, 1.26e-24],
+          [160.0, 2.34e-25],
+          [363.0, 4.36e-26],
+  ]:
+      tau = 1e20*sigma
+      I_nu = tau*blackbody_nu(wav*u.micron, 35.0*u.K).to(u.MJy/u.sr)
+      print(wav*u.micron, I_nu)
+#+end_src
+
+#+RESULTS:
+: 24.0 micron 0.08267479621317896 MJy / sr
+: 70.0 micron 41.2085201205253 MJy / sr
+: 160.0 micron 18.82610938838991 MJy / sr
+: 363.0 micron 1.7217995587135668 MJy / sr
+
++ Can we put this the other way - minimum column density for detection, as a function of T for each waveband
+  + Use the typical background brightnesses:
+    |   \lambda | S_\nu, MJy/sr |
+    |-----+-------------|
+    |  24 |           2 |
+    |  70 |          13 |
+    | 160 |          30 |
+    | 350 |          10 |
+  + S_\nu = B_\nu(\lambda, T) N \sigma(\lambda)
+  + => N = S_\nu / \sigma(\lambda) B_\nu(\lambda, T)
 
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B

@@ -1,8 +1,12 @@
 import numpy as np
 from astropy.io import fits
+from astropy.wcs import WCS
+import regions as rg
 
 datadir = "data/Sigma-Ori/"
 nlist = [1, 2, 4, 8, 16, 32]
+
+win = rg.read_ds9("data/Sigma-Ori/sigma-ori-window-70.reg")[0]
 
 for wavA, wavB, minA, minB in [
         ["24", "70", 3.0, 200.0],
@@ -24,6 +28,13 @@ for wavA, wavB, minA, minB in [
         mask = (n**2 * hduA.data > minA) & (n**2 * hduB.data > minB)
         outimA[mask] = hduA.data[mask]
         outimB[mask] = hduB.data[mask]
+
+
+    # Cut off the image at the border of the original diamond window
+    winmask = win.to_pixel(WCS(hduA.header)).to_mask()
+    mask = ~winmask.to_image(hduA.data.shape).astype(bool)
+    outimA[mask] = np.nan
+    outimB[mask] = np.nan
 
     out_fnA =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavA}-multibin.fits"
     out_fnB =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavB}-multibin.fits"
