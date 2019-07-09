@@ -4075,10 +4075,6 @@ CLOSED: [2019-07-05 Fri 16:30]
 - [[file:./F_nu_band_ratios_vs_T_beta10.tab]]
 - [[file:./F_nu_band_ratios_vs_T_beta15.tab]]
 - [[file:./F_nu_band_ratios_vs_T_beta20.tab]]
-***** TODO Use tetrabloks algorithm
-+ use some sort of criterion on the noise
-+ except we don't have an explicit per-pixel noise image
-
 ***** Interpolate 160 micron onto 350 micron and find color T
 #+begin_src python :results silent
   import numpy as np
@@ -4088,12 +4084,15 @@ CLOSED: [2019-07-05 Fri 16:30]
   from reproject import reproject_interp
   from astropy.modeling.blackbody import blackbody_nu
   import astropy.units as u
+  from astropy.wcs import WCS
+  import regions as rg
 
   datadir = "data/Sigma-Ori/"
   fn160 = "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPR_SPG14.0.fits"
   fn350 = "Herschel/0543m0145_1342215984_SpireParallel_L25_PMP350_SPG14.0.fits"
   hdu160 = fits.open(datadir + fn160)["IMAGE"]
   hdu350 = fits.open(datadir + fn350)["IMAGE"]
+
 
 
   # Background measured in boxes
@@ -4111,6 +4110,14 @@ CLOSED: [2019-07-05 Fri 16:30]
   mask = new160 == 0.0
   new160 -= bg160
   new160 *= scale160
+
+  # Also restrict to a square window in the 160 micron image, which cuts
+  # off the noisy strips around the edge, but this time we need to do it
+  # in the new WCS
+  win = rg.read_ds9("data/Sigma-Ori/sigma-ori-window-70.reg")[0]
+  winmask = win.to_pixel(WCS(hdu350.header)).to_mask()
+  mask = mask | ~winmask.to_image(new160.shape).astype(bool)
+
 
   new350[mask] = np.nan
   new160[mask] = np.nan
@@ -4160,7 +4167,7 @@ CLOSED: [2019-07-05 Fri 16:30]
 #+end_src
 
 
-***** Interpolate 24 micron onto 60 micron grid and find color T
+***** Interpolate 24 micron onto 70 micron grid and find color T
 #+begin_src python :results silent
   import numpy as np
   from astropy.io import fits
@@ -4168,16 +4175,30 @@ CLOSED: [2019-07-05 Fri 16:30]
   from reproject import reproject_interp
   from astropy.modeling.blackbody import blackbody_nu
   import astropy.units as u
+  from astropy.wcs import WCS
+  import regions as rg
 
   datadir = "data/Sigma-Ori/"
   fn24 = "Spitzer/SPITZER_M1_4322304_0000_8_E6448449_maic.fits"
   fn70 = "Herschel/0538m0233_1342241387_PacsPhoto_L25_HPPJSMAPB_SPG14.0.fits"
+  fnstar = "Spitzer/SPITZER_I2_3959552_0000_7_E8744000_maic.fits"
   hdu24 = fits.open(datadir + fn24)[0]
   hdu70 = fits.open(datadir + fn70)["IMAGE"]
+  hdustar = fits.open(datadir + fnstar)[0]
 
   # The corners with no data are 0.0 in original 70 micron image
   # Make a mask so we can make them all NaN
   mask = hdu70.data == 0.0
+
+  # Also restrict to a square window in the 70 micron image, which cuts
+  # off the noisy strips around the edge
+  win = rg.read_ds9("data/Sigma-Ori/sigma-ori-window-70.reg")[0]
+  winmask = win.to_pixel(WCS(hdu70.header)).to_mask()
+  mask = mask | ~winmask.to_image(hdu70.data.shape).astype(bool)
+
+  # And also mask out stars, which we find from the IRAC 2 image
+  newstar, _ = reproject_interp(hdustar, hdu70.header)
+  mask = mask | (newstar > 5.0)
 
   # Background measured in boxes
   # bg70 = np.mean([-0.000551695, -0.000348946])
@@ -4198,7 +4219,8 @@ CLOSED: [2019-07-05 Fri 16:30]
   new24[mask] = np.nan
 
   # Now blank out regions that are too faint for good statistics
-  mask = (new70 < 2.0) | (new24 < 0.1)
+  # Or they are the outer PSF of the bright star
+  mask = (new70 < 2.0) | (new24 < 0.1) | (new24 > 120.0) 
   new70[mask] = np.nan
   new24[mask] = np.nan
 
@@ -4233,6 +4255,201 @@ CLOSED: [2019-07-05 Fri 16:30]
       datadir + newfntau24, overwrite=True)
   fits.PrimaryHDU(data=tau70, header=hdu70.header).writeto(
       datadir + newfntau70, overwrite=True)
+
+#+end_src
+
+
+***** TODO Use tetrabloks algorithm
++ use some sort of criterion on the noise
++ except we don't have an explicit per-pixel noise image
++ We have various versions of the rebin routines
++ The latest seems to be [[file:~/Dropbox/multibin-maps/rebin_utils.py]]
+
+
+****** Make the multibin maps
+
+#+begin_src python :tangle tetrabloks-map.py
+  import sys
+  import os
+  import numpy as np
+  from astropy.io import fits
+  sys.path.append("../multibin-maps")
+  from rebin_utils import downsample, oversample, pad_array
+
+  nlist = [1, 2, 4, 8, 16, 32]
+  mingoods = [2]*len(nlist)
+
+  try:
+      infile = sys.argv[1]
+  except IndexError:
+      sys.exit(f"Usage: {sys.argv[0]} FITSFILE")
+
+  hdu = fits.open(infile)[0]
+  if hdu.data is None:
+      hdu = fits.open(infile)[1]
+  hdr = hdu.header
+
+  # Maximum binning
+  nmax = nlist[-1]
+  # Pad arrays to nearest multiple of nmax
+  im = pad_array(hdu.data, nmax)
+
+  # First version does not use a separate weight array, and uses NaN as mask
+  w = np.ones_like(im)
+  # Maybe do a star mask later
+  m = np.isfinite(im)
+
+  for n, mingood in zip(nlist, mingoods):
+      im[~m] = 0.0
+      outfile = infile.replace(".fits", f"-bin{n:03d}.fits")
+      print("Saving", outfile)
+      # Save both the scaled image and the weights after scaling back up to full res
+      fits.HDUList([
+          fits.PrimaryHDU(),
+          fits.ImageHDU(data=oversample(im, n), header=hdr, name="scaled"),
+          fits.ImageHDU(data=oversample(w, n), header=hdr, name="weight"),
+      ]).writeto(outfile, overwrite=True)
+      # Now do the rebinning by a factor of two
+      [im,], m, w = downsample([im,], m, weights=w, mingood=mingood)
+    
+#+end_src
+
+#+RESULTS:
+
+#+BEGIN_SRC sh :results verbatim
+D=data/Sigma-Ori
+python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-70.fits
+#+END_SRC
+
+#+RESULTS:
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin001.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin002.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin004.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin008.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin016.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-70-bin032.fits
+
+#+BEGIN_SRC sh :results verbatim
+D=data/Sigma-Ori
+python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-24.fits
+#+END_SRC
+
+#+RESULTS:
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin001.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin002.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin004.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin008.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin016.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-24-bin032.fits
+
+#+BEGIN_SRC sh :results verbatim
+D=data/Sigma-Ori
+python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-160.fits
+#+END_SRC
+
+#+RESULTS:
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin001.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin002.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin004.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin008.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin016.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-160-bin032.fits
+
+#+BEGIN_SRC sh :results verbatim
+D=data/Sigma-Ori
+python tetrabloks-map.py $D/sigma-ori-F-nu-MJy-sr-350.fits
+#+END_SRC
+
+#+RESULTS:
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin001.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin002.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin004.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin008.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin016.fits
+: Saving data/Sigma-Ori/sigma-ori-F-nu-MJy-sr-350-bin032.fits
+
+
+****** Combine the multibin maps
++ We haven't got any kind of formal noise estimate
++ So we will just enforce a minimum flux on the 70 and 160 micron images, which are the ones with the most noise
+  + 70 micron - n^2 I > 100
+  + 160 micron - n^2 I > 50
++ We need to treat ratio pairs together (24 + 70) and (160 + 350)
+
+#+begin_src python :tangle tetrabloks-combine-sigori.py :eval no
+  import numpy as np
+  from astropy.io import fits
+
+  datadir = "data/Sigma-Ori/"
+  nlist = [1, 2, 4, 8, 16, 32]
+
+  for wavA, wavB, minA, minB in [
+          ["24", "70", 3.0, 200.0],
+          ["160", "350", 30.0, 5.0]
+  ]:
+      outimA, outimB = None, None
+      for n in reversed(nlist):
+          fnA = datadir + f"sigma-ori-F-nu-MJy-sr-{wavA}-bin{n:03d}.fits"
+          fnB = datadir + f"sigma-ori-F-nu-MJy-sr-{wavB}-bin{n:03d}.fits"
+
+          hduA = fits.open(fnA)["SCALED"]
+          hduB = fits.open(fnB)["SCALED"]
+          if outimA is None:
+              hdr = hduA.header
+              outimA = np.empty_like(hduA.data)
+              outimB = np.empty_like(hduA.data)
+
+          # Minimum flux requirement
+          mask = (n**2 * hduA.data > minA) & (n**2 * hduB.data > minB)
+          outimA[mask] = hduA.data[mask]
+          outimB[mask] = hduB.data[mask]
+
+      out_fnA =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavA}-multibin.fits"
+      out_fnB =  datadir + f"sigma-ori-F-nu-MJy-sr-{wavB}-multibin.fits"
+      fits.PrimaryHDU(header=hdr, data=outimA).writeto(out_fnA, overwrite=True)
+      fits.PrimaryHDU(header=hdr, data=outimB).writeto(out_fnB, overwrite=True)
+      
+#+end_src
+
+#+begin_src sh :results verbatim
+python tetrabloks-combine-sigori.py
+#+end_src
+
+
+****** Recalculate the color T and optical depths for multibin maps
+#+begin_src python :results silent
+  import numpy as np
+  from astropy.io import fits
+  from astropy.modeling.blackbody import blackbody_nu
+  import astropy.units as u
+  from astropy.table import Table
+
+  datadir = "data/Sigma-Ori/"
+  wav0 = {
+      "24": 23.68, "70": 70.0, "160": 160.0, "350": 363.0
+  }
+  tab = Table.read("F_nu_band_ratios_vs_T_beta15.tab", format="ascii.tab")
+  for wavA, wavB in [["24", "70"], ["160", "350"]]:
+      hduA = fits.open(datadir + f"sigma-ori-F-nu-MJy-sr-{wavA}-multibin.fits")[0]
+      hduB = fits.open(datadir + f"sigma-ori-F-nu-MJy-sr-{wavB}-multibin.fits")[0]
+      ratio = hduA.data/hduB.data
+      T = np.interp(ratio, tab[f"{wavA}/{wavB}"], tab["T"])
+
+      B_A = blackbody_nu(wav0[wavA]*u.micron, T*u.K).to(u.MJy/u.sr)
+      I_A = hduA.data*u.MJy/u.sr 
+      tau_A = (I_A/B_A).value
+
+      B_B = blackbody_nu(wav0[wavB]*u.micron, T*u.K).to(u.MJy/u.sr)
+      I_B = hduB.data*u.MJy/u.sr 
+      tau_B = (I_B/B_B).value
+
+      newhdr = hduA.header
+      fits.PrimaryHDU(data=T, header=newhdr).writeto(
+          datadir + f"sigma-ori-Tcol-{wavA}-{wavB}-multibin.fits", overwrite=True)
+      fits.PrimaryHDU(data=tau_A, header=newhdr).writeto(
+          datadir + f"sigma-ori-tau-{wavA}-multibin.fits", overwrite=True)
+      fits.PrimaryHDU(data=tau_B, header=newhdr).writeto(
+          datadir + f"sigma-ori-tau-{wavB}-multibin.fits", overwrite=True)
 
 #+end_src
 
@@ -4276,7 +4493,64 @@ CLOSED: [2019-07-05 Fri 16:30]
     + 24 to 70: \beta = log10(7.657e1/4.801e2) / log10(24/70) = 1.715
     + 160 to 363: \beta = log10(2.585e3/1.387e4) / log10(160/363) = 2.05
     + These are larger than Planck derived value of 1.55
-+ Combine the warm dust traced 
++ Combine the warm dust with cool dust
+  #+begin_src python :return pltfile :results file
+    import numpy as np
+    from astropy.io import fits
+    from matplotlib import pyplot as plt
+    import seaborn as sns
+    datadir = "data/Sigma-Ori/"
+    Twarm = fits.open(datadir + "sigma-ori-Tcol-24-70-multibin.fits")[0].data
+    Tcool = fits.open(datadir + "sigma-ori-Tcol-160-350-multibin.fits")[0].data
+
+    tau350 = fits.open(datadir + "sigma-ori-tau-350-multibin.fits")[0].data
+    tau70 = fits.open(datadir + "sigma-ori-tau-70-multibin.fits")[0].data
+    S24 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-24-multibin.fits")[0].data
+    S70 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-70-multibin.fits")[0].data
+    S160 = fits.open(datadir + "sigma-ori-F-nu-MJy-sr-160-multibin.fits")[0].data
+    logNwarm = np.log10(tau70/1.26e-24)
+    logNcool = np.log10(tau350/4.36e-26)
+
+    xmin, xmax = 17.0, 22.0
+    ymin, ymax = 0.0, 100.0
+
+    # Mask out NaNs and stars
+    m = np.isfinite(tau70) & np.isfinite(Twarm) & (S24 < 120.0)
+    x, y, w = logNwarm[m], Twarm[m], (S24[m]/np.max(S24[m]))
+    Hwarm, xedges, yedges = np.histogram2d(x, y, 101,
+                                           [[xmin, xmax], [ymin, ymax]],
+                                           weights=w, density=True,
+    )
+
+
+    m = np.isfinite(tau350) & np.isfinite(Tcool)
+    x, y, w = logNcool[m], Tcool[m], S160[m]/np.max(S160[m])
+    Hcool, xedges, yedges = np.histogram2d(x, y, 101,
+                                           [[xmin, xmax], [ymin, ymax]],
+                                           weights=w, density=True,
+    )
+
+    H = np.sqrt(Hwarm/Hwarm.max()) + np.sqrt(Hcool/Hcool.max())
+    #H = Hcool
+
+    pltfile = "sigma-ori-N-T-histogram.pdf"
+    fig, ax = plt.subplots()
+
+    ax.imshow(H.T, extent=[xmin, xmax, ymin, ymax],
+              interpolation="nearest", aspect="auto", origin="lower", cmap="gray_r")
+    ax.set(
+        xlim=[xmin, xmax],
+        ylim=[ymin, ymax],
+        xlabel="Column density, cm$^{-2}$",
+        ylabel="Grain temperature, K",
+    )
+    fig.tight_layout()
+    fig.savefig(pltfile)
+
+  #+end_src
+
+  #+RESULTS:
+  [[file:sigma-ori-N-T-histogram.pdf]]
 
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
