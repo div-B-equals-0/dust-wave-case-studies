@@ -4468,6 +4468,71 @@ python tetrabloks-combine-sigori.py
 #+end_src
 
 
+***** Figures of the T and tau maps 
+#+begin_src python :return pltfile :results file
+  from astropy.io import fits
+  from astropy.wcs import WCS
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  datadir = "data/Sigma-Ori/"
+  pltfile = "sigma-ori-Tcol-24-70.pdf"
+  hdu = fits.open(datadir + "sigma-ori-Tcol-24-70-multibin.fits")[0]
+  fig, ax = plt.subplots(subplot_kw=dict(projection=WCS(hdu.header)))
+  ax.imshow(hdu.data, vmin=40.0, vmax=100.0, origin="lower", cmap="magma")
+  fig.savefig(pltfile)
+#+end_src
+
+#+RESULTS:
+[[file:sigma-ori-Tcol-24-70.pdf]]
+
+#+begin_src python :return pltfile :results file
+  from astropy.io import fits
+  from astropy.wcs import WCS
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  datadir = "data/Sigma-Ori/"
+  pltfile = "sigma-ori-Tcol-160-350.pdf"
+  hdu = fits.open(datadir + pltfile.replace(".pdf", "-multibin.fits"))[0]
+  fig, ax = plt.subplots(subplot_kw=dict(projection=WCS(hdu.header)))
+  ax.imshow(hdu.data, vmin=15.0, vmax=28.0, origin="lower", cmap="magma")
+  fig.savefig(pltfile)
+#+end_src
+
+#+RESULTS:
+[[file:sigma-ori-Tcol-160-350.pdf]]
+
+#+begin_src python :return pltfile :results file
+  from astropy.io import fits
+  from astropy.wcs import WCS
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  datadir = "data/Sigma-Ori/"
+  pltfile = "sigma-ori-tau-70.pdf"
+  hdu = fits.open(datadir + pltfile.replace(".pdf", "-multibin.fits"))[0]
+  fig, ax = plt.subplots(subplot_kw=dict(projection=WCS(hdu.header)))
+  ax.imshow(hdu.data, vmin=0.0, vmax=1.6e-5, origin="lower", cmap="gray_r")
+  fig.savefig(pltfile)
+#+end_src
+
+#+RESULTS:
+[[file:sigma-ori-tau-70.pdf]]
+
+#+begin_src python :return pltfile :results file
+  from astropy.io import fits
+  from astropy.wcs import WCS
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  datadir = "data/Sigma-Ori/"
+  pltfile = "sigma-ori-tau-350.pdf"
+  hdu = fits.open(datadir + pltfile.replace(".pdf", "-multibin.fits"))[0]
+  fig, ax = plt.subplots(subplot_kw=dict(projection=WCS(hdu.header)))
+  ax.imshow(hdu.data, vmin=0.0, vmax=1.5e-4, origin="lower", cmap="gray_r")
+  fig.savefig(pltfile)
+#+end_src
+
+#+RESULTS:
+[[file:sigma-ori-tau-350.pdf]]
+
 **** Variations due to uncertainty in \beta
 + I am using \beta = 1.5, but will also check \beta = 1 and 2
 + Cool component
@@ -4684,7 +4749,7 @@ python tetrabloks-combine-sigori.py
     | 350 |          10 |
   + S_\nu = B_\nu(\lambda, T) N \sigma(\lambda)
   + => N = S_\nu / \sigma(\lambda) B_\nu(\lambda, T)
-
++ So, it turns out that 35 K dust with N > 3e20 would have been detectable in the 70 micron band
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
 + See Hodapp:2009a and van-Loon:2003a
