@@ -4469,20 +4469,119 @@ python tetrabloks-combine-sigori.py
 
 
 ***** Figures of the T and tau maps 
+
+Function to set axis limits via WCS
+#+begin_src python :eval no :tangle wcs_plot_utils.py
+  from astropy.wcs import WCS
+  from astropy.wcs.utils import skycoord_to_pixel
+  from astropy.coordinates import SkyCoord
+  from astropy.io import fits
+  import astropy.units as u
+  import matplotlib.pyplot as plt
+
+  def set_wcs_limits(ax, corner_coords, wcs):
+      xp, yp = skycoord_to_pixel(corner_coords, wcs)
+      ax.set_xlim(*xp)
+      ax.set_ylim(*yp)
+
+  if __name__ == "__main__":
+
+     datadir = "data/Sigma-Ori/"
+     hdu = fits.open(datadir + "sigma-ori-Tcol-24-70-multibin.fits")[0]
+
+     c = SkyCoord([
+         # Bottom left corner
+         [84.8625309*u.deg, -2.8242803*u.deg],
+         # Top right corner
+         [84.5378848*u.deg, -2.2873997*u.deg],
+     ])
+     fig, ax = plt.subplots()
+     set_wcs_limits(ax, c, WCS(hdu.header))
+     print(ax.get_xlim(), ax.get_ylim())
+
+#+end_src
+
+Test the function
+
+#+begin_src sh :results verbatim
+  python wcs_plot_utils.py
+#+end_src
+
+#+RESULTS:
+: (505.11329453598097, 1234.84286089195) (288.4590853058136, 1496.4537952127648)
+
 #+begin_src python :return pltfile :results file
   from astropy.io import fits
   from astropy.wcs import WCS
   import matplotlib.pyplot as plt
   import seaborn as sns
+  from wcs_plot_utils import set_wcs_limits
+  from astropy.coordinates import SkyCoord
+  import astropy.units as u
+
+  rastar, decstar = 84.6876517, -2.5994158
+  ra0, dec0 = 84.7400*u.deg, -2.5983*u.deg
+  width, height = 25*u.arcmin, 35*u.arcmin
+  boxcoords = SkyCoord([ra0 + width/2, ra0 - width/2],
+                       [dec0 - height/2, dec0 + height/2])
   datadir = "data/Sigma-Ori/"
-  pltfile = "sigma-ori-Tcol-24-70.pdf"
+  pltfile = "sigma-ori-multi-Tcol-tau.pdf"
+
+  fig = plt.figure()
+
   hdu = fits.open(datadir + "sigma-ori-Tcol-24-70-multibin.fits")[0]
-  fig, ax = plt.subplots(subplot_kw=dict(projection=WCS(hdu.header)))
-  ax.imshow(hdu.data, vmin=40.0, vmax=100.0, origin="lower", cmap="magma")
+  ax = plt.subplot(221, projection=WCS(hdu.header))
+  im = ax.imshow(hdu.data, vmin=40.0, vmax=100.0, origin="lower", cmap="magma")
+  fig.colorbar(im, ax=ax).set_label("Color temperature: $T_{24/70}$, K")
+  ax.scatter(rastar, decstar, transform=ax.get_transform('world'),
+             s=50, ec="w", fc="c")
+  set_wcs_limits(ax, boxcoords, WCS(hdu.header))
+  lon, lat = ax.coords
+  lon.set_ticklabel_visible(False)
+
+  hdu = fits.open(datadir + "sigma-ori-Tcol-160-350-multibin.fits")[0]
+  ax = plt.subplot(222, projection=WCS(hdu.header))
+  im = ax.imshow(hdu.data, vmin=15.0, vmax=28.0, origin="lower", cmap="magma")
+  fig.colorbar(im, ax=ax).set_label("Color temperature: $T_{160/350}$, K")
+  ax.scatter(rastar, decstar, transform=ax.get_transform('world'),
+             s=50, ec="w", fc="c")
+  set_wcs_limits(ax, boxcoords, WCS(hdu.header))
+  lon, lat = ax.coords
+  lon.set_ticklabel_visible(False)
+  lat.set_ticklabel_visible(False)
+
+  hdu = fits.open(datadir + "sigma-ori-tau-70-multibin.fits")[0]
+  ax = plt.subplot(223, projection=WCS(hdu.header))
+  im = ax.imshow(hdu.data/1e-5, vmin=0.0, vmax=1.6, origin="lower", cmap="gray_r")
+  fig.colorbar(im, ax=ax).set_label(r"Optical depth: $10^{5} \times \tau_{70} $")
+  ax.scatter(rastar, decstar, transform=ax.get_transform('world'),
+             s=50, ec="w", fc="c")
+  set_wcs_limits(ax, boxcoords, WCS(hdu.header))
+  lon, lat = ax.coords
+  lon.set_axislabel("RA (ICRS)")
+  lat.set_axislabel("Dec (ICRS)")
+
+  hdu = fits.open(datadir + "sigma-ori-tau-350-multibin.fits")[0]
+  ax = plt.subplot(224, projection=WCS(hdu.header))
+  im = ax.imshow(hdu.data/1e-4, vmin=0.0, vmax=1.5, origin="lower", cmap="gray_r")
+  fig.colorbar(im, ax=ax).set_label(r"Optical depth: $10^{4} \times \tau_{350}$")
+  ax.scatter(rastar, decstar, transform=ax.get_transform('world'),
+             s=50, ec="w", fc="c")
+  set_wcs_limits(ax, boxcoords, WCS(hdu.header))
+  lon, lat = ax.coords
+  lat.set_ticklabel_visible(False)
+
+  fig.set_size_inches(9, 9)
+  fig.tight_layout(rect=(0.06, 0.03, 1.0, 1.0))
   fig.savefig(pltfile)
 #+end_src
 
 #+RESULTS:
+[[file:sigma-ori-multi-Tcol-tau.pdf]]
+
+
+
+Save this one
 [[file:sigma-ori-Tcol-24-70.pdf]]
 
 #+begin_src python :return pltfile :results file

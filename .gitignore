@@ -15,3 +15,4 @@
 /.ipynb_checkpoints/Kobulnicky-samples-checkpoint.ipynb
 /.ipynb_checkpoints/Orion with Virtual Observatory-checkpoint.ipynb
 data/Sigma-Ori/ING/4734
+/__pycache__/wcs_plot_utils.cpython-37.pyc
