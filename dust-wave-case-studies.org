@@ -4012,7 +4012,7 @@ CLOSED: [2019-07-05 Fri 16:30]
       m = tab["I_nu"] > tab["d I_nu"]
       tab1 = tab[m]
       tab2 = tab[~m]
-      fig, ax = plt.subplots()
+      fig, ax = plt.subplots(figsize=(6, 3))
       ax.axhspan(-0.01, 0.01, color='k', alpha=0.05, ec='none')
       ax.errorbar(tab1["wav"], tab1["I_nu"], tab1["d I_nu"], fmt='o')
       ax.errorbar(tab2["wav"], tab2["I_nu"], tab2["d I_nu"],
@@ -4042,6 +4042,7 @@ CLOSED: [2019-07-05 Fri 16:30]
       ax.yaxis.set_major_formatter(mticker.FormatStrFormatter("%0g"))
       figfile = tabfile.replace(".tab", ".pdf")
       figfiles.append(f"[[file:{figfile}]]")
+      fig.tight_layout()
       fig.savefig(figfile)
 
 #+end_src
@@ -4737,6 +4738,19 @@ Save this one
     + They also do a conversion to H and mass columns using
       + \beta_{K} = 1.67e22 cm^{-2} / mag to convert between A_K and N_H
       + Or \Sigma/A_{K} = 183 M_{\odot} pc^{-2} / mag to convert to mass column
+    + [ ] We can compare this with Guillet:2018a
+      + I_353 /A_V = (1.2 ± 0.1) MJy/sr
+      + By 353, they mean 353 GHz, which is 850 micron
+      + This is for translucent clouds near Galactic plane (A_V = 0.5 to 2.5 mag)
+      + They give a fit T = 18.5 G_0^{1/5.6} or G_0 = (T/18.5)^5.6
+        + So this would give G_0 = 1, 1.5, 6.7 for F01, OA01, OAB01
+        + And G_0 = 4800, 1460 for IA01, IA03
+        + It is not clear if they really mean G_0 or U here
+        + I suppose it doesn't really matter for an ISRF SED
+      + We have U = 14.7 L_4 / R_pc^2 but should multiply by 8
+        + For \sigma Ori, L4 = 6.02 => R_pc = sqrt(8 14.7 6.02 / U) = 26.6 U^{-0.5}
+        + For IA01 this gives 0.38 pc, which is too big
+        + Other way round, @ 0.1 pc we should have U = 8849, or 70800 if we multiply by 8 - this then gives T = 135 K
     + This gives a peak BG-subbed column of 0.15 1.67e22 = 2.5e21
       + Which is very similar to what I got before using Cloudy opacities
     + So we can use this scaling do a table of cross-section per H
