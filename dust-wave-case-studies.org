@@ -4738,6 +4738,14 @@ Save this one
     + They also do a conversion to H and mass columns using
       + \beta_{K} = 1.67e22 cm^{-2} / mag to convert between A_K and N_H
       + Or \Sigma/A_{K} = 183 M_{\odot} pc^{-2} / mag to convert to mass column
+    + Alternative is Planck-Colaboration:2014b (Planck XI) who determine \tau_353/N_H for different environments
+      + The whole-sky cross-section @ 850 micron is \sigma = \tau/N_H = (8.4 \pm 3.0) \times 10^{-27} cm^2/H
+        + Compare this with Lombardi:2014a - N_H = 1.67e22 3460 H cm^{-2} => \sigma = 1.73e-26 cm^2/H
+        + So Lombardi have twice as high an opacity
+        + BUT Planck-XI Fig 17 and 18 show that \sigma varies on sky, being higher in molecular clouds by a factor of 2 or so
+        + Then their Fig 20 shows this most clearly - \sigma rises with N_H, reaching a plateau of about 1.2e-26 for N > 1e21
+        + So this is closer to the Lombardi value, but still suggests that we might be slightly underestimating the column densities
+      + They also mention that observed \beta may be less than true \beta due to fitting a single T, which leads to underestimation of \tau
     + [ ] We can compare this with Guillet:2018a
       + I_353 /A_V = (1.2 ± 0.1) MJy/sr
       + By 353, they mean 353 GHz, which is 850 micron
