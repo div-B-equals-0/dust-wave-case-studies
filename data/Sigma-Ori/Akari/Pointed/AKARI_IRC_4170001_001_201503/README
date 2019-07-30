@@ -1,0 +1,47 @@
+1. File information
+-------------------
+
+<directories>
+   dark/         : contains neighbor dark frames for MIR-S and -L
+   stacked_IM/   : contains calibrated and stacked images
+
+<files>
+   ircpipeline.log  : process logs
+   README           : this file
+
+
+2. Observation summary
+----------------------
+
+   Target ID               : 4170001             
+   Sub ID                  : 001                 
+   Pointing ID             : 4170001             
+   Object Name             : NGC2023_N                
+   Proposal ID             : DGPDR               
+   PI Name                 : Habart Emilie       
+   Observation Category    : OT-ESA              
+   Target Position (R.A.)  : 85.408    [degree]
+   Target Position (Dec.)  : -2.214    [degree]
+   Observation AOT         : IRC02               
+   AOT Parameter           : a;N                 
+   IRC Mode                : MAIN                
+   Observation Start       : 2007-03-15T13:31:24 
+   Observation End         : 2007-03-15T14:01:24 
+
+   Please refer to the IRC Data Users Manual for deltails of
+   the summary information.
+
+
+3. Process summary
+------------------
+
+   MIR-S Ghost Warning         : Yes
+   MIR-S memory effect Warning : No
+   MIR-L memory effect Warning : No
+
+   Stacked Images Summary
+      Filt, Nall, Ncom, Shiftty, WCSROOT, WCSERR, WCSNS, RAcenter, DEcenter
+      L15     12    12  COADD    WISE     0.5945      7   85.0780   -2.3167
+      L24     12    12  COADD    AOCS        NaN      0   85.0764   -2.3127
+      N3       4     4  COADD    2MASS    0.3368     32   85.4327   -2.2111
+      N4       4     4  COADD    2MASS    0.4742     23   85.4338   -2.2123

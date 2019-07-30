@@ -1,0 +1,47 @@
+1. File information
+-------------------
+
+<directories>
+   dark/         : contains neighbor dark frames for MIR-S and -L
+   stacked_IM/   : contains calibrated and stacked images
+
+<files>
+   ircpipeline.log  : process logs
+   README           : this file
+
+
+2. Observation summary
+----------------------
+
+   Target ID               : 4170004             
+   Sub ID                  : 001                 
+   Pointing ID             : 4170004             
+   Object Name             : Horsehead                
+   Proposal ID             : DGPDR               
+   PI Name                 : Habart Emilie       
+   Observation Category    : OT-ESA              
+   Target Position (R.A.)  : 85.233    [degree]
+   Target Position (Dec.)  : -2.469    [degree]
+   Observation AOT         : IRC02               
+   AOT Parameter           : a;N                 
+   IRC Mode                : MAIN                
+   Observation Start       : 2007-03-15T08:33:16 
+   Observation End         : 2007-03-15T09:03:16 
+
+   Please refer to the IRC Data Users Manual for deltails of
+   the summary information.
+
+
+3. Process summary
+------------------
+
+   MIR-S Ghost Warning         : Yes
+   MIR-S memory effect Warning : No
+   MIR-L memory effect Warning : No
+
+   Stacked Images Summary
+      Filt, Nall, Ncom, Shiftty, WCSROOT, WCSERR, WCSNS, RAcenter, DEcenter
+      L15     12    12  COADD    WISE     0.4608     16   84.9038   -2.5723
+      L24     12    11  COADD    WISE     0.9668     12   84.9001   -2.5689
+      N3       4     4  COADD    2MASS    0.3359     53   85.2583   -2.4663
+      N4       4     4  COADD    2MASS    0.4296     50   85.2596   -2.4673

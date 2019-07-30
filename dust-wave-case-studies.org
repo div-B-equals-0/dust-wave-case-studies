@@ -3601,6 +3601,9 @@ Now try the same, but normalized to infrared
 
 
 **** Infrared SED of inner shell
+:PROPERTIES:
+:ID:       58C1C805-33D5-4B0F-9F59-E72F5FD35115
+:END:
 + Ochsendorf:2015a Fig 4e shows the SED
   + But it is I_\nu in MJy/sr, whereas we want to convert it to L_\odot
 + Half power contour is roughly 60 x 180 arcsec (diameters)
@@ -3710,6 +3713,7 @@ CLOSED: [2019-07-05 Fri 16:30]
     5. OAB02 - cirrus bit in N of outer arc
     6. IC - intermediate clump
     7. F01 - cool filament to S
+       - This is called an "extended collimated flow" Ochsendorf:2015a (Fig 3, feature E)
     8. IA01
     9. IA02
     10. IA03
@@ -4672,6 +4676,93 @@ Save this one
 #+RESULTS:
 [[file:sigma-ori-tau-350.pdf]]
 
+**** Ratios of PAH bands
++ We will compare the 8 micron Spitzer with the 12 micron WISE
++ [X] Interpolate 8 micron onto 12
++ [ ] Also do 5 micron (WISE) and 6 micron (IRAC)
++ [ ] In principle, we should also smooth it since the WISE data is much lower resolution
++ [X] Also, we need to subtract a BG value - use same aperture that we used for the others
+
+#+begin_src python :results silent
+  import numpy as np
+  from astropy.io import fits
+  from astropy.table import Table
+  from reproject import reproject_interp
+  from astropy.modeling.blackbody import blackbody_nu
+  import astropy.units as u
+  from astropy.wcs import WCS
+  import regions as rg
+
+  datadir = "data/Sigma-Ori/"
+  fn08 = "Spitzer/SPITZER_I4_3959552_0000_7_E8744649_maic.fits"
+  fn12 = "WISE/0847m031_ac51-w3-int-3.fits"
+  fn05 = "WISE/0847m031_ac51-w2-int-3.fits"
+  fn06 = "Spitzer/SPITZER_I3_3959552_0000_7_E8745182_maic.fits"
+  fnstar = "Spitzer/SPITZER_I2_3959552_0000_7_E8744000_maic.fits"
+  hdu08 = fits.open(datadir + fn08)[0]
+  hdu12 = fits.open(datadir + fn12)[0]
+  hdu05 = fits.open(datadir + fn05)[0]
+  hdu06 = fits.open(datadir + fn06)[0]
+  hdustar = fits.open(datadir + fnstar)[0]
+
+
+  # Background measured in W box sigma-ori-BG.reg
+  bg12 = 472.13
+  bg08 = 5.661
+  bg06 = 1.563
+  bg05 = 9.513
+
+  # WISE images needs conversion to get MJy/sr
+  scale12 = 0.04123
+  scale05 = 0.06087
+
+  new12 = scale12*(hdu12.data - bg12)
+  new08, _ = reproject_interp(hdu08, hdu12.header)
+  new08 -= bg08
+
+  new05 = scale05*(hdu05.data - bg05)
+  new06, _ = reproject_interp(hdu06, hdu05.header)
+  new06 -= bg06
+
+  # Mask out stars, which we find from the IRAC 2 image
+  newstar, _ = reproject_interp(hdustar, hdu12.header)
+  mask = (newstar > 5.0)
+  new12[mask] = np.nan
+  new08[mask] = np.nan
+
+  # # Now blank out regions that are too faint for good statistics
+  # # Or they are the outer PSF of the bright star
+  # mask = (new12 < 2.0) | (new08 < 0.1) | (new08 > 120.0) 
+  # new12[mask] = np.nan
+  # new08[mask] = np.nan
+
+  ratio = new08/new12
+
+  newfn08 = "sigma-ori-F-nu-MJy-sr-08.fits"
+  newfn12 = "sigma-ori-F-nu-MJy-sr-12.fits"
+  newfnrat = "sigma-ori-F-nu-ratio-08-12.fits"
+
+  fits.PrimaryHDU(data=new08, header=hdu12.header).writeto(
+      datadir + newfn08, overwrite=True)
+  fits.PrimaryHDU(data=new12, header=hdu12.header).writeto(
+      datadir + newfn12, overwrite=True)
+  fits.PrimaryHDU(data=ratio, header=hdu12.header).writeto(
+      datadir + newfnrat, overwrite=True)
+
+  ratio = new05/new06
+
+  newfn05 = "sigma-ori-F-nu-MJy-sr-05.fits"
+  newfn06 = "sigma-ori-F-nu-MJy-sr-06.fits"
+  newfnrat = "sigma-ori-F-nu-ratio-05-06.fits"
+
+  fits.PrimaryHDU(data=new05, header=hdu05.header).writeto(
+      datadir + newfn05, overwrite=True)
+  fits.PrimaryHDU(data=new06, header=hdu05.header).writeto(
+      datadir + newfn06, overwrite=True)
+  fits.PrimaryHDU(data=ratio, header=hdu05.header).writeto(
+      datadir + newfnrat, overwrite=True)
+#+end_src
+
 **** Variations due to uncertainty in \beta
 + I am using \beta = 1.5, but will also check \beta = 1 and 2
 + Cool component
@@ -4758,7 +4849,14 @@ Save this one
       + We have U = 14.7 L_4 / R_pc^2 but should multiply by 8
         + For \sigma Ori, L4 = 6.02 => R_pc = sqrt(8 14.7 6.02 / U) = 26.6 U^{-0.5}
         + For IA01 this gives 0.38 pc, which is too big
-        + Other way round, @ 0.1 pc we should have U = 8849, or 70800 if we multiply by 8 - this then gives T = 135 K
+          + Measure 94 arcsec = 0.19 pc
+          + Other way round, @ 0.1 pc we should have U = 2450, or 20800 if we multiply by 8 - this then gives T = 110 K
+          + Or T = 74.5 K if we don't multiply by 8
+        + For OA01 it gives 22 pc, and for OAB01 it gives 10 pc
+          + 10 pc = 5000 arcsec = 84 arcmin = 1.4 deg
+          + As compared to 0.5 deg distance, or 5 pc to Horsehead
+            + Horsehead has T = 25 \to 30 K => G_0 = 5 \to 13 => R = 7 pc
+
     + This gives a peak BG-subbed column of 0.15 1.67e22 = 2.5e21
       + Which is very similar to what I got before using Cloudy opacities
     + So we can use this scaling do a table of cross-section per H
@@ -4910,6 +5008,58 @@ Save this one
   + S_\nu = B_\nu(\lambda, T) N \sigma(\lambda)
   + => N = S_\nu / \sigma(\lambda) B_\nu(\lambda, T)
 + So, it turns out that 35 K dust with N > 3e20 would have been detectable in the 70 micron band
+**** Critique of Ochsendorf:2015a arguments
++ They say that the dust in outer arc (ODW, morphology A) is inside the H II region
+  + They have 4 reasons for this, some of which are somewhat reasonable, some not so much
+    1. Subtracted BG and no H_2
+       : We subtracted the background to exclude dust associated with the GS206-17+13 shell: analysis of the Spitzer/IRS spectrum reveals the absence of the H2 feature immediately after leaving the Horsehead PDR: there is no neutral region associated with the spectra of regions 2–7 (Fig. 4).
+       *Response*
+       - /Only smooth BG is subtracted./
+         - The BG subtraction region is indicated by white cross in their Fig 2A
+         - Appears to be at 05 35 30, -01 54
+         - \tau(850) at that point is about 1.5e-5
+         - This is similar to the BG region that I have used, just to W of \sigma Ori
+         - It is much less than the value in the NS filament (4 \to 5e-5) and the outer arc (4e-5)
+       - /No H_2 because filaments have only A_V = 1./
+         - The H column goes up to about 2e21 pcmsq, which is not quite enough to form molecular hydrogen
+    2. PAH emission correlated with long-wavelength dust emission
+       : PAH emission shows a tight correlation with the long wave- length dust emission associated with morphology A (Fig. 3).
+       *Response*
+       - /In reality there is a clear difference between the distribution of PAH emission and long-wavelength emission/
+         - Long-wavelength emission is in clumpy filaments. PAH emission is in wispy filaments.
+         - They are not spatially coincident, but they may be spatially related. 
+    3. PAH charge increases towards star.
+       : PAHs are increasingly charged when moving to regions pro- jected closer towards the σ Ori AB. Thus, the PAHs are located inside the ionized gas. This conclusion was also reached by Compiègne et al. (2007), based upon observa- tions of the Horsehead nebula. Consequently, the same holds for the cold dust emission from morphology A that is seen co-spatial with the PAH emission.
+       *Response*
+       - /Agree with charge state of PAHs, but we deny the cold dust is co-spatial, so no inference can be drawn about that component/
+         - They find that the ratio of 7.7/11.3 varies with position, using Spitzer IRS spectra, which indicates that the charged PAH become more abundant closer to the star
+         - The maximum is at 0.8 pc from the star, which is just inside the outer arc, with a value of about 7, as compared with 3 in the Horsehead PDR
+         - Closer to the star (0.3 pc), the ratio falls to a low value (why? destruction of PAH)
+         - Note that the IRS apertures do not sample the clumps and filaments in the outer arc, but rather fall on diffuse regions
+         - [ ] In principle, we should be able to see this effect in a ratio image of 8/12 microns, using WISE and Spitzer
+***** What we see in the data for the outer arc
++ There seem to be two components:
+  1. "Clumpy filaments" seen mainly at long wavelengths, T(160/350) = 20 K
+  2. "Wispy filaments" seen mainly at 8 micron, but also at 5.8, 4.5, 3.6 microns (stronger at 3.6 than 4.4, which is consistent with a PAH origin).  And also at longer wavelengths.  T(160/350) = 22 K.  Orientation is about PA = 40 \to 50 deg in the S portion. More like 10 \to 30 deg in N portion.   There are also fainter wispy filaments with PA = 120
+***** Engagement with Ochsendorf:2014b analysis
++ This actually anticipates a lot of what we have done
++ They calculate the 24/70 color temperature and 70 micron optical depth, just like I do
+  + Their Fig 3 shows this, which is totally consistent with mine
+  + But they only show 12x12 arcmin, whereas I show 20x30 arcmin
+  + They also find a hotter component is necessary to fit the 8 and 12 micron points: T = 197 K
++ They have a UV-derived and an IR-derived dust mass, which are equivalent to our Paper III method and K18
+  + UV-derived mass assumes \tau = L_IR/L_* => \tau_{UV} = (1.4 \pm 0.3)e-4
+    + They find L_IR as 4 \pi I_tot S, where I_tot is the integrated surface brightness SED and S is the emitting surface area
+      + Let's check that
+        + Flux F = I \Omega, where S = D^2 \Omega => F = I S / D^2
+        + Luminosity L = 4 \pi D^2 F = 4 \pi D^2 I S / D^2 = 4 \pi I S /QED/
+      + They find L_IR = 8.3 \pm 1.6 L_\odot
+        + Which is very similar to what I got in [[id:58C1C805-33D5-4B0F-9F59-E72F5FD35115][Infrared SED of inner shell]], where I found 15 L_\odot
+        + They assume L_* = 6e4 Lsun, and I have been using the same
+    + Although it would make more sense to have 2 L_IR/L_* to account for fact that bow shock is only \Omega = 2\pi sr
+      + So, combined with the higher L_IR I found, means that I would get \tau = 5e-4, which is what we used in Paper III
+    + However, this cancels out when they calculate the dust mass, since they use M_d = 4 \pi r^2 \tau / \kappa
+    + They take \kappa = 1e4 cm^2/g, but this is the opacity per *dust mass*
 **** \sigma Ori proplyd
 + \sigma Ori IRS1 B
 + See Hodapp:2009a and van-Loon:2003a
@@ -7636,13 +7786,27 @@ Plot of H/R versus \ell/R
 + Moore:2002a do modelling of the photoevaporating knots
   + Claim O9 III fits best
   + S_49 about 1
-** HD 227018 in Sh 2-101
+** TODO [#A] HD 227018 in the Tulip Nebula, Sh 2-101
 + O6.5 III star at 2 kpc
+  + HD 227018
++ Inside the Tulip Nebula
+  + It is near Cygnus X1
+    + About 20 arcmin to E
+    + But not near enough to fall in the same field
 + Very clear bow shock
   + Quite thin
   + bright in [O III]
     + see amateur photo at https://www.flickr.com/photos/142611458@N07/44862971564/in/pool-1236791@N22/
   + *Also detected at 2 micron in K-band from 2MASS*
+  + Radius: 35 arcsec = 0.34 pc, so pretty big
+    + So, why is it emitting at 2 micron?
+    + Is it H_2 emission, implying a trapped ionization front?
++ In Peri:2012a and Peri:2015a but not in Kobulnicky samples
++ Strong in Spitzer IRAC bands
++ We have the data to do an excellent SED, from 2 to 150 micron
++ 2MASS, Spitzer, WISE, Herschel, MSX
+  + MSX-D is 15 micron, but it is very noisy
++ Infrared images are in [[file:data/Tulip/screenshots/][file:data/Tulip/screenshots/]]
 
 ** WR stars
 *** WR 16
@@ -7794,6 +7958,31 @@ Plot of H/R versus \ell/R
   + Nottingham Trent University
 ** Sources from Bodensteiner:2018a 
 + See [[file:~/Dropbox/bsc-bows/]]
+** Sources in Orion B
+*** IC435, HD 38087
++ B3 II supergiant with reflection nebula
+  + Parallax gives distance of 338 pc strangely
+  + So it may not be in Orion B at all
++ Located to E of Horsehead
++ Bow shock visible at 24 micron
+  + Outer radius: 17 arcsec = 0.028 pc
+  + Inner radius: 8 arcsec = 0.013 pc
+  + Chord length: 32 arcsec
+  + Outer rim is traced by 8 micron and 5.87 micron
++ In principle, this should have a relatively powerful wind
+*** V901 Ori
++ B2 V main sequence star with reflection nebula ([RK68] 37)
+  + parallax gives D = 424 pc
++ No sign of a bow shock!
+  + So it makes a good control
+  + But it does have 24 micron emission
++ Morphology is different in red and blue DSS bands, suggesting H\alpha emission
+  + But it is projected on the outskirts of Flame Nebula, so it might just be that
++ 24 micron emission is more compact than blue reflection nebula
+*** HD 37674
++ B5 V main sequence star with reflection nebula ([RK68] 36)
++ In optical, only seen in blue not red
++ In infrared, mainly in IRAC bands
 * Non-thermal emission
 + Benaglia:2010a claim synchrotron emission based on 6cm and 20cm radio
   + This is for source 344 - BD +43 3654
@@ -8067,7 +8256,7 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
 
 
 
-* The Large Magellanic Cloud 
+* The Magellanic Clouds
 + Not many bow shocks reported that I am aware of
 + Angular scales:
   + 1 pc = 4.125 arcsec
@@ -8078,6 +8267,12 @@ python ~/Dropbox/circle-fit/plot-bootstrap.py th1d-ori-smith-2005-forma.reg ~/Dr
   + Images
     + [[file:data/LMC/photo95f.jpg]]
     + [[file:data/LMC/photo95fb.jpg]]
++ [ ] But also see Adams:2013a for the SMC and references therein
+  + HIP 83509 is a good example - *hang on, this is one of the MW comparison stars*
+    + Also known as HD 153772
+    + B2V star with bow-shaped reflection nebula
+    + Probably a runaway, quite a long way below plane
++ 
 ** Objects of interest in the LMC image
 + Brey 51 - WR star: WN3(h)
   + (\alpha, \delta) = (83.6561686239, -66.2438866518)

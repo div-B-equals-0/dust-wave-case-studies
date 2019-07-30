@@ -1,0 +1,8 @@
+Users are encouraged to provide feedback regarding the data quality of the downloaded data products by contacting the ESO Archive Science Group via usd-help@eso.org, subject: Phase 3
+
+Below is an overview of the structure (dataset, archive file name, original file name, category, size) of  request 487878 "PHASE3" : 
+
+PHASE3+6116798+ADP.2018-03-23T08:17:32.142:
+	- ADP.2018-03-23T08:17:32.143.fits	VIMOS.2006-12-25T00:31:42.432_st_conf.fits	ANCILLARY.WEIGHTMAP	72400320
+	- ADP.2018-03-23T08:17:32.142.fits	VIMOS.2006-12-25T00:31:42.432_st.fits	SCIENCE.MEFIMAGE	72417600
+	- ADP.2018-03-23T08:17:32.144.fits	VIMOS.2006-12-25T00:31:42.432_st_var.fits	ANCILLARY.VARMAP	72403200
