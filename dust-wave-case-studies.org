@@ -1,4 +1,4 @@
-#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+sssss#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t broken-links:nil c:nil creator:nil
 #+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
 #+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
@@ -442,7 +442,9 @@ Interaction with black hole
     - So this is very similar to the original value of 100
 
 
-
++ Basic data from SIMBAD
+  + (l, b) = (172.0813 -02.2592)
+  + HD 34078
 + Comes from Trapezium, maybe
   + Originally proposed by Blaauw:1954a
     + [ ] Find this citation 
@@ -3508,7 +3510,7 @@ Now try the same, but normalized to infrared
   + binary O9.5V + B0.5V
   + L4 = 6.02, so like the 20 Msun case
   + \eta = 0.0697 or 0.0002 - they prefer the second
-    + [ ] They cite Najarro et al 2011 - need to check it out
+    + [X] They cite Najarro et al 2011 - need to check it out
 + Star may be moving at 15 km/s to NW
 + Distance may be less than M42
   + Bally:2018a have a discussion where they finally adopt 360 pc
@@ -7807,6 +7809,20 @@ Plot of H/R versus \ell/R
 + 2MASS, Spitzer, WISE, Herschel, MSX
   + MSX-D is 15 micron, but it is very noisy
 + Infrared images are in [[file:data/Tulip/screenshots/][file:data/Tulip/screenshots/]]
+*** Tulip Nebula in WHAM
++ Pixels are 0.25 deg, which includes entire nebula
++ (l, b) = (71.6, +2.85) \pm (0.15, 0.1)
++ WHAM pixels: [434, 372]
++ If you go to smaller l, there is a H\alpha hole around l=70, then the diffuse emission picks up again by l=68
+  + Comparison with PanSTARRS continuum suggests this may be an extinction effect
++ There is a diffuse maximum from l = 71.5 \to 73.0
+  + But a good fraction of what is seen around 71.6 must come from the Tulip
+  + Velocity peaks at k=90 => V_LSR = -169.1 + (90 - 1) 2.028 = +11.392 km/s
+  + FWHM is (99 - 81) 2.028 = 36.5 km/s
++ At Redder velocities (channel 106, V = +44 km/s) we have a clump at (72.6, 3.26)
++ Bluer channels (k=70, V = -30 km/s) there is a big diffuse clump (74, 4), which can also be seen in DSS and in Akari (also dark cloud in PanSTARRS)
++ Diagonal ridge below Tulip is prominent at 86 => V = +3 km/s
++ Tulip itself is most prominent at 92 => V = +15 km/s
 
 ** WR stars
 *** WR 16
