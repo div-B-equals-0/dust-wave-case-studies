@@ -750,6 +750,10 @@ stars.update(
 ***** Revisiting LP Ori stellar parameters
 
 **** Models for LP Ori
+***** Cloudy models for LP Ori
++ [2019-08-06 Tue 09:18] Where are these?
++ I seem to remember there being something very odd about the H\alpha emissivity
++ It seems from Luridiana:2009a that the enhancement over Case B near the ionization front is due to collisional excitation *not fluorescence*
 ***** How to derive density of dust shell
 + We can estimate \tau for the shell
   + L_{neb} = L_{*} (1 - e^{-\tau}) (\Omega / 4\pi)
