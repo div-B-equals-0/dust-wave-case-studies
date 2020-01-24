@@ -1,4 +1,4 @@
-sssss#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t broken-links:nil c:nil creator:nil
 #+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
 #+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
@@ -5235,7 +5235,7 @@ Save this one
   3. Lucy:2012a have a phenomenological model of how this arises by conductive evaporation of the cool blobs
   4. Alternatively, if x-rays are due to magnetic confinement of wind (MCWS), then we also require Mdot of 7.5e-9 Msun/yr
   5. The third possibility of binary wind-wind collision is ruled out since perihelion of Aa/Ab is 25 R_*, so shock would be about 15 R_* away, and wind would have full velocity and make harder x rays (> 1 keV)
-  6. *Summary of summary* Ṁ = (6 \pm 2) \times 10^{-9} M_{\odot}/yr ∴ \eta = 0.005 if L_4 = 6, a bit smaller than for proplyd but the two together might do it!
+  6. *Summary of summary* Ṁ = (6 \pm 2) \times 10^{-9} M_{\odot}/yr ∴ \eta = 0.005 if L_4 = 6, a bit smaller than for proplyd but the two together might do it!
 + ⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂∵⁂ R_{⁂}
 + Najarro et al 2011
   + [X] An extremely low wind mass-loss rate of 2e-10 Msun/yr is derived, mainly on the basis of Brackett alpha and other H lines.  Apparently, the Br \alpha emission increases with /decreasing/ mass loss (unlike the usual case).  The authors (priv. comm.) reckon that this result still holds, even taking into account the spectroscopic binary Aa/Ab 
