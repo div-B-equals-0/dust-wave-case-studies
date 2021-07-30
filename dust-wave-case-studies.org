@@ -343,6 +343,9 @@ So, objects like
       + So they really need to correct for the L_x-L_bol relation before comparing with Mdot
 
 * Particular objects
+:PROPERTIES:
+:ID:       14E5C827-B660-44C4-A4EF-000254FAE8D2
+:END:
 
 ** Thor's helmet
 + Compression in shell with perpendicular field
@@ -3350,6 +3353,9 @@ Now try the same, but normalized to infrared
 #+RESULTS: xsec-dust-triple
 [[file:xsec-dust-ney-allen.pdf]]
 ***** Effects of rotational disruption of large grains
+:PROPERTIES:
+:ID:       D71FC23A-3AE0-4603-8305-D7F6B7244A71
+:END:
 + Assume that all grains > 0.04 micron are broken down into smaller grains
   + See [[id:08D863B7-399A-45B0-9CAB-CCABEC7BD218][Effects on opacity]]
 + This eliminates bins 7, 8, 9, 10
@@ -3675,6 +3681,9 @@ Now try the same, but normalized to infrared
 
 **** DONE [#A] More SEDS
 CLOSED: [2019-07-05 Fri 16:30]
+:PROPERTIES:
+:ID:       89455F87-7DCB-4B64-842B-F8FF63EBC815
+:END:
 + [2019-01-29 Tue] 
   + Measure SED of inner arc in more wavelengths: IRAC, WISE, Herschel, Akari, MSX (unique in providing 14 micron, but noisy)
   + Measure SED of outer arc too, and of NS filament, and of general background
@@ -4575,7 +4584,8 @@ Test the function
   boxcoords = SkyCoord([ra0 + width/2, ra0 - width/2],
                        [dec0 - height/2, dec0 + height/2])
   datadir = "data/Sigma-Ori/"
-  pltfile = "sigma-ori-multi-Tcol-tau.pdf"
+  pltfile = "sigma-ori-multi-Tcol-tau
+.pdf"
 
   fig = plt.figure()
 

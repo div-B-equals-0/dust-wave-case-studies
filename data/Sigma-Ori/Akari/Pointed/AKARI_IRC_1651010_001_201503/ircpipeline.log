@@ -1,0 +1,69 @@
+## ENVIRONMENTS ##
+OS: CentOS Linux release 7.0.1406 (Core)
+Perl:
+This is perl 5, version 16, subversion 3 (v5.16.3) built for x86_64-linux-thread-multi
+
+IRAF V2.16.1 Oct 2013
+IRC toolkit: ver.150002 in /home/irc/src/iraf/v2.16.1/extern/irc/
+
+
+## PROCESS LOGS ##
+
+- 2015/03/07 22:10:01
+prepipeline(ircconst=constants.database,verbose=no,pllog=ircpipeline.log)
+- 2015/03/07 22:10:01
+ ircslice(ircconst=constants.database,verbose=no)
+- 2015/03/07 22:10:26
+ mkirclog(ircconst=constants.database,verbose=no)
+- 2015/03/07 22:10:32
+ 'irclog' and 'darklist.before' created
+
+- 2015/03/07 22:10:32
+pipeline1(ircconst=constants.database,obslog=irclog,cosmicray=yes,interactive=no,deltemp=yes,verbose=no,blankvalue=-9999.9,darktype=ne,darkfile=dark.list,smdark=yes,delsmd=yes,subsky=yes,subLscat=yes,pllog=ircpipeline.log)
+- 2015/03/07 22:10:33
+ makelist(logfile=irclog)
+- 2015/03/07 22:10:33
+ wraparound(ircconst=constants.database,logfile=irclog,prefixs=,deltemp=no,verbose=no)
+- 2015/03/07 22:10:36
+ ircnorm(ircconst=constants.database,logfile=irclog,prefixs=w,deltemp=yes,verbose=no)
+- 2015/03/07 22:12:58
+ linearity(ircconst=constants.database,logfile=irclog,prefixs=nw,deltemp=yes,verbose=no)
+- 2015/03/07 22:16:50
+ dark(ircconst=constants.database,darkfile=dark.list,logfile=irclog,prefixs=lnw,darktype=ne,deltemp=yes,verbose=no,smdark=yes,delsmd=yes)
+- 2015/03/07 22:18:20
+ scatt_light(ircconst=constants.database,logfile=irclog,prefixs=Dlnw,deltemp=yes,verbose=no)
+- 2015/03/07 22:22:51
+ cosmic_ray(ircconst=constants.database,logfile=irclog,prefixs=cDlnw,deltemp=yes,verbose=no)
+- 2015/03/07 22:27:15
+ flat(ircconst=constants.database,logfile=irclog,prefixs=CcDlnw,blank=-9999.9,deltemp=yes,verbose=no,subsky=yes,subLscat=yes,pllog=ircpipeline.log)
+### Info: name, min & max of AVGSKY, max/min
+L15l.vsky 3225.3 3305.4 1.0
+L15s.vsky 33.3 113.8 3.4
+N3l.vsky -13.9 119.3 -8.6
+N3s.vsky 7.8 11.5 1.5
+S7l.vsky 1769.8 1904.3 1.1
+S7s.vsky -40.1 40.5 -1.0
+### Message: Files before flat fielding are not to be deleted.
+
+
+- 2015/03/07 22:28:25
+pipeline2(ircconst=constants.database,com_mode=median,com_area=2,sky_area=2,det_sig=3,sig_rej=3,max_itr=10,obslog=irclog,wcs=YES,coaddshort=NO,interactive=NO,deltemp=YES,rejection=sigclip,rej_sky=YES,skip_L=NO,submedsky=NO,coadd=YES,verbose=NO,prefixs=fCcDlnw,blankvalue=-9999.9,double=YES,ndmask=YES,ndhot=500.0,pllog=ircpipeline.log,tolerance=1.5,wipestar=0.0,fluxcal=YES)
+- 2015/03/07 22:28:26
+ maskall(ircconst=constants.database,logfile=irclog,prefixs=fCcDlnw,blankval=-9999.9,deltemp=NO,verbose=NO,ndmask=YES,ndhot=500.0,pllog=ircpipeline.log)
+### Warning: Bright (>10000) source(s) found in 30 MIR-S frames. Be aware of the ghost!
+### Info: total number of saturated pixels for 5 N3 frames = 2904
+### Info: total number of saturated pixels for 30 S7 frames = 1740
+### Info: 20 pixels masked for MIR-S from neighbor dark
+### Info: 239 pixels masked for MIR-L from neighbor dark
+- 2015/03/07 22:34:49
+ aspect_ratio(ircconst=constants.database,logfile=irclog,prefixs=mfCcDlnw,blankval=-9999.9,deltemp=YES,verbose=NO,double=YES)
+- 2015/03/07 22:47:36
+ coadd(ircconst=constants.database,det_sig=3.0,sig_rej=3.0,max_itr=10,com_mode=median,com_area=2,sky_area=2,logfile=irclog,prefixs=emfCcDlnw,rejection=sigclip,rej_sky=YES,coaddshort=NO,wcs=YES,skip_L=NO,submedsky=NO,deltemp=YES,verbose=NO,blankval=-9999.9,pllog=ircpipeline.log,double=YES,tolerance=1.5,wipestar=0.0)
+### Warning: 29 frames failed in stacking
+### Info: NFRALL,NCOMBINE,WCSROOT,WCSERROR of stacked images
+stacked_IM/ura_L15_long.fits	30	30	AOCS
+stacked_IM/ura_N3_long.fits	5	5	2MASS	0.4293122
+- 2015/03/07 22:59:42
+ calflux(ircconst=constants.database,logfile=irclog,blankval=-9999.9,overwrite=NO)
+- 2015/03/07 22:59:44
+  all pipeline processes successfully ended

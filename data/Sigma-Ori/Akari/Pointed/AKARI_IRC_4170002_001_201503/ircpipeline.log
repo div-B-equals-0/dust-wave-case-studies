@@ -1,0 +1,80 @@
+## ENVIRONMENTS ##
+OS: CentOS Linux release 7.0.1406 (Core)
+Perl:
+This is perl 5, version 16, subversion 3 (v5.16.3) built for x86_64-linux-thread-multi
+
+IRAF V2.16.1 Oct 2013
+IRC toolkit: ver.150002 in /home/irc/src/iraf/v2.16.1/extern/irc/
+
+
+## PROCESS LOGS ##
+
+- 2015/02/12 08:26:10
+prepipeline(ircconst=constants.database,verbose=no,pllog=ircpipeline.log)
+- 2015/02/12 08:26:10
+ ircslice(ircconst=constants.database,verbose=no)
+- 2015/02/12 08:26:36
+ mkirclog(ircconst=constants.database,verbose=no)
+- 2015/02/12 08:26:41
+ 'irclog' and 'darklist.before' created
+
+- 2015/02/12 08:26:42
+pipeline1(ircconst=constants.database,obslog=irclog,cosmicray=yes,interactive=no,deltemp=yes,verbose=no,blankvalue=-9999.9,darktype=ne,darkfile=dark.list,smdark=yes,delsmd=yes,subsky=yes,subLscat=yes,pllog=ircpipeline.log)
+- 2015/02/12 08:26:42
+ makelist(logfile=irclog)
+- 2015/02/12 08:26:42
+ wraparound(ircconst=constants.database,logfile=irclog,prefixs=,deltemp=no,verbose=no)
+- 2015/02/12 08:26:45
+ ircnorm(ircconst=constants.database,logfile=irclog,prefixs=w,deltemp=yes,verbose=no)
+- 2015/02/12 08:27:25
+ linearity(ircconst=constants.database,logfile=irclog,prefixs=nw,deltemp=yes,verbose=no)
+- 2015/02/12 08:30:12
+ dark(ircconst=constants.database,darkfile=dark.list,logfile=irclog,prefixs=lnw,darktype=ne,deltemp=yes,verbose=no,smdark=yes,delsmd=yes)
+- 2015/02/12 08:31:33
+ scatt_light(ircconst=constants.database,logfile=irclog,prefixs=Dlnw,deltemp=yes,verbose=no)
+- 2015/02/12 08:34:23
+ cosmic_ray(ircconst=constants.database,logfile=irclog,prefixs=cDlnw,deltemp=yes,verbose=no)
+- 2015/02/12 08:37:16
+ flat(ircconst=constants.database,logfile=irclog,prefixs=CcDlnw,blank=-9999.9,deltemp=yes,verbose=no,subsky=yes,subLscat=yes,pllog=ircpipeline.log)
+### Info: name, min & max of AVGSKY, max/min
+L15l.vsky 3918.5 3988.0 1.0
+L15s.vsky 142.0 143.2 1.0
+L24l.vsky 1723.4 1785.0 1.0
+L24s.vsky 64.8 65.9 1.0
+N3l.vsky 42.0 42.4 1.0
+N3s.vsky 3.0 4.8 1.6
+N4l.vsky 93.0 94.2 1.0
+N4s.vsky 8.8 10.8 1.2
+S11l.vsky 4078.4 4147.7 1.0
+S11s.vsky 127.5 131.6 1.0
+S7l.vsky 1084.9 1111.2 1.0
+S7s.vsky 16.7 21.0 1.3
+### Message: Files before flat fielding are not to be deleted.
+
+
+- 2015/02/12 08:38:01
+pipeline2(ircconst=constants.database,com_mode=median,com_area=2,sky_area=2,det_sig=3,sig_rej=3,max_itr=10,obslog=irclog,wcs=YES,coaddshort=NO,interactive=NO,deltemp=YES,rejection=sigclip,rej_sky=YES,skip_L=NO,submedsky=NO,coadd=YES,verbose=NO,prefixs=fCcDlnw,blankvalue=-9999.9,double=YES,ndmask=YES,ndhot=500.0,pllog=ircpipeline.log,tolerance=1.5,wipestar=0.0,fluxcal=YES)
+- 2015/02/12 08:38:01
+ maskall(ircconst=constants.database,logfile=irclog,prefixs=fCcDlnw,blankval=-9999.9,deltemp=NO,verbose=NO,ndmask=YES,ndhot=500.0,pllog=ircpipeline.log)
+### Info: total number of saturated pixels for 3 N3 frames = 33
+### Info: total number of saturated pixels for 4 N4 frames = 22
+### Info: total number of saturated pixels for 9 L15 frames = 2124
+### Info: total number of saturated pixels for 12 L24 frames = 4914
+### Info: 19 pixels masked for MIR-S from neighbor dark
+### Info: 229 pixels masked for MIR-L from neighbor dark
+- 2015/02/12 08:41:18
+ aspect_ratio(ircconst=constants.database,logfile=irclog,prefixs=mfCcDlnw,blankval=-9999.9,deltemp=YES,verbose=NO,double=YES)
+- 2015/02/12 08:51:08
+ coadd(ircconst=constants.database,det_sig=3.0,sig_rej=3.0,max_itr=10,com_mode=median,com_area=2,sky_area=2,logfile=irclog,prefixs=emfCcDlnw,rejection=sigclip,rej_sky=YES,coaddshort=NO,wcs=YES,skip_L=NO,submedsky=NO,deltemp=YES,verbose=NO,blankval=-9999.9,pllog=ircpipeline.log,double=YES,tolerance=1.5,wipestar=0.0)
+### Warning: 3 frames failed in stacking
+### Info: NFRALL,NCOMBINE,WCSROOT,WCSERROR of stacked images
+stacked_IM/NGC2023_N_L15_long.fits	9	9	AOCS
+stacked_IM/NGC2023_N_L24_long.fits	12	12	AOCS
+stacked_IM/NGC2023_N_N3_long.fits	3	3	2MASS	0.2986051
+stacked_IM/NGC2023_N_N4_long.fits	4	4	2MASS	0.4187422
+stacked_IM/NGC2023_N_S11_long.fits	12	9	AOCS
+stacked_IM/NGC2023_N_S7_long.fits	9	9	AOCS
+- 2015/02/12 09:15:44
+ calflux(ircconst=constants.database,logfile=irclog,blankval=-9999.9,overwrite=NO)
+- 2015/02/12 09:15:47
+  all pipeline processes successfully ended

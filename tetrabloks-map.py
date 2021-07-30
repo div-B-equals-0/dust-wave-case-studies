@@ -2,7 +2,7 @@ import sys
 import os
 import numpy as np
 from astropy.io import fits
-sys.path.append("../multibin-maps")
+sys.path.append("/Users/will/Dropbox/multibin-maps")
 from rebin_utils import downsample, oversample, pad_array
 
 nlist = [1, 2, 4, 8, 16, 32]
